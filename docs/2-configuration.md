@@ -4,6 +4,8 @@
 
 Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. It is recommended that you name the app "renovate" so that it shows up as "renovate[bot]" in Pull Requests.
 
+Be sure to input a webhook secret when adding the app. If you don't care about a secret, then enter 'renovate'.
+
 ## Renovate Pro
 
 Renovate Pro requires configuration via environment variables in addition to Renovate OSS's regular configuration:
@@ -21,6 +23,10 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 **`GITHUB_APP_KEY`**: A string representation of the private key provided by GitHub Enterprise for Renovate. To insert the value directly in Docker Compose, open the PEM file in a text editor and replace new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to `/usr/src/app/renovate.private-key.pem` as shown in the example Docker Compose file.
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. *not* an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com. Also note: do not configure `GITHUB_TOKEN`.
+
+**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is *optional*. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the rate limit of the app on GitHub Enterprise or cause too much load.
+
+**`WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
 
 ## Renovate OSS
 
