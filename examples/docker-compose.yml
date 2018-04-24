@@ -1,0 +1,31 @@
+version: '3.6' # earlier docker-compose versions are also fine
+services:
+  # Renovate Pro uses a PostgreSQL database to manage job queuing
+  # This database is used only by Renovate and not necessary/desirable to expose to the outside world
+  db:
+    image: postgres:10.3-alpine
+    restart: on-failure
+    # Persisting PostgreSQL's data is desirable
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  # Renovate Pro runs as a single long-lived server
+  server:
+    image: renovate/pro:latest
+    restart: on-failure # Renovate will exit gracefully (non-error)
+    depends_on:
+      - db
+    user: node
+    # The below environment variables can be passed through from the server's env, or hardcoded into the docker-compose.yml file
+    environment:
+      - LICENSE_ACCEPT # You must accept the Renovate User Agreement ot use the image
+      - LICENSE_TYPE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
+      - LICENSE_NAME # Set this to the license name (e.g. company name) as submitted with the Renovate Pro order
+      - GITHUB_ENDPOINT # GitHub Enterprise API endpoint
+      - GITHUB_APP_ID # GitHub App ID
+      - GITHUB_APP_KEY # GitHub App Key (PEM file). Alternatively mount as a volume below
+      - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
+    ports:
+      - "80:8080" # This is the port that will listen for webhooks from GitHub Enterprise
+    # You can mount the GitHub private key PEM file into /usr/src/app/renovate.private-key.pem instead of exposing it by environment
+    volumes:
+      - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"
