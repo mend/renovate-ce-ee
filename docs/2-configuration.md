@@ -1,12 +1,12 @@
 # Renovate Pro Configuration
 
-## GitHub Enterprise App
+## Provision GitHub Enterprise App
 
 Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
 
 Be sure to enter a webhook secret when adding the app. If you don't care about a secret, then enter 'renovate'.
 
-## Renovate Pro
+## Configure Renovate Pro
 
 Renovate Pro requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
@@ -28,6 +28,6 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
 
-## Renovate OSS
+## Configure Renovate Core
 
 The core Renovate OSS functionality can be configured using environment variables or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp`.
