@@ -1,9 +1,28 @@
 # Renovate Pro Overview
 
+## Architecture
+
+Logically, Renovate Pro consists of four components:
+
+1. Database (PostgreSQL)
+  - Used for keeping the job queue, job log, and a list of known installations and repositories
+2. Scheduler
+  - Runs according to a `cron` schedule (defaults to hourly)
+  - Retrieves a list of all installed repositories and adds them to the job queue with lowest priority
+3. Webhook Handler
+  - Listens for webhook events from GitHub
+  - Adds higher priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `master` branch, etc)
+4. Worker
+  - Runs non-stop, retrieving the highest priority job (repository) from the queue one at a time
+
+The database runs within its own container (`db`) while the scheduler, webhook handler, and worker run within a shared container (`server`).  You should be running 1 of each container at all times, and never more.
+
 ## Downloading
 
-Renovate Pro is available via public Docker Hub using the namespace [renovate/pro](https://hub.docker.com/r/renovate/pro/). 
+The Renovate Pro image is available via public Docker Hub using the namespace [renovate/pro](https://hub.docker.com/r/renovate/pro/). 
 Use of the image is as described on Docker Hub, i.e. in accordance with the [Renovate User Agreement](https://renovatebot.com/user-agreement).
+
+The PostgreSQL image can also be downloaded via Docker Hub according to its license conditions, and version 10 is supported by Renovate Pro.
 
 ## Versioning
 
