@@ -20,18 +20,19 @@ Specifically for Renovate Pro's use of SemVer:
 
 **Patch**: Used only for bug fixes that are considered to be stabilising
 
-Renovate OSS feature releases (i.e. minor version bumps in Renovate OSS) will be incorporated only into minor releases of Renovate Pro. 
-i.e. patch releases of Renovate Pro will never incorporate minor releases of Renovate OSS, unless in exceptional circumstances. 
-Important bug fixes in Renovate OSS will therefore be backported to whatever is the current Renovate OSS minor version in the latest Renovate Pro image, if it is not appropriate to release a new stable Renovate Pro version at that time.
+i.e. we do not want to ever "break you" with a patch release, or have behaviour change.
+
+Renovate OSS feature releases (i.e. minor version bumps in Renovate OSS) will therefore only be incorporated into minor releases of Renovate Pro.
 
 ## Releasing and Upgrading
 
-The release cadence of Renovate Pro is not fixed, as it will be determined largely by the perceived stability of new Renovate OSS features, which will typically be tested using the hosted Renovate GitHub App first.
+The release cadence of Renovate Pro is not fixed, as it will be determined largely by the importance and stability of new Renovate OSS features, which will typically be tested using the hosted Renovate GitHub App first.
 When a new version of Renovate Pro is pushed to Docker Hub, Release Notes will be added to this [github.com/renovatebot/pro](https://github.com/renovatebot/pro) repository.
 
-We do not intend to ever "push over the top" of a semver tag on Docker Hub, e.g. the image behind tag `v1.2.0` should never change, unless in extraordinary circumstances such as backporting of a serious security bug.
+We do not intend to ever "push over the top" of a semver tag on Docker Hub, e.g. the image behind tag `v1.2.0` should never change, unless in extraordinary circumstances such as backporting of a serious security bug and pushing over the top is deemed preferable to withdrawing the image.
 
 Meanwhile, we may publish unversioned "latest" images to Docker Hub between releases, e.g. incorporating bleeding edge updates of Renovate Pro features and/or Renovate OSS.
+
 It is not recommended that you adopt "latest" as your source tag for Renovate Pro, but there may be times when you wish to test a new Renovate OSS feature and that is the recommended option.
 
 Naturally, it is recommended that you use Renovate itself for detecting and updating Renovate Pro versions if you are using a Docker Compose file internally for running Renovate Pro.
