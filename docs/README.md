@@ -5,3 +5,5 @@ This folder serves to document Renovate Pro specifically and not to duplicate an
 1. [Overview](1-overview.md): Downloading, Versioning, Releasing, Upgrading
 
 2. [Configuration](2-configuration.md): App installation, Pro configuration, core configuration
+
+3. [Advanced](3-advanced.md): Advanced description of architecture and capabilities
