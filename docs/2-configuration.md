@@ -2,9 +2,9 @@
 
 ## GitHub Enterprise App
 
-Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. It is recommended that you name the app "renovate" so that it shows up as "renovate[bot]" in Pull Requests.
+Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
 
-Be sure to input a webhook secret when adding the app. If you don't care about a secret, then enter 'renovate'.
+Be sure to enter a webhook secret when adding the app. If you don't care about a secret, then enter 'renovate'.
 
 ## Renovate Pro
 
