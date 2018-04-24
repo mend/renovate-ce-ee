@@ -20,9 +20,11 @@ Specifically for Renovate Pro's use of SemVer:
 
 **Patch**: Used only for bug fixes that are considered to be stabilising
 
-i.e. we do not want to ever "break you" with a patch release, or have behaviour change.
+i.e. we do not want to ever "break" anyone with a patch release, or have behaviour change. 
 
 Renovate OSS feature releases (i.e. minor version bumps in Renovate OSS) will therefore only be incorporated into minor releases of Renovate Pro.
+
+Typically, multiple Renovate OSS feature releases will be rolled up into a single Renovate Pro release, and release notes will be embedded so that you do not need to look them up separately.
 
 ## Releasing and Upgrading
 
