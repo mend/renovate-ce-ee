@@ -16,4 +16,4 @@ Renovate Pro is distributed via Docker Hub using the [renovate/pro](https://hub.
 
 ## Use
 
-Please see the docs/ and examples/ directories within this repository.
+Please see the `docs/` and `examples/` directories within this repository.
