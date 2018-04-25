@@ -25,6 +25,8 @@ Description, Homepage, User authorization callback URL, and Setup URL are all un
 For the Webhook URL field, point it to `/webhook` on port 80 of the server that you will run Renovate Pro on, e.g. http://1.2.3.4/webhook
 Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
+You can use the [Renovate icon](https://renovatebot.com/images/icon.png) for the app/bot if you desire.
+
 ## Configure Renovate Pro
 
 Renovate Pro requires configuration via environment variables in addition to Renovate OSS's regular configuration:
