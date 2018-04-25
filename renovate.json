@@ -1,6 +1,7 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":pinDigestsDisabled"
   ],
   "packageFiles": ["examples/docker-compose.yml"]
 }
