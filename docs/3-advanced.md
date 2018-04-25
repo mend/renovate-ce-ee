@@ -50,3 +50,18 @@ The worker runs on an endless loop where it queries the DB for the next job (sor
 If the Renovate Pro server receives a SIGINT (e.g. maybe you are upgrading Renovate Pro and want to restart it with a newer image), then the worker will attempt to finish whatever job it is currently processing before shutting down gracefully.
 Therefore it is recommended to supply an ample timout value (e.g. 60+ seconds) to Docker in order to allow the worker to finish what it's working on.
 That way it can resume with the next job in the queue after its restart.
+
+Here is an except showing the relative priority of job types:
+```
+  ('onboarding-update', 20),
+  ('pr-update', 30),
+  ('manual-pr-merge', 40),
+  ('repositories-added', 50),
+  ('installed', 60),
+  ('master-commit', 70),
+  ('automerge', 80),
+  ('manual-pr-close', 90),
+  ('scheduled', 100);
+  ```
+  
+In other words, the highest priority job is when someone commits an update to the config in an onboarding PR, and the lowest priority jobs are the ones added by the scheduler. The above job types have been sorted in order of how quickly users would expect to receive feedback. Because onboarding is an interactive process, it needs the most responsiveness.
