@@ -4,7 +4,8 @@
 
 Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
 
-Be sure to enter a webhook secret when adding the app. If you don't care about a secret, then enter 'renovate'.
+For the webhook, point it to `/webhook` on port 80 of the server that you will run Renovate Pro on, e.g. http://1.2.3.4/webhook
+Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
 ## Configure Renovate Pro
 
