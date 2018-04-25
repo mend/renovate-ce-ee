@@ -1,5 +1,6 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  "packageFiles": ["examples/docker-compose.yml"]
 }
