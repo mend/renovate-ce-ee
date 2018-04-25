@@ -10,8 +10,8 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
   # Renovate Pro runs as a single long-lived server
   server:
-    image: renovate/pro:latest
-    restart: on-failure # Renovate will exit gracefully (non-error)
+    image: renovate/pro:0.9.0
+    restart: on-failure
     depends_on:
       - db
     user: node
