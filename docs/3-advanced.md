@@ -6,7 +6,7 @@ In short, the database should be considered as just a component of Renovate and 
 
 #### Provisioning and Migration
 
-The Renovate Pro docker image comes with SQL migration scripts that are used for provisioning and migrating the databse between schema versions. 
+The Renovate Pro docker image comes with SQL migration scripts that are used for provisioning and migrating the database between schema versions. 
 If the schema version has changed between two Renovate Pro releases, then the first thing that Renovate Pro will do after restart is to migrate the existing tables and data to the new schema, before starting the scheduler, worker and webhook listener.
 
 This same migration approach also includes the capability to *roll back* schema changes, e.g. if you upgraded Renovate Pro but found a problem requiring you to roll back.
@@ -23,6 +23,12 @@ If all data were lost, the impact is fairly limited:
 3. The list of installations and repositories would be lost, however they would be repopulated the next time the scheduler runs and the worker completes one cycle.
 
 Hence, whether you choose to implement backup and restore policies depends on how much you value the historical job history vs whether you are willing to have Renovate "downtime" while you manually restore the database.
+
+#### Custom database
+
+Each of Renovate Pro's modules that interact with the database use the [pg](https://www.npmjs.com/package/pg) library. Therefore if you wish to use your own Postgresql database, it should be possible in most cases by specifying the same [environment variables](https://www.postgresql.org/docs/9.1/static/libpq-envars.html) as in libpq, e.g. `PGHOST`, `PGUSER`, etc.
+
+Please note that Renovate Pro has only been tested with PostgreSQL 10.x.
 
 ## Scheduler
 
