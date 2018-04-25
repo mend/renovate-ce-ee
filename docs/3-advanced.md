@@ -26,9 +26,9 @@ Hence, whether you choose to implement backup and restore policies depends on ho
 
 #### Custom database
 
-Each of Renovate Pro's modules that interact with the database use the [pg](https://www.npmjs.com/package/pg) library. Therefore if you wish to use your own Postgresql database, it should be possible in most cases by specifying the same [environment variables](https://www.postgresql.org/docs/9.1/static/libpq-envars.html) as in libpq, e.g. `PGHOST`, `PGUSER`, etc.
+Each of Renovate Pro's modules that interact with the database use the [pg](https://www.npmjs.com/package/pg) library. Therefore if you wish to use your own Postgresql database, it should be possible in most cases by specifying the same [environment variables](https://www.postgresql.org/docs/9.1/static/libpq-envars.html) as in libpq, e.g. `PGHOST`, `PGUSER`, etc. You however cannot customise the tables names that Renovate creates and uses.
 
-Please note that Renovate Pro has only been tested with PostgreSQL 10.x.
+Please note that Renovate Pro has only been tested with PostgreSQL 10.x. 
 
 ## Scheduler
 
