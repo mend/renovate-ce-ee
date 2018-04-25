@@ -25,7 +25,7 @@ services:
       - GITHUB_APP_KEY # GitHub App Key (PEM file). Alternatively mount as a volume below
       - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
     ports:
-      - "80:8080" # This is the port that will listen for webhooks from GitHub Enterprise
-    # You can mount the GitHub private key PEM file into /usr/src/app/renovate.private-key.pem instead of exposing it by environment
+      - "80:8080" # This (80) is the port that will listen for webhooks from GitHub Enterprise
     volumes:
+      # You can mount the GitHub private key PEM file into /usr/src/app/renovate.private-key.pem instead of exposing it by environment
       - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"
