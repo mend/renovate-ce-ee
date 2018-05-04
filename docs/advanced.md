@@ -6,10 +6,10 @@ In short, the database should be considered as just a component of Renovate and 
 
 #### Provisioning and Migration
 
-The Renovate Pro docker image comes with SQL migration scripts that are used for provisioning and migrating the database between schema versions. 
+The Renovate Pro docker image comes with SQL migration scripts that are used for provisioning and migrating the database between schema versions.
 If the schema version has changed between two Renovate Pro releases, then the first thing that Renovate Pro will do after restart is to migrate the existing tables and data to the new schema, before starting the scheduler, worker and webhook listener.
 
-This same migration approach also includes the capability to *roll back* schema changes, e.g. if you upgraded Renovate Pro but found a problem requiring you to roll back.
+This same migration approach also includes the capability to _roll back_ schema changes, e.g. if you upgraded Renovate Pro but found a problem requiring you to roll back.
 The only caveat to this is that you may need to pull the latest image of your "old" version from Docker Hub in order to make sure it is populated with the latest roll back scripts (migration scripts are backported to older versions for this purpose).
 
 #### Persistence, backup and restore
@@ -18,9 +18,9 @@ Just like Renovate OSS at its core, Renovate Pro remains as "stateless" as possi
 
 If all data were lost, the impact is fairly limited:
 
-1. The job queue would be lost, however it would be repopulated the very next time the scheduler runs.
-2. The job history table would be lost, however the usefulness of its data is fairly limited anyway.
-3. The list of installations and repositories would be lost, however they would be repopulated the next time the scheduler runs and the worker completes one cycle.
+1.  The job queue would be lost, however it would be repopulated the very next time the scheduler runs.
+2.  The job history table would be lost, however the usefulness of its data is fairly limited anyway.
+3.  The list of installations and repositories would be lost, however they would be repopulated the next time the scheduler runs and the worker completes one cycle.
 
 Hence, whether you choose to implement backup and restore policies depends on how much you value the historical job history vs whether you are willing to have Renovate "downtime" while you manually restore the database.
 
@@ -28,15 +28,15 @@ Hence, whether you choose to implement backup and restore policies depends on ho
 
 Each of Renovate Pro's modules that interact with the database use the [pg](https://www.npmjs.com/package/pg) library. Therefore if you wish to use your own Postgresql database, it should be possible in most cases by specifying the same [environment variables](https://www.postgresql.org/docs/9.1/static/libpq-envars.html) as in libpq, e.g. `PGHOST`, `PGUSER`, etc. You however cannot customise the tables names that Renovate creates and uses.
 
-Please note that Renovate Pro has only been tested with PostgreSQL 10.x. 
+Please note that Renovate Pro has only been tested with PostgreSQL 10.x.
 
 ## Scheduler
 
 The scheduler is a Renovate Pro module that:
 
-- Queries GitHub Enterprise for a list of all installed accounts
-- Obtains a list of all installed repositories for each account
-- Randomizes the list and adds them all to the database's job queue
+* Queries GitHub Enterprise for a list of all installed accounts
+* Obtains a list of all installed repositories for each account
+* Randomizes the list and adds them all to the database's job queue
 
 It runs according to its configured `cron` schedule.
 
@@ -58,6 +58,7 @@ Therefore it is recommended to supply an ample timout value (e.g. 60+ seconds) t
 That way it can resume with the next job in the queue after its restart.
 
 Here is an except showing the relative priority of job types:
+
 ```
   ('onboarding-update', 20),
   ('pr-update', 30),
@@ -68,6 +69,6 @@ Here is an except showing the relative priority of job types:
   ('automerge', 80),
   ('manual-pr-close', 90),
   ('scheduled', 100);
-  ```
-  
+```
+
 In other words, the highest priority job is when someone commits an update to the config in an onboarding PR, and the lowest priority jobs are the ones added by the scheduler. The above job types have been sorted in order of how quickly users would expect to receive feedback. Because onboarding is an interactive process, it needs the most responsiveness.

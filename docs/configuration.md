@@ -6,19 +6,19 @@ Before running Renovate Pro, you need to provision it as an App on GitHub Enterp
 
 The App requires the following permissions:
 
-- Repository metadata: Read-only
-- Repository administration: Read-only
-- Commit statuses: Read & write
-- Issues: Read & write
-- Pull Requests: Read & write
-- Repository contents: Read & write
+* Repository metadata: Read-only
+* Repository administration: Read-only
+* Commit statuses: Read & write
+* Issues: Read & write
+* Pull Requests: Read & write
+* Repository contents: Read & write
 
 It should subscribe to the following events:
 
-- Repository
-- Status
-- Pull request
-- Push
+* Repository
+* Status
+* Pull request
+* Push
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
@@ -43,11 +43,11 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`GITHUB_APP_KEY`**: A string representation of the private key provided by GitHub Enterprise when you provisioned Renovate. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to `/usr/src/app/renovate.private-key.pem`, as shown in the example Docker Compose file.
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. *not* an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: do not configure `GITHUB_TOKEN`.
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: do not configure `GITHUB_TOKEN`.
 
 **`WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
 
-**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is *optional*. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub Enterprise or cause too much load.
+**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub Enterprise or cause too much load.
 
 ## Configure Renovate Core
 
