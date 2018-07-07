@@ -1,8 +1,6 @@
 # Setting up AWS for Renovate Pro using Terraform
 
-## Getting Started
-
-Before starting, you will need to make sure you have [Terraform](https://www.terraform.io/downloads.html) installed, as well as [AWS CLI](https://aws.amazon.com/cli/)
+You will need to make sure you have [Terraform](https://www.terraform.io/downloads.html) installed, as well as [AWS CLI](https://aws.amazon.com/cli/)
 
 1. Clone the repo
 2. Run `terraform init`
