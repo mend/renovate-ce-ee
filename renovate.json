@@ -3,5 +3,5 @@
     "config:base",
     ":pinDigestsDisabled"
   ],
-  "packageFiles": ["examples/docker-compose.yml"]
+  "ignorePaths": []
 }
