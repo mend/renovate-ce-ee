@@ -59,7 +59,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub Enterprise or cause too much load.
 
-#### Npm registry configuration
+#### npm registry configuration
 
 If using your own internal npm registry, you may find it easiest to update your `docker-compose.yml` to include a volume that maps an `.npmrc` file to `/home/node/.npmrc`. The RC file should contain `registry=...` with the registry URL your company uses internally. This will allow Renovate to find shared configs and other internally published packages.
 
@@ -81,3 +81,6 @@ At this point you should be ready to test out Renovate Pro for GitLab. Ideally, 
 
 You may want to customise the default `cron` schedule to be more frequent so that you can see the logs to verify it has connected to the GitLab instance OK and attempted to autodiscover repositories it has access to.
 
+## Adding repositories
+
+Hopefully by now, Renovate Pro is ready for some real work - time to test out the first repository. To add a repository to Renovate Bot, simply add the bot account you created to the project. However there is one decision to be made - permissions. Renovate Bot can't provision webhooks for a repository unless it is at "Maintainer" level. If you add Renovate Bot at "Developer" level, then you need to configure webhooks for each repository manually. Something you can try is (a) add Renovate Bot initially at Maintainer level, and then (b) downgrade it to Developer level once it's run at least once.
