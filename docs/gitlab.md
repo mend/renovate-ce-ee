@@ -83,4 +83,6 @@ You may want to customise the default `cron` schedule to be more frequent so tha
 
 ## Adding repositories
 
-Hopefully by now, Renovate Pro is ready for some real work - time to test out the first repository. To add a repository to Renovate Bot, simply add the bot account you created to the project. However there is one decision to be made - permissions. Renovate Bot can't provision webhooks for a repository unless it is at "Maintainer" level. If you add Renovate Bot at "Developer" level, then you need to configure webhooks for each repository manually. Something you can try is (a) add Renovate Bot initially at Maintainer level, and then (b) downgrade it to Developer level once it's run at least once.
+Hopefully by now, Renovate Pro is ready for some real work - time to test out the first repository. To add a repository to Renovate Bot, simply add the bot account you created to the project. However there is one decision to be made - [permissions](https://docs.gitlab.com/ce/user/permissions.html). 
+
+Renovate Bot can't provision webhooks for a repository unless its account has "Maintainer" permissions. If you add Renovate Bot with "Developer" permissions then you will need to manually configure webhooks for each repository in order to get their benefits. Something you can try is (a) add Renovate Bot initially at Maintainer level, and then (b) downgrade it to Developer level once it's run at least once.
