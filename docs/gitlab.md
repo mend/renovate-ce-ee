@@ -73,7 +73,7 @@ The "core" Renovate functionality (i.e. same functionality you'd find in the CLI
 
 **`GITLAB_TOKEN`**: A Personal Access Token for the GitLab bot account.
 
-**`GITHUB_TOKEN`**: A Personal Access Token for any user account on github.com. This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: do not configure `GITHUB_TOKEN`.
+**`GITHUB_TOKEN`**: A Personal Access Token for any user account on github.com. This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter which account it belongs to. It needs only read-only access privileges.
 
 ## Getting Started
 
