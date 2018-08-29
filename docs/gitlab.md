@@ -1,6 +1,6 @@
 # Renovate Pro for GitLab
 
-Renovate Pro is available for companies that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
+Renovate Pro is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
 
 ## Renovate Pro features
 
@@ -35,9 +35,11 @@ In general, the priority is based on the probability that a user may be "waiting
 
 #### Bot Account creation
 
-You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a known bot account and not from a team mate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it manually?
+You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a known bot account and not from a team mate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it?
 
-If you are running your own instance of GitLab, it's suggested to name the account "Renovate Bot" with username "renovate-bot". Create this account and then create a Personal Access Token for it with read/write access permissions.
+If you are running your own instance of GitLab, it's suggested to name the account "Renovate Bot" with username "renovate-bot". Create this account and then create a Personal Access Token for it with `api`, `read_user` and `read_repository` permissions.
+
+Do not add this bot account to any repositories yet.
 
 #### Bot Server setup
 
@@ -57,7 +59,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`WEBHOOK_SECRET`**: This is _optional_ and will default to `renovate` if not configured.
 
-**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is not configured. If you are decreasing the interval then be careful that you do not exhaust the available hourly API rate limit of the app on GitHub Enterprise or cause too much load.
+**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is not configured. If you are decreasing the interval then be careful that you do not exhaust the available hourly API rate limit or cause too much load.
 
 #### npm registry configuration
 
@@ -67,22 +69,28 @@ If using your own internal npm registry, you may find it easiest to update your 
 
 The "core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`. Here are some essentials:
 
-**`RENOVATE_PLATFORM`**: Set this to "gitlab".
-
-**`GITLAB_ENDPOINT`**: This is the API endpoint for your GitLab host.
+**`GITLAB_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`
 
 **`GITLAB_TOKEN`**: A Personal Access Token for the GitLab bot account.
 
-**`GITHUB_TOKEN`**: A Personal Access Token for any user account on github.com. This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter which account it belongs to. It needs only read-only access privileges to public repositories.
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com so it does not matter which account it belongs to. It needs only read-only access privileges to public repositories.
 
-## Getting Started
+#### System hook
 
-At this point you should be ready to test out Renovate Pro for GitLab. Ideally, your bot user should not be a member of any repositories yet. That way, you can verify that the bot is running happily, but it won't need to create any PRs yet.
+To activate Renovate Pro's webhook ability, a GitLab administrator needs to configure a System Hook.
 
-You may want to customise the default `cron` schedule to be more frequent during this setup period so you are not left waiting so long to see schedule logs.
+Configure it to point to Renovate Pro's IP address or hostname along with the port you have exposed, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
+
+Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or "renovate" if you left it as default.
+
+Set triggers for "Push events" and "Merge request events".
+
+## Testing Renovate Pro
+
+At this point you should be ready to test out Renovate Pro on a real repository. To start with, you probably want to create a test repo before adding Renovate Pro to any "real" ones.
 
 ## Adding repositories
 
-By now, Renovate Pro should be ready for some real work - so it's time to test out the first repository. To do this, simply add the bot account you created to the project you want Renovate to be active on. However, there is one decision to be made - whether to set up webhooks manually or automatically. 
+To do this, simply add the bot account you created to the project with "Developer" permissions.
 
-Renovate Bot can't provision webhooks for a repository itself unless its account has "Maintainer" [permissions](https://docs.gitlab.com/ce/user/permissions.html). If you add Renovate Bot with "Developer" permissions then you will need to manually configure webhooks for each repository. Therefore it's recommended to (a) add Renovate Bot initially at Maintainer level for at least one hour, and then (b) downgrade it to Developer level once it's run at least once.
+Adding Renovate as a Developer to a repository should trigger a System Hook which in turn triggers a job for the Renovate Worker.
