@@ -1,4 +1,4 @@
-# Renovate Pro for GitLab
+# Renovate Pro Configuration for GitLab
 
 Renovate Pro is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
 
