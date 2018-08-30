@@ -10,10 +10,11 @@ The Renovate Pro's Docker container contains a built-in job scheduler that defau
 
 #### Webhook handler
 
-Renovate Pro also supports a webserver to listen for webhooks received from GitLab.
+Renovate Pro also supports a webserver to listen for system webhooks received from GitLab.
 
-In particular, Renovate looks for:
+In particular, Renovate checks webhooks for:
 
+  - Projects it has just been added to
   - Commits to `master` branch for "important" files such as `package.json` and `renovate.json`
   - Any commits made to Renovate's branches
   - Closing or merging of Renovate PRs
@@ -24,22 +25,21 @@ Each of the above results in a job being enqueued for the relevant repository, s
 
 Renovate Pro uses a Postgres database to maintain a stateful and priority-based job queue.
 
-Statefulness is important, because it means that any interruptions to the bot - including intentional such as for upgrades - will not result in the bot "starting over" at the beginnign of the list of repositories.
-Instead, the job queue is kept in the database instead of the bot's memory, so once the bot is restarted it can resume where it left off.
+Statefulness is important, because it means that any interruptions to the bot - including intentional stoppages such as for upgrades - will not result in the bot "starting over" at the beginning of the list of repositories. Instead, the job queue is kept in the database instead of the bot's memory, so once the bot is restarted it can resume where it left off.
 
-Priority-based queuing is also essential for providing a responsive experience for bot users. For example, if a user makes an update to the config in an onboarding PR, they ideally want to see the results immediately. By assigning onboarding updates the highest priority in the queue, the bot's update to the onbaording PR can proceed as the very next job, even if many others were in the queue already.
+Priority-based queuing is also essential for providing a responsive experience for bot users. For example, if a user makes an update to the config in an onboarding PR, they ideally want to see the results immediately. By assigning onboarding updates the highest priority in the queue, the bot's update to the onboarding PR can proceed as the very next job, even if many others were in the queue already.
 
-In general, the priority is based on the probability that a user may be "waiting" for the bot to do something. That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
+In general, job priority is based on the probability that a user may be "waiting" for the bot to do something. That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
 
 ## Renovate Pro Installation and Setup
 
 #### Bot Account creation
 
-You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a known bot account and not from a team mate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it?
+You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a dedicated bot account and not from a team mate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it?
 
 If you are running your own instance of GitLab, it's suggested to name the account "Renovate Bot" with username "renovate-bot". Create this account and then create a Personal Access Token for it with `api`, `read_user` and `read_repository` permissions.
 
-Do not add this bot account to any repositories yet.
+It's best not add this bot account to any repositories yet.
 
 #### Bot Server setup
 
@@ -55,19 +55,15 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`LICENSE_MODE`**: If you have purchased a commercial license for Renovate Pro then you need to set this value to `commercial` to enable more than 3 repositories and remove the evaluation mode banner from PRs. Leave this field empty to default to evaluation mode.
 
-**`LICENSE_NAME`**: To enable commercial mode, you also need to also fill in the company name that the license is registered to. It should match what you entered in the order form. Leave empty for evaluation mode.
+**`LICENSE_NAME`**: To enable commercial mode, you also need to fill in the company name that the license is registered to. It should match what you entered in the order form. Leave empty for evaluation mode.
 
 **`WEBHOOK_SECRET`**: This is _optional_ and will default to `renovate` if not configured.
 
 **`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is not configured. If you are decreasing the interval then be careful that you do not exhaust the available hourly API rate limit or cause too much load.
 
-#### npm registry configuration
-
-If using your own internal npm registry, you may find it easiest to update your Docker configuration to include a volume that maps an `.npmrc` file to `/home/node/.npmrc` inside the Renovate container. The RC file should contain `registry=...` with the registry URL your company uses internally. This will allow Renovate to find shared configs and other internally published packages.
-
 #### Core Renovate Configuration
 
-The "core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`. Here are some essentials:
+"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`. Here are some essentials for Renovate Pro:
 
 **`GITLAB_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`
 
@@ -75,15 +71,19 @@ The "core" Renovate functionality (i.e. same functionality you'd find in the CLI
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com so it does not matter which account it belongs to. It needs only read-only access privileges to public repositories.
 
-#### System hook
+#### System Hook
 
-To activate Renovate Pro's webhook ability, a GitLab administrator needs to configure a System Hook.
+To activate Renovate Pro's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to Renovate Pro's IP address or hostname along with the port you have exposed, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to Renovate Pro's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
 
-Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or "renovate" if you left it as default.
+Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
-Set triggers for "Push events" and "Merge request events".
+Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or set it to "renovate" if you left it as default.
+
+Set Hook triggers for "Push events" and "Merge request events".
+
+Once you a System Hook is added, Renovate's webhook handler will receive events from *all* repositories. Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
 
 ## Testing Renovate Pro
 
@@ -93,4 +93,5 @@ At this point you should be ready to test out Renovate Pro on a real repository.
 
 To do this, simply add the bot account you created to the project with "Developer" permissions.
 
-Adding Renovate as a Developer to a repository should trigger a System Hook which in turn triggers a job for the Renovate Worker.
+Adding Renovate as a Developer to a repository should trigger a webhook which in turn triggers a job for the Renovate Worker. The repository will receive an onboarding PR.
+
