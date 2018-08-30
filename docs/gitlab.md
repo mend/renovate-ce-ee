@@ -87,11 +87,10 @@ Once you a System Hook is added, Renovate's webhook handler will receive events 
 
 ## Testing Renovate Pro
 
-At this point you should be ready to test out Renovate Pro on a real repository. To start with, you probably want to create a test repo before adding Renovate Pro to any "real" ones.
+At this point you should be ready to test out Renovate Pro. You probably want to create a test repo before adding Renovate Pro to any "real" ones. To simulate normal conditions, create the repository from a regular account and add a package file.
 
-## Adding repositories
+#### Enabling Renovate
 
-To do this, simply add the bot account you created to the project with "Developer" permissions.
+To enable Renovate on your test repository, simply add the bot user you created to the project with "Developer" permissions.
 
-Adding Renovate as a Developer to a repository should trigger a webhook which in turn triggers a job for the Renovate Worker. The repository will receive an onboarding PR.
-
+Adding Renovate as a Developer to a repository cause a system hook to be sent to Renovate which in turn enqueues a job for the Renovate Worker. The repository should receive an onboarding PR immediately after.
