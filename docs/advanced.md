@@ -32,17 +32,22 @@ Please note that Renovate Pro has only been tested with PostgreSQL 10.x.
 
 ## Scheduler
 
-The scheduler is a Renovate Pro module that:
+For GitHub, the scheduler:
 
-* Queries GitHub Enterprise for a list of all installed accounts
+* Queries the GitHub server for a list of accounts with Renovate installed
 * Obtains a list of all installed repositories for each account
+* Randomizes the list and adds them all to the database's job queue
+
+For GitLab, the scheduler:
+
+* Queries the GitLab server for a list of repositories that the bot account has Developer access rights to
 * Randomizes the list and adds them all to the database's job queue
 
 It runs according to its configured `cron` schedule.
 
 ## Webhook Handler
 
-The webhook handler listens for events from GitHub and adds or updates jobs in the job queue if the criteria are met.
+The webhook handler listens for events from GitHub/GitLab and adds or updates jobs in the job queue if the criteria are met.
 
 An example criteria is if someone edits the `renovate.json` in `master` branch - this would trigger a high priority job.
 
@@ -62,6 +67,7 @@ Here is an except showing the relative priority of job types:
 ```
   ('onboarding-update', 20),
   ('pr-update', 30),
+  ('closed-pr-rename', 35),
   ('manual-pr-merge', 40),
   ('repositories-added', 50),
   ('installed', 60),
@@ -70,5 +76,7 @@ Here is an except showing the relative priority of job types:
   ('manual-pr-close', 90),
   ('scheduled', 100);
 ```
+
+Note: For consistency, the abbreviation `pr` is used for both GiHub and GitLab, even though GitLab uses the term "Merge Request" instead of "Pull Request".
 
 In other words, the highest priority job is when someone commits an update to the config in an onboarding PR, and the lowest priority jobs are the ones added by the scheduler. The above job types have been sorted in order of how quickly users would expect to receive feedback. Because onboarding is an interactive process, it needs the most responsiveness.
