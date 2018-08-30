@@ -11,12 +11,12 @@ This feature release adds GitLab support, a heartbeat endpoint, as well as many 
 
 ### Features
 
-##### Pro
+#### Renovate Pro
 
 - GitLab support: see configuration doc for details
 - Heartbeat endpoint: `GET /` on the webhook port now returns `200 OK` when Renovate Pro is running
 
-##### Core
+#### Renovate Core
 
 General:
 
