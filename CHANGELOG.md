@@ -24,7 +24,6 @@ General:
 - PRs: pin PRs should only block necessary PRs
 - PRs: skip schedule for pin dependencies
 - PRs: raise prs with lock file warning
-- Python: use PIP_INDEX_URL for repository url
 - PRs: linkify PR bodies whenever possible
 - PRs: link to both homepage and source repo
 - Presets: support github hosting in addition to npm
@@ -43,6 +42,7 @@ Package Managers:
 - Docker: Support `COPY --from` lines
 - GitLab: Support `gitlabci.yml` files
 - Kubernetes: support k8s manifest files
+- Python: use PIP_INDEX_URL for repository url
 
 ## 0.12.1 - 2018-07-09
 
