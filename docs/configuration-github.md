@@ -1,8 +1,8 @@
-# Renovate Pro Configuration
+# Renovate Pro Configuration - GitHub
 
-## Provision GitHub Enterprise App
+## Provision App
 
-Before running Renovate Pro, you need to provision it as an App on GitHub Enterprise, and retrieve the ID + private key provided. This requires GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
+Before running Renovate Pro, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. This requires github.com or GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
 
 The App requires the following permissions:
 
@@ -54,6 +54,5 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 ## Configure Renovate Core
 
 The core Renovate OSS functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`.
-
 
 **npm Registry** If using your own npm registry, you may find it easiest to update your `docker-compose.yml` to include a volume that maps an `.npmrc` file to `/home/node/.npmrc`. The RC file should contain `registry=...` with the registry URL your company uses internally. This will allow Renovate to find shared configs and other internally published packages.

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Renovate Pro is a commercial offering of Renovate for self-hosted users, such as those running GitHub Enterprise.
+Renovate Pro is a commercial offering of Renovate for self-hosted users, such as those running GitHub Enterprise or GitLab CE/EE.
 
 Essentially, it is an alternative to running the `renovate` CLI tool, with the following benefits:
 
@@ -20,7 +20,7 @@ Logically, Renovate Pro consists of four components:
     * Runs according to a `cron` schedule (defaults to hourly)
     * Retrieves a list of all installed repositories and adds them to the job queue with lowest priority
 3.  Webhook Handler
-    * Listens for webhook events from GitHub
+    * Listens for webhook events from GitHub/GitLab
     * Adds higher priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `master` branch, etc)
 4.  Worker
     * Runs non-stop, retrieving the highest priority job (repository) from the queue one at a time

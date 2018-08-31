@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.13.0 - 2018-08-31
+
+This feature release adds GitLab support, a heartbeat endpoint, as well as many Renovate OSS core features.
+
+### Features
+
+#### Renovate Pro
+
+- GitLab support: see configuration doc for details
+- Heartbeat endpoint: `GET /` on the webhook port now returns `200 OK` when Renovate Pro is running
+
+#### Renovate Core
+
+General:
+
+- Separate groups into major/minor/patch
+- PRs: pin PRs should only block necessary PRs
+- PRs: skip schedule for pin dependencies
+- PRs: raise prs with lock file warning
+- PRs: linkify PR bodies whenever possible
+- PRs: link to both homepage and source repo
+- Presets: support github hosting in addition to npm
+- Onboarding: better formatting of PR body
+
+GitHub:
+
+- Vulnerability alerts override schedule
+
+Package Managers:
+
+- Composer: support short versions
+- Composer: lock file support
+- Docker: use generic lookup/auth
+- Docker: Docker authentication
+- Docker: Support `COPY --from` lines
+- GitLab: Support `gitlabci.yml` files
+- Kubernetes: support k8s manifest files
+- Python: use PIP_INDEX_URL for repository url
+
 ## 0.12.1 - 2018-07-09
 
 ### Bug fixes
