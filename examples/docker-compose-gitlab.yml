@@ -1,0 +1,31 @@
+version: '3.6' # earlier docker-compose versions are also fine
+services:
+  # Renovate Pro uses a PostgreSQL database to manage job queuing
+  # This database is used only by Renovate and not necessary/desirable to expose to the outside world
+  db:
+    image: postgres:10.3-alpine
+    restart: on-failure
+    # Persisting PostgreSQL's data is desirable
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  # Renovate Pro runs as a single long-lived server
+  server:
+    image: renovate/pro:0.13.0
+    restart: on-failure
+    depends_on:
+      - db
+    user: node
+    # The below environment variables can be passed through from the server's env, or hardcoded into the docker-compose.yml file
+    environment:
+      - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
+      - LICENSE_MODE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
+      - LICENSE_NAME # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
+      - GITLAB_ENDPOINT # GitLab endpoint, include trailing slash
+      - GITLAB_TOKEN # Personal Access Token for bot account
+      - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
+      - WEBHOOK_SECRET # Optional, default to 'renovate'
+      - SCHEDULER_CRON # Optional, defaults to '0 * * * *' (hourly)
+    ports:
+      - "80:8080" # Receive webhooks on port 80
+    volumes:
+      - "/tmp/renovate/:/tmp/" # Use a volume for this as the cache will cause a lot of churn
