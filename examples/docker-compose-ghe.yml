@@ -20,7 +20,7 @@ services:
       - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
       - LICENSE_MODE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
       - LICENSE_NAME # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
-      - GITHUB_ENDPOINT # GitHub Enterprise API endpoint
+      - GITHUB_ENDPOINT # GitHub Enterprise API endpoint, include the trailing slash
       - GITHUB_APP_ID # GitHub App ID
       - GITHUB_APP_KEY # GitHub App Key (PEM file). Alternatively mount as a volume below
       - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
