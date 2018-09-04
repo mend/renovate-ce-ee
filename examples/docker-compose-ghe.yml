@@ -31,3 +31,4 @@ services:
     volumes:
       # You can optionally mount the GitHub private key instead of exposing it in env
       - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"
+      - "/tmp/:/tmp/"
