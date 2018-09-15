@@ -56,11 +56,12 @@ Typically, multiple Renovate OSS feature releases will be rolled up into a singl
 ## Releasing and Upgrading
 
 The release cadence of Renovate Pro is not fixed, as it will be determined largely by the importance and stability of new Renovate OSS features, which will typically be tested using the hosted Renovate GitHub App first.
+
 When a new version of Renovate Pro is pushed to Docker Hub, Release Notes will be added to this [github.com/renovatebot/pro](https://github.com/renovatebot/pro) repository.
 
-Meanwhile, we may publish unversioned "latest" images to Docker Hub between releases, e.g. incorporating bleeding edge updates of Renovate Pro features and/or Renovate OSS.
+Meanwhile, we may publish unversioned "next" tags to Docker Hub between releases, e.g. incorporating bleeding edge updates of Renovate Pro features and/or Renovate OSS.
 
-It is not recommended that you adopt "latest" as your source tag for Renovate Pro, but there may be times when you wish to test a new Renovate OSS feature and that is the recommended option.
+It is not recommended that you adopt "next" as your source tag for Renovate Pro, but there may be times when you wish to test a new Renovate OSS feature and that is the recommended option. It is best to pin your local Renovate Pro to a versioned release, e.g. `0.13.1`.
 
 Naturally, it is recommended that you use Renovate itself for detecting and updating Renovate Pro versions if you are using a Docker Compose file internally for running Renovate Pro.
 
