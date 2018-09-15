@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.13.1 - 2018-09-15
+
+This maintenance release updates `renovate` from `13.51.9` to `13.51.10`.
+
+### Bug Fixes
+
+* move cleanRepo to finally ([6d238f7](https://github.com/renovatebot/renovate/commit/6d238f7))
+* set endpoint for GITHUB_COM_TOKEN ([5bdc89f](https://github.com/renovatebot/renovate/commit/5bdc89f))
+* throw error up if no disk space ([5e1a095](https://github.com/renovatebot/renovate/commit/5e1a095))
+* update dependency npm to v6.4.1 ([f16bf47](https://github.com/renovatebot/renovate/commit/f16bf47))
+* **ghe:** use full path for github datasource ([507e8cb](https://github.com/renovatebot/renovate/commit/507e8cb)), closes [#2518](https://github.com/renovatebot/renovate/issues/2518)
+* **github:** platform-error if ENOTFOUND ([825f89f](https://github.com/renovatebot/renovate/commit/825f89f))
+* **github:** throw platform error for ETIMEDOUT ([2322bbb](https://github.com/renovatebot/renovate/commit/2322bbb))
+* **lerna:** detect changed lock files properly ([9e609b2](https://github.com/renovatebot/renovate/commit/9e609b2)), closes [#2519](https://github.com/renovatebot/renovate/issues/2519)
+* **npm:** compare res.name or res._id ([49f7e38](https://github.com/renovatebot/renovate/commit/49f7e38))
+* update languageList in manager ([bce573f](https://github.com/renovatebot/renovate/commit/bce573f))
+* use full URL for changelog retrieval ([6bac962](https://github.com/renovatebot/renovate/commit/6bac962))
+* **npm:** default lockfile value ([4fe9e32](https://github.com/renovatebot/renovate/commit/4fe9e32))
+* **onboarding:** correct merge conflict detection ([d5fe70f](https://github.com/renovatebot/renovate/commit/d5fe70f)), closes [#2524](https://github.com/renovatebot/renovate/issues/2524)
+* **pypi:** better normalize package name ([1d14145](https://github.com/renovatebot/renovate/commit/1d14145))
+* **yarn:** throw errors when registry down ([8fd042d](https://github.com/renovatebot/renovate/commit/8fd042d)), closes [#2474](https://github.com/renovatebot/renovate/issues/2474) [#2475](https://github.com/renovatebot/renovate/issues/2475)
+
 ## 0.13.0 - 2018-08-31
 
 This feature release adds GitLab support, a heartbeat endpoint, as well as many Renovate OSS core features.
