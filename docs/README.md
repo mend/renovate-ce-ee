@@ -6,6 +6,6 @@ These files are included as part of the [Renovate Docs](https://renovatebot.com/
 
 1.  [Overview](overview.md): Downloading, Versioning, Releasing, Upgrading
 
-2.  Configuration [([github](configuration-github.md), [gitlab](configuration-gitlab.md)): App installation, Pro configuration, core configuration
+2.  Configuration ([github](configuration-github.md), [gitlab](configuration-gitlab.md)): App installation, Pro configuration, core configuration
 
 3.  [Advanced](advanced.md): Advanced description of architecture and capabilities
