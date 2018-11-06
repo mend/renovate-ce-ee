@@ -48,6 +48,7 @@ Both of these options will trigger a webhook to Renovate Pro, resulting in it im
 - Pull Request Body templates are greatly improved and also support easier customization now
 - Support for GitHub's new "Check Runs" feature. Note: requires additional privileges for the Renovate Pro app
 - Support autodetection for Yarn integrity hashes (Renovate will not add them unless the repository already uses them)
+- Specify default Docker registry (Closes #27)
 - Support upgrading "short" Docker versions, e.g. from 3.8 to 3.9
 - Support an ignore instruction in `requirements.txt`
 - Support Python version compatibility restriction
