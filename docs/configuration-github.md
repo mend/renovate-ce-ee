@@ -17,11 +17,11 @@ The App requires the following permissions if available:
 
 The App should also subscribe to the following webhook events:
 
+* Repository
+* Status
 * Issues
 * Pull request
 * Push
-* Repository
-* Status
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
