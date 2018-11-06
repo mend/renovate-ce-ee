@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.14.0 - 2018-11-??
+
+This feature release adds several new package managers plus many feature improvements.
+
+### Features
+
+General:
+- Improved caching for datasources
+- Rebase on demand capability
+- Consolidated and improved PR body templates, including customizable tables
+- "Master Issue" support
+
+New Package Managers:
+- Composer
+- Go Modules
+- Terraform
+- Gradle (Still in beta so not supported in Renovate Pro)
+
+GitHub:
+- Support check runs in addition to status checks
+
+GitLab:
+- Ignore archived repositories
+- Support stale PR detection
+
+npm/yarn:
+- Support updating GitHub-hosted dependencies, including digest updates
+- Added `followTag` option to pin dependency to an npm release tag (e.g. `next`)
+- Yarn integrity switching
+
+Docker:
+- Support registryUrls for lookups
+- Support "short" version upgrading, e.g. from 3.8 to 3.9
+
+Python:
+- Support ignore instruction in `requirements.txt`
+- Support Python version compatibility restriction
+
+Bazel:
+- Support `urls` array
+
+Travis:
+- Update Node.js release list
+
 ## 0.13.1 - 2018-09-15
 
 This maintenance release updates `renovate` from `13.51.9` to `13.51.10`.
