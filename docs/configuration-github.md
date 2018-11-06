@@ -6,13 +6,13 @@ Before running Renovate Pro, you need to provision it as an App on GitHub, and r
 
 The App requires the following permissions if available:
 
+* Repository metadata: Read-only
 * Repository administration: Read-only
+* Commit statuses: Read & write
 * Checks: Read & write (if available)
 * Issues: Read & write
-* Repository metadata: Read-only
 * Pull Requests: Read & write
 * Security vulnerability alerts: Read-only (if available)
-* Commit statuses: Read & write
 * Repository contents: Read & write
 
 The App should also subscribe to the following webhook events:
