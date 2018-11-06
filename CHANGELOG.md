@@ -9,45 +9,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This feature release adds several new package managers plus many feature improvements.
 
-### Features
+### New Package Managers
 
-General:
-- Improved caching for datasources
-- Rebase on demand capability
-- Consolidated and improved PR body templates, including customizable tables
-- "Master Issue" support
+#### Go Modules
 
-New Package Managers:
-- Composer
-- Go Modules
-- Terraform
-- Gradle (Still in beta so not supported in Renovate Pro)
+Renovate now supports updating `go.mod` and `go.sum` files - both for dependencies using semver versions as well as those still using git digests. The `go` binary is bundled with Renovate Pro and runs inside the main container.
 
-GitHub:
-- Support check runs in addition to status checks
+#### Composer (PHP)
 
-GitLab:
-- Ignore archived repositories
-- Support stale PR detection
+Composer support is now officially released and supports `composer.json` and `composer.lock` files. The `composer` binary is also bundled with the main Renovate Pro container.
 
-npm/yarn:
-- Support updating GitHub-hosted dependencies, including digest updates
-- Added `followTag` option to pin dependency to an npm release tag (e.g. `next`)
-- Yarn integrity switching
+#### Terraform Modules
 
-Docker:
-- Support registryUrls for lookups
-- Support "short" version upgrading, e.g. from 3.8 to 3.9
+Renovate Pro now supports updating Terraform Modules - both for dependencies hosted on github as well as using Terraform's official registry. No binary is necessary for this as there are no checksums or lock files.
 
-Python:
-- Support ignore instruction in `requirements.txt`
+### New Features
+
+#### Master Issue Support
+
+Setting `masterIssue` or `masterIssueApprove` values to `true` will result in a "master issue" being created in the repository that lists all outstanding updates, including those which are pending, open, or closed (ignored). By using GitHub's intelligent checkboxes, users are able to request manual rebases or approvals of each listed dependency.
+
+#### Manual Rebasing of PRs
+
+Apart from rebasing using the Master Issue, it is also possible to request that Renovate manually rebases a PR from within the PR. You can do this with either of two ways:
+
+1. Rename the PR to being with "rebase!", e.g. Rename it to "rebase! Upgrade dependency nock ........."
+2. Add the label "rebase" to the PR
+
+Both of these options will trigger a webhook to Renovate Pro, resulting in it immediately processing the repository and rebasing the PR in question. Having this option might mean you can set `rebaseStalePrs` to `false` in some repos to avoid the "noise" that comes with having the rebased every time automatically.
+
+### Other Improvements
+
+- Better caching has been added to most datasources to improve efficiency and reduce the number of requests, e.g. to github.com or Docker Hub
+- Pull Request Body templates are greatly improved and also support easier customization now
+- Support for GitHub's new "Check Runs" feature. Note: requires additional privileges for the Renovate Pro app
+- Support autodetection for Yarn integrity hashes (Renovate will not add them unless the repository already uses them)
+- Support upgrading "short" Docker versions, e.g. from 3.8 to 3.9
+- Support an ignore instruction in `requirements.txt`
 - Support Python version compatibility restriction
 
-Bazel:
-- Support `urls` array
+### New GitHub Permissions and Webhooks
 
-Travis:
-- Update Node.js release list
+Add/grant the following permissions for your Renovate Pro app if available:
+- Checks: Read & write
+- Security vulnerability alerts: Read-only
+
+Also add webhook event subscriptions for "Issues" so that Renovate Pro can detect when the Master Issue has been edited.
 
 ## 0.13.1 - 2018-09-15
 
