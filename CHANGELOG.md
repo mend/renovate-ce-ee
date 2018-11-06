@@ -27,7 +27,11 @@ Renovate Pro now supports updating Terraform Modules - both for dependencies hos
 
 #### Master Issue Support
 
-Setting `masterIssue` or `masterIssueApprove` values to `true` will result in a "master issue" being created in the repository that lists all outstanding updates, including those which are pending, open, or closed (ignored). By using GitHub's intelligent checkboxes, users are able to request manual rebases or approvals of each listed dependency.
+Setting `masterIssue` or `masterIssueApproval` values to `true` will result in a "master issue" being created in the repository that lists all outstanding updates, including those which are pending, open, or closed (ignored). By using GitHub's intelligent checkboxes, users are able to request manual rebases or approvals of each listed dependency.
+
+Setting `masterIssue` to `true` makes no change to Renovate functionality and simply adds a type of "mini dashboard issue" to each repo for better visibility of Renovate's branches and PRs.
+
+Setting `masterIssueApproval` to `true` changes Renovate's workflow so that it does not create a branch or PR until after it is "approved" within the Master Issue. Using the Master Issue means you could defer all updates until they are approved, or just defer some of them. e.g. maybe you configure approval for only `major` updates.
 
 #### Manual Rebasing of PRs
 
