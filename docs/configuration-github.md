@@ -4,19 +4,22 @@
 
 Before running Renovate Pro, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. This requires github.com or GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
 
-The App requires the following permissions:
+The App requires the following permissions if available:
 
 * Repository metadata: Read-only
 * Repository administration: Read-only
 * Commit statuses: Read & write
+* Checks: Read & write (if available)
 * Issues: Read & write
 * Pull Requests: Read & write
+* Security vulnerability alerts: Read-only (if available)
 * Repository contents: Read & write
 
-It should subscribe to the following events:
+The App should also subscribe to the following webhook events:
 
 * Repository
 * Status
+* Issues
 * Pull request
 * Push
 
