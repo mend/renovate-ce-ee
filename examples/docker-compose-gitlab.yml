@@ -3,7 +3,7 @@ services:
   # Renovate Pro uses a PostgreSQL database to manage job queuing
   # This database is used only by Renovate and not necessary/desirable to expose to the outside world
   db:
-    image: postgres:10.5-alpine
+    image: postgres:10.6-alpine
     restart: on-failure
     # Persisting PostgreSQL's data is desirable
     volumes:
