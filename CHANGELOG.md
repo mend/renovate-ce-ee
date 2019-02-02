@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.14.0 - 2019-02-02
+
+This feature release updates the base `renovate` to `v14.6.3` and includes many new features.
+
+### Breaking Changes
+
+No breaking changes for Renovate Pro, however it is now recommended to use `RENOVATE_PLATFORM`, `RENOVATE_ENDPOINT` and `RENOVATE_TOKEN` instead of the deprecated `GITHUB_` and `GITLAB_` equivalents.
+
+### New features
+
+Docker: add support for basic auth
+Docker: preserve registry in `depName`
+Yarn: support integrity hashes
+Gradle: support updating gradle wrapper version
+GitHub: block automerging a PR if negative reviews exist
+Ansible: support renovating Docker images
+CircleCI: Orb support
+Package Rules: support filtering by manager, language or sourceUrl
+Add ability to suppress Renovate notifications configurably
+Add proxy support
+Onboarding: warn about unresolved packages
+PRs: add rebasing checkbox
+Pypi: try multiple hostUrls
+Bazel: Go support
+
+### Bug fixes
+
+GitHub Enterprise: Fix release notes fetching from GHE
+Docker: fix registryUrls support for `https://` prefix
+Docker: fix header for tag fetching (Artifactory compatibility)
+Docker: skip lookups for images containing variables
+
+### Other
+
+Renovate Pro now runs on Ubuntu 18.04 under the hood. This is to align with the open source Renovate's container base as well as Renovate's companion docker containers, all of which use Ubuntu 18.04.
+
 ## 0.14.0 - 2018-11-06
 
 This feature release adds several new package managers plus many feature improvements. It upgrades the base `renovate` to v13.121.0.
