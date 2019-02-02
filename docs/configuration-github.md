@@ -45,7 +45,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`LICENSE_NAME`**: To enable commercial mode, you also need to also fill in the company name that the license is registered to. It should match what you entered in the order form. Leave empty for evaluation mode.
 
-**`GITHUB_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation.
+**`RENOVATE_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation.
 
 **`GITHUB_APP_ID`**: The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app.
 
