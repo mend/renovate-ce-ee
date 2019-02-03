@@ -14,7 +14,6 @@ services:
     restart: on-failure
     depends_on:
       - db
-    user: node
     # The below environment variables can be passed through from the server's env, or hardcoded into the docker-compose.yml file
     environment:
       - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
