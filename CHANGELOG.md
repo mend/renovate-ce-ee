@@ -11,7 +11,9 @@ This feature release updates the base `renovate` to `v14.6.3` and includes many 
 
 ### Breaking Changes
 
-No breaking changes for Renovate Pro, however it is now recommended to use `RENOVATE_PLATFORM`, `RENOVATE_ENDPOINT` and `RENOVATE_TOKEN` instead of the deprecated `GITHUB_` and `GITLAB_` equivalents.
+Please update your environment variables to use `RENOVATE_PLATFORM`, `RENOVATE_ENDPOINT` and `RENOVATE_TOKEN` instead of the deprecated `GITHUB_` and `GITLAB_` equivalents.
+
+Also, as the underlying image for Renovate Pro has changed, make sure to switch the Docker user from `node` to `ubuntu` if you have configured that manually, e.g. in your Docker Compose file.
 
 ### New features
 
