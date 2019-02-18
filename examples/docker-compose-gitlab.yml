@@ -14,14 +14,14 @@ services:
     restart: on-failure
     depends_on:
       - db
-    user: node
     # The below environment variables can be passed through from the server's env, or hardcoded into the docker-compose.yml file
     environment:
       - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
       - LICENSE_MODE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
       - LICENSE_NAME # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
-      - GITLAB_ENDPOINT # GitLab endpoint, include trailing slash
-      - GITLAB_TOKEN # Personal Access Token for bot account
+      - RENOVATE_PLATFORM=gitlab
+      - RENOVATE_ENDPOINT # GitLab endpoint, include trailing slash
+      - RENOVATE_TOKEN # Personal Access Token for bot account
       - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
       - WEBHOOK_SECRET # Optional, default to 'renovate'
       - SCHEDULER_CRON # Optional, defaults to '0 * * * *' (hourly)

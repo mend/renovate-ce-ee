@@ -65,9 +65,11 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 "Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`. Here are some essentials for Renovate Pro:
 
-**`GITLAB_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`
+**`RENOVATE_PLATFORM`**: Set this to `gitlab`
 
-**`GITLAB_TOKEN`**: A Personal Access Token for the GitLab bot account.
+**`RENOVATE_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`
+
+**`RENOVATE_TOKEN`**: A Personal Access Token for the GitLab bot account.
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com so it does not matter which account it belongs to. It needs only read-only access privileges to public repositories.
 

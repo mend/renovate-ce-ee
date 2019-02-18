@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.15.0 - 2019-02-18
+
+This feature release updates the base `renovate` to `v14.19.1` and includes many new features.
+
+### Breaking Changes
+
+Please update your environment variables to use `RENOVATE_PLATFORM`, `RENOVATE_ENDPOINT` and `RENOVATE_TOKEN` instead of the deprecated `GITHUB_` and `GITLAB_` equivalents.
+
+Also, as the underlying image for Renovate Pro has changed, make sure to switch the Docker user from `node` to `ubuntu` if you have configured that manually, e.g. in your Docker Compose file.
+
+### New features
+
+Ansible: support renovating Docker images
+Bazel: Go support
+CircleCI: Orb support
+Docker: add support for basic auth (e.g. Artifactory)
+Docker: preserve registry in `depName`
+GitHub: block automerging a PR if negative reviews exist
+Gradle: support updating gradle wrapper version
+Onboarding: warn about unresolved packages
+Other: Add ability to suppress Renovate notifications configurably
+Other: Add proxy supportPackage Rules: support filtering by manager, language or sourceUrl
+PRs: add rebasing checkbox
+Pypi: try multiple hostUrls
+Pypi: add simple URL endpoint support
+Yarn: support integrity hashes
+
+### Bug fixes
+
+Artifactory: skip npm cache permanently
+Docker: fix registryUrls support for `https://` prefix
+Docker: fix header for tag fetching (Artifactory compatibility)
+Docker: skip lookups for images containing variables
+GitHub Enterprise: Fix release notes fetching from GHE
+npm: Fix `.npmrc` package-lock massage
+PRs: Fix rebase checkbox when conflicted
+
+### Other
+
+Renovate Pro now runs on Ubuntu 18.04 as its base image. This is to align with the open source Renovate's container base as well as Renovate's companion docker containers, all of which use Ubuntu 18.04. If you are mapping any files to `/home/node` then you need to now map them to `/home/ubuntu` instead.
+
 ## 0.14.0 - 2018-11-06
 
 This feature release adds several new package managers plus many feature improvements. It upgrades the base `renovate` to v13.121.0.
