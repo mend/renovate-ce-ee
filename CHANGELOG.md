@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.14.0 - 2019-02-02
+## 0.15.0 - 2019-02-18
 
-This feature release updates the base `renovate` to `v14.6.3` and includes many new features.
+This feature release updates the base `renovate` to `v14.19.1` and includes many new features.
 
 ### Breaking Changes
 
@@ -17,31 +17,34 @@ Also, as the underlying image for Renovate Pro has changed, make sure to switch 
 
 ### New features
 
-Docker: add support for basic auth
-Docker: preserve registry in `depName`
-Yarn: support integrity hashes
-Gradle: support updating gradle wrapper version
-GitHub: block automerging a PR if negative reviews exist
 Ansible: support renovating Docker images
+Bazel: Go support
 CircleCI: Orb support
-Package Rules: support filtering by manager, language or sourceUrl
-Add ability to suppress Renovate notifications configurably
-Add proxy support
+Docker: add support for basic auth (e.g. Artifactory)
+Docker: preserve registry in `depName`
+GitHub: block automerging a PR if negative reviews exist
+Gradle: support updating gradle wrapper version
 Onboarding: warn about unresolved packages
+Other: Add ability to suppress Renovate notifications configurably
+Other: Add proxy supportPackage Rules: support filtering by manager, language or sourceUrl
 PRs: add rebasing checkbox
 Pypi: try multiple hostUrls
-Bazel: Go support
+Pypi: add simple URL endpoint support
+Yarn: support integrity hashes
 
 ### Bug fixes
 
-GitHub Enterprise: Fix release notes fetching from GHE
+Artifactory: skip npm cache permanently
 Docker: fix registryUrls support for `https://` prefix
 Docker: fix header for tag fetching (Artifactory compatibility)
 Docker: skip lookups for images containing variables
+GitHub Enterprise: Fix release notes fetching from GHE
+npm: Fix `.npmrc` package-lock massage
+PRs: Fix rebase checkbox when conflicted
 
 ### Other
 
-Renovate Pro now runs on Ubuntu 18.04 under the hood. This is to align with the open source Renovate's container base as well as Renovate's companion docker containers, all of which use Ubuntu 18.04.
+Renovate Pro now runs on Ubuntu 18.04 as its base image. This is to align with the open source Renovate's container base as well as Renovate's companion docker containers, all of which use Ubuntu 18.04. If you are mapping any files to `/home/node` then you need to now map them to `/home/ubuntu` instead.
 
 ## 0.14.0 - 2018-11-06
 
