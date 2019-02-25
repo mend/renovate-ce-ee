@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.15.2 - 2019-02-23
+
+This patch release adds a slight refactoring to the way token handling is configured for GitHub Enterprise in an effort to fix or track down a missing token problem experienced by one user when upgrading to 0.15.x.
+
 ## 0.15.1 - 2019-02-20
 
 This patch releases fixes a problem for GitLab where `GITLAB_TOKEN` was still required for pre-flight checks. Now, only `RENOVATE_TOKEN` is necessary for GitLab.
