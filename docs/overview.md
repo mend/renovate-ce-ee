@@ -69,4 +69,4 @@ Naturally, it is recommended that you use Renovate itself for detecting and upda
 
 Renovate Pro runs inside a single Docker container, however it requires a sibling PostgreSQL container for running the job queue.
 
-An [example using Docker Compose](https://github.com/renovatebot/pro/blob/master/examples/docker-compose.yml) can be found in the `examples/` directory of this repository.
+[Examples using Docker Compose](https://github.com/renovatebot/pro/blob/master/examples/) can be found in the `examples/` directory of this repository.
