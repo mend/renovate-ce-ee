@@ -1,0 +1,122 @@
+# Default values for renovate-pro.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: renovate/pro
+  tag: 0.15.2
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+renovate:
+
+  # You must accept the Renovate User Agreement ot use the image.
+  # This values needs to be a string, so use quotes to prevent automatic
+  # conversion to a boolean
+  acceptAgreement:
+
+  # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
+  licenseMode: 
+
+  # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
+  licenseName: 
+
+  # Which platform renovate will connect to. For example "github" or "gitlab"
+  renovatePlatform:
+
+  # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
+  renovateEndpoint:
+
+  # Personal Access Token for bot account
+  renovateToken:
+
+  # Personal Access Token for github.com (used for retrieving changelogs)
+  githubComToken:
+
+  # Optional, default to 'renovate'
+  webhookSecret: 
+
+  # Optional, defaults to '0 * * * *' (hourly)
+  schedulerCron: 
+
+  # PostgresSQL configuration. Only needs to be set if using a
+  # separate postgres instance
+  postgres:
+    host:
+    port:
+    database:
+    user:
+    password:
+
+  # Self hosted renovate configuration file, will be mounted as a config map
+  config: |
+    module.exports = {
+      // Enter self-hosted configuration options here.
+      // https://renovatebot.com/docs/self-hosted-configuration/
+    }
+
+  # Npmrc file. Will be mounted as a secret
+  npmrc: '' # |
+    # //registry.npmjs.org/:_authToken=xxxxxx
+
+
+# Configuration values for the postgresql dependency.
+# Ref: https://github.com/helm/charts/blob/master/stable/postgresql/README.md
+#
+postgresql:
+
+  # Use the PostgreSQL chart dependency.
+  # Set to false if bringing your own PostgreSQL
+  enabled: true
+
+  postgresqlUsername: renovate
+
+  ## PostgreSQL Password for the new user.
+  ## If not set, a random 10 characters password will be used.
+  ##
+  postgresqlPassword: renovate
+
+  ## PostgreSQL Database to create.
+  ##
+  postgresqlDatabase: renovate
+
+  persistence:
+    enabled: true
+    ## A manually managed Persistent Volume and Claim
+    ## If defined, PVC must be created manually before volume will be bound
+    # existingClaim:
+    mountPath: /bitnami/postgresql
+    # storageClass: "-"
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    annotations: {}
+
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - renovate-pro.local
+  tls: []
+  #  - secretName: renovate-pro-tls
+  #    hosts:
+  #      - renovate-pro.local
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

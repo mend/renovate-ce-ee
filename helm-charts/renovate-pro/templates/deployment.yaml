@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "renovate-pro.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
+    helm.sh/chart: {{ include "renovate-pro.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if .Values.renovate.acceptAgreement }}
+            - name: ACCEPT_AGREEMENT
+              value: {{ .Values.renovate.acceptAgreement | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.licenseMode }}
+            - name: LICENSE_MODE
+              value: {{ .Values.renovate.licenseMode | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.licenseName }}
+            - name: LICENSE_NAME
+              value: {{ .Values.renovate.licenseName | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.renovatePlatform }}
+            - name: RENOVATE_PLATFORM
+              value: {{ .Values.renovate.renovatePlatform | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.renovateEndpoint }}
+            - name: RENOVATE_ENDPOINT
+              value: {{ .Values.renovate.renovateEndpoint | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.renovateToken }}
+            - name: RENOVATE_TOKEN
+              value: {{ .Values.renovate.renovateToken | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.githubComToken }}
+            - name: GITHUB_COM_TOKEN
+              value: {{ .Values.renovate.githubComToken | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.webhookSecret }}
+            - name: WEBHOOK_SECRET
+              value: {{ .Values.renovate.webhookSecret | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.schedulerCron }}
+            - name: SCHEDULER_CRON
+              value: {{ .Values.renovate.schedulerCron | quote }}
+            {{- end }}
+
+            {{- if .Values.postgresql.enabled }}
+            - name: PGHOST
+              value: {{ template "renovate.postgresql.fullname" . }}
+            - name: PGUSER
+              value: {{ .Values.postgresql.postgresqlUsername | quote }}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "renovate.postgresql.fullname" . }}
+                  key: postgresql-password
+            - name: PGDATABASE
+              value: {{ .Values.postgresql.postgresqlDatabase | quote }}
+            {{- else }}
+            {{- if .Values.renovate.postgres.host }}
+            - name: PGHOST
+              value: {{ .Values.renovate.postgres.host | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.postgres.port }}
+            - name: PGPORT
+              value: {{ .Values.renovate.postgres.port | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.postgres.database }}
+            - name: PGDATABASE
+              value: {{ .Values.renovate.postgres.database | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.postgres.user }}
+            - name: PGUSER
+              value: {{ .Values.renovate.postgres.user | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.postgres.password }}
+            - name: PGPASSWORD
+              value: {{ .Values.renovate.postgres.password | quote }}
+            {{- end }}
+            {{- end }}
+
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 60
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-config-js-volume
+              mountPath: /usr/src/app/config.js
+              subPath: config.js
+            - name: {{ .Release.Name }}-npmrc-volume
+              mountPath: /home/ubuntu/.npmrc
+              subPath: .npmrc
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: {{ .Release.Name }}-config-js-volume
+          configMap:
+            name: {{ .Release.Name }}-config-js
+        - name: {{ .Release.Name }}-npmrc-volume
+          secret:
+            secretName: {{ .Release.Name }}-npmrc
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
