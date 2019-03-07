@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.15.3 - 2019-03-07
+
+This patch fixes two issues:
+
+- Fixes global proxy support via `HTTPS_PROXY` etc (#42)
+- Fixes GitLab scheduler authentication regression introduced in 0.15.2
+
 ## 0.15.2 - 2019-02-23
 
 This patch release adds a slight refactoring to the way token handling is configured for GitHub Enterprise in an effort to fix or track down a missing token problem experienced by one user when upgrading to 0.15.x.
