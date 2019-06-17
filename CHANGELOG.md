@@ -5,9 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.16.0 - 2019-05-??
+## 0.16.0 - 2019-06-??
 
+This feature release updates the base from `renovate@16.10.6` to `renovate@18.16.3`.
 
+### Build changes
+
+The `renovate/pro` image now uses `renovate/renovate` as its base image, meaning that you can determine exactly which binary files come preinstalled by looking at the [corresponding Renovate OSS Dockerfile](https://github.com/renovatebot/renovate/blob/2f2c0736f67414a2d2fc0b129ca95dfc41bf0289/Dockerfile).
+
+A second important change is that Renovate Pro now uses `git` under the hood for all file system queries. Renovate Pro performs a shallow clone each run like a CI system typically does, and having the full repo locally also enables some advanced features such as Go Modules vendoring.
+
+### New Package Managers
+
+- **clojure:** Add basic support for Leiningen and `deps.edn` ([#3685](https://github.com/renovatebot/renovate/issues/3685)) ([bda25d6](https://github.com/renovatebot/renovate/commit/bda25d6))
+
+### New Features
+
+- Node.js: Dynamically determine LTS versions by date
+- Host Rules: Allow different rules based on full endpoint prefix
+- Configurable timeouts per-host
+- Use GraphQL to optimize issue list retrieval
+- Better displayFrom/displayTo logic for Pull Request displays
+- Provide npm diff links via renovatebot.com
+- Add `commitBodyTable` option to append a table of all upgrades to a commit message body
+- Pipenv: support index registry URLs
+- Support scheduling by weeks of year
+- Lock file maintenance for Composer
+
+### Bug fixes
+
+- Default 60s timeout for all requests to avoid potentially hanging forever
+- Rebase branch if package file not found in existing branch
+- Maven: isVersion/isSingleVersion/isValid correction
+- PIP: detect lockedVersion when extracting
+- Docker: handle host with port correctly
+- gitFs: run checkout/reset when setting base branch
 
 ## 0.15.3 - 2019-03-07
 
