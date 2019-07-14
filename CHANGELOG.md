@@ -5,6 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.16.0 - 2019-07-14
+
+This feature release updates the base from `renovate@14.23.0` to `renovate@18.16.11`.
+
+### Build changes
+
+The `renovate/pro` image now uses `renovate/renovate` as its base image, meaning that you can determine exactly which binary files come preinstalled by looking at the [corresponding Renovate OSS Dockerfile](https://github.com/renovatebot/renovate/blob/2f2c0736f67414a2d2fc0b129ca95dfc41bf0289/Dockerfile).
+
+A second important change is that Renovate Pro now uses `git` under the hood for all file system queries. Renovate Pro performs a shallow clone each run like a CI system typically does, and having the full repo locally also enables some advanced features such as Go Modules vendoring.
+
+### New Package Managers
+
+- **Maven**: Supported added for `pom.xml` parsing, including ranges
+- **Pipenv**: Pipfile and lock file updating now enabled
+- **Poetry**: An alternative Python package manager
+- **Ruby-version**: Update `.ruby-version` files
+- **Dart**: Add support for package manager
+- **Scala**: sbt support
+- **Homebrew**: Add support for keeping homebrew definitions up to date
+- **Clojure:** Add basic support for Leiningen and `deps.edn` ([#3685](https://github.com/renovatebot/renovate/issues/3685)) ([bda25d6](https://github.com/renovatebot/renovate/commit/bda25d6))
+
+### New Features
+
+- Nuget: Support authenticated feeds
+- Bazel: Support `git_repository` commit hashes, use commit / tag combo for `go_repository`
+- Bazel: Support commit-based `http_archive`
+- `postUpdateOptions`: npm and yarn deduplication opt-in
+- `packageRules`: support `baseBranchList` and `datasources` selectors
+- Make `parentDir`, `baseDir` metadata available to templates
+- Bazel: expand support to non-WORKSPACE files
+- Bazel: support "container_pull" dependency-type
+- npm package aliases
+- Go Modules vendoring
+- Node.js: Dynamically determine LTS versions by date
+- Host Rules: Allow different rules based on full endpoint prefix
+- Configurable timeouts per-host
+- Use GraphQL to optimize issue list retrieval
+- Better displayFrom/displayTo logic for Pull Request displays
+- Provide npm diff links via renovatebot.com
+- Add `commitBodyTable` option to append a table of all upgrades to a commit message body
+- Pipenv: support index registry URLs
+- Support scheduling by weeks of year
+- Lock file maintenance for Composer
+
+### Bug fixes
+
+- lerna: call bootstrap if yarn workspaces not used
+- npm: don’t set skipInstalls when file refs found
+- run glob matching with dotfile matching enabled
+- Nuget: opt in to semver 2.0.0 and prereleases
+- Default 60s timeout for all requests to avoid potentially hanging forever
+- Rebase branch if package file not found in existing branch
+- Maven: isVersion/isSingleVersion/isValid correction
+- PIP: detect lockedVersion when extracting
+- Docker: handle host with port correctly
+- gitFs: run checkout/reset when setting base branch
+- Go modules: detect gopkg.in major bumps
+- Master Issue add link to edited PRs
+
 ## 0.15.5
 
 This patch fixes one issue: URLs in complex `--index-url` lines in Pip `requirements.txt` files are now parsed correctly.
