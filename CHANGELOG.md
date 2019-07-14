@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.16.0 - 2019-06-??
 
-This feature release updates the base from `renovate@16.10.6` to `renovate@18.16.3`.
+This feature release updates the base from `renovate@14.23.0` to `renovate@18.16.3`.
 
 ### Build changes
 
@@ -17,10 +17,27 @@ A second important change is that Renovate Pro now uses `git` under the hood for
 
 ### New Package Managers
 
-- **clojure:** Add basic support for Leiningen and `deps.edn` ([#3685](https://github.com/renovatebot/renovate/issues/3685)) ([bda25d6](https://github.com/renovatebot/renovate/commit/bda25d6))
+- **Maven:**: Supported added for `pom.xml` parsing, including ranges
+- **Cargo**: Rust's package manager support
+- **Poetry**: An alternative Python package manager
+- **Ruby-version**: Update `.ruby-version` files
+- **Dart**: Add support for package manager
+- **Scala**: sbt support
+- **Homebrew**: Add support for keeping homebrew definitions up to date
+- **Clojure:** Add basic support for Leiningen and `deps.edn` ([#3685](https://github.com/renovatebot/renovate/issues/3685)) ([bda25d6](https://github.com/renovatebot/renovate/commit/bda25d6))
 
 ### New Features
 
+- Nuget: Support authenticated feeds
+- Bazel: Support `git_repository` commit hashes, use commit / tag combo for `go_repository`
+- Bazel: Support commit-based `http_archive`
+- `postUpdateOptions`: npm and yarn deduplication opt-in
+- `packageRules`: support `baseBranchList` and `datasources` selectors
+- Make `parentDir`, `baseDir` metadata available to templates
+- Bazel: expand support to non-WORKSPACE files
+- Bazel: support "container_pull" dependency-type
+- npm package aliases
+- Go Modules vendoring
 - Node.js: Dynamically determine LTS versions by date
 - Host Rules: Allow different rules based on full endpoint prefix
 - Configurable timeouts per-host
@@ -34,12 +51,18 @@ A second important change is that Renovate Pro now uses `git` under the hood for
 
 ### Bug fixes
 
+- lerna: call bootstrap if yarn workspaces not used
+- npm: don’t set skipInstalls when file refs found
+- run glob matching with dotfile matching enabled
+- Nuget: opt in to semver 2.0.0 and prereleases
 - Default 60s timeout for all requests to avoid potentially hanging forever
 - Rebase branch if package file not found in existing branch
 - Maven: isVersion/isSingleVersion/isValid correction
 - PIP: detect lockedVersion when extracting
 - Docker: handle host with port correctly
 - gitFs: run checkout/reset when setting base branch
+- Go modules: detect gopkg.in major bumps
+- Master Issue add link to edited PRs
 
 ## 0.15.3 - 2019-03-07
 
