@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.16.0 - 2019-07-14
 
-This feature release updates the base from `renovate@14.23.0` to `renovate@18.16.3`.
+This feature release updates the base from `renovate@14.23.0` to `renovate@18.16.11`.
 
 ### Build changes
 
