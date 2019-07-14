@@ -3,7 +3,7 @@ services:
   # Renovate Pro uses a PostgreSQL database to manage job queuing
   # This database is used only by Renovate and not necessary/desirable to expose to the outside world
   db:
-    image: postgres:10.7-alpine
+    image: postgres:10.9-alpine
     restart: on-failure
     # Persisting PostgreSQL's data is desirable
     volumes:
@@ -16,7 +16,7 @@ services:
       - db
     # The below environment variables can be passed through from the server's env, or hardcoded into the docker-compose.yml file
     environment:
-      - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
+      - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement to use the image
       - LICENSE_MODE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
       - LICENSE_NAME # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
       - RENOVATE_ENDPOINT # GitHub Enterprise API endpoint, include the trailing slash

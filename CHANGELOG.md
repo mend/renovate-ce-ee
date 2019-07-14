@@ -64,6 +64,14 @@ A second important change is that Renovate Pro now uses `git` under the hood for
 - Go modules: detect gopkg.in major bumps
 - Master Issue add link to edited PRs
 
+## 0.15.5
+
+This patch fixes one issue: URLs in complex `--index-url` lines in Pip `requirements.txt` files are now parsed correctly.
+
+## 0.15.4
+
+This release was removed.
+
 ## 0.15.3 - 2019-03-07
 
 This patch fixes two issues:
