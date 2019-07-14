@@ -17,8 +17,8 @@ A second important change is that Renovate Pro now uses `git` under the hood for
 
 ### New Package Managers
 
-- **Maven:**: Supported added for `pom.xml` parsing, including ranges
-- **Cargo**: Rust's package manager support
+- **Maven**: Supported added for `pom.xml` parsing, including ranges
+- **Pipenv**: Pipfile and lock file updating now enabled
 - **Poetry**: An alternative Python package manager
 - **Ruby-version**: Update `.ruby-version` files
 - **Dart**: Add support for package manager
