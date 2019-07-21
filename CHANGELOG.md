@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.16.1 - 2019-07-21
+
+This patch release udpdates the core Renovate from `18.16.11` to `18.16.19`. It includes fixes from core Renovate as well as within Renovate Pro.
+
+### Bug fixes
+
+* **Pro**: Update priority when upserting into jobs table after webhook
+* **Pro**: Catch scheduler bulk enqueue failure and attempt enqueing repositories sequentially
+* **package-rules:** check compareVersion is a version first ([bc853ad](https://togithub.com/renovatebot/renovate/commit/bc853ad)), closes [#3952](https://togithub.com/renovatebot/renovate/issues/3952)
+* **got:** repoCache was not updated ([#3958](https://togithub.com/renovatebot/renovate/issues/3958)) ([5a2eb75](https://togithub.com/renovatebot/renovate/commit/5a2eb75))
+* **bazel:** extract urls for new hashes ([#3980](https://togithub.com/renovatebot/renovate/issues/3980)) ([49b8e13](https://togithub.com/renovatebot/renovate/commit/49b8e13))
+* **bazel:** use docker version scheme for container_pull ([#3948](https://togithub.com/renovatebot/renovate/issues/3948)) ([fc5a806](https://togithub.com/renovatebot/renovate/commit/fc5a806))
+* **bundler:** brace against undefined replace ([48b74c3](https://togithub.com/renovatebot/renovate/commit/48b74c3))
+* **bundler:** delete update promise after awaiting ([cc2be02](https://togithub.com/renovatebot/renovate/commit/cc2be02)), closes [#3969](https://togithub.com/renovatebot/renovate/issues/3969)
+* **bundler:** handled mixed quotation types ([#4103](https://togithub.com/renovatebot/renovate/issues/4103)) ([0c92ef4](https://togithub.com/renovatebot/renovate/commit/0c92ef4))
+* **docker:** pass registry-failure up ([a9ed0cf](https://togithub.com/renovatebot/renovate/commit/a9ed0cf))
+* **docker:** pass registry-failure up ([31a56ae](https://togithub.com/renovatebot/renovate/commit/31a56ae))
+* **git:** platform-failure, not platform-error ([b3a0b78](https://togithub.com/renovatebot/renovate/commit/b3a0b78))
+* **gitFs:** handle gnutls_handshake() failed ([be719e2](https://togithub.com/renovatebot/renovate/commit/be719e2))
+* **gitFs:** platform-failure for Invalid username or password ([ab3d9a9](https://togithub.com/renovatebot/renovate/commit/ab3d9a9))
+* **gomod:** pass GOPROXY ([e980552](https://togithub.com/renovatebot/renovate/commit/e980552)), closes [#4071](https://togithub.com/renovatebot/renovate/issues/4071)
+* **npm:** fix detecting logic of npmClient ([#4130](https://togithub.com/renovatebot/renovate/issues/4130)) ([75b8869](https://togithub.com/renovatebot/renovate/commit/75b8869))
+* **npm:** full npm install if deduping ([fddc9bd](https://togithub.com/renovatebot/renovate/commit/fddc9bd)), closes [#3972](https://togithub.com/renovatebot/renovate/issues/3972)
+* Pass PROXY in child Process ([#4013](https://togithub.com/renovatebot/renovate/issues/4013)) ([afa26a0](https://togithub.com/renovatebot/renovate/commit/afa26a0))
+* **nuget:** allow configurable versionScheme ([3c2d842](https://togithub.com/renovatebot/renovate/commit/3c2d842)), closes [#4027](https://togithub.com/renovatebot/renovate/issues/4027)
+* **packagist:** gracefully handle ETIMEDOUT and 403 ([2615f3a](https://togithub.com/renovatebot/renovate/commit/2615f3a))
+* **pip:** Add the ability to handle pip's --extra-index-url ([#4056](https://togithub.com/renovatebot/renovate/issues/4056)) ([5b6aa72](https://togithub.com/renovatebot/renovate/commit/5b6aa72))
+* **pypi:** use better version detection ([b510a6b](https://togithub.com/renovatebot/renovate/commit/b510a6b)), closes [#4047](https://togithub.com/renovatebot/renovate/issues/4047)
+* **worker:** fix rebase requested check ([#3987](https://togithub.com/renovatebot/renovate/issues/3987)) ([6d7ffa7](https://togithub.com/renovatebot/renovate/commit/6d7ffa7))
+
 ## 0.16.0 - 2019-07-14
 
 This feature release updates the base from `renovate@14.23.0` to `renovate@18.16.11`.
