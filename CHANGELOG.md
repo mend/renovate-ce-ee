@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+From release 0.16.2 and onwards, this Changelog is deprecated and is replaced by GitHub Releases ([link](https://github.com/renovatebot/pro/releases)).
+
 ## 0.16.1 - 2019-07-21
 
 This patch release udpdates the core Renovate from `18.16.11` to `18.16.19`. It includes fixes from core Renovate as well as within Renovate Pro.
