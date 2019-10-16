@@ -10,7 +10,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
   # Renovate Pro runs as a single long-lived server
   server:
-    image: renovate/pro:0.16.2
+    image: renovate/pro:0.17.0
     restart: on-failure
     depends_on:
       - db
