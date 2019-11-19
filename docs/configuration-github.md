@@ -2,29 +2,29 @@
 
 ## Provision App
 
-Before running Renovate Pro, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. This requires github.com or GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognised when GitHub sends webhooks.
+Before running Renovate Pro, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. This requires github.com or GitHub Enterprise 2.12 or later. Name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests and can be recognized when GitHub sends webhooks.
 
 The App requires the following permissions if available:
 
-* Repository administration: Read-only
-* Checks: Read & write (if available)
-* Repository contents: Read & write
-* Issues: Read & write
-* Repository metadata: Read-only
-* Pull Requests: Read & write
-* Security vulnerability alerts: Read-only (if available)
-* Commit statuses: Read & write
+- Repository administration: Read-only
+- Checks: Read & write (if available)
+- Repository contents: Read & write
+- Issues: Read & write
+- Repository metadata: Read-only
+- Pull Requests: Read & write
+- Security vulnerability alerts: Read-only (if available)
+- Commit statuses: Read & write
 
 The App should also subscribe to the following webhook events:
 
-* Security Advisory
-* Check run
-* Check suite
-* Issues
-* Pull request
-* Push
-* Repository
-* Status
+- Security Advisory
+- Check run
+- Check suite
+- Issues
+- Pull request
+- Push
+- Repository
+- Status
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
