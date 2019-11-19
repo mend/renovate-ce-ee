@@ -14,20 +14,16 @@ Renovate Pro also supports a webserver to listen for system webhooks received fr
 
 In particular, Renovate checks webhooks for:
 
-  - Projects it has just been added to
-  - Commits to `master` branch for "important" files such as `package.json` and `renovate.json`
-  - Any commits made to Renovate's branches
-  - Closing or merging of Renovate PRs
-  
+- Projects it has just been added to
+- Commits to `master` branch for "important" files such as `package.json` and `renovate.json`
+- Any commits made to Renovate's branches
+- Closing or merging of Renovate PRs
+
 Each of the above results in a job being enqueued for the relevant repository, so that the bot will appear responsive to users.
 
 #### Priority job queue
 
-Renovate Pro uses a Postgres database to maintain a stateful and priority-based job queue.
-
-Statefulness is important, because it means that any interruptions to the bot - including intentional stoppages such as for upgrades - will not result in the bot "starting over" at the beginning of the list of repositories. Instead, the job queue is kept in the database instead of the bot's memory, so once the bot is restarted it can resume where it left off.
-
-Priority-based queuing is also essential for providing a responsive experience for bot users. For example, if a user makes an update to the config in an onboarding PR, they ideally want to see the results immediately. By assigning onboarding updates the highest priority in the queue, the bot's update to the onboarding PR can proceed as the very next job, even if many others were in the queue already.
+Priority-based queuing is essential for providing a responsive experience for bot users. For example, if a user makes an update to the config in an onboarding PR, they ideally want to see the results immediately. By assigning onboarding updates the highest priority in the queue, the bot's update to the onboarding PR can proceed as the very next job, even if many others were in the queue already.
 
 In general, job priority is based on the probability that a user may be "waiting" for the bot to do something. That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
 
@@ -85,7 +81,7 @@ Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` ear
 
 Set Hook triggers for "Push events" and "Merge request events".
 
-Once you a System Hook is added, Renovate's webhook handler will receive events from *all* repositories. Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
+Once you a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories. Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
 
 ## Testing Renovate Pro
 

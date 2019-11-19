@@ -1,8 +1,8 @@
-![Renovate banner](https://renovatebot.com/images/design/header_small.jpg)
+![Renovate banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
 
-# Renovate Pro Edition
+# Renovate Pro / WhiteSource Renovate On-Prem
 
-This repository contains Documentation, Release Notes and an Issue Tracker for the Renovate "Pro Edition" container.
+This repository contains Documentation, Release Notes and an Issue Tracker for the Renovate "Pro Edition" container. It is in the process of being renamed to "WhiteSource Renovate On-Prem"
 
 ## License
 
