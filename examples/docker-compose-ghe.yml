@@ -5,8 +5,8 @@ services:
     restart: on-failure
     environment:
       - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement to use the image
-      - LICENSE_MODE # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
-      - LICENSE_NAME # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
+      - LICENSE_MODE=commercial
+      - LICENSE_NAME # Set this to your company name or individual name if running personally
       - RENOVATE_ENDPOINT # GitHub Enterprise API endpoint, include the trailing slash
       - GITHUB_APP_ID # GitHub App ID
       - GITHUB_APP_KEY # GitHub App Key (PEM file). Alternatively mount as a volume below

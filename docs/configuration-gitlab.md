@@ -49,9 +49,9 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`ACCEPT_AGREEMENT`**: Renovate Pro will not run unless you accept the terms of the [Renovate User Agreement](https://renovatebot.com/user-agreement) by setting this environment variable to `y`. This is required whether you are running Renovate Pro in commercial or evaluation mode.
 
-**`LICENSE_MODE`**: If you have purchased a commercial license for Renovate Pro then you need to set this value to `commercial` to enable more than 3 repositories and remove the evaluation mode banner from PRs. Leave this field empty to default to evaluation mode.
+**`LICENSE_MODE`**: Set this value to `commercial`.
 
-**`LICENSE_NAME`**: To enable commercial mode, you also need to fill in the company name that the license is registered to. It should match what you entered in the order form. Leave empty for evaluation mode.
+**`LICENSE_NAME`**: Enter your company name if applicable, otherwise your personal name.
 
 **`WEBHOOK_SECRET`**: This is _optional_ and will default to `renovate` if not configured.
 

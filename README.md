@@ -6,7 +6,7 @@ This repository contains Documentation, Release Notes and an Issue Tracker for t
 
 ## License
 
-Renovate Pro is commercial software, and bound by the terms of the Renovate User Agreement.
+Renovate Pro is commercial software, and bound by WhiteSource's Terms and Conditions.
 
 The documentation and examples in this repository are MIT-licensed.
 
