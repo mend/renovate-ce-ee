@@ -59,7 +59,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 #### Core Renovate Configuration
 
-"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/webapp/config.js`. Here are some essentials for Renovate Pro:
+"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/app/config.js`. Here are some essentials for Renovate Pro:
 
 **`RENOVATE_PLATFORM`**: Set this to `gitlab`
 
