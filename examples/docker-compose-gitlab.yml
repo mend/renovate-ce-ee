@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   renovate:
-    image: renovate/pro:0.18.0
+    image: renovate/pro:0.18.1
     restart: on-failure
     environment:
       - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
