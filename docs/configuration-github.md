@@ -14,6 +14,7 @@ The App requires the following permissions if available:
 - Pull Requests: Read & write
 - Security alerts: Read-only (if available)
 - Commit statuses: Read & write
+- Organization members: Read (if available)
 
 The App should also subscribe to the following webhook events:
 
