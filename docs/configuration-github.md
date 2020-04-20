@@ -54,7 +54,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 **`GITHUB_APP_KEY`**: A string representation of the private key provided by GitHub Enterprise when you provisioned Renovate. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to `/usr/src/app/renovate.private-key.pem`, as shown in the example Docker Compose file.
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: do not configure `GITHUB_TOKEN`.
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`. 
 
 **`WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
 
