@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: renovate/pro
-  tag: 0.15.2
+  tag: 0.18.1
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -20,10 +20,10 @@ renovate:
   acceptAgreement:
 
   # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
-  licenseMode: 
+  licenseMode:
 
   # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
-  licenseName: 
+  licenseName:
 
   # Which platform renovate will connect to. For example "github" or "gitlab"
   renovatePlatform:
@@ -34,14 +34,20 @@ renovate:
   # Personal Access Token for bot account
   renovateToken:
 
+  #  The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app. Force string format by quotting value.
+  githubAppId:
+
+  # A string representation of the private key provided by GitHub Enterprise when you provisioned Renovate
+  githubAppKey:
+
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
 
   # Optional, default to 'renovate'
-  webhookSecret: 
+  webhookSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
-  schedulerCron: 
+  schedulerCron:
 
   # PostgresSQL configuration. Only needs to be set if using a
   # separate postgres instance
@@ -63,6 +69,14 @@ renovate:
   npmrc: '' # |
     # //registry.npmjs.org/:_authToken=xxxxxx
 
+  # Disable NodeJS SSL verify (do not use for production)
+  noNodeTlsVerify: false
+
+  # Disable GIT SSL verify (do not use for production)
+  noGitTlsVerify: false
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
 
 # Configuration values for the postgresql dependency.
 # Ref: https://github.com/helm/charts/blob/master/stable/postgresql/README.md

@@ -53,12 +53,44 @@ spec:
 
             {{- if .Values.renovate.renovateToken }}
             - name: RENOVATE_TOKEN
-              value: {{ .Values.renovate.renovateToken | quote }}
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: renovateToken
+            {{- end }}
+
+            {{- if .Values.renovate.githubAppId }}
+            - name: GITHUB_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: githubAppId
+            {{- end }}
+
+            {{- if .Values.renovate.githubAppKey }}
+            - name: GITHUB_APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: githubAppKey
             {{- end }}
 
             {{- if .Values.renovate.githubComToken }}
             - name: GITHUB_COM_TOKEN
-              value: {{ .Values.renovate.githubComToken | quote }}
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: githubComToken
+            {{- end }}
+
+            {{- if .Values.renovate.noNodeTlsVerify }}
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: '0'
+            {{- end }}
+
+            {{- if .Values.renovate.noGitTlsVerify }}
+            - name: GIT_SSL_NO_VERIFY
+              value: 'true'
             {{- end }}
 
             {{- if .Values.renovate.webhookSecret }}
@@ -69,6 +101,11 @@ spec:
             {{- if .Values.renovate.schedulerCron }}
             - name: SCHEDULER_CRON
               value: {{ .Values.renovate.schedulerCron | quote }}
+            {{- end }}
+
+            {{- if .Values.renovate.logLevel }}
+            - name: LOG_LEVEL
+              value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
 
             {{- if .Values.postgresql.enabled }}
