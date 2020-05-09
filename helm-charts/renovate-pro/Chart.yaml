@@ -1,3 +1,8 @@
 apiVersion: v1
 name: renovate-pro
 version: 1.1.0
+description: Responsive Dependency Automation
+home: https://github.com/whitesource/renovate
+sources:
+  - https://github.com/renovatebot/renovate
+icon: https://app.renovatebot.com/images/logo.png
