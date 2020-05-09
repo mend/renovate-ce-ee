@@ -56,7 +56,7 @@ renovate:
   config: |
     module.exports = {
       // Enter self-hosted configuration options here.
-      // https://renovatebot.com/docs/self-hosted-configuration/
+      // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
   # Npmrc file. Will be mounted as a secret
@@ -73,7 +73,7 @@ renovate:
   logLevel: info
 
 # Configuration values for the postgresql dependency.
-# Ref: https://github.com/helm/charts/blob/master/stable/postgresql/README.md
+# Ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
 #
 postgresql:
 
