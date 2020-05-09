@@ -30,27 +30,22 @@ spec:
             - name: ACCEPT_AGREEMENT
               value: {{ .Values.renovate.acceptAgreement | quote }}
             {{- end }}
-
             {{- if .Values.renovate.licenseMode }}
             - name: LICENSE_MODE
               value: {{ .Values.renovate.licenseMode | quote }}
             {{- end }}
-
             {{- if .Values.renovate.licenseName }}
             - name: LICENSE_NAME
               value: {{ .Values.renovate.licenseName | quote }}
             {{- end }}
-
             {{- if .Values.renovate.renovatePlatform }}
             - name: RENOVATE_PLATFORM
               value: {{ .Values.renovate.renovatePlatform | quote }}
             {{- end }}
-
             {{- if .Values.renovate.renovateEndpoint }}
             - name: RENOVATE_ENDPOINT
               value: {{ .Values.renovate.renovateEndpoint | quote }}
             {{- end }}
-
             {{- if .Values.renovate.renovateToken }}
             - name: RENOVATE_TOKEN
               valueFrom:
@@ -58,7 +53,6 @@ spec:
                   secretName: {{ .Release.Name }}
                   key: renovateToken
             {{- end }}
-
             {{- if .Values.renovate.githubAppId }}
             - name: GITHUB_APP_ID
               valueFrom:
@@ -66,7 +60,6 @@ spec:
                   secretName: {{ .Release.Name }}
                   key: githubAppId
             {{- end }}
-
             {{- if .Values.renovate.githubAppKey }}
             - name: GITHUB_APP_KEY
               valueFrom:
@@ -74,7 +67,6 @@ spec:
                   secretName: {{ .Release.Name }}
                   key: githubAppKey
             {{- end }}
-
             {{- if .Values.renovate.githubComToken }}
             - name: GITHUB_COM_TOKEN
               valueFrom:
@@ -82,32 +74,26 @@ spec:
                   secretName: {{ .Release.Name }}
                   key: githubComToken
             {{- end }}
-
             {{- if .Values.renovate.noNodeTlsVerify }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: '0'
             {{- end }}
-
             {{- if .Values.renovate.noGitTlsVerify }}
             - name: GIT_SSL_NO_VERIFY
               value: 'true'
             {{- end }}
-
             {{- if .Values.renovate.webhookSecret }}
             - name: WEBHOOK_SECRET
               value: {{ .Values.renovate.webhookSecret | quote }}
             {{- end }}
-
             {{- if .Values.renovate.schedulerCron }}
             - name: SCHEDULER_CRON
               value: {{ .Values.renovate.schedulerCron | quote }}
             {{- end }}
-
             {{- if .Values.renovate.logLevel }}
             - name: LOG_LEVEL
               value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
-
             {{- if .Values.postgresql.enabled }}
             - name: PGHOST
               value: {{ template "renovate.postgresql.fullname" . }}
@@ -125,28 +111,23 @@ spec:
             - name: PGHOST
               value: {{ .Values.renovate.postgres.host | quote }}
             {{- end }}
-
             {{- if .Values.renovate.postgres.port }}
             - name: PGPORT
               value: {{ .Values.renovate.postgres.port | quote }}
             {{- end }}
-
             {{- if .Values.renovate.postgres.database }}
             - name: PGDATABASE
               value: {{ .Values.renovate.postgres.database | quote }}
             {{- end }}
-
             {{- if .Values.renovate.postgres.user }}
             - name: PGUSER
               value: {{ .Values.renovate.postgres.user | quote }}
             {{- end }}
-
             {{- if .Values.renovate.postgres.password }}
             - name: PGPASSWORD
               value: {{ .Values.renovate.postgres.password | quote }}
             {{- end }}
             {{- end }}
-
           ports:
             - name: http
               containerPort: 8080

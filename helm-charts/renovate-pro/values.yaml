@@ -1,6 +1,6 @@
 image:
   repository: renovate/pro
-  tag: 0.18.1
+  tag: 0.18.5
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -44,7 +44,7 @@ renovate:
   schedulerCron:
 
   # PostgresSQL configuration. Only needs to be set if using a
-  # separate postgres instance
+  # separate PostgresSQL instance
   postgres:
     host:
     port:
