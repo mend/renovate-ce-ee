@@ -96,13 +96,13 @@ spec:
             {{- end }}
             {{- if .Values.postgresql.enabled }}
             - name: PGHOST
-              value: {{ template "renovate.postgresql.fullname" . }}
+              value: {{ template "whitesource-renovate.postgresql.fullname" . }}
             - name: PGUSER
               value: {{ .Values.postgresql.postgresqlUsername | quote }}
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "renovate.postgresql.fullname" . }}
+                  name: {{ template "whitesource-renovate.postgresql.fullname" . }}
                   key: postgresql-password
             - name: PGDATABASE
               value: {{ .Values.postgresql.postgresqlDatabase | quote }}
