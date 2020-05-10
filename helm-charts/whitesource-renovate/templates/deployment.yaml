@@ -154,6 +154,8 @@ spec:
             - name: {{ .Release.Name }}-npmrc-volume
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
+            - name: {{ .Release.Name }}-cache-volume
+              mountPath: /tmp/renovate
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -165,6 +167,8 @@ spec:
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
             secretName: {{ .Release.Name }}-npmrc
+        - name: {{ .Release.Name }}-cache-volume
+          emptyDir: {}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
