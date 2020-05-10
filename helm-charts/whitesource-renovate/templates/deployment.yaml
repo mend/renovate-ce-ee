@@ -74,6 +74,14 @@ spec:
                   secretName: {{ .Release.Name }}
                   key: githubComToken
             {{- end }}
+            {{- if .Values.renovate.webhookSecret }}
+            - name: WEBHOOK_SECRET
+              value: {{ .Values.renovate.webhookSecret | quote }}
+            {{- end }}
+            {{- if .Values.renovate.schedulerCron }}
+            - name: SCHEDULER_CRON
+              value: {{ .Values.renovate.schedulerCron | quote }}
+            {{- end }}
             {{- if .Values.renovate.noNodeTlsVerify }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: '0'
@@ -82,13 +90,9 @@ spec:
             - name: GIT_SSL_NO_VERIFY
               value: 'true'
             {{- end }}
-            {{- if .Values.renovate.webhookSecret }}
-            - name: WEBHOOK_SECRET
-              value: {{ .Values.renovate.webhookSecret | quote }}
-            {{- end }}
-            {{- if .Values.renovate.schedulerCron }}
-            - name: SCHEDULER_CRON
-              value: {{ .Values.renovate.schedulerCron | quote }}
+            {{- if .Values.renovate.renovateUserAgent }}
+            - name: RENOVATE_USER_AGENT
+              value: {{ .Values.renovate.renovateUserAgent | quote }}
             {{- end }}
             {{- if .Values.renovate.logLevel }}
             - name: LOG_LEVEL

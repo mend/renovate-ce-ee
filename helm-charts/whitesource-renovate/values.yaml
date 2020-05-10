@@ -38,7 +38,7 @@ renovate:
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
 
-  # Optional, default to 'renovate'
+  # Optional, defaults to 'renovate'
   webhookSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
@@ -69,6 +69,10 @@ renovate:
 
   # Disable GIT SSL verify (do not use for production)
   noGitTlsVerify: false
+
+  # Set User Agent WhiteSource Renovate will use to query the registries
+  # defaults to https://github.com/renovatebot/renovate
+  renovateUserAgent:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
