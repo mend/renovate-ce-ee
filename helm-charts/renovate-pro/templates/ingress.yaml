@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "renovate-pro.fullname" . -}}
+{{- $fullName := include "whitesource-renovate.fullname" . -}}
 {{- $ingressPaths := .Values.ingress.paths -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
-    helm.sh/chart: {{ include "renovate-pro.chart" . }}
+    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
+    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}

@@ -8,7 +8,7 @@ fullnameOverride: ""
 
 renovate:
 
-  # You must accept the Renovate User Agreement ot use the image.
+  # You must accept the WhiteSource Renovate User Agreement ot use the image.
   # This values needs to be a string, so use quotes to prevent automatic
   # conversion to a boolean
   acceptAgreement:
@@ -16,10 +16,10 @@ renovate:
   # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
   licenseMode:
 
-  # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the Renovate Pro order
+  # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the WhiteSource Renovate order
   licenseName:
 
-  # Which platform renovate will connect to. For example "github" or "gitlab"
+  # Which platform WhiteSource Renovate will connect to. For example "github" or "gitlab"
   renovatePlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
@@ -28,10 +28,10 @@ renovate:
   # Personal Access Token for bot account
   renovateToken:
 
-  #  The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app. Force string format by quotting value.
+  #  The GitHub App ID provided by GitHub Enterprise when you provisioned the WhiteSource Renovate app. Force string format by quotting value.
   githubAppId:
 
-  # A string representation of the private key provided by GitHub Enterprise when you provisioned Renovate
+  # A string representation of the private key provided by GitHub Enterprise when you provisioned WhiteSource Renovate
   githubAppKey:
 
   # Personal Access Token for github.com (used for retrieving changelogs)
@@ -115,11 +115,11 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - renovate-pro.local
+    - whitesource-renovate.local
   tls: []
-  #  - secretName: renovate-pro-tls
+  #  - secretName: whitesource-renovate-tls
   #    hosts:
-  #      - renovate-pro.local
+  #      - whitesource-renovate.local
 
 resources: {}
 

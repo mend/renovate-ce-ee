@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "renovate-pro.fullname" . }}
+  name: {{ include "whitesource-renovate.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
-    helm.sh/chart: {{ include "renovate-pro.chart" . }}
+    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
+    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "renovate-pro.name" . }}
+    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
