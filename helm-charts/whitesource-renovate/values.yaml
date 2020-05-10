@@ -45,7 +45,7 @@ renovate:
 
   # PostgresSQL configuration. Only needs to be set if using a
   # separate PostgresSQL instance
-  postgres:
+  postgresql:
     host:
     port:
     database:

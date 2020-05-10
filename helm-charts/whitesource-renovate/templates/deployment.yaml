@@ -107,25 +107,25 @@ spec:
             - name: PGDATABASE
               value: {{ .Values.postgresql.postgresqlDatabase | quote }}
             {{- else }}
-            {{- if .Values.renovate.postgres.host }}
+            {{- if .Values.renovate.postgresql.host }}
             - name: PGHOST
-              value: {{ .Values.renovate.postgres.host | quote }}
+              value: {{ .Values.renovate.postgresql.host | quote }}
             {{- end }}
-            {{- if .Values.renovate.postgres.port }}
+            {{- if .Values.renovate.postgresql.port }}
             - name: PGPORT
-              value: {{ .Values.renovate.postgres.port | quote }}
+              value: {{ .Values.renovate.postgresql.port | quote }}
             {{- end }}
-            {{- if .Values.renovate.postgres.database }}
+            {{- if .Values.renovate.postgresql.database }}
             - name: PGDATABASE
-              value: {{ .Values.renovate.postgres.database | quote }}
+              value: {{ .Values.renovate.postgresql.database | quote }}
             {{- end }}
-            {{- if .Values.renovate.postgres.user }}
+            {{- if .Values.renovate.postgresql.user }}
             - name: PGUSER
-              value: {{ .Values.renovate.postgres.user | quote }}
+              value: {{ .Values.renovate.postgresql.user | quote }}
             {{- end }}
-            {{- if .Values.renovate.postgres.password }}
+            {{- if .Values.renovate.postgresql.password }}
             - name: PGPASSWORD
-              value: {{ .Values.renovate.postgres.password | quote }}
+              value: {{ .Values.renovate.postgresql.password | quote }}
             {{- end }}
             {{- end }}
           ports:
