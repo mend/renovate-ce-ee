@@ -8,7 +8,8 @@ fullnameOverride: ""
 
 renovate:
 
-  # You must accept the WhiteSource Renovate User Agreement ot use the image.
+  # You must accept the WhiteSource Terms of Service to use the image.
+  # Please read https://www.whitesourcesoftware.com/terms-of-service/
   # This values needs to be a string, so use quotes to prevent automatic
   # conversion to a boolean
   acceptAgreement:

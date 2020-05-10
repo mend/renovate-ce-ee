@@ -1,6 +1,6 @@
 {{- if not .Values.renovate.acceptAgreement }}
-ERROR: You must accept the Renovate User Agreement in order to run Renovate.
-Please read https://renovatebot.com/user-agreement and then:
+ERROR: You must accept the WhiteSource Terms of Service in order to run WhiteSource Renovate.
+Please read https://www.whitesourcesoftware.com/terms-of-service/ and then:
 
     helm upgrade {{ .Release.Name }} \
         --set renovate.acceptAgreement=y renovate/whitesource-renovate
