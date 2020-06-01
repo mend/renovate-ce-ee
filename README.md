@@ -12,7 +12,7 @@ The documentation and examples in this repository are MIT-licensed.
 
 ## Download
 
-WhiteSource Renovate is distributed via Docker Hub using the [renovate/pro](https://hub.docker.com/r/renovate/pro/) namespace. It will soon be renamed and require a simple license key to activate. Currently a license key is not necessary but you must register using the form at https://renovate.whitesourcesoftware.com/on-premises/
+WhiteSource Renovate is distributed via Docker Hub using the [whitesource/remediate](https://hub.docker.com/r/whitesource/remediate/) namespace. It requires a license key which is free to obtain upon registration by completing the form at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/). Currently license keys are being processed manually so please allow for up to 24 hours after submitting the form to receive your license key.
 
 ## Usage
 
