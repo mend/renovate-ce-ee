@@ -65,7 +65,7 @@ Note also the need to take webhooks into consideration. Currently:
 - If you're running GitLab then each Pro server will discard webhooks for repositories that don't match its `autodiscoverFilter` pattern
 - If you're running GitHub then each Pro server will enqueue a job for each actionable webhook received
 
-For GitLab, this means you would need some form of proxy between GitLab and Renovate Pro that distributes a copy to each Pro server.
+For GitLab, this means you would need some form of proxy between GitLab and WhiteSource Renovate that distributes a copy to each Pro server.
 
 For GitHub, this means you may want to have a single server dedicated to processing webhook jobs and then spread the scheduled load amongst other repositories. For the webhook server, you could set an `autodiscoverFilter` that matches no repos.
 
