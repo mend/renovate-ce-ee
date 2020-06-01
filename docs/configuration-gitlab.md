@@ -1,16 +1,16 @@
-# Renovate Pro Configuration for GitLab
+# WhiteSource Renovate Configuration for GitLab
 
-Renovate Pro is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
+WhiteSource Renovate is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
 
-## Renovate Pro features
+## WhiteSource Renovate features
 
 #### Job scheduler
 
-The Renovate Pro's Docker container contains a built-in job scheduler that defaults to enqueing all repositories once per hour. This saves the need for configuring and monitoring any external `cron` process.
+The WhiteSource Renovate's Docker container contains a built-in job scheduler that defaults to enqueing all repositories once per hour. This saves the need for configuring and monitoring any external `cron` process.
 
 #### Webhook handler
 
-Renovate Pro also supports a webserver to listen for system webhooks received from GitLab.
+WhiteSource Renovate also supports a webserver to listen for system webhooks received from GitLab.
 
 In particular, Renovate checks webhooks for:
 
@@ -27,7 +27,7 @@ Priority-based queuing is essential for providing a responsive experience for bo
 
 In general, job priority is based on the probability that a user may be "waiting" for the bot to do something. That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
 
-## Renovate Pro Installation and Setup
+## WhiteSource Renovate Installation and Setup
 
 #### Bot Account creation
 
@@ -39,19 +39,17 @@ It's best not add this bot account to any repositories yet.
 
 #### Bot Server setup
 
-The server setup for Renovate Pro for GitLab is essentially the same as for GitHub Enterprise, so you can look at those examples. Renovate Pro needs only a low-mid range server with Docker capabilities (e.g. 1 VCPU with 3.75GB of RAM).
+The server setup for WhiteSource Renovate for GitLab is essentially the same as for GitHub Enterprise, so you can look at those examples. WhiteSource Renovate needs only a low-mid range server with Docker capabilities (e.g. 1 VCPU with 3.75GB of RAM).
 
 ## Configuration
 
-#### Renovate Pro environment variables
+#### WhiteSource Renovate environment variables
 
-Renovate Pro requires configuration via environment variables in addition to Renovate OSS's regular configuration:
+WhiteSource Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`ACCEPT_AGREEMENT`**: Renovate Pro will not run unless you accept the terms of the [Renovate User Agreement](https://renovatebot.com/user-agreement) by setting this environment variable to `y`. This is required whether you are running Renovate Pro in commercial or evaluation mode.
+**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [WhiteSource Renovate's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
 
-**`LICENSE_MODE`**: Set this value to `commercial`.
-
-**`LICENSE_NAME`**: Enter your company name if applicable, otherwise your personal name.
+**`LICENSE_KEY`**: This should be the license key you obtained after registering at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/).
 
 **`WEBHOOK_SECRET`**: This is _optional_ and will default to `renovate` if not configured.
 
@@ -59,7 +57,7 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 #### Core Renovate Configuration
 
-"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Renovate Pro container to `/usr/src/app/config.js`. Here are some essentials for Renovate Pro:
+"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the WhiteSource Renovate container to `/usr/src/app/config.js`. Here are some essentials for WhiteSource Renovate:
 
 **`RENOVATE_PLATFORM`**: Set this to `gitlab`
 
@@ -71,21 +69,21 @@ Renovate Pro requires configuration via environment variables in addition to Ren
 
 #### System Hook
 
-To activate Renovate Pro's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
+To activate WhiteSource Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to Renovate Pro's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to WhiteSource Renovate's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
 
 Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
-Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or set it to "renovate" if you left it as default.
+Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
 
 Set Hook triggers for "Push events" and "Merge request events".
 
 Once you a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories. Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
 
-## Testing Renovate Pro
+## Testing WhiteSource Renovate
 
-At this point you should be ready to test out Renovate Pro. You probably want to create a test repo before adding Renovate Pro to any "real" ones. To simulate normal conditions, create the repository from a regular account and add a package file.
+At this point you should be ready to test out WhiteSource Renovate. You probably want to create a test repo before adding WhiteSource Renovate to any "real" ones. To simulate normal conditions, create the repository from a regular account and add a package file.
 
 #### Enabling Renovate
 
