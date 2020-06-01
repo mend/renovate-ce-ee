@@ -6,7 +6,7 @@ This repository contains Documentation, Release Notes and an Issue Tracker for t
 
 ## License
 
-WhiteSource Renovate On-Premises is commercial software, and bound by WhiteSource's Terms and Conditions.
+WhiteSource Renovate On-Premises is commercial software, and bound by [WhiteSource's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
 
 The documentation and examples in this repository are MIT-licensed.
 
