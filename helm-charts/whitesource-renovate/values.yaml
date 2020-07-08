@@ -10,15 +10,11 @@ renovate:
 
   # You must accept the WhiteSource Terms of Service to use the image.
   # Please read https://www.whitesourcesoftware.com/terms-of-service/
-  # This values needs to be a string, so use quotes to prevent automatic
-  # conversion to a boolean
-  acceptAgreement:
+  # Set this value to 'y' to consent.
+  acceptWhiteSourceTos:
 
-  # Set to commercial if you have purchased a license, otherwise it defaults to evaluation
-  licenseMode:
-
-  # If running in commercial mode, set this to the license name (e.g. company name) as submitted with the WhiteSource Renovate order
-  licenseName:
+  # This should be the license key you obtained after registering at https://renovate.whitesourcesoftware.com/on-premises
+  licenseKey:
 
   # Which platform WhiteSource Renovate will connect to. For example "github" or "gitlab"
   renovatePlatform:

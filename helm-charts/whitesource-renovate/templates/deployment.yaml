@@ -26,17 +26,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- if .Values.renovate.acceptAgreement }}
-            - name: ACCEPT_AGREEMENT
-              value: {{ .Values.renovate.acceptAgreement | quote }}
+            {{- if .Values.renovate.acceptWhiteSourceTos }}
+            - name: ACCEPT_WHITESOURCE_TOS
+              value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}
             {{- end }}
-            {{- if .Values.renovate.licenseMode }}
-            - name: LICENSE_MODE
-              value: {{ .Values.renovate.licenseMode | quote }}
-            {{- end }}
-            {{- if .Values.renovate.licenseName }}
-            - name: LICENSE_NAME
-              value: {{ .Values.renovate.licenseName | quote }}
+            {{- if .Values.renovate.licenseKey }}
+            - name: LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: licenseKey
             {{- end }}
             {{- if .Values.renovate.renovatePlatform }}
             - name: RENOVATE_PLATFORM
@@ -121,7 +120,7 @@ spec:
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             - name: {{ .Release.Name }}-cache-volume
-              mountPath: /tmp/renovate
+              mountPath: /tmp
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
