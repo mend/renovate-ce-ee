@@ -48,8 +48,11 @@ renovate:
     }
 
   # Npmrc file. Will be mounted as a secret
-  npmrc: '' # |
+  npmrc: # |
     # //registry.npmjs.org/:_authToken=xxxxxx
+
+  # PIP index url to get packages from. Will be mounted as a secret
+  pipIndexUrl:
 
   # Disable NodeJS SSL verify (do not use for production)
   noNodeTlsVerify: false

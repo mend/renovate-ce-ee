@@ -81,6 +81,13 @@ spec:
             - name: SCHEDULER_CRON
               value: {{ .Values.renovate.schedulerCron | quote }}
             {{- end }}
+            {{- if .Values.renovate.pipIndexUrl }}
+            - name: PIP_INDEX_URL
+              valueFrom:
+                secretKeyRef:
+                  secretName: {{ .Release.Name }}
+                  key: pipIndexUrl
+            {{- end }}
             {{- if .Values.renovate.noNodeTlsVerify }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: '0'
@@ -116,9 +123,11 @@ spec:
             - name: {{ .Release.Name }}-config-js-volume
               mountPath: /usr/src/app/config.js
               subPath: config.js
+            {{- if .Values.renovate.npmrc }}
             - name: {{ .Release.Name }}-npmrc-volume
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
+            {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp
       {{- with .Values.nodeSelector }}
@@ -129,9 +138,11 @@ spec:
         - name: {{ .Release.Name }}-config-js-volume
           configMap:
             name: {{ .Release.Name }}-config-js
+        {{- if .Values.renovate.npmrc }}
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
             secretName: {{ .Release.Name }}-npmrc
+        {{- end }
         - name: {{ .Release.Name }}-cache-volume
           emptyDir: {}
     {{- with .Values.affinity }}
