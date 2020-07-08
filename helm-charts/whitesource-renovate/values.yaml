@@ -44,15 +44,6 @@ renovate:
   # Optional, defaults to '0 * * * *' (hourly)
   schedulerCron:
 
-  # PostgresSQL configuration. Only needs to be set if using a
-  # separate PostgresSQL instance
-  postgresql:
-    host:
-    port:
-    database:
-    user:
-    password:
-
   # Self hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
@@ -76,39 +67,6 @@ renovate:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
-
-# Configuration values for the postgresql dependency.
-# Ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
-#
-postgresql:
-
-  # Use the PostgreSQL chart dependency.
-  # Set to false if bringing your own PostgreSQL
-  enabled: true
-
-  postgresqlUsername: renovate
-
-  ## PostgreSQL Password for the new user.
-  ## If not set, a random 10 characters password will be used.
-  ##
-  postgresqlPassword: renovate
-
-  ## PostgreSQL Database to create.
-  ##
-  postgresqlDatabase: renovate
-
-  persistence:
-    enabled: true
-    ## A manually managed Persistent Volume and Claim
-    ## If defined, PVC must be created manually before volume will be bound
-    # existingClaim:
-    mountPath: /bitnami/postgresql
-    # storageClass: "-"
-    accessModes:
-      - ReadWriteOnce
-    size: 8Gi
-    annotations: {}
-
 
 service:
   type: ClusterIP

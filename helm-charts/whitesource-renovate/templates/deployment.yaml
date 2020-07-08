@@ -98,40 +98,6 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
-            {{- if .Values.postgresql.enabled }}
-            - name: PGHOST
-              value: {{ template "whitesource-renovate.postgresql.fullname" . }}
-            - name: PGUSER
-              value: {{ .Values.postgresql.postgresqlUsername | quote }}
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "whitesource-renovate.postgresql.fullname" . }}
-                  key: postgresql-password
-            - name: PGDATABASE
-              value: {{ .Values.postgresql.postgresqlDatabase | quote }}
-            {{- else }}
-            {{- if .Values.renovate.postgresql.host }}
-            - name: PGHOST
-              value: {{ .Values.renovate.postgresql.host | quote }}
-            {{- end }}
-            {{- if .Values.renovate.postgresql.port }}
-            - name: PGPORT
-              value: {{ .Values.renovate.postgresql.port | quote }}
-            {{- end }}
-            {{- if .Values.renovate.postgresql.database }}
-            - name: PGDATABASE
-              value: {{ .Values.renovate.postgresql.database | quote }}
-            {{- end }}
-            {{- if .Values.renovate.postgresql.user }}
-            - name: PGUSER
-              value: {{ .Values.renovate.postgresql.user | quote }}
-            {{- end }}
-            {{- if .Values.renovate.postgresql.password }}
-            - name: PGPASSWORD
-              value: {{ .Values.renovate.postgresql.password | quote }}
-            {{- end }}
-            {{- end }}
           ports:
             - name: http
               containerPort: 8080
