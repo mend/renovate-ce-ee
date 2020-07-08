@@ -1,12 +1,11 @@
 version: "3.6"
 services:
   renovate:
-    image: renovate/pro:0.18.5
+    image: whitesource/renovate:1.0.0-rc.0
     restart: on-failure
     environment:
-      - ACCEPT_AGREEMENT # You must accept the Renovate User Agreement ot use the image
-      - LICENSE_MODE=commercial
-      - LICENSE_NAME # Set this to your company name or individual name if running personally
+      - ACCEPT_WHITESOURCE_TOS # You must accept the WhiteSource Renovate Terms of Service to use the image
+      - LICENSE_KEY # Set this to the key you received by email
       - RENOVATE_PLATFORM=gitlab
       - RENOVATE_ENDPOINT # GitLab endpoint, include trailing slash
       - RENOVATE_TOKEN # Personal Access Token for bot account
