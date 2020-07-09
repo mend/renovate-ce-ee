@@ -34,7 +34,7 @@ spec:
             - name: LICENSE_KEY
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: licenseKey
             {{- end }}
             {{- if .Values.renovate.renovatePlatform }}
@@ -49,28 +49,28 @@ spec:
             - name: RENOVATE_TOKEN
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: renovateToken
             {{- end }}
             {{- if .Values.renovate.githubAppId }}
             - name: GITHUB_APP_ID
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: githubAppId
             {{- end }}
             {{- if .Values.renovate.githubAppKey }}
             - name: GITHUB_APP_KEY
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: githubAppKey
             {{- end }}
             {{- if .Values.renovate.githubComToken }}
             - name: GITHUB_COM_TOKEN
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: githubComToken
             {{- end }}
             {{- if .Values.renovate.webhookSecret }}
@@ -85,7 +85,7 @@ spec:
             - name: PIP_INDEX_URL
               valueFrom:
                 secretKeyRef:
-                  secretName: {{ .Release.Name }}
+                  name: {{ .Release.Name }}
                   key: pipIndexUrl
             {{- end }}
             {{- if .Values.renovate.noNodeTlsVerify }}
