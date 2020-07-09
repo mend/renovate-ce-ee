@@ -22,10 +22,10 @@ renovate:
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
   renovateEndpoint:
 
-  # Personal Access Token for bot account
+  # Personal Access Token for bot account (GitLab only)
   renovateToken:
 
-  #  The GitHub App ID provided by GitHub Enterprise when you provisioned the WhiteSource Renovate app. Force string format by quotting value.
+  #  The GitHub App ID provided when you provisioned the WhiteSource Renovate app. Force string format by quoting value.
   githubAppId:
 
   # A string representation of the private key provided by GitHub Enterprise when you provisioned WhiteSource Renovate
