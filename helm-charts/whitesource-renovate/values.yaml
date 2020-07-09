@@ -13,7 +13,9 @@ renovate:
   # Set this value to 'y' to consent.
   acceptWhiteSourceTos:
 
-  # This should be the license key you obtained after registering at https://renovate.whitesourcesoftware.com/on-premises
+  # Set this to the key you received by email.
+  # You can request a license key by submitting the form at https://renovate.whitesourcesoftware.com/on-premises/.
+  # Please allow up to 24 hours to receive your license key by email.
   licenseKey:
 
   # Which platform WhiteSource Renovate will connect to. For example "github" or "gitlab"
