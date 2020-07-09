@@ -129,7 +129,7 @@ spec:
               subPath: .npmrc
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
-              mountPath: /tmp
+              mountPath: /tmp/renovate
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
