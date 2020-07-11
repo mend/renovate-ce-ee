@@ -1,0 +1,94 @@
+image:
+  repository: whitesource/renovate
+  tag: 1.0.1
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+renovate:
+
+  # You must accept the WhiteSource Terms of Service to use the image.
+  # Please read https://www.whitesourcesoftware.com/terms-of-service/
+  # Set this value to 'y' to consent.
+  acceptWhiteSourceTos:
+
+  # Set this to the key you received by email.
+  # You can request a license key by submitting the form at https://renovate.whitesourcesoftware.com/on-premises/.
+  # Please allow up to 24 hours to receive your license key by email.
+  licenseKey:
+
+  # Which platform WhiteSource Renovate will connect to. For example "github" or "gitlab"
+  renovatePlatform:
+
+  # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
+  renovateEndpoint:
+
+  # Personal Access Token for bot account (GitLab only)
+  renovateToken:
+
+  #  The GitHub App ID provided when you provisioned the WhiteSource Renovate app. Force string format by quoting value.
+  githubAppId:
+
+  # A string representation of the private key provided by GitHub Enterprise when you provisioned WhiteSource Renovate
+  githubAppKey:
+
+  # Personal Access Token for github.com (used for retrieving changelogs)
+  githubComToken:
+
+  # Optional, defaults to 'renovate'
+  webhookSecret:
+
+  # Optional, defaults to '0 * * * *' (hourly)
+  schedulerCron:
+
+  # Self hosted renovate configuration file, will be mounted as a config map
+  config: |
+    module.exports = {
+      // Enter self-hosted configuration options here.
+      // https://docs.renovatebot.com/self-hosted-configuration/
+    }
+
+  # Npmrc file. Will be mounted as a secret
+  npmrc: # |
+    # //registry.npmjs.org/:_authToken=xxxxxx
+
+  # PIP index url to get packages from. Will be mounted as a secret
+  pipIndexUrl:
+
+  # Disable NodeJS SSL verify (do not use for production)
+  noNodeTlsVerify: false
+
+  # Disable GIT SSL verify (do not use for production)
+  noGitTlsVerify: false
+
+  # Set User Agent WhiteSource Renovate will use to query the registries
+  # defaults to https://github.com/renovatebot/renovate
+  renovateUserAgent:
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - whitesource-renovate.local
+  tls: []
+  #  - secretName: whitesource-renovate-tls
+  #    hosts:
+  #      - whitesource-renovate.local
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

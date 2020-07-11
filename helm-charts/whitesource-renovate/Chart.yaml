@@ -1,0 +1,9 @@
+apiVersion: v1
+name: whitesource-renovate
+version: 3.0.0
+appVersion: 1.0.1
+description: Responsive Dependency Automation
+home: https://github.com/whitesource/renovate-on-prem
+sources:
+  - https://github.com/renovatebot/renovate
+icon: https://app.renovatebot.com/images/logo.png
