@@ -26,6 +26,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            {{- with .Values.renovate.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- if .Values.renovate.acceptWhiteSourceTos }}
             - name: ACCEPT_WHITESOURCE_TOS
               value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}

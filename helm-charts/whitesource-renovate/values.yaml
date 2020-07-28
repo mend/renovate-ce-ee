@@ -7,6 +7,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 renovate:
+  # Additional env vars
+  extraEnvVars: []
 
   # You must accept the WhiteSource Terms of Service to use the image.
   # Please read https://www.whitesourcesoftware.com/terms-of-service/
