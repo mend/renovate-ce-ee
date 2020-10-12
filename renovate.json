@@ -5,7 +5,8 @@
   ],
   "packageRules": [{
     "packageNames": ["whitesource/renovate"],
-    "versioning": "semver"
+    "versioning": "semver",
+    "automerge": true
   }],
   "ignorePaths": []
 }
