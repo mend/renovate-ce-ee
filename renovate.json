@@ -3,5 +3,9 @@
     "config:base",
     ":pinDigestsDisabled"
   ],
+  "packageRules": [{
+    "packageNames": ["whitesource/renovate"],
+    "versioning": "semver"
+  }],
   "ignorePaths": []
 }
