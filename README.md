@@ -4,6 +4,10 @@
 
 This repository contains Documentation, Release Notes and an Issue Tracker for WhiteSource Renovate On-Premises, which was originally known as "Renovate Pro".
 
+## Documentation
+
+Please view [the markdown docs in this repository](https://github.com/whitesource/renovate-on-prem/tree/master/docs).
+
 ## Download
 
 WhiteSource Renovate is distributed via Docker Hub using the namespace [whitesource/renovate](https://hub.docker.com/r/whitesource/renovate).
