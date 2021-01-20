@@ -4,4 +4,4 @@ This folder serves to document WhiteSource Renovate On-Prem specifically and not
 
 1. [Overview](./overview.md)
 2. Configuration ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md))
-3. [Avanced topics](./advanced.md)
+3. [Advanced topics](./advanced.md)
