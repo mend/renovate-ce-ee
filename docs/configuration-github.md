@@ -12,8 +12,9 @@ The App requires the following permissions:
 - Issues: Read & write
 - Repository metadata: Read-only
 - Pull Requests: Read & write
-- Security alerts: Read-only (if enabled)
 - Commit statuses: Read & write
+- Dependabot alerts: Read-only (optional)
+- Workflows: Read & write
 - Organization members: Read 
 
 The App should also subscribe to the following webhook events:
