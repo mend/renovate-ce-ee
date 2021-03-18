@@ -63,3 +63,5 @@ Naturally, it is recommended that you use Renovate itself for detecting and upda
 ## Running WhiteSource Renovate
 
 [Examples using Docker Compose](https://github.com/whitesource/renovate/blob/master/examples/) can be found in the `examples/` directory of this repository.
+
+Request `/status` on your IP address hosting the deployment to check if it is running correctly.
