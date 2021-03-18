@@ -6,16 +6,18 @@ Before running WhiteSource Renovate, you need to provision it as an App on GitHu
 
 The App requires the following permissions:
 
-- Repository administration: Read-only
-- Checks: Read & write
-- Repository contents: Read & write
-- Issues: Read & write
-- Repository metadata: Read-only
-- Pull Requests: Read & write
-- Commit statuses: Read & write
-- Dependabot alerts: Read-only (optional)
-- Workflows: Read & write
-- Organization members: Read 
+- Repository permissions
+  - Administration: Read-only
+  - Checks: Read & write
+  - Contents: Read & write
+  - Issues: Read & write
+  - Metadata: Read-only
+  - Pull Requests: Read & write
+  - Commit statuses: Read & write
+  - Dependabot alerts: Read-only (optional)
+  - Workflows: Read & write
+- Organization permissions
+  - Members: Read-only
 
 The App should also subscribe to the following webhook events:
 
