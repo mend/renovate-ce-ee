@@ -49,7 +49,7 @@ WhiteSource Renovate requires configuration via environment variables in additio
 
 **`RENOVATE_PLATFORM`**: Set this to `github`.
 
-**`RENOVATE_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation.
+**`RENOVATE_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation. (Note: Use `https://api.github.com` if you are not using a GitHub Enterprise instance)
 
 **`GITHUB_APP_ID`**: The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app.
 
