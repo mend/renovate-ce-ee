@@ -4,8 +4,8 @@
 
 Before running WhiteSource Renovate, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. 
 
-If you're running a self-hosted instance of GitHub Enterprise, it is to name the app "Renovate" so that it shows up as "renovate[bot]" in Pull Requests.
-If you're running against `github.com` then the name Renovate is already taken, so you will need something else like "Myname Renovate".
+If you're running a self-hosted instance of GitHub Enterprise, it is suggested to name the app "Renovate" so that it shows up as easily recognizable as "renovate[bot]" in Pull Requests.
+If you're running against `github.com` then the name Renovate is already taken by the hotsed WhiteSource Renovate app, so you will need something else like "Myname Renovate".
 
 The App requires the following permissions:
 
