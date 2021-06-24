@@ -33,11 +33,11 @@ spec:
             - name: ACCEPT_WHITESOURCE_TOS
               value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}
             {{- end }}
-            {{- if .Values.renovate.licenseKey }}
+            {{- if or .Values.renovate.licenseKey .Values.renovate.existingSecret }}
             - name: LICENSE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: licenseKey
             {{- end }}
             {{- if .Values.renovate.renovatePlatform }}
@@ -48,32 +48,32 @@ spec:
             - name: RENOVATE_ENDPOINT
               value: {{ .Values.renovate.renovateEndpoint | quote }}
             {{- end }}
-            {{- if .Values.renovate.renovateToken }}
+            {{- if or .Values.renovate.renovateToken .Values.renovate.existingSecret }}
             - name: RENOVATE_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: renovateToken
             {{- end }}
-            {{- if .Values.renovate.githubAppId }}
+            {{- if or .Values.renovate.githubAppId .Values.renovate.existingSecret }}
             - name: GITHUB_APP_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: githubAppId
             {{- end }}
-            {{- if .Values.renovate.githubAppKey }}
+            {{- if or .Values.renovate.githubAppKey .Values.renovate.existingSecret }}
             - name: GITHUB_APP_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: githubAppKey
             {{- end }}
-            {{- if .Values.renovate.githubComToken }}
+            {{- if or .Values.renovate.githubComToken .Values.renovate.existingSecret }}
             - name: GITHUB_COM_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: githubComToken
             {{- end }}
             {{- if .Values.renovate.webhookSecret }}
@@ -88,7 +88,7 @@ spec:
             - name: PIP_INDEX_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{- include "whitesource-renovate.secret-name" . -}}
                   key: pipIndexUrl
             {{- end }}
             {{- if .Values.renovate.noNodeTlsVerify }}
@@ -141,10 +141,10 @@ spec:
         - name: {{ .Release.Name }}-config-js-volume
           configMap:
             name: {{ .Release.Name }}-config-js
-        {{- if .Values.renovate.npmrc }}
+        {{- if or .Values.renovate.npmrc .Values.renovate.npmrcExistingSecret }}
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
-            secretName: {{ .Release.Name }}-npmrc
+            secretName: {{- include "whitesource-renovate.npmrc-secret-name" . -}}
         {{- end }}
         - name: {{ .Release.Name }}-cache-volume
           emptyDir: {}
