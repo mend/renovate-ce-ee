@@ -41,6 +41,9 @@ renovate:
   # Optional, defaults to 'renovate'
   webhookSecret:
 
+  # Existing secret with all the secret values
+  existingSecret: # existing-secret-name
+
   # Optional, defaults to '0 * * * *' (hourly)
   schedulerCron:
 
@@ -54,6 +57,8 @@ renovate:
   # Npmrc file. Will be mounted as a secret
   npmrc: # |
     # //registry.npmjs.org/:_authToken=xxxxxx
+  # Npmrc file existing secret name
+  npmrcExistingSecret: # existing-npmrc-secret-name
 
   # PIP index url to get packages from. Will be mounted as a secret
   pipIndexUrl:
