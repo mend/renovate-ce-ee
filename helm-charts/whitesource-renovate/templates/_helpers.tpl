@@ -46,8 +46,8 @@ Expand the name of the default secret
 Expand the name of the npmrc secret
 */}}
 {{- define "whitesource-renovate.npmrc-secret-name" -}}
-{{- if .Values.renovate.existingSecret -}}
-{{- .Values.renovate.existingSecret -}}
+{{- if .Values.renovate.npmrcExistingSecret -}}
+{{- .Values.renovate.npmrcExistingSecret -}}
 {{- else -}}
 {{- template "whitesource-renovate.name" }}-npmrc
 {{- end -}}
