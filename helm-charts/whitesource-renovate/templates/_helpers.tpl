@@ -36,7 +36,7 @@ Expand the name of the default secret
 */}}
 {{- define "whitesource-renovate.secret-name" -}}
 {{- if .Values.renovate.existingSecret -}}
-{{- .existingSecret -}}
+{{- .Values.renovate.existingSecret -}}
 {{- else -}}
 {{- template "whitesource-renovate.name" }}
 {{- end -}}
