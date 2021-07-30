@@ -14,7 +14,7 @@ Essentially, it is an alternative to running the `renovate` CLI tool, with the f
 
 Logically, WhiteSource Renovate consists of four components:
 
-1.  In-memory DB
+1.  In-memory DB or Redis
     - Used for keeping the job queue and a list of known installations and repositories
 2.  Scheduler
     - Runs according to a `cron` schedule (defaults to hourly)
