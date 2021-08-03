@@ -14,8 +14,8 @@ Essentially, it is an alternative to running the `renovate` CLI tool, with the f
 
 Logically, WhiteSource Renovate consists of four components:
 
-1.  In-memory DB
-    - Used for keeping the job queue and a list of known installations and repositories
+1.  In-memory DB/state
+    - Used for storing the job queue and a list of known installations and repositories
 2.  Scheduler
     - Runs according to a `cron` schedule (defaults to hourly)
     - Retrieves a list of all installed repositories and adds them to the job queue
@@ -23,9 +23,10 @@ Logically, WhiteSource Renovate consists of four components:
     - Listens for webhook events from GitHub/GitLab
     - Adds high priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `master` branch, etc)
 4.  Worker
-    - Runs non-stop, retrieving the highest priority job (repository) from the queue one at a time
+    - A wrapper on Renovate OSS, it runs non-stop, retrieving the highest priority job (repository) from the queue one at a time
 
 All four components run within a shared container.
+As with Renovate OSS, it can also be configured to interact with an external Redis server as an alternative to the default disk-based cache.
 
 ## Downloading
 
