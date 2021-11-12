@@ -6,7 +6,7 @@ This repository contains Documentation, Release Notes and an Issue Tracker for W
 
 ## Documentation
 
-Please view [the markdown docs in this repository](https://github.com/whitesource/renovate-on-prem/tree/master/docs).
+Please view [the markdown docs in this repository](https://github.com/whitesource/renovate-on-prem/tree/main/docs).
 
 ## Download
 
