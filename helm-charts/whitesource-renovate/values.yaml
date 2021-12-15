@@ -41,6 +41,19 @@ renovate:
   # Optional, defaults to 'renovate'
   webhookSecret:
 
+  # PIP index url to get packages from. Will be mounted as a secret
+  pipIndexUrl:
+
+  # Existing secret with secret values with the following keys:
+  #   licenseKey:
+  #   renovateToken:
+  #   githubAppId:
+  #   githubAppKey:
+  #   githubComToken:
+  #   webhookSecret:
+  #   pipIndexUrl:
+  existingSecret:
+
   # Optional, defaults to '0 * * * *' (hourly)
   schedulerCron:
 
@@ -55,8 +68,9 @@ renovate:
   npmrc: # |
     # //registry.npmjs.org/:_authToken=xxxxxx
 
-  # PIP index url to get packages from. Will be mounted as a secret
-  pipIndexUrl:
+  # Existing secret with npmrc configuration with key:
+  #   .npmrc:
+  npmrcExistingSecret:
 
   # Disable NodeJS SSL verify (do not use for production)
   noNodeTlsVerify: false
