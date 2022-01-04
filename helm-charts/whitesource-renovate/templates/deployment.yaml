@@ -133,6 +133,9 @@ spec:
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp/renovate
+          {{- if ne (len .Values.extraVolumeMounts) 0 }}
+{{ toYaml .Values.extraVolumeMounts | indent 12 }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -148,6 +151,9 @@ spec:
         {{- end }}
         - name: {{ .Release.Name }}-cache-volume
           emptyDir: {}
+      {{- if ne (len .Values.extraVolumes) 0 }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
+      {{- end }}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
