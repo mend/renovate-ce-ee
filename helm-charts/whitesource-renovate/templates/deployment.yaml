@@ -76,15 +76,18 @@ spec:
                   name: {{ include "whitesource-renovate.secret-name" . }}
                   key: githubComToken
             {{- end }}
-            {{- if .Values.renovate.webhookSecret }}
+            {{- if or .Values.renovate.webhookSecret .Values.renovate.existingSecret }}
             - name: WEBHOOK_SECRET
-              value: {{ .Values.renovate.webhookSecret | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  key: webhookSecret
             {{- end }}
             {{- if .Values.renovate.schedulerCron }}
             - name: SCHEDULER_CRON
               value: {{ .Values.renovate.schedulerCron | quote }}
             {{- end }}
-            {{- if .Values.renovate.pipIndexUrl }}
+            {{- if or .Values.renovate.pipIndexUrl .Values.renovate.existingSecret }}
             - name: PIP_INDEX_URL
               valueFrom:
                 secretKeyRef:
