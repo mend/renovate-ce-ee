@@ -1,6 +1,6 @@
 image:
   repository: whitesource/renovate
-  tag: 1.6.2
+  tag: 2.1.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
