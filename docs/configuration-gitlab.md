@@ -31,7 +31,7 @@ In general, job priority is based on the probability that a user may be "waiting
 
 #### Bot Account creation
 
-You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a dedicated bot account and not from a team mate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it?
+You should use a dedicated "bot account" for Renovate. Apart from reducing the chance of conflicts, it is better for teams if the actions they see from Renovate are clearly marked as coming from a dedicated bot account and not from a teammate's account, which could be confusing at times. e.g. did the bot automerge that PR, or did a human do it?
 
 If you are running your own instance of GitLab, it's suggested to name the account "Renovate Bot" with username "renovate-bot". Create this account and then create a Personal Access Token for it with `api`, `read_user` and `read_repository` permissions.
 
