@@ -51,7 +51,7 @@ Here is an except showing the relative priority of job types:
   ('scheduled', 100);
 ```
 
-Note: For consistency, the abbreviation `pr` is used in the job queue for both GiHub and GitLab, even though GitLab uses the term "Merge Request" instead of "Pull Request".
+Note: For consistency, the abbreviation `pr` is used in the job queue for both GitHub and GitLab, even though GitLab uses the term "Merge Request" instead of "Pull Request".
 
 In other words, the highest priority job is when someone commits an update to the config in an onboarding PR, and the lowest priority jobs are the ones added by the scheduler. The above job types have been sorted in order of how quickly users would expect to receive feedback. Because onboarding is an interactive process, it needs the most responsiveness.
 
