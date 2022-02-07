@@ -153,7 +153,12 @@ spec:
             secretName: {{ include "whitesource-renovate.npmrc-secret-name" . }}
         {{- end }}
         - name: {{ .Release.Name }}-cache-volume
+          {{- if .Values.cachePersistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "whitesource-renovate.fullname" .)) }}
+          {{- else }}
           emptyDir: {}
+          {{- end }}
       {{- if ne (len .Values.extraVolumes) 0 }}
         {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
       {{- end }}
