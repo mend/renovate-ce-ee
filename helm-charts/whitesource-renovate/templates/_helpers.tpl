@@ -30,3 +30,25 @@ Create chart name and version as used by the chart label.
 {{- define "whitesource-renovate.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Expand the name of the default secret
+*/}}
+{{- define "whitesource-renovate.secret-name" -}}
+{{- if .Values.renovate.existingSecret -}}
+{{- .Values.renovate.existingSecret -}}
+{{- else -}}
+{{- include "whitesource-renovate.name" . -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the npmrc secret
+*/}}
+{{- define "whitesource-renovate.npmrc-secret-name" -}}
+{{- if .Values.renovate.npmrcExistingSecret -}}
+{{- .Values.renovate.npmrcExistingSecret -}}
+{{- else -}}
+{{- include "whitesource-renovate.name" . }}-npmrc
+{{- end -}}
+{{- end -}}
