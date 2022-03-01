@@ -1,0 +1,30 @@
+{{- if and .Values.cachePersistence.enabled (not .Values.cachePersistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "whitesource-renovate.fullname" . }}-cache
+  labels:
+    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
+    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  accessModes:
+  {{- if not (empty .Values.cachePersistence.accessModes) }}
+  {{- range .Values.cachePersistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  {{- else }}
+    - {{ .Values.cachePersistence.accessMode | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.cachePersistence.size | quote }}
+  {{- if .Values.cachePersistence.storageClass }}
+  {{- if (eq "-" .Values.cachePersistence.storageClass) }}
+    storageClassName: ""
+  {{- else }}
+    storageClassName: "{{ .Values.cachePersistence.storageClass }}"
+  {{- end }}
+  {{- end }}
+{{- end }}

@@ -85,6 +85,25 @@ renovate:
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
 
+## Cache Persistence Parameters
+## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+cachePersistence:
+  ## Enable persistence using Persistent Volume Claims
+  enabled: false
+  ## Persistent Volume storage class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
+  storageClass: ""
+  ## @param Persistent Volume access modes
+  accessModes:
+    - ReadWriteOnce
+  ## Persistent Volume size
+  size: 1Gi
+  ## The name of an existing PVC to use for persistence
+  existingClaim: ""
+
 service:
   type: ClusterIP
   port: 80
