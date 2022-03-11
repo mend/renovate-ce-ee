@@ -134,6 +134,8 @@ tolerations: []
 
 affinity: {}
 
+podSecurityContext: {}
+
 extraVolumes: []
   # - name: secrets-store-inline
   #   csi:
