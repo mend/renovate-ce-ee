@@ -20,6 +20,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- with .Values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       securityContext:
 {{ toYaml .Values.podSecurityContext | indent 8 }}
