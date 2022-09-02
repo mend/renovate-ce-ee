@@ -1,0 +1,17 @@
+name: release-chart
+on:
+  workflow_dispatch:    
+
+jobs:
+  release-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish Helm chart
+        uses: stefanprodan/helm-gh-pages@master
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          charts_dir: helm-charts
+          branch: gh-pages
+          commit_username: Clive Goh
+          commit_email: goh.clive@gmail.com
