@@ -12,6 +12,6 @@ entries:
     sources:
     - https://github.com/renovatebot/renovate
     urls:
-    - https://gohclive.github.io/renovate-on-prem/whitesource-renovate-3.1.1.tgz
+    - https://whitesource.github.io/renovate-on-prem/whitesource-renovate-3.1.1.tgz
     version: 3.1.1
 generated: "2022-09-02T03:16:45.621935804Z"
