@@ -22,9 +22,9 @@ spec:
       storage: {{ .Values.cachePersistence.size | quote }}
   {{- if .Values.cachePersistence.storageClass }}
   {{- if (eq "-" .Values.cachePersistence.storageClass) }}
-    storageClassName: ""
+  storageClassName: ""
   {{- else }}
-    storageClassName: "{{ .Values.cachePersistence.storageClass }}"
+  storageClassName: "{{ .Values.cachePersistence.storageClass }}"
   {{- end }}
   {{- end }}
 {{- end }}
