@@ -8,8 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Publish Helm chart
-        uses: stefanprodan/helm-gh-pages@master
+        uses: stefanprodan/helm-gh-pages@v1.5.0
         with:
           token: ${{ secrets.GH_TOKEN }}
           charts_dir: helm-charts
-          branch: main
+          branch: gh-pages
