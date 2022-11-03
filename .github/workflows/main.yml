@@ -30,4 +30,4 @@ jobs:
           version: v1.4.1 # renovate: datasource=github-releases depName=chart-releaser packageName=helm/chart-releaser
           charts_dir: helm-charts
         env:
-          CR_TOKEN: '${{ secrets.GH_TOKEN }}'
+          CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
