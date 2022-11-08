@@ -20,7 +20,7 @@ Logically, WhiteSource Renovate consists of four components:
     - Runs according to a `cron` schedule (defaults to hourly)
     - Retrieves a list of all installed repositories and adds them to the job queue
 3.  Webhook Handler
-    - Listens for webhook events from GitHub/GitLab
+    - Listens for webhook events from GitHub/GitLab, on path `/webhook`
     - Adds high priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `master` branch, etc)
 4.  Worker
     - A wrapper on Renovate OSS, it runs non-stop, retrieving the highest priority job (repository) from the queue one at a time
