@@ -148,3 +148,12 @@ extraVolumeMounts: []
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
+
+extraObjects: []
+  #  - apiVersion: v1
+  #    kind: Secret
+  #    metadata:
+  #      name: renovate-env-secrets
+  #    stringData:
+  #      DOCKER_DOCKER_IO_USERNAME: foo
+  #      DOCKER_DOCKER_IO_PASSWORD: bar
