@@ -121,15 +121,14 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-            initialDelaySeconds: 60
-            httpGet:
-              path: /
-              port: http
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
