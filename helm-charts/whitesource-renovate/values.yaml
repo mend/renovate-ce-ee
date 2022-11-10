@@ -136,6 +136,25 @@ affinity: {}
 
 podSecurityContext: {}
 
+livenessProbe:
+  initialDelaySeconds: 60
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
 extraVolumes: []
   # - name: secrets-store-inline
   #   csi:
