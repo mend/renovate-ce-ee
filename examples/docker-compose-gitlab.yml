@@ -4,7 +4,7 @@ services:
     image: whitesource/renovate:2.6.0
     restart: on-failure
     environment:
-      - ACCEPT_WHITESOURCE_TOS # You must accept the WhiteSource Renovate Terms of Service to use the image
+      - ACCEPT_WHITESOURCE_TOS # You must accept the Mend Renovate Terms of Service to use the image
       - LICENSE_KEY # Set this to the key you received by email
       - RENOVATE_PLATFORM=gitlab
       - RENOVATE_ENDPOINT # GitLab endpoint, include trailing slash

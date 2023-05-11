@@ -36,9 +36,9 @@ spec:
             {{- with .Values.renovate.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-            {{- if .Values.renovate.acceptWhiteSourceTos }}
+            {{- if .Values.renovate.acceptMendTos }}
             - name: ACCEPT_WHITESOURCE_TOS
-              value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}
+              value: {{ .Values.renovate.acceptMendTos | quote }}
             {{- end }}
             {{- if or .Values.renovate.licenseKey .Values.renovate.existingSecret }}
             - name: LICENSE_KEY

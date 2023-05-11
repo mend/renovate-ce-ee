@@ -10,17 +10,17 @@ renovate:
   # Additional env vars
   extraEnvVars: []
 
-  # You must accept the WhiteSource Terms of Service to use the image.
-  # Please read https://www.whitesourcesoftware.com/terms-of-service/
+  # You must accept the Mend Terms of Service to use the image.
+  # Please read https://www.mend.io/terms-of-service/
   # Set this value to 'y' to consent.
-  acceptWhiteSourceTos:
+  acceptMendTos:
 
   # Set this to the key you received by email.
-  # You can request a license key by submitting the form at https://renovate.whitesourcesoftware.com/on-premises/.
+  # You can request a license key by submitting the form at https://www.mend.io/free-developer-tools/renovate/on-premises/.
   # Please allow up to 24 hours to receive your license key by email.
   licenseKey:
 
-  # Which platform WhiteSource Renovate will connect to. For example "github" or "gitlab"
+  # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
   renovatePlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
@@ -29,10 +29,10 @@ renovate:
   # Personal Access Token for bot account (GitLab only)
   renovateToken:
 
-  #  The GitHub App ID provided when you provisioned the WhiteSource Renovate app. Force string format by quoting value.
+  #  The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
   githubAppId:
 
-  # A string representation of the private key provided by GitHub Enterprise when you provisioned WhiteSource Renovate
+  # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
   githubAppKey:
 
   # Personal Access Token for github.com (used for retrieving changelogs)
@@ -78,7 +78,7 @@ renovate:
   # Disable GIT SSL verify (do not use for production)
   noGitTlsVerify: false
 
-  # Set User Agent WhiteSource Renovate will use to query the registries
+  # Set User Agent Mend Renovate will use to query the registries
   # defaults to https://github.com/renovatebot/renovate
   renovateUserAgent:
 
