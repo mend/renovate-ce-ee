@@ -13,7 +13,7 @@ renovate:
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
   # Set this value to 'y' to consent.
-  acceptMendTos:
+  acceptWhiteSourceTos:
 
   # Set this to the key you received by email.
   # You can request a license key by submitting the form at https://www.mend.io/free-developer-tools/renovate/on-premises/.
