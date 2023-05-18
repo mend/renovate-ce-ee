@@ -1,20 +1,20 @@
-![WhiteSource Renovate banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
+![Mend Renovate banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
 
-# WhiteSource Renovate On-Premises
+# Mend Renovate On-Premises
 
-This repository contains Documentation, Release Notes and an Issue Tracker for WhiteSource Renovate On-Premises, which was originally known as "Renovate Pro".
+This repository contains Documentation, Release Notes and an Issue Tracker for Mend Renovate On-Premises.
 
 ## Documentation
 
-Please view [the markdown docs in this repository](https://github.com/whitesource/renovate-on-prem/tree/main/docs).
+Please view [the markdown docs in this repository](https://github.com/mend/renovate-on-prem/tree/main/docs).
 
 ## Download
 
-WhiteSource Renovate is distributed via Docker Hub using the namespace [whitesource/renovate](https://hub.docker.com/r/whitesource/renovate).
+Mend Renovate is distributed via Docker Hub using the namespace [whitesource/renovate](https://hub.docker.com/r/whitesource/renovate).
 
 ## License
 
-Use of WhiteSource Renovate On-Premises is bound by [WhiteSource's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/). You can request a license key by submitting the form at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/). License requests are processed semi-manually so please allow up to 3 working days to receive your license key by email.
+Use of Mend Renovate On-Premises is bound by [Mend's Terms of Service](https://www.mend.io/terms-of-service/). You can request a license key by submitting the form at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/). License requests are processed semi-manually so please allow up to 3 working days to receive your license key by email.
 
 The documentation and examples in this repository are MIT-licensed.
 
