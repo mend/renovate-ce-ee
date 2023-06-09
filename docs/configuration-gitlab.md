@@ -1,16 +1,16 @@
-# WhiteSource Renovate Configuration for GitLab
+# Mend Renovate Configuration for GitLab
 
-WhiteSource Renovate is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
+Mend Renovate is available for teams that use GitLab for development. It may be used for self-hosted GitLab instances as well as for repositories hosted on gitlab.com
 
-## WhiteSource Renovate features
+## Mend Renovate features
 
 #### Job scheduler
 
-The WhiteSource Renovate's Docker container contains a built-in job scheduler that defaults to enqueing all repositories once per hour. This saves the need for configuring and monitoring any external `cron` process.
+The Mend Renovate's Docker container contains a built-in job scheduler that defaults to enqueing all repositories once per hour. This saves the need for configuring and monitoring any external `cron` process.
 
 #### Webhook handler
 
-WhiteSource Renovate also supports a webserver to listen for system webhooks received from GitLab.
+Mend Renovate also supports a webserver to listen for system webhooks received from GitLab.
 
 In particular, Renovate checks webhooks for:
 
@@ -27,7 +27,7 @@ Priority-based queuing is essential for providing a responsive experience for bo
 
 In general, job priority is based on the probability that a user may be "waiting" for the bot to do something. That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
 
-## WhiteSource Renovate Installation and Setup
+## Mend Renovate Installation and Setup
 
 #### Bot Account creation
 
@@ -39,15 +39,15 @@ It's best not add this bot account to any repositories yet.
 
 #### Bot Server setup
 
-The server setup for WhiteSource Renovate for GitLab is essentially the same as for GitHub Enterprise, so you can look at those examples. WhiteSource Renovate needs only a low-mid range server with Docker capabilities (e.g. 1 VCPU with 3.75GB of RAM).
+The server setup for Mend Renovate for GitLab is essentially the same as for GitHub Enterprise, so you can look at those examples. Mend Renovate needs only a low-mid range server with Docker capabilities (e.g. 1 VCPU with 3.75GB of RAM).
 
 ## Configuration
 
-#### WhiteSource Renovate environment variables
+#### Mend Renovate environment variables
 
-WhiteSource Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
+Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [WhiteSource Renovate's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
+**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
 
 **`LICENSE_KEY`**: This should be the license key you obtained after registering at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/).
 
@@ -57,7 +57,7 @@ WhiteSource Renovate requires configuration via environment variables in additio
 
 #### Core Renovate Configuration
 
-"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the WhiteSource Renovate container to `/usr/src/app/config.js`. Here are some essentials for WhiteSource Renovate:
+"Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Mend Renovate container to `/usr/src/app/config.js`. Here are some essentials for Mend Renovate:
 
 **`RENOVATE_PLATFORM`**: Set this to `gitlab`
 
@@ -69,9 +69,9 @@ WhiteSource Renovate requires configuration via environment variables in additio
 
 #### System Hook
 
-To activate WhiteSource Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
+To activate Mend Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to WhiteSource Renovate's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to Mend Renovate's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
 
 Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
@@ -81,9 +81,9 @@ Set Hook triggers for "Push events" and "Merge request events".
 
 Once you a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories. Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
 
-## Testing WhiteSource Renovate
+## Testing Mend Renovate
 
-At this point you should be ready to test out WhiteSource Renovate. You probably want to create a test repo before adding WhiteSource Renovate to any "real" ones. To simulate normal conditions, create the repository from a regular account and add a package file.
+At this point you should be ready to test out Mend Renovate. You probably want to create a test repo before adding Mend Renovate to any "real" ones. To simulate normal conditions, create the repository from a regular account and add a package file.
 
 #### Enabling Renovate
 

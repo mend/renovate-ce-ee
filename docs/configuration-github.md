@@ -1,11 +1,11 @@
-# WhiteSource Renovate Configuration - GitHub
+# Mend Renovate Configuration - GitHub
 
 ## Provision App
 
-Before running WhiteSource Renovate, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. 
+Before running Mend Renovate, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. 
 
 If you're running a self-hosted instance of GitHub Enterprise, it is suggested to name the app "Renovate" so that it shows up as easily recognizable as "renovate[bot]" in Pull Requests.
-If you're running against `github.com` then the name Renovate is already taken by the hosted WhiteSource Renovate app, so you will need something else like "Myname Renovate".
+If you're running against `github.com` then the name Renovate is already taken by the hosted Mend Renovate app, so you will need something else like "Myname Renovate".
 
 The App requires the following permissions:
 
@@ -35,20 +35,20 @@ The App should also subscribe to the following webhook events:
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
-The WhiteSource Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined. Note: The WhiteSource Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself. In the [Docker Compose example config](https://github.com/whitesource/renovate/blob/master/examples/), the default port 8080 is used but then mapped to port 80 on the host.
+The Mend Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined. Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself. In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used but then mapped to port 80 on the host.
 
-For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run WhiteSource Renovate on, e.g. http://1.2.3.4/webhook
+For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4/webhook
 Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
-## Configure WhiteSource Renovate
+## Configure Mend Renovate
 
-WhiteSource Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
+Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [WhiteSource Renovate's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
+**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
 
-**`LICENSE_KEY`**: This should be the license key you obtained after registering at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/).
+**`LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
 
 **`RENOVATE_PLATFORM`**: Set this to `github`.
 
@@ -66,6 +66,6 @@ WhiteSource Renovate requires configuration via environment variables in additio
 
 ## Configure Renovate Core
 
-The core Renovate OSS functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the WhiteSource Renovate container to `/usr/src/app/config.js`.
+The core Renovate OSS functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Mend Renovate container to `/usr/src/app/config.js`.
 
 **npm Registry** If using your own npm registry, you may find it easiest to update your `docker-compose.yml` to include a volume that maps an `.npmrc` file to `/home/ubuntu/.npmrc`. The RC file should contain `registry=...` with the registry URL your company uses internally. This will allow Renovate to find shared configs and other internally published packages.
