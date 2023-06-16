@@ -35,10 +35,13 @@ The App should also subscribe to the following webhook events:
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
-The Mend Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined. Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself. In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used but then mapped to port 80 on the host.
+The Mend Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined.
+Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself.
+In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used but then mapped to port 80 on the host.
 
 For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4/webhook
-Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
+Be sure to enter a webhook secret too.
+If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
