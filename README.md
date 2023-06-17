@@ -14,7 +14,9 @@ Mend Renovate is distributed via Docker Hub using the namespace [whitesource/ren
 
 ## License
 
-Use of Mend Renovate On-Premises is bound by [Mend's Terms of Service](https://www.mend.io/terms-of-service/). You can request a license key by submitting the form at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/). License requests are processed semi-manually so please allow up to 3 working days to receive your license key by email.
+Use of Mend Renovate On-Premises is bound by [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
+You can request a license key by submitting the form at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
+License requests are processed semi-manually so please allow up to 3 working days to receive your license key by email.
 
 The documentation and examples in this repository are MIT-licensed.
 
