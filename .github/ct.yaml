@@ -1,0 +1,6 @@
+# See https://github.com/helm/chart-testing/blob/main/doc/ct_lint.md
+target-branch: main
+
+# Turn off maintainer validation since this checks that
+# the mainainer names are valid GitHub usernames
+validate-maintainers: false
