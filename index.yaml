@@ -3,6 +3,19 @@ entries:
   whitesource-renovate:
   - apiVersion: v1
     appVersion: 2.6.0
+    created: "2023-08-03T18:07:10.431985819Z"
+    description: Responsive Dependency Automation
+    digest: 00d4a9f8e5ef4c10d55d17743691f6ca3ce86de29bc7256939090bc994f10c43
+    home: https://github.com/whitesource/renovate-on-prem
+    icon: https://app.renovatebot.com/images/logo.png
+    name: whitesource-renovate
+    sources:
+    - https://github.com/renovatebot/renovate
+    urls:
+    - https://github.com/mend/renovate-on-prem/releases/download/whitesource-renovate-3.2.0/whitesource-renovate-3.2.0.tgz
+    version: 3.2.0
+  - apiVersion: v1
+    appVersion: 2.6.0
     created: "2023-07-28T13:10:32.639505897Z"
     description: Responsive Dependency Automation
     digest: 740efc3bb0ee89df9e389f0ad8751af31d1e1b306f0ce0e17cbb0630a165c01f
@@ -53,4 +66,4 @@ entries:
     urls:
     - https://github.com/mend/renovate-on-prem/releases/download/whitesource-renovate-3.1.2/whitesource-renovate-3.1.2.tgz
     version: 3.1.2
-generated: "2023-07-28T13:10:32.639518997Z"
+generated: "2023-08-03T18:07:10.432009919Z"
