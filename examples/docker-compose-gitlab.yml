@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   renovate:
-    image: whitesource/renovate:2.6.0
+    image: whitesource/renovate:5.0.1
     restart: on-failure
     environment:
       - ACCEPT_WHITESOURCE_TOS # You must accept the Mend Renovate Terms of Service to use the image
