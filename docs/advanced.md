@@ -64,21 +64,3 @@ Because onboarding is an interactive process, it needs the most responsiveness.
 
 The current architecture of Mend Renovate is monolithic in order to keep things simple and maximize maintainability.
 Accordingly, there is a 1:1 relationship between the worker and the job queue, meaning that only one job can be processed at a time.
-
-For installations that need more than one worker at a time, there is a suggested _workaround_ for this available.
-In such cases, it is recommended to run multiple instances of Mend Renovate and configure non-overlapping `autodiscoverFilter` patterns on each.
-For example if you have a single organization called `project1` and need two servers, you might configure the first server with `"autodiscoverFilter": "project1/+(a|b|c|d|e|f|g|h|i|j)/*"` and the second server with `"autodiscoverFilter": "project1/+(k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)/*"`.
-You will need to manage the "balancing" yourself based on observed load.
-
-Note also the need to take webhooks into consideration.
-Currently:
-
-- If you're running GitLab then each Renovate server will discard webhooks for repositories that don't match its `autodiscoverFilter` pattern
-- If you're running GitHub then each Renovate server will enqueue a job for each actionable webhook received
-
-For GitLab, this means you would need some form of proxy between GitLab and Mend Renovate that distributes a copy to each Renovate server.
-
-For GitHub, this means you may want to have a single server dedicated to processing webhook jobs and then spread the scheduled load amongst other repositories.
-For the webhook server, you could set an `autodiscoverFilter` that matches no repos.
-
-Feature requests about how to make the above more manageable are welcome in this repo.
