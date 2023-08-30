@@ -87,7 +87,7 @@ Remember: Renovate's webhook listener binds to port 8080 inside its container, b
 
 Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
 
-Set Hook triggers for "Push events" and "Merge request events".
+Set Hook triggers for "Push events", "Merge request events" and "Issue events".
 
 Once you a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories.
 Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
