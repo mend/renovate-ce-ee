@@ -1,18 +1,29 @@
 version: "3.6"
 services:
   renovate:
-    image: whitesource/renovate:5.0.1
+    image: ghcr.io/justo-mend/renovate-ce:6.0.0-RC1
     restart: on-failure
     environment:
-      - ACCEPT_WHITESOURCE_TOS # You must accept the Mend Renovate Terms of Service to use the image
-      - LICENSE_KEY # Set this to the key you received by email
-      - RENOVATE_PLATFORM=gitlab
-      - RENOVATE_ENDPOINT # GitLab endpoint, include trailing slash
-      - RENOVATE_TOKEN # Personal Access Token for bot account
-      - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
-      - WEBHOOK_SECRET # Optional, default to 'renovate'
-      - SCHEDULER_CRON # Optional, defaults to '0 * * * *' (hourly)
+      # Optional: Define log level. Set to Debug for more verbose output
+      # - LOG_LEVEL=DEBUG
+      # Provide Mend License and accept Terms of Service
+      - MEND_ACCEPT_TOS # Set to 'y' to accept the Mend Renovate Terms of Service
+      - MEND_LICENSE_KEY # Set this to the key you received by email
+      # Provide connection details for the GitLab Bot
+      - MEND_RNV_PLATFORM=gitlab
+      - MEND_RNV_GITLAB_ENDPOINT # GitLab endpoint, include trailing slash
+      - MEND_RNV_GITLAB_PAT # Personal Access Token for bot account
+      - MEND_RNV_GITLAB_WEBHOOK_SECRET # Optional: defaults to 'renovate'
+      # Optional settings for Mend Renovate
+      # - MEND_RNV_SQLITE_FILE_PATH=/db/renovate-ce.sqlite # Optional: Provide a path to persist the database. Needs 'db' volume defined (below).
+      # - MEND_RNV_CRON_JOB_SCHEDULER # Optional Job enqueue schedule: defaults to '0 * * * *' (hourly, on the hour)
+      # - MEND_RNV_CRON_APP_SYNC # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours, on the hour)
+      # Core Renovate settings
+      # - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
     ports:
       - "80:8080" # Receive webhooks on port 80
     volumes:
       - "/tmp/renovate/:/tmp/" # Use a volume for this as the cache will cause a lot of churn
+      # Optional: You can use a file mount to persist the database between sessions
+      # - "/tmp/db/:/db/" # Unix-style file mounting for the db
+      # - "C:\\tmp/db/:/db/" # Windows-style file mounting for the db
