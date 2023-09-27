@@ -17,7 +17,7 @@ Mend Renovate also supports a webserver to listen for system webhooks received f
 In particular, Renovate checks webhooks for:
 
 - Projects it has just been added to
-- Commits to `master` branch for "important" files such as `package.json` and `renovate.json`
+- Commits to `main` branch for "important" files such as `package.json` and `renovate.json`
 - Any commits made to Renovate's branches
 - Closing or merging of Renovate PRs
 

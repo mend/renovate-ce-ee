@@ -7,16 +7,17 @@ Some existing environment variables have been renamed, and some new ones have be
 See the specific configuration instructions ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md)) to learn more about the variables mentioned below.
 
 ### Common variables
-| Renovate On-Premise | Renovate Community Edition |
-|--|--|
-| ACCEPT_WHITESOURCE_TOS | MEND_ACCEPT_TOS | LICENSE_KEY | MEND_LICENSE_KEY |
-| RENOVATE_PLATFORM | MEND_RNV_PLATFORM |
-| RENOVATE_ENDPOINT | MEND_RNV_GITHUB_ENDPOINT |
-| SCHEDULER_CRON | MEND_RNV_CRON_JOB_SCHEDULER |
-| [New] | MEND_RNV_CRON_APP_SYNC |
-| [New] | MEND_RNV_ADMIN_API_ENABLED |
-| [New] | MEND_RNV_SERVER_API_SECRET |
-| [New] | MEND_RNV_SQLITE_FILE_PATH |
+| Renovate On-Premise    | Renovate Community Edition |
+|------------------------|--|
+| ACCEPT_WHITESOURCE_TOS | MEND_ACCEPT_TOS |
+| LICENSE_KEY            | MEND_LICENSE_KEY |
+| RENOVATE_PLATFORM      | MEND_RNV_PLATFORM |
+| RENOVATE_ENDPOINT      | MEND_RNV_GITHUB_ENDPOINT |
+| SCHEDULER_CRON         | MEND_RNV_CRON_JOB_SCHEDULER |
+| [New]                  | MEND_RNV_CRON_APP_SYNC |
+| [New]                  | MEND_RNV_ADMIN_API_ENABLED |
+| [New]                  | MEND_RNV_SERVER_API_SECRET |
+| [New]                  | MEND_RNV_SQLITE_FILE_PATH |
 
 ### Variables specific to GitHub instances
 | Renovate On-Premise EnvVars | Renovate Community Edition |
