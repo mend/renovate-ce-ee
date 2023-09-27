@@ -4,6 +4,8 @@ When migrating from Renovate On-Premise to Renovate Community Edition, you can c
 ## Change to the Environment Variables
 Some existing environment variables have been renamed, and some new ones have been added.
 
+See the specific configuration instructions ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md)) to learn more about the variables mentioned below.
+
 ### Common variables
 | Renovate On-Premise | Renovate Community Edition |
 |--|--|
