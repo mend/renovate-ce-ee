@@ -2,13 +2,14 @@
 
 ## Introduction
 
-Mend Renovate On-Premises ("Mend Renovate") is a commercial offering of Renovate for self-hosted users, such as those running GitHub Enterprise or GitLab CE/EE.
+Mend Renovate Enterprise Edition (Renovate EE) and Community Edition (Renovate CE) are commercial offering of Renovate for self-hosted users, such as those running on GitHub or GitLab.
 
 Essentially, it is an alternative to running the `renovate` CLI tool, with the following additions:
 
 - Stateful job queue for prioritization of job importance
 - Embedded job scheduler to remove the need to set up and monitor `cron`
 - Webhook listener to enable dynamic reactions to repository events
+- Administration APIs for probing the system state or triggering jobs
 
 ## Architecture
 
@@ -16,12 +17,13 @@ Logically, Mend Renovate consists of four components:
 
 1.  In-memory DB/state
     - Used for storing the job queue and a list of known installations and repositories
+    - Can be persisted to file and interrogated by SQL tools
 2.  Scheduler
     - Runs according to a `cron` schedule (defaults to hourly)
     - Retrieves a list of all installed repositories and adds them to the job queue
 3.  Webhook Handler
     - Listens for webhook events from GitHub/GitLab, on path `/webhook`
-    - Adds high priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `master` branch, etc)
+    - Adds high priority jobs to the job queue if event conditions are met (e.g. a merged or closed Renovate PR, an update to an existing Renovate PR, a commit to `renovate.json` in `main` branch, etc)
 4.  Worker
     - A wrapper on Renovate OSS, it runs non-stop, retrieving the highest priority job (repository) from the queue one at a time
 
@@ -30,12 +32,12 @@ As with Renovate OSS, it can also be configured to interact with an external Red
 
 ## Downloading
 
-The Mend Renovate image is available via public Docker Hub using the namespace [whitesource/renovate](https://hub.docker.com/r/whitesource/renovate/).
-Use of the image is as described on Docker Hub, i.e. in accordance with the [Mend Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
+The Mend Renovate CE image is available via GitHub Container Registry (ghcr.io) using the namespace [mend/renovate-ce](https://ghcr.io/mend/renovate-ce/).
+Use of the image is in accordance with the [Mend Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
 
 ## Versioning
 
-Mend Renovate On-Premises uses its own versioning and release schedule, independent of Renovate OSS versioning.
+Mend Renovate products have their own versioning and release schedule, independent of Renovate OSS versioning.
 
 Additionally, it is intended that Mend Renovate will have a slower release cadence than Renovate OSS in order to provide greater stability for Enterprise use.
 
@@ -57,7 +59,7 @@ Typically, multiple Renovate OSS feature releases will be rolled up into a singl
 
 The release cadence of Mend Renovate is not fixed, as it will be determined largely by the importance and stability of new Renovate OSS features, which will typically be tested using the hosted Renovate GitHub App first.
 
-When a new version of Mend Renovate is pushed to Docker Hub, Release Notes will be added to this [github.com/mend/renovate-on-prem](https://github.com/mend/renovate-on-prem) repository.
+When a new version of Mend Renovate is pushed to GHCR, Release Notes will be added to this [github.com/mend/renovate-ce-ee](https://github.com/mend/renovate-ce-ee) repository.
 
 Naturally, it is recommended that you use Renovate itself for detecting and updating Mend Renovate versions if you are using a Docker Compose file internally for running Mend Renovate.
 

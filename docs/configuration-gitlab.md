@@ -81,16 +81,18 @@ Here are some essentials for Mend Renovate:
 
 To activate Mend Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to Mend Renovate's server, e.g. `http://renovate.company.com:8080/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to Mend Renovate's server, e.g. `http://renovate.mycompany.com:3000/webhook` or `https://1.2.3.4/webhook`.
 
-Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
+Remember: Renovate's webhook listener binds to port 3000 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
-Set the "Secret Token" to the same value you configured for `WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
+Set the "Secret Token" to the same value you configured for `MEND_RNV_GITLAB_WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
 
-Set Hook triggers for "Push events", "Merge request events" and "Issue events".
+Set Hook triggers for "Push events", "Merge request events".
 
-Once you a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories.
+Once your a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories.
 Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
+
+Note: You will need to create a webhook with "Issue events" for each repository in which you want the Dependency Dashboard issue to be interactive.
 
 ## Testing Mend Renovate
 
@@ -100,7 +102,8 @@ To simulate normal conditions, create the repository from a regular account and 
 
 #### Enabling Renovate
 
-To enable Renovate on your test repository, simply add the bot user you created to the project with "Developer" permissions.
+To enable Renovate on your test repository, simply add the bot user you created to the project with "Developer" permissions.<br/> 
+Remember to add a webhook with "Issue events" to the repository to enable interactive dashboard issue.
 
 Adding Renovate as a Developer to a repository cause a system hook to be sent to Renovate which in turn enqueues a job for the Renovate Worker.
 The repository should receive an onboarding PR immediately after.
