@@ -5,4 +5,5 @@ This repository provides documentation specific to Mend Renovate Enterprise Edit
 1. [Overview](./overview.md)
 1. Installation ([Helm](./installation-helm.md))
 1. Configuration ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md))
+1. Migration ([Renovate On-Premise to Renovate Community](./migrating-to-renovate-ce.md))
 1. [Advanced topics](./advanced.md)
