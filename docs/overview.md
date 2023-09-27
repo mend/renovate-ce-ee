@@ -1,8 +1,8 @@
-# Mend Renovate On-Premises Overview
+# Mend Renovate Community Edition and Enterprise Edition
 
-## Introduction
+## Overview
 
-Mend Renovate Enterprise Edition (Renovate EE) and Community Edition (Renovate CE) are commercial offering of Renovate for self-hosted users, such as those running on GitHub or GitLab.
+Mend Renovate Enterprise Edition (Renovate EE) and Community Edition (Renovate CE) are commercial offerings of Renovate for self-hosted users, such as those running on GitHub or GitLab.
 
 Essentially, it is an alternative to running the `renovate` CLI tool, with the following additions:
 
