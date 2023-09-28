@@ -56,32 +56,39 @@ Mend Renovate needs only a low-mid range server with Docker capabilities (e.g. 1
 
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`ACCEPT_WHITESOURCE_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://renovate.whitesourcesoftware.com/terms-of-service/).
+**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
 
-**`LICENSE_KEY`**: This should be the license key you obtained after registering at [https://renovate.whitesourcesoftware.com/on-premises/](https://renovate.whitesourcesoftware.com/on-premises/).
+**`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
 
-**`WEBHOOK_SECRET`**: This is _optional_ and will default to `renovate` if not configured.
+**`MEND_RNV_PLATFORM`**: Set this to `github`.
 
-**`SCHEDULER_CRON`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is not configured. If you are decreasing the interval then be careful that you do not exhaust the available hourly API rate limit or cause too much load.
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`. Include the trailing slash.
+
+**`MEND_RNV_GITLAB_PAT`**: A Personal Access Token for the GitLab bot account.
+
+**`MEND_RNV_WEBHOOK_SECRET`**: Optional: Will default to `renovate` if not configured.
+
+**`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+
+**`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled.
+
+**`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume.
+
+**`MEND_RNV_CRON_JOB_SCHEDULER`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
+
+**`MEND_RNV_CRON_APP_SYNC`**: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours, on the hour)
+
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
 
 #### Core Renovate Configuration
 
 "Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Mend Renovate container to `/usr/src/app/config.js`.
-Here are some essentials for Mend Renovate:
-
-**`RENOVATE_PLATFORM`**: Set this to `gitlab`.
-
-**`RENOVATE_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`
-
-**`RENOVATE_TOKEN`**: A Personal Access Token for the GitLab bot account.
-
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com so it does not matter which account it belongs to. It needs only read-only access privileges to public repositories.
 
 #### System Hook
 
 To activate Mend Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to Mend Renovate's server, e.g. `http://renovate.mycompany.com:8080/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to Mend Renovate's server, e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`.
 
 Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
