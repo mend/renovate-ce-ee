@@ -10,7 +10,7 @@ Please view [the markdown docs in this repository](https://github.com/mend/renov
 
 ## Download
 
-Mend Renovate is distributed via Docker Hub using the namespace [whitesource/renovate](https://hub.docker.com/r/whitesource/renovate).
+Mend Renovate is distributed via GitHub Container Registry using the namespace [mend/renovate-ce]([https://hub.docker.com/r/whitesource/renovate](https://github.com/orgs/mend/packages/container/package/renovate-ce)).
 
 ## License
 
