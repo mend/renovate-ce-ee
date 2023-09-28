@@ -1,20 +1,20 @@
 version: "3.6"
 services:
   renovate:
-    image: ghcr.io/justo-mend/renovate-ce:6.0.0-RC2
+    image: ghcr.io/mend/renovate-ce:6.0.0
     restart: on-failure
     environment:
       # Optional: Define log level. Set to Debug for more verbose output
       # - LOG_LEVEL=DEBUG
       # Provide Mend License and accept Terms of Service
-      - MEND_ACCEPT_TOS # Set to 'y' to accept the Mend Renovate Terms of Service
-      - MEND_LICENSE_KEY # Set this to the key you received by email
+      - MEND_RNV_ACCEPT_TOS # Set to 'y' to accept the Mend Renovate Terms of Service
+      - MEND_RNV_LICENSE_KEY # Set this to the key you received by email
       # Provide connection details for the GitHub App
       - MEND_RNV_PLATFORM=github
+      - MEND_RNV_GITHUB_ENDPOINT # Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
       - MEND_RNV_GITHUB_APP_ID # GitHub App ID
       - MEND_RNV_GITHUB_APP_KEY # GitHub App Key (PEM file). Alternatively mount as a volume below
       - MEND_RNV_GITHUB_WEBHOOK_SECRET # Optional: defaults to 'renovate'
-      - MEND_RNV_GITHUB_ENDPOINT # Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
       # Optional settings for Mend Renovate
       # - MEND_RNV_ADMIN_API_ENABLED # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
       # - MEND_RNV_SERVER_API_SECRET # Required if Admin APIs are enabled
@@ -24,7 +24,7 @@ services:
       # Core Renovate settings
       # - GITHUB_COM_TOKEN # Personal Access Token for github.com (used for retrieving changelogs)
     ports:
-      - "3000:3000" # Define internal and external posts for the Renovate server
+      - "80:8080" # Define internal and external posts for the Renovate server
     volumes:
       # You can optionally mount the GitHub private key instead of exposing it in env
       - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"

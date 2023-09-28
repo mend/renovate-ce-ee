@@ -35,11 +35,11 @@ The App should also subscribe to the following webhook events:
 
 Description, Homepage, User authorization callback URL, and Setup URL are all unimportant so you may set them to whatever you like.
 
-The Mend Renovate webhook listener binds to port 3000 by default, however it will bind to `process.env.PORT` instead if that is defined.
-Note: The Mend Renovate image takes care of exposing port 3000 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself.
-In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 3000 is used and then mapped to port 3000 on the host.
+The Mend Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined.
+Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself.
+In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used and then mapped to port 80 on the host.
 
-For the Webhook URL field, point it to `/webhook` on port 3000 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4:3000/webhook
+For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4:8080/webhook
 Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
@@ -48,9 +48,9 @@ You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.
 
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`MEND_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
+**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
 
-**`MEND_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
+**`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
 
 **`MEND_RNV_PLATFORM`**: Set this to `github`.
 
@@ -72,7 +72,7 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_CRON_APP_SYNC`**: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours, on the hour)
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`. 
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`. 
 
 ## Configure Renovate Core
 

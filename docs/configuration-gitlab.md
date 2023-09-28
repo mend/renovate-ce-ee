@@ -83,16 +83,16 @@ To activate Mend Renovate's webhook ability, a GitLab administrator needs to con
 
 Configure it to point to Mend Renovate's server, e.g. `http://renovate.mycompany.com:3000/webhook` or `https://1.2.3.4/webhook`.
 
-Remember: Renovate's webhook listener binds to port 3000 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
+Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
 Set the "Secret Token" to the same value you configured for `MEND_RNV_GITLAB_WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
 
 Set Hook triggers for "Push events", "Merge request events".
 
-Once your a System Hook is added, Renovate's webhook handler will receive events from _all_ repositories.
+Once your System Hook is added, Renovate's webhook handler will receive events from _all_ repositories.
 Therefore, Renovate maintains a list of all repositories it has access to and discards events from all others.
 
-Note: You will need to create a webhook with "Issue events" for each repository in which you want the Dependency Dashboard issue to be interactive.
+Note: You will need to create a webhook with "Issue events" for each repository in which you want the Dependency Dashboard issue to be interactive, because Issue events aren't included in System hooks.
 
 ## Testing Mend Renovate
 
@@ -102,8 +102,8 @@ To simulate normal conditions, create the repository from a regular account and 
 
 #### Enabling Renovate
 
-To enable Renovate on your test repository, simply add the bot user you created to the project with "Developer" permissions.<br/> 
-Remember to add a webhook with "Issue events" to the repository to enable interactive dashboard issue.
+To enable Renovate on your test repository, add the bot user you created to the project with "Developer" permissions.
+Remember to add a webhook with "Issue events" to the repository if you wish to enable interactive dashboard issues.
 
 Adding Renovate as a Developer to a repository cause a system hook to be sent to Renovate which in turn enqueues a job for the Renovate Worker.
 The repository should receive an onboarding PR immediately after.
