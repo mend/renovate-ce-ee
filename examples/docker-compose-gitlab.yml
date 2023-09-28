@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   renovate:
-    image: ghcr.io/mend/renovate-ce:6.0.0
+    image: ghcr.io/mend/renovate-ce:6.0.0-full
     restart: on-failure
     environment:
       # Optional: Define log level. Set to Debug for more verbose output
@@ -13,7 +13,7 @@ services:
       - MEND_RNV_PLATFORM=gitlab
       - MEND_RNV_ENDPOINT # GitLab endpoint, include trailing slash
       - MEND_RNV_GITLAB_PAT # Personal Access Token for bot account
-      - MEND_RNV_GITLAB_WEBHOOK_SECRET # Optional: defaults to 'renovate'
+      - MEND_RNV_WEBHOOK_SECRET # Optional: defaults to 'renovate'
       # Optional settings for Mend Renovate
       # - MEND_RNV_ADMIN_API_ENABLED # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
       # - MEND_RNV_SERVER_API_SECRET # Required if Admin APIs are enabled

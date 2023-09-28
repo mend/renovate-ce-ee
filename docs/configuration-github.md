@@ -39,8 +39,9 @@ The Mend Renovate webhook listener binds to port 8080 by default, however it wil
 Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself.
 In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used and then mapped to port 80 on the host.
 
-For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4:8080/webhook
-Be sure to enter a webhook secret too. If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
+For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4/webhook
+Be sure to enter a webhook secret too.
+If you don't care about the value, then enter 'renovate' as that is the default secret that the webhook handler process uses.
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
@@ -54,13 +55,13 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_PLATFORM`**: Set this to `github`.
 
-**`MEND_RNV_GITHUB_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation. Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation. Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
 
 **`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
 **`MEND_RNV_GITHUB_APP_KEY`**: A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to `/usr/src/app/renovate.private-key.pem`, as shown in the example Docker Compose file.
 
-**`MEND_RNV_GITHUB_WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
+**`MEND_RNV_WEBHOOK_SECRET`**: This configuration option must be set unless you configured it to 'renovate', which is default.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 

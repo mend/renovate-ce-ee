@@ -16,8 +16,9 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 | ACCEPT_WHITESOURCE_TOS | MEND_RNV_ACCEPT_TOS |
 | LICENSE_KEY            | MEND_RNV_LICENSE_KEY |
 | RENOVATE_PLATFORM      | MEND_RNV_PLATFORM |
-| RENOVATE_ENDPOINT      | MEND_RNV_GITHUB_ENDPOINT |
+| RENOVATE_ENDPOINT      | MEND_RNV_ENDPOINT |
 | SCHEDULER_CRON         | MEND_RNV_CRON_JOB_SCHEDULER |
+| WEBHOOK_SECRET | MEND_RNV_WEBHOOK_SECRET |
 | [New]                  | MEND_RNV_CRON_APP_SYNC |
 | [New]                  | MEND_RNV_ADMIN_API_ENABLED |
 | [New]                  | MEND_RNV_SERVER_API_SECRET |
@@ -26,10 +27,8 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 ### Variables specific to GitHub instances
 | Renovate On-Premise EnvVars | Renovate Community Edition |
 |--|--|
-| RENOVATE_ENDPOINT | MEND_RNV_GITHUB_ENDPOINT |
 | GITHUB_APP_ID | MEND_RNV_GITHUB_APP_ID |
 | GITHUB_APP_KEY | MEND_RNV_GITHUB_APP_KEY |
-| WEBHOOK_SECRET | MEND_RNV_GITHUB_WEBHOOK_SECRET |
 
 ### Variables specific to GitLab instances
 
@@ -37,7 +36,4 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 |--|--|
 | RENOVATE_ENDPOINT | MEND_RNV_GITLAB_ENDPOINT |
 | RENOVATE_TOKEN | MEND_RNV_GITLAB_PAT |
-| WEBHOOK_SECRET | MEND_RNV_GITLAB_WEBHOOK_SECRET |
 
-### GitLab System/Repo configuration changes
-Also, in each onboarded repository, set the Webhook URL with “Issue” event to point to the same URL.

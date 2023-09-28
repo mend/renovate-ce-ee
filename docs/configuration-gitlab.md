@@ -81,11 +81,11 @@ Here are some essentials for Mend Renovate:
 
 To activate Mend Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 
-Configure it to point to Mend Renovate's server, e.g. `http://renovate.mycompany.com:3000/webhook` or `https://1.2.3.4/webhook`.
+Configure it to point to Mend Renovate's server, e.g. `http://renovate.mycompany.com:8080/webhook` or `https://1.2.3.4/webhook`.
 
 Remember: Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
-Set the "Secret Token" to the same value you configured for `MEND_RNV_GITLAB_WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
+Set the "Secret Token" to the same value you configured for `MEND_RNV_WEBHOOK_SECRET` earlier, or set it to `"renovate"` if you left it as default.
 
 Set Hook triggers for "Push events", "Merge request events".
 
