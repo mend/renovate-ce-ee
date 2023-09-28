@@ -1,6 +1,6 @@
-# Migrating from Renovate On-Premise to Renovate Community Edition
+# Migrating from Renovate On-Premises to Renovate Community Edition
 
-When migrating from Renovate On-Premise to Renovate Community Edition, you can continue to use the same Bot/User, with just a couple of modifications.
+When migrating from Renovate On-Premises to Renovate Community Edition, you can continue to use the same Bot/User, with just a couple of modifications.
 
 
 ## Environment Variable Renaming
@@ -25,14 +25,14 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 | [New]                  | MEND_RNV_SQLITE_FILE_PATH |
 
 ### Variables specific to GitHub instances
-| Renovate On-Premise EnvVars | Renovate Community Edition |
+| Renovate On-Premises EnvVars | Renovate Community Edition |
 |--|--|
 | GITHUB_APP_ID | MEND_RNV_GITHUB_APP_ID |
 | GITHUB_APP_KEY | MEND_RNV_GITHUB_APP_KEY |
 
 ### Variables specific to GitLab instances
 
-| Renovate On-Premise EnvVars | Renovate Community Edition |
+| Renovate On-Premises EnvVars | Renovate Community Edition |
 |--|--|
 | RENOVATE_TOKEN | MEND_RNV_GITLAB_PAT |
 
