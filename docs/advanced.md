@@ -26,7 +26,7 @@ It runs according to its configured `cron` schedule, which defaults to running o
 
 The webhook handler listens for events from the VCS server and adds or updates jobs in the job queue if the criteria are met.
 
-An example criterion is if someone edits the `renovate.json` in `master` branch - this would trigger a high priority job.
+An example criterion is if someone edits the `renovate.json` in `main` branch - this would trigger a high priority job.
 
 To ensure that one repository doesn't get queued up multiple times, the database enforces a rule that each repository can be queued at most once at a time.
 Therefore if the repository already exists in the job queue (e.g. due to the hourly scheduler) and then a higher priority job reason comes up, then the existing entry in the job queue will have its priority updated in order to get processed earlier.
