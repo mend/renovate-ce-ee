@@ -34,6 +34,5 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 
 | Renovate On-Premise EnvVars | Renovate Community Edition |
 |--|--|
-| RENOVATE_ENDPOINT | MEND_RNV_GITLAB_ENDPOINT |
 | RENOVATE_TOKEN | MEND_RNV_GITLAB_PAT |
 
