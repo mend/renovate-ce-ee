@@ -48,6 +48,6 @@ But it can be useful if you think Renovate's internal state has become out of sy
 This endpoint allows adding a new job to the queue.
 The request body must contain a single repository:
 
-```
+```json
 { "repository": "some-org/some-repo" }
 ```
