@@ -2,7 +2,7 @@
 
 ## Provision App
 
-Before running Mend Renovate CE or EE, you need to provision it as an App on GitHub, and retrieve the ID + private key provided. 
+Before running Mend Renovate CE or EE, you need to provision it as an App on GitHub, and retrieve the ID + private key provided.
 
 If you're running a self-hosted instance of GitHub Enterprise, it is suggested to name the app "Renovate" so that it shows up as easily recognizable as "renovate[bot]" in Pull Requests.
 If you're running against `github.com` then the name Renovate is already taken by the hosted Mend Renovate app, so you will need something else like "YourCompany Renovate".
@@ -37,7 +37,7 @@ Description, Homepage, User authorization callback URL, and Setup URL are all un
 
 The Mend Renovate webhook listener binds to port 8080 by default, however it will bind to `process.env.PORT` instead if that is defined.
 Note: The Mend Renovate image takes care of exposing port 8080 of the container, so if you change this port then you will need to take care of any exposing/mapping of ports yourself.
-In the [Docker Compose example config](https://github.com/mend/renovate-on-prem/tree/main/examples/), the default port 8080 is used and then mapped to port 80 on the host.
+In the [Docker Compose example config](https://github.com/mend/renovate-cc-ee/tree/main/examples/), the default port 8080 is used and then mapped to port 80 on the host.
 
 For the Webhook URL field, point it to `/webhook` on port 80 (or whatever port you mapped to) of the server that you will run Mend Renovate on, e.g. http://1.2.3.4/webhook
 Be sure to enter a webhook secret too.
@@ -51,7 +51,7 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
 
-**`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
+**`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
 
 **`MEND_RNV_PLATFORM`**: Set this to `github`.
 
@@ -71,9 +71,9 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_CRON_JOB_SCHEDULER`**: This configuration option accepts a 5-part cron schedule and is _optional_. It defaults to `0 * * * *` (i.e. once per hour exactly on the hour) if it is unset. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
 
-**`MEND_RNV_CRON_APP_SYNC`**: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours, on the hour)
+**`MEND_RNV_CRON_APP_SYNC`**: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 \* \* \*' (every 4 hours, on the hour)
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`. 
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
 
 ## Configure Renovate Core
 

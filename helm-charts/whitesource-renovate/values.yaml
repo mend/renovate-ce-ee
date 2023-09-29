@@ -16,7 +16,7 @@ renovate:
   acceptWhiteSourceTos:
 
   # Set this to the key you received by email.
-  # You can request a license key by submitting the form at https://www.mend.io/free-developer-tools/renovate/on-premises/.
+  # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
   # Please allow up to 24 hours to receive your license key by email.
   licenseKey:
 
@@ -65,7 +65,7 @@ renovate:
     }
 
   # Npmrc file. Will be mounted as a secret
-  npmrc: # |
+  npmrc:# |
     # //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
@@ -107,7 +107,8 @@ cachePersistence:
 service:
   type: ClusterIP
   port: 80
-  annotations: {}
+  annotations:
+    {}
     # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -117,7 +118,8 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/tls-acme: "true"
   hosts:
     - whitesource-renovate.local
@@ -160,7 +162,8 @@ readinessProbe:
   failureThreshold: 3
   successThreshold: 1
 
-extraVolumes: []
+extraVolumes:
+  []
   # - name: secrets-store-inline
   #   csi:
   #     driver: secrets-store.csi.k8s.io
@@ -168,7 +171,8 @@ extraVolumes: []
   #     volumeAttributes:
   #       secretProviderClass: "some-secret-store"
 
-extraVolumeMounts: []
+extraVolumeMounts:
+  []
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true

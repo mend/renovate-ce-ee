@@ -3,7 +3,7 @@ name: whitesource-renovate
 version: 4.1.0
 appVersion: 5.1.0
 description: Responsive Dependency Automation
-home: https://github.com/whitesource/renovate-on-prem
+home: https://github.com/mend/renovate-ce-ee
 sources:
   - https://github.com/renovatebot/renovate
 icon: https://app.renovatebot.com/images/logo.png
