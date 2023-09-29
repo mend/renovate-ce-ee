@@ -6,7 +6,7 @@ This repository contains Documentation, Release Notes and an Issue Tracker for M
 
 ## Documentation
 
-Please view [the markdown docs in this repository](https://github.com/mend/renovate-cc-ee/tree/main/docs).
+Please view [the markdown docs in this repository](https://github.com/mend/renovate-ce-ee/tree/main/docs).
 
 ## Download
 
