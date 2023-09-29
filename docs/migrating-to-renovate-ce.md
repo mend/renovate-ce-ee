@@ -2,6 +2,9 @@
 
 When migrating from Renovate On-Premises to Renovate Community Edition, you can continue to use the same Bot/User, with just a couple of modifications.
 
+## Health Check
+
+If you are using a "health check" of the Renovate container then you should point it to `/health` in Renovate CE.
 
 ## Environment Variable Renaming
 
