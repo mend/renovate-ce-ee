@@ -33,7 +33,7 @@ As with Renovate OSS, it can also be configured to interact with an external Red
 ## Downloading
 
 The Mend Renovate CE image is available via GitHub Container Registry (ghcr.io) using the namespace [mend/renovate-ce](https://ghcr.io/mend/renovate-ce).
-Use of the image is in accordance with the [Mend Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
+Use of the image is in accordance with the [Mend Terms of Service](https://www.mend.io/terms-of-service/).
 
 ## Versioning
 

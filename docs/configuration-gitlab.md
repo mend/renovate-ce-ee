@@ -56,7 +56,7 @@ Mend Renovate needs only a low-mid range server with Docker capabilities (e.g. 1
 
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
+**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
 **`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
 

@@ -49,7 +49,7 @@ You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.
 
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
-**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend Renovate's Terms of Service](https://www.mend.io/free-developer-tools/terms-of-use/).
+**`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
 **`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
 
