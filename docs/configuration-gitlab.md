@@ -60,7 +60,7 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/free-developer-tools/renovate/on-premises/](https://www.mend.io/free-developer-tools/renovate/on-premises/).
 
-**`MEND_RNV_PLATFORM`**: Set this to `github`.
+**`MEND_RNV_PLATFORM`**: Set this to `gitlab`.
 
 **`MEND_RNV_ENDPOINT`**: This is the API endpoint for your GitLab host. e.g. like `https://gitlab.company.com/api/v4/`. Include the trailing slash.
 
