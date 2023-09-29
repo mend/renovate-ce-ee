@@ -62,5 +62,7 @@ Because onboarding is an interactive process, it needs the most responsiveness.
 
 ## Horizontal Scaling
 
-The current architecture of Mend Renovate is monolithic in order to keep things simple and maximize maintainability.
+The current architecture of Mend Renovate CE is monolithic in order to keep things simple and maximize maintainability.
 Accordingly, there is a 1:1 relationship between the worker and the job queue, meaning that only one job can be processed at a time.
+
+Renovate EE is designed with Horizontal scalability in mind. It separates the components into a server/worker architecture that can scale independently on different containers/machines.
