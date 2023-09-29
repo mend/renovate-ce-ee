@@ -1,13 +1,28 @@
-# Mend Renovate Installation - Helm
+# Mend Renovate Installation
 
-## Add Helm repository
+## Choice of image type
+
+Renovate CE comes with both the default image (e.g. `ghcr.io/mend/renovate-ce:6.0.0`) and a "full" image (e.g. `ghcr.io/mend/renovate-ce:6.0.0`).
+
+The default image is optimized for size and only contains the core Renovate functionality.
+It is intended for use with Renovate's `binarySource=install` capability, which dynamically selects and installs third party tools at runtime.
+
+The full image contains preinstalled third-party tools (e.g. Python, Poetry, Node.js, Gradle, etc.) so that you can run Renovate with `binarySource=global` and not require any dynamic runtime installation.
+
+Renovate On-Premises (v5 and earlier) was built with a "full" image only, so if upgrading from an earlier version you may want to use the full image for compatibility.
+
+## Installation using Helm
+
+[!WARNING] Helm charts for Renovate CE still need updating and are not currently available.
+
+### Add Helm repository
 
 ```shell
 helm repo add renovate-ce https://mend.github.io/renovate-ce-ee
 helm repo update
 ```
 
-## Install Renovate chart
+### Install Renovate chart
 
 ```shell
 helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-cc-ee/whitesource-renovate
