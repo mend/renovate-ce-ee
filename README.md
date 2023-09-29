@@ -1,6 +1,6 @@
 ![Mend Renovate banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
 
-# Mend Renovate Community Edition and Enterprise Edition
+# Mend Renovate Community and Enterprise Editions
 
 This repository contains Documentation, Release Notes and an Issue Tracker for Mend Renovate Community Edition (Renovate CE) and Mend Renovate Enterprise Edition (Renovate EE).
 
