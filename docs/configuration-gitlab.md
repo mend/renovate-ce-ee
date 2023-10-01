@@ -59,6 +59,7 @@ Mend Renovate requires configuration via environment variables in addition to Re
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
 **`MEND_RNV_LICENSE_KEY`**: This should be the license key you obtained after registering at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
+For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovate-enterprise/](https://www.mend.io/renovate-enterprise/).
 
 **`MEND_RNV_PLATFORM`**: Set this to `gitlab`.
 
@@ -79,6 +80,17 @@ Mend Renovate requires configuration via environment variables in addition to Re
 **`MEND_RNV_CRON_APP_SYNC`**: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 \* \* \*' (every 4 hours, on the hour)
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
+
+### Renovate Enterprise Configuration
+
+Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.<br>
+All Renovate Enterprise containers (Server and Worker) require the `MEND_RNV_MODE` parameter to define the container type.
+
+**`MEND_RNV_MODE`**: Set this to `server` or `worker`. Not required for Renovate Community Edition.
+
+The Server container operates with all the parameters listed above.
+
+The Worker container only needs to define the following: **`MEND_RNV_MODE`**, **`MEND_RNV_ACCEPT_TOS`**, **`MEND_RNV_LICENSE_KEY`**
 
 #### Core Renovate Configuration
 

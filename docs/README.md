@@ -8,8 +8,8 @@ Mend Renovate CE was formerly known as "Mend Renovate On-Premises".
 1. Installation ([Helm](./installation-helm.md))
 1. Configuration ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md))
 1. Examples
-   - Renovate Community Edition ([GitHub](../examples/docker-compose-github.yml), [GitLab](../examples/docker-compose-gitlab.yml))
-   - Renovate Enterprise Edition ([GitHub](../examples/docker-compose-ee-github.yml))
+   - Renovate Community Edition ([Example GitHub](../examples/docker-compose-github.yml), [Example GitLab](../examples/docker-compose-gitlab.yml))
+   - Renovate Enterprise Edition ([Example Renovate EE](../examples/docker-compose-renovate-ee.yml))
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
 1. API ([API Documentation](./api.md))
 1. [Advanced topics](./advanced.md)
