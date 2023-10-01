@@ -52,7 +52,7 @@ Mend Renovate needs only a low-mid range server with Docker capabilities (e.g. 1
 
 ## Configuration
 
-#### Mend Renovate environment variables
+### Mend Renovate environment variables
 
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
@@ -81,7 +81,7 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
 
-### Renovate Enterprise Configuration
+### Renovate Enterprise environment variables
 
 Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.
 
@@ -102,11 +102,11 @@ The Worker container needs to define only the following:
 * **`MEND_RNV_ACCEPT_TOS`**
 * **`MEND_RNV_LICENSE_KEY`**
 
-#### Core Renovate Configuration
+### Core Renovate Configuration
 
 "Core" Renovate functionality (i.e. same functionality you'd find in the CLI version or the hosted app) can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Mend Renovate container to `/usr/src/app/config.js`.
 
-#### System Hook
+### System Hook
 
 To activate Mend Renovate's webhook ability, a GitLab administrator needs to configure a System Hook that points to the Renovate installation.
 

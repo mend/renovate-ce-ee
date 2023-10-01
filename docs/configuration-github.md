@@ -47,6 +47,8 @@ You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.
 
 ## Configure Mend Renovate
 
+### Mend Renovate environment variables
+
 Mend Renovate requires configuration via environment variables in addition to Renovate OSS's regular configuration:
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
@@ -76,7 +78,7 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
 
-### Renovate Enterprise Configuration
+### Renovate Enterprise environment variables
 
 Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.
 
