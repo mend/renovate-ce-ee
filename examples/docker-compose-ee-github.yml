@@ -1,0 +1,64 @@
+version: '3.6'
+
+x-controller-shared-variables: &variables-controller
+  MEND_RNV_CONTROLLER_HOSTNAME: http://renovate-ee-server:8080
+  MEND_RNV_SERVER_API_SECRET: # This secret will be used by the Worker and by Admin APIs
+  # Provide Mend License and accept Terms of Service
+  MEND_RNV_ACCEPT_TOS: # Set to 'y' to accept the Mend Renovate Terms of Service
+  MEND_RNV_LICENSE_KEY: # Set this to the Renovate Enterprise key obtained from Mend
+
+services:
+  renovate-ee-server:
+    restart: on-failure
+    image: ghcr.io/mend/renovate-ee-server:6.0.0
+    ports:
+      - "80:8080" # Receive webhooks on port 80
+    environment:
+      <<: *variables-controller
+      MEND_RNV_MODE: server
+      # Optional: Define log level. Set to Debug for more verbose output
+      # LOG_LEVEL: debug
+      # Provide connection details for the GitHub App
+      MEND_RNV_PLATFORM: github
+      MEND_RNV_ENDPOINT: # Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
+      MEND_RNV_GITHUB_APP_ID: # GitHub App ID
+      MEND_RNV_GITHUB_APP_KEY: # GitHub App Key (PEM file). Alternatively mount as a volume below
+      MEND_RNV_WEBHOOK_SECRET: # Optional: defaults to 'renovate'
+      # Optional settings for Mend Renovate
+      # MEND_RNV_ADMIN_API_ENABLED: # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+      # MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ee.sqlite # Optional: Provide a path to persist the database. Needs 'db' volume defined (below).
+      # MEND_RNV_CRON_JOB_SCHEDULER: # Optional Job enqueue schedule: defaults to '0 * * * *' (hourly, on the hour)
+      # MEND_RNV_CRON_APP_SYNC: # Optional AppSync schedule: defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours, on the hour)
+      # Core Renovate settings
+      # GITHUB_COM_TOKEN: # Personal Access Token for github.com (used for retrieving changelogs)
+    # volumes:
+      # You can optionally mount the GitHub private key instead of exposing it in env
+      # - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"
+      # - "/tmp/renovate/:/tmp/" # Use a volume for this as the disk cache churns frequently
+      # Optional: You can use a file mount to persist the database between sessions
+      # - "/tmp/db/:/db/" # Unix-style file mounting for the db
+      # - "C:\\tmp/db/:/db/" # Windows-style file mounting for the db
+    healthcheck:
+      test: curl --fail http://renovate-ee-server:8080/health || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+
+  renovate-ee-worker:
+    restart: on-failure
+    deploy:
+      # Post deploy:
+      # $ docker-compose -f renovate-ee-github.yml up --scale renovate-ee-worker=3 -d --no-recreate
+      replicas: 2
+    image: ghcr.io/mend/renovate-ee-worker:6.0.0-full
+    depends_on:
+      - renovate-ee-server
+    environment:
+      <<: *variables-controller
+      MEND_RNV_MODE: worker
+      # Optional: Define log level. Set to Debug for more verbose output
+      # LOG_LEVEL: debug
+      # [Awaiting Fix] Remove these (non "_RVN_" vars) when fix is applied wo the renovate-ee-worker images
+      # MEND_RNV_LICENSE_KEY:
+      # MEND_ACCEPT_TOS:
