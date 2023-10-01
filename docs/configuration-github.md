@@ -66,7 +66,7 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
-**`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled.
+**`MEND_RNV_SERVER_API_SECRET`**: Required in Renovate Community if Admin APIs are enabled.
 
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume.
 
@@ -78,14 +78,24 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 ### Renovate Enterprise Configuration
 
-Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.<br>
-All Renovate Enterprise containers (Server and Worker) require the `MEND_RNV_MODE` parameter to define the container type.
+Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.
+
+All Renovate Enterprise containers (Server and Worker) require the `MEND_RNV_MODE` variable to define the container type.
+Also, the `MEND_RNV_CONTROLLER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` variables must be set in both container types to enable internal communication.  
 
 **`MEND_RNV_MODE`**: Set this to `server` or `worker`. Not required for Renovate Community Edition.
 
-The Server container operates with all the parameters listed above.
+**`MEND_RNV_CONTROLLER_HOSTNAME`**: # The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)<br/>
 
-The Worker container only needs to define the following: **`MEND_RNV_MODE`**, **`MEND_RNV_ACCEPT_TOS`**, **`MEND_RNV_LICENSE_KEY`**
+The Server container operates with all the variables listed above.
+
+The Worker container needs to define only the following:
+
+* **`MEND_RNV_MODE`**
+* **`MEND_RNV_CONTROLLER_HOSTNAME`**
+* **`MEND_RNV_SERVER_API_SECRET`**
+* **`MEND_RNV_ACCEPT_TOS`**
+* **`MEND_RNV_LICENSE_KEY`**
 
 ## Configure Renovate Core
 
