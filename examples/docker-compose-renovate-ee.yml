@@ -18,11 +18,12 @@ services:
       MEND_RNV_MODE: server
       # Optional: Define log level. Set to Debug for more verbose output
       # LOG_LEVEL: debug
-      # Provide connection details for the GitHub App
-      MEND_RNV_PLATFORM: github
-      MEND_RNV_ENDPOINT: # Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
-      MEND_RNV_GITHUB_APP_ID: # GitHub App ID
-      MEND_RNV_GITHUB_APP_KEY: # GitHub App Key (PEM file). Alternatively mount as a volume below
+      # Provide connection details for the Renovate Bot/App
+      MEND_RNV_PLATFORM: # Set to `github` or `gitlab`
+      MEND_RNV_ENDPOINT: # Required for GitLab or GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
+      MEND_RNV_GITHUB_APP_ID: # GitHub Only! GitHub App ID
+      MEND_RNV_GITHUB_APP_KEY: # GitHub Only! GitHub App Key (PEM file). Alternatively mount as a volume below
+      MEND_RNV_GITLAB_PAT: # GitLab Only! Personal Access Token for GitLab bot account
       MEND_RNV_WEBHOOK_SECRET: # Optional: defaults to 'renovate'
       # Optional settings for Mend Renovate
       # MEND_RNV_ADMIN_API_ENABLED: # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
@@ -49,7 +50,7 @@ services:
     restart: on-failure
     deploy:
       # Post deploy:
-      # $ docker-compose -f renovate-ee-github.yml up --scale renovate-ee-worker=3 -d --no-recreate
+      # $ docker-compose -f docker-compose-renovate-ee.yml up --scale renovate-ee-worker=3 -d --no-recreate
       replicas: 2
     image: ghcr.io/mend/renovate-ee-worker:6.0.0-full
     depends_on:
@@ -59,6 +60,3 @@ services:
       MEND_RNV_MODE: worker
       # Optional: Define log level. Set to Debug for more verbose output
       # LOG_LEVEL: debug
-      # [Awaiting Fix] Remove these (non "_RVN_" vars) when fix is applied wo the renovate-ee-worker images
-      # MEND_RNV_LICENSE_KEY:
-      # MEND_ACCEPT_TOS:
