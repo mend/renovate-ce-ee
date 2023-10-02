@@ -86,10 +86,10 @@ Note: Matching `MEND_RNV_SERVER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` varia
 
 The Worker container needs to define only the following variables:
 
-* **`MEND_RNV_SERVER_HOSTNAME`** - same as above
-* **`MEND_RNV_SERVER_API_SECRET`** - same as above
-* **`MEND_RNV_ACCEPT_TOS`** - same as above
-* **`MEND_RNV_LICENSE_KEY`** - same as above
+* **`MEND_RNV_SERVER_HOSTNAME`** - set to same as Server
+* **`MEND_RNV_SERVER_API_SECRET`** - set to same as Server
+* **`MEND_RNV_ACCEPT_TOS`** - set to same as Server
+* **`MEND_RNV_LICENSE_KEY`** - set to same as Server
 
 ## Configure Renovate Core
 
