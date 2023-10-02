@@ -68,7 +68,7 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
-**`MEND_RNV_SERVER_API_SECRET`**: Required in Renovate Community if Admin APIs are enabled.
+**`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled. Mandatory for Renovate EE.
 
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume.
 
@@ -78,23 +78,22 @@ For a Renovate Enterprise license key, contact Mend [https://www.mend.io/renovat
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise or GitLab instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
 
-### Renovate Enterprise environment variables
+### Renovate Enterprise additional environment variables
 
 Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.
 
 All Renovate Enterprise containers (Server and Worker) require the `MEND_RNV_MODE` variable to define the container type.
 Also, the `MEND_RNV_CONTROLLER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` variables must be set in both container types to enable internal communication.  
 
-**`MEND_RNV_MODE`**: Set this to `server` or `worker`. Not required for Renovate Community Edition.
+**`MEND_RNV_MODE`**: Set this to `server` or `worker`.
 
-**`MEND_RNV_CONTROLLER_HOSTNAME`**: # The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)<br/>
+**`MEND_RNV_SERVER_HOSTNAME`**: # The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)
 
 The Server container operates with all the variables listed above.
 
 The Worker container needs to define only the following:
 
-* **`MEND_RNV_MODE`**
-* **`MEND_RNV_CONTROLLER_HOSTNAME`**
+* **`MEND_RNV_SERVER_HOSTNAME`**
 * **`MEND_RNV_SERVER_API_SECRET`**
 * **`MEND_RNV_ACCEPT_TOS`**
 * **`MEND_RNV_LICENSE_KEY`**

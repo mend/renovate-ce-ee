@@ -1,7 +1,7 @@
 version: '3.6'
 
 x-controller-shared-variables: &variables-controller
-  MEND_RNV_CONTROLLER_HOSTNAME: http://renovate-ee-server:8080
+  MEND_RNV_SERVER_HOSTNAME: http://renovate-ee-server:8080
   MEND_RNV_SERVER_API_SECRET: # This secret will be used by the Worker and by Admin APIs
   # Provide Mend License and accept Terms of Service
   MEND_RNV_ACCEPT_TOS: # Set to 'y' to accept the Mend Renovate Terms of Service
@@ -15,7 +15,6 @@ services:
       - "80:8080" # Receive webhooks on port 80
     environment:
       <<: *variables-controller
-      MEND_RNV_MODE: server
       # Optional: Define log level. Set to Debug for more verbose output
       # LOG_LEVEL: debug
       # Provide connection details for the Renovate Bot/App
@@ -57,6 +56,5 @@ services:
       - renovate-ee-server
     environment:
       <<: *variables-controller
-      MEND_RNV_MODE: worker
       # Optional: Define log level. Set to Debug for more verbose output
       # LOG_LEVEL: debug
