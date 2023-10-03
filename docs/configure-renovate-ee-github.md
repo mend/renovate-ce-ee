@@ -50,13 +50,7 @@ You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.
 Renovate Enterprise runs with one **_Server_** container and one or more **_Worker_** containers.
 See below for a list of environment variables that relate to each.
 
-Note: Matching `MEND_RNV_SERVER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` variables must be set in both container types to enable internal communication.
-
 ### Environment variables - Renovate Enterprise Server
-
-**`MEND_RNV_SERVER_HOSTNAME`**: The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)
-
-**`MEND_RNV_SERVER_API_SECRET`**: Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -72,6 +66,8 @@ Note: Matching `MEND_RNV_SERVER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` varia
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
+**`MEND_RNV_SERVER_API_SECRET`**: Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
+
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
@@ -86,10 +82,10 @@ Note: Matching `MEND_RNV_SERVER_HOSTNAME` and `MEND_RNV_SERVER_API_SECRET` varia
 
 The Worker container needs to define only the following variables:
 
-* **`MEND_RNV_SERVER_HOSTNAME`** - set to same as Server
-* **`MEND_RNV_SERVER_API_SECRET`** - set to same as Server
-* **`MEND_RNV_ACCEPT_TOS`** - set to same as Server
-* **`MEND_RNV_LICENSE_KEY`** - set to same as Server
+* **`MEND_RNV_SERVER_HOSTNAME`**: The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)
+* **`MEND_RNV_SERVER_API_SECRET`**: Set to same as Server
+* **`MEND_RNV_ACCEPT_TOS`**: Set to same as Server
+* **`MEND_RNV_LICENSE_KEY`**: Set to same as Server
 
 ## Configure Renovate Core
 
