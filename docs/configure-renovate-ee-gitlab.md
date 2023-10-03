@@ -139,9 +139,6 @@ services:
       # Core Renovate settings
       # GITHUB_COM_TOKEN: # Personal Access Token for github.com (used for retrieving changelogs)
     # volumes:
-      # You can optionally mount the GitHub private key instead of exposing it in env
-      # - "./renovate.private-key.pem:/usr/src/app/renovate.private-key.pem"
-      # - "/tmp/renovate/:/tmp/" # Use a volume for this as the disk cache churns frequently
       # Optional: You can use a file mount to persist the database between sessions
       # - "/tmp/db/:/db/" # Unix-style file mounting for the db
       # - "C:\\tmp/db/:/db/" # Windows-style file mounting for the db

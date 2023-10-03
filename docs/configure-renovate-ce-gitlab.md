@@ -131,7 +131,6 @@ services:
     ports:
       - "80:8080" # Receive webhooks on port 80
     # volumes:
-      # - "/tmp/renovate/:/tmp/" # Use a volume for this as the cache will cause a lot of churn
       # Optional: You can use a file mount to persist the database between sessions
       # - "/tmp/db/:/db/" # Unix-style file mounting for the db
       # - "C:\\tmp/db/:/db/" # Windows-style file mounting for the db
