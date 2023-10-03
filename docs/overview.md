@@ -11,6 +11,35 @@ Essentially, it is an alternative to running the `renovate` CLI tool, with the f
 - Webhook listener to enable dynamic reactions to repository events
 - Administration APIs for probing the system state or triggering jobs
 
+## Mend Renovate features
+
+#### Job scheduler
+
+The Mend Renovate's Docker container contains a built-in job scheduler that defaults to enqueing all repositories once per hour.
+This saves the need for configuring and monitoring any external `cron` process.
+
+#### Webhook handler
+
+Mend Renovate also supports a webserver to listen for system webhooks received from GitLab.
+
+In particular, Renovate checks webhooks for:
+
+- Projects it has just been added to
+- Commits to `main` branch for "important" files such as `package.json` and `renovate.json`
+- Any commits made to Renovate's branches
+- Closing or merging of Renovate PRs
+
+Each of the above results in a job being enqueued for the relevant repository, so that the bot will appear responsive to users.
+
+#### Priority job queue
+
+Priority-based queuing is essential for providing a responsive experience for bot users.
+For example, if a user makes an update to the config in an onboarding PR, they ideally want to see the results immediately.
+By assigning onboarding updates the highest priority in the queue, the bot's update to the onboarding PR can proceed as the very next job, even if many others were in the queue already.
+
+In general, job priority is based on the probability that a user may be "waiting" for the bot to do something.
+That's why onboarding updates are highest priority, and other high priority updates include merging of Renovate PRs because that very often results in other PRs needing updates or rebasing afterwards.
+
 ## Architecture
 
 Logically, Mend Renovate consists of four components:
@@ -65,7 +94,9 @@ Naturally, it is recommended that you use Renovate itself for detecting and upda
 
 ## Running Mend Renovate
 
-[Examples using Docker Compose](https://github.com/mend/renovate-cc-ee/tree/main/examples) can be found in the `examples/` directory of this repository.
+Examples using Docker Compose can be found at the bottom of the configuration documentation for each product.
+- Configuration - Renovate Community Edition - ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ce-gitlab.md))
+- Configuration - Renovate Enterprise Edition - ([GitHub](./configure-renovate-ee-github.md), [GitLab](./configure-renovate-ee-gitlab.md))
 
 Request `/status` on your IP address hosting the deployment to check if it is running correctly.
 It is recommended not to expose that endpoint to the internet as it could leak information about private repository names.

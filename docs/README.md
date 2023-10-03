@@ -6,7 +6,9 @@ Mend Renovate CE was formerly known as "Mend Renovate On-Premises".
 
 1. [Overview](./overview.md)
 1. Installation ([Helm](./installation-helm.md))
-1. Configuration ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md))
+1. Configuration
+   - Renovate Community Edition - ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ce-gitlab.md))
+   - Renovate Enterprise Edition - ([GitHub](./configure-renovate-ee-github.md), [GitLab](./configure-renovate-ee-gitlab.md))
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
 1. API ([API Documentation](./api.md))
 1. [Advanced topics](./advanced.md)
