@@ -38,7 +38,7 @@ renovate:
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
   mendRnvSqliteFilePath:
 
-  # Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
+  # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
   mendRnvUserAgent: 
 
   # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
