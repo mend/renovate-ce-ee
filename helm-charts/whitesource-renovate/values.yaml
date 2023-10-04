@@ -1,6 +1,6 @@
 image:
-  repository: whitesource/renovate
-  tag: 5.1.0
+  repository: ghcr.io/mend/renovate-ce
+  tag: 6.1.0-full
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -13,49 +13,64 @@ renovate:
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
   # Set this value to 'y' to consent.
-  acceptWhiteSourceTos:
+  mendRnvAcceptTos:
 
   # Set this to the key you received by email.
   # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
   # Please allow up to 24 hours to receive your license key by email.
-  licenseKey:
+  mendRnvLicenseKey:
 
   # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
-  renovatePlatform:
+  mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
-  renovateEndpoint:
+  mendRnvEndpoint:
 
   # Personal Access Token for bot account (GitLab only)
-  renovateToken:
+  mendRnvGitlabPat:
 
-  #  The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
-  githubAppId:
+  # The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
+  mendRnvGithubAppId:
 
   # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
-  githubAppKey:
+  mendRnvGithubAppKey:
+
+  # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+  mendRnvSqliteFilePath:
+
+  # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
+  mendRnvUserAgent: 
+
+  # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+  mendRnvAdminApiEnabled:
+
+  # Required if Admin APIs are enabled.
+  mendRnvServerApiSecret:
+
+  # Optional, defaults to 'renovate'
+  mendRnvWebhookSecret:
 
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
-
-  # Optional, defaults to 'renovate'
-  webhookSecret:
 
   # PIP index url to get packages from. Will be mounted as a secret
   pipIndexUrl:
 
   # Existing secret with secret values with the following keys:
-  #   licenseKey:
-  #   renovateToken:
-  #   githubAppId:
-  #   githubAppKey:
+  #   mendRnvLicenseKey:
+  #   mendRnvGitlabPat:
+  #   mendRnvGithubAppId:
+  #   mendRnvGithubAppKey:
+  #   mendRnvWebhookSecret:
   #   githubComToken:
-  #   webhookSecret:
   #   pipIndexUrl:
   existingSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
-  schedulerCron:
+  mendRnvCronJobScheduler:
+
+  # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
+  mendRnvCronAppSync:
 
   # Self hosted renovate configuration file, will be mounted as a config map
   config: |
@@ -146,7 +161,7 @@ terminationGracePeriodSeconds: 60
 livenessProbe:
   initialDelaySeconds: 60
   httpGet:
-    path: /
+    path: /health
     port: http
   periodSeconds: 10
   timeoutSeconds: 1
@@ -155,7 +170,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /
+    path: /health
     port: http
   periodSeconds: 10
   timeoutSeconds: 1
