@@ -4,7 +4,7 @@
     ":pinDigestsDisabled"
   ],
   "packageRules": [{
-    "packageNames": ["whitesource/renovate"],
+    "packageNames": ["ghcr.io/mend/renovate-ce"],
     "versioning": "semver",
     "automerge": true
   }],
