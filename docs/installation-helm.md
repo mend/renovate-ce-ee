@@ -18,14 +18,14 @@ Renovate On-Premises (v5 and earlier) was built with a "full" image only, so if 
 ### Add Helm repository
 
 ```shell
-helm repo add renovate-ce https://mend.github.io/renovate-ce-ee
+helm repo add mend-renovate-ce https://mend.github.io/renovate-ce-ee
 helm repo update
 ```
 
 ### Install Renovate chart
 
 ```shell
-helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-cc-ee/mend-renovate
+helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' mend-renovate-cc-ee/mend-renovate-ce
 ```
 
-See the available [values](../helm-charts/mend-renovate/values.yaml) for full configuration and review configuration guides for [GitHub](./configuration-github.md) and/or [GitLab](./configuration-gitlab.md).
+See the available [values](../helm-charts/mend-renovate-ce/values.yaml) for full configuration and review configuration guides for [GitHub](./configuration-github.md) and/or [GitLab](./configuration-gitlab.md).
