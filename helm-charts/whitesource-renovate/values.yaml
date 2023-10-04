@@ -1,5 +1,5 @@
 image:
-  repository: mend/renovate-ce
+  repository: ghcr.io/mend/renovate-ce
   tag: 6.1.0
   pullPolicy: IfNotPresent
 
