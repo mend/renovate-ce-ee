@@ -18,7 +18,7 @@ Renovate On-Premises (v5 and earlier) was built with a "full" image only, so if 
 ### Add Helm repository
 
 ```shell
-helm repo add mend-renovate-ce https://mend.github.io/renovate-ce-ee
+helm repo add mend-renovate-ce-ee https://mend.github.io/renovate-ce-ee
 helm repo update
 ```
 
