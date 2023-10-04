@@ -5,7 +5,7 @@
   ],
   "packageRules": [{
     "packageNames": ["ghcr.io/mend/renovate-ce"],
-    "versioning": "semver",
+    "versioning": "docker",
     "automerge": true
   }],
   "ignorePaths": []
