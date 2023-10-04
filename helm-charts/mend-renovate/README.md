@@ -10,7 +10,7 @@ helm repo update
 ## Install Renovate chart
 
 ```shell
-helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-ce-ee/renovate-ce
+helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-ce/mend-renovate
 ```
 
 See the [docs](<[https://github.com/mend/renovate-ce-ee/blob/main/helm-charts/mend-renovate/values.yaml](https://github.com/mend/renovate-cc-ee/tree/main/docs)>) for further configuration.
