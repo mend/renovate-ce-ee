@@ -1,6 +1,6 @@
 image:
-  repository: whitesource/renovate
-  tag: 5.1.0
+  repository: mend/renovate-ce
+  tag: 6.1.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -149,7 +149,7 @@ terminationGracePeriodSeconds: 60
 livenessProbe:
   initialDelaySeconds: 60
   httpGet:
-    path: /
+    path: /health
     port: http
   periodSeconds: 10
   timeoutSeconds: 1
@@ -158,7 +158,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /
+    path: /health
     port: http
   periodSeconds: 10
   timeoutSeconds: 1
