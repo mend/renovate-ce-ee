@@ -29,11 +29,14 @@ renovate:
   # Personal Access Token for bot account (GitLab only)
   mendRnvGitlabPat:
 
-  #  The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
+  # The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
   mendRnvGithubAppId:
 
   # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
   mendRnvGithubAppKey:
+
+  # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+  mendRnvSqliteFilePath:
 
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
