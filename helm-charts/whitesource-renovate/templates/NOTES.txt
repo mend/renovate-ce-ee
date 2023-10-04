@@ -1,9 +1,9 @@
-{{- if not .Values.renovate.acceptWhiteSourceTos }}
+{{- if not .Values.renovate.mendRnvAcceptTos }}
 ERROR: You must accept the Mend Terms of Service in order to run Mend Renovate.
 Please read https://www.whitesourcesoftware.com/terms-of-service/ and then:
 
     helm upgrade {{ .Release.Name }} \
-        --set renovate.acceptWhiteSourceTos=y renovate/whitesource-renovate
+        --set renovate.mendRnvAcceptTos=y renovate/whitesource-renovate
 
 {{- else }}
 
