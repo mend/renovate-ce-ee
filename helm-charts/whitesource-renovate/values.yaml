@@ -38,11 +38,20 @@ renovate:
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
   mendRnvSqliteFilePath:
 
-  # Personal Access Token for github.com (used for retrieving changelogs)
-  githubComToken:
+  # Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
+  mendRnvUserAgent: 
+
+  # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+  mendRnvAdminApiEnabled:
+
+  # Required if Admin APIs are enabled.
+  mendRnvServerApiSecret:
 
   # Optional, defaults to 'renovate'
   mendRnvWebhookSecret:
+
+  # Personal Access Token for github.com (used for retrieving changelogs)
+  githubComToken:
 
   # PIP index url to get packages from. Will be mounted as a secret
   pipIndexUrl:
@@ -52,8 +61,8 @@ renovate:
   #   mendRnvGitlabPat:
   #   mendRnvGithubAppId:
   #   mendRnvGithubAppKey:
-  #   githubComToken:
   #   mendRnvWebhookSecret:
+  #   githubComToken:
   #   pipIndexUrl:
   existingSecret:
 
