@@ -81,13 +81,9 @@ spec:
                   key: mendRnvGithubAppKey
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.mendRnvSqliteFilePath .Values.renovate.existingSecret }}
+            {{- if .Values.renovate.mendRnvSqliteFilePath }}
             - name: MEND_RNV_SQLITE_FILE_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvSqliteFilePath
-                  optional: true
+              value: {{ .Values.renovate.mendRnvSqliteFilePath | quote }}
             {{- end }}
             {{- if or .Values.renovate.githubComToken .Values.renovate.existingSecret }}
             - name: GITHUB_COM_TOKEN
@@ -141,13 +137,9 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
-            {{- if or .Values.renovate.mendRnvAdminApiEnabled .Values.renovate.existingSecret }}
+            {{- if .Values.renovate.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_ADMIN_API_ENABLED
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvAdminApiEnabled
-                  optional: true
+              value: {{ .Values.renovate.mendRnvAdminApiEnabled | quote }}
             {{- end }}
             {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
