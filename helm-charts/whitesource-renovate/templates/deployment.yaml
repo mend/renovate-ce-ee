@@ -39,22 +39,22 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
             {{- if .Values.renovate.acceptWhiteSourceTos }}
-            - name: ACCEPT_WHITESOURCE_TOS
+            - name: MEND_RNV_ACCEPT_TOS
               value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}
             {{- end }}
             {{- if or .Values.renovate.licenseKey .Values.renovate.existingSecret }}
-            - name: LICENSE_KEY
+            - name: MEND_RNV_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
                   key: licenseKey
             {{- end }}
             {{- if .Values.renovate.renovatePlatform }}
-            - name: RENOVATE_PLATFORM
+            - name: MEND_RNV_PLATFORM
               value: {{ .Values.renovate.renovatePlatform | quote }}
             {{- end }}
             {{- if .Values.renovate.renovateEndpoint }}
-            - name: RENOVATE_ENDPOINT
+            - name: MEND_RNV_ENDPOINT
               value: {{ .Values.renovate.renovateEndpoint | quote }}
             {{- end }}
             {{- if or .Values.renovate.renovateToken .Values.renovate.existingSecret }}
@@ -66,7 +66,7 @@ spec:
                   optional: true
             {{- end }}
             {{- if or .Values.renovate.githubAppId .Values.renovate.existingSecret }}
-            - name: GITHUB_APP_ID
+            - name: MEND_RNV_GITHUB_APP_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
@@ -74,7 +74,7 @@ spec:
                   optional: true
             {{- end }}
             {{- if or .Values.renovate.githubAppKey .Values.renovate.existingSecret }}
-            - name: GITHUB_APP_KEY
+            - name: MEND_RNV_GITHUB_APP_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
@@ -90,7 +90,7 @@ spec:
                   optional: true
             {{- end }}
             {{- if or .Values.renovate.webhookSecret .Values.renovate.existingSecret }}
-            - name: WEBHOOK_SECRET
+            - name: MEND_RNV_WEBHOOK_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
@@ -98,7 +98,7 @@ spec:
                   optional: true
             {{- end }}
             {{- if .Values.renovate.schedulerCron }}
-            - name: SCHEDULER_CRON
+            - name: MEND_RNV_CRON_JOB_SCHEDULER
               value: {{ .Values.renovate.schedulerCron | quote }}
             {{- end }}
             {{- if or .Values.renovate.pipIndexUrl .Values.renovate.existingSecret }}
