@@ -80,7 +80,7 @@ renovate:
     }
 
   # Npmrc file. Will be mounted as a secret
-  npmrc:# |
+  # npmrc: |
     # //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
