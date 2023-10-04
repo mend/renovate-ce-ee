@@ -58,7 +58,7 @@ spec:
               value: {{ .Values.renovate.renovateEndpoint | quote }}
             {{- end }}
             {{- if or .Values.renovate.renovateToken .Values.renovate.existingSecret }}
-            - name: RENOVATE_TOKEN
+            - name: MEND_RNV_GITLAB_PAT
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
