@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "whitesource-renovate.fullname" . }}
+  name: {{ include "mend-renovate.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
-    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
+      app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
+        app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
       {{- with .Values.annotations }}
       annotations:
@@ -46,7 +46,7 @@ spec:
             - name: MEND_RNV_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvLicenseKey
             {{- end }}
             {{- if .Values.renovate.mendRnvPlatform }}
@@ -61,7 +61,7 @@ spec:
             - name: MEND_RNV_GITLAB_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvGitlabPat
                   optional: true
             {{- end }}
@@ -69,7 +69,7 @@ spec:
             - name: MEND_RNV_GITHUB_APP_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvGithubAppId
                   optional: true
             {{- end }}
@@ -77,7 +77,7 @@ spec:
             - name: MEND_RNV_GITHUB_APP_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvGithubAppKey
                   optional: true
             {{- end }}
@@ -85,7 +85,7 @@ spec:
             - name: MEND_RNV_SQLITE_FILE_PATH
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvSqliteFilePath
                   optional: true
             {{- end }}
@@ -93,7 +93,7 @@ spec:
             - name: GITHUB_COM_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: githubComToken
                   optional: true
             {{- end }}
@@ -101,7 +101,7 @@ spec:
             - name: MEND_RNV_WEBHOOK_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvWebhookSecret
                   optional: true
             {{- end }}
@@ -117,7 +117,7 @@ spec:
             - name: PIP_INDEX_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: pipIndexUrl
                   optional: true
             {{- end }}
@@ -145,7 +145,7 @@ spec:
             - name: MEND_RNV_ADMIN_API_ENABLED
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvAdminApiEnabled
                   optional: true
             {{- end }}
@@ -153,7 +153,7 @@ spec:
             - name: MEND_RNV_SERVER_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "whitesource-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvServerApiSecret
                   optional: true
             {{- end }}
@@ -196,12 +196,12 @@ spec:
         {{- if or .Values.renovate.npmrc .Values.renovate.npmrcExistingSecret }}
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
-            secretName: {{ include "whitesource-renovate.npmrc-secret-name" . }}
+            secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
         - name: {{ .Release.Name }}-cache-volume
           {{- if .Values.cachePersistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "whitesource-renovate.fullname" .)) }}
+            claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
           {{- else }}
           emptyDir: {}
           {{- end }}

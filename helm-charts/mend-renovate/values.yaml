@@ -137,11 +137,11 @@ ingress:
     {}
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - whitesource-renovate.local
+    - mend-renovate.local
   tls: []
-  #  - secretName: whitesource-renovate-tls
+  #  - secretName: mend-renovate-tls
   #    hosts:
-  #      - whitesource-renovate.local
+  #      - mend-renovate.local
 
 resources: {}
 

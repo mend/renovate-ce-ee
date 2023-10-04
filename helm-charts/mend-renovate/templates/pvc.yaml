@@ -2,11 +2,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "whitesource-renovate.fullname" . }}-cache
+  name: {{ include "mend-renovate.fullname" . }}-cache
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
-    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:

@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "whitesource-renovate.name" -}}
+{{- define "mend-renovate.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "whitesource-renovate.fullname" -}}
+{{- define "mend-renovate.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,28 +27,28 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "whitesource-renovate.chart" -}}
+{{- define "mend-renovate.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Expand the name of the default secret
 */}}
-{{- define "whitesource-renovate.secret-name" -}}
+{{- define "mend-renovate.secret-name" -}}
 {{- if .Values.renovate.existingSecret -}}
 {{- .Values.renovate.existingSecret -}}
 {{- else -}}
-{{- include "whitesource-renovate.name" . -}}
+{{- include "mend-renovate.name" . -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
 Expand the name of the npmrc secret
 */}}
-{{- define "whitesource-renovate.npmrc-secret-name" -}}
+{{- define "mend-renovate.npmrc-secret-name" -}}
 {{- if .Values.renovate.npmrcExistingSecret -}}
 {{- .Values.renovate.npmrcExistingSecret -}}
 {{- else -}}
-{{- include "whitesource-renovate.name" . }}-npmrc
+{{- include "mend-renovate.name" . }}-npmrc
 {{- end -}}
 {{- end -}}

@@ -28,4 +28,4 @@ helm repo update
 helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-cc-ee/whitesource-renovate
 ```
 
-See the available [values](../helm-charts/whitesource-renovate/values.yaml) for full configuration and review configuration guides for [GitHub](./configuration-github.md) and/or [GitLab](./configuration-gitlab.md).
+See the available [values](../helm-charts/mend-renovate/values.yaml) for full configuration and review configuration guides for [GitHub](./configuration-github.md) and/or [GitLab](./configuration-gitlab.md).
