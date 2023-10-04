@@ -45,12 +45,12 @@ renovate:
   pipIndexUrl:
 
   # Existing secret with secret values with the following keys:
-  #   licenseKey:
-  #   renovateToken:
-  #   githubAppId:
-  #   githubAppKey:
+  #   mendRnvLicenseKey:
+  #   mendRnvGitlabPat:
+  #   mendRnvGithubAppId:
+  #   mendRnvGithubAppKey:
   #   githubComToken:
-  #   webhookSecret:
+  #   mendRnvWebhookSecret:
   #   pipIndexUrl:
   existingSecret:
 
