@@ -38,47 +38,47 @@ spec:
             {{- with .Values.renovate.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-            {{- if .Values.renovate.acceptWhiteSourceTos }}
+            {{- if .Values.renovate.mendRnvAcceptTos }}
             - name: MEND_RNV_ACCEPT_TOS
-              value: {{ .Values.renovate.acceptWhiteSourceTos | quote }}
+              value: {{ .Values.renovate.mendRnvAcceptTos | quote }}
             {{- end }}
-            {{- if or .Values.renovate.licenseKey .Values.renovate.existingSecret }}
+            {{- if or .Values.renovate.mendRnvLicenseKey .Values.renovate.existingSecret }}
             - name: MEND_RNV_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
-                  key: licenseKey
+                  key: mendRnvLicenseKey
             {{- end }}
-            {{- if .Values.renovate.renovatePlatform }}
+            {{- if .Values.renovate.mendRnvPlatform }}
             - name: MEND_RNV_PLATFORM
-              value: {{ .Values.renovate.renovatePlatform | quote }}
+              value: {{ .Values.renovate.mendRnvPlatform | quote }}
             {{- end }}
-            {{- if .Values.renovate.renovateEndpoint }}
+            {{- if .Values.renovate.mendRnvEndpoint }}
             - name: MEND_RNV_ENDPOINT
-              value: {{ .Values.renovate.renovateEndpoint | quote }}
+              value: {{ .Values.renovate.mendRnvEndpoint | quote }}
             {{- end }}
-            {{- if or .Values.renovate.renovateToken .Values.renovate.existingSecret }}
+            {{- if or .Values.renovate.mendRnvGitlabPat .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITLAB_PAT
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
-                  key: renovateToken
+                  key: mendRnvGitlabPat
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.githubAppId .Values.renovate.existingSecret }}
+            {{- if or .Values.renovate.mendRnvGithubAppId .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
-                  key: githubAppId
+                  key: mendRnvGithubAppId
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.githubAppKey .Values.renovate.existingSecret }}
+            {{- if or .Values.renovate.mendRnvGithubAppKey .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
-                  key: githubAppKey
+                  key: mendRnvGithubAppKey
                   optional: true
             {{- end }}
             {{- if or .Values.renovate.githubComToken .Values.renovate.existingSecret }}
@@ -89,12 +89,12 @@ spec:
                   key: githubComToken
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.webhookSecret .Values.renovate.existingSecret }}
+            {{- if or .Values.renovate.mendRnvWebhookSecret .Values.renovate.existingSecret }}
             - name: MEND_RNV_WEBHOOK_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "whitesource-renovate.secret-name" . }}
-                  key: webhookSecret
+                  key: mendRnvWebhookSecret
                   optional: true
             {{- end }}
             {{- if .Values.renovate.schedulerCron }}
