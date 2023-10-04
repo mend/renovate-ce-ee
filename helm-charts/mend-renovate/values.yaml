@@ -36,7 +36,7 @@ renovate:
   mendRnvGithubAppKey:
 
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
-  mendRnvSqliteFilePath:
+  mendRnvSqliteFilePath: '/tmp/renovate-ce.sqlite'
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
   mendRnvUserAgent: 
@@ -80,7 +80,7 @@ renovate:
     }
 
   # Npmrc file. Will be mounted as a secret
-  npmrc:# |
+  # npmrc: |
     # //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
@@ -137,11 +137,11 @@ ingress:
     {}
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - whitesource-renovate.local
+    - mend-renovate.local
   tls: []
-  #  - secretName: whitesource-renovate-tls
+  #  - secretName: mend-renovate-tls
   #    hosts:
-  #      - whitesource-renovate.local
+  #      - mend-renovate.local
 
 resources: {}
 

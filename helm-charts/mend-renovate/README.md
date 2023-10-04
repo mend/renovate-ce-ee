@@ -13,4 +13,4 @@ helm repo update
 helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' renovate-ce-ee/renovate-ce
 ```
 
-See the [docs](<[https://github.com/mend/renovate-ce-ee/blob/main/helm-charts/whitesource-renovate/values.yaml](https://github.com/mend/renovate-cc-ee/tree/main/docs)>) for further configuration.
+See the [docs](<[https://github.com/mend/renovate-ce-ee/blob/main/helm-charts/mend-renovate/values.yaml](https://github.com/mend/renovate-cc-ee/tree/main/docs)>) for further configuration.

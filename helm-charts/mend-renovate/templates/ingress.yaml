@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "whitesource-renovate.fullname" . -}}
+{{- $fullName := include "mend-renovate.fullname" . -}}
 {{- $ingressPaths := .Values.ingress.paths -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -7,8 +7,8 @@ metadata:
   name: {{ $fullName }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "whitesource-renovate.name" . }}
-    helm.sh/chart: {{ include "whitesource-renovate.chart" . }}
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}
