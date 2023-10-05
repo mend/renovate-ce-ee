@@ -2,7 +2,7 @@
 
 ## Choice of image type
 
-Renovate CE comes with both the default image (e.g. `ghcr.io/mend/renovate-ce:6.0.0`) and a "full" image (e.g. `ghcr.io/mend/renovate-ce:6.0.0`).
+Renovate CE comes with both the default image (e.g. `ghcr.io/mend/renovate-ce:6.0.0`) and a "full" image (e.g. `ghcr.io/mend/renovate-ce:6.0.0-full`).
 
 The default image is optimized for size and only contains the core Renovate functionality.
 It is intended for use with Renovate's `binarySource=install` capability, which dynamically selects and installs third party tools at runtime.
