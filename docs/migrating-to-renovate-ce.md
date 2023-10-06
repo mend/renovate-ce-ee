@@ -21,7 +21,7 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 | RENOVATE_PLATFORM      | MEND_RNV_PLATFORM |
 | RENOVATE_ENDPOINT      | MEND_RNV_ENDPOINT |
 | SCHEDULER_CRON         | MEND_RNV_CRON_JOB_SCHEDULER |
-| WEBHOOK_SECRET | MEND_RNV_WEBHOOK_SECRET |
+| WEBHOOK_SECRET         | MEND_RNV_WEBHOOK_SECRET |
 | [New]                  | MEND_RNV_CRON_APP_SYNC |
 | [New]                  | MEND_RNV_ADMIN_API_ENABLED |
 | [New]                  | MEND_RNV_SERVER_API_SECRET |
@@ -38,4 +38,3 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 | Renovate On-Premises EnvVars | Renovate Community Edition |
 |--|--|
 | RENOVATE_TOKEN | MEND_RNV_GITLAB_PAT |
-
