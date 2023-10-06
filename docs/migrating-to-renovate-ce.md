@@ -18,6 +18,7 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 |------------------------|--|
 | ACCEPT_WHITESOURCE_TOS | MEND_RNV_ACCEPT_TOS |
 | LICENSE_KEY            | MEND_RNV_LICENSE_KEY |
+| PORT                   | MEND_RNV_SERVER_PORT |
 | RENOVATE_PLATFORM      | MEND_RNV_PLATFORM |
 | RENOVATE_ENDPOINT      | MEND_RNV_ENDPOINT |
 | SCHEDULER_CRON         | MEND_RNV_CRON_JOB_SCHEDULER |
