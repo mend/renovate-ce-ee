@@ -41,17 +41,22 @@ Therefore it is recommended to supply a long timeout value (e.g. 60+ seconds) to
 
 Here is an except showing the relative priority of job types:
 
-```
-  ('onboarding-update', 20),
-  ('pr-update', 30),
-  ('closed-pr-rename', 35),
-  ('manual-pr-merge', 40),
-  ('repositories-added', 50),
-  ('installed', 60),
-  ('master-commit', 70),
-  ('automerge', 80),
-  ('manual-pr-close', 90),
-  ('scheduled', 100);
+```json
+{
+  "hourly": 10,
+  "manual-pr-close": 20,
+  "automerge": 30,
+  "main-commit": 40,
+  "installed": 50,
+  "repositories-added": 60,
+  "manual-pr-merge": 70,
+  "closed-pr-rename": 80,
+  "pr-update": 90,
+  "onboarding-update": 100,
+  "dependency-dashboard": 110,
+  "rebase-request": 120,
+  "api-request": 130
+}
 ```
 
 Note: For consistency, the abbreviation `pr` is used in the job queue for both GitHub and GitLab, even though GitLab uses the term "Merge Request" instead of "Pull Request".
