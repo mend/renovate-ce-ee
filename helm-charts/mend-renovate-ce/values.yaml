@@ -73,6 +73,12 @@ renovate:
   # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
   mendRnvCronAppSync:
 
+  # Optional
+  mendRnvAutoDiscoverFilter:
+
+  # Optional, defaults to 'discovered'
+  mendRnvEnqueueJobsOnStartup:
+
   # Self hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
