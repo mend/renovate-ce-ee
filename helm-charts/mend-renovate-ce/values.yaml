@@ -63,6 +63,7 @@ renovate:
   #   mendRnvGithubAppId:
   #   mendRnvGithubAppKey:
   #   mendRnvWebhookSecret:
+  #   mendRnvServerApiSecret:
   #   githubComToken:
   #   pipIndexUrl:
   existingSecret:
