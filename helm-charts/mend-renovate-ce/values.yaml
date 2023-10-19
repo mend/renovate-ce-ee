@@ -155,6 +155,9 @@ resources: {}
 
 annotations: {}
 
+labels:
+  pods: {}
+
 nodeSelector: {}
 
 tolerations: []
