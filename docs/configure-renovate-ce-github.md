@@ -86,7 +86,30 @@ Mend Renovate requires configuration via environment variables in addition to Re
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
 
-## Configure Renovate Core
+**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+
+Where:
+- `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time
+- `<log_context>`: random 10 character alphanumeric string used as
+  [Renovate log context](https://docs.renovatebot.com/self-hosted-configuration/#logcontext) for cross referencing logs.
+
+For Example:
+Let `MEND_RNV_LOG_HISTORY_DIR=/home/renovate/logs`, repository=`org/repo`
+
+The corresponding Renovate job log file will be saved as:
+
+```
+/home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
+```
+
+> [!IMPORTANT]  
+> Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container. 
+
+**`MEND_RNV_LOG_HISTORY_TTL_DAYS`**: Optional: The number of days to save log files. Defaults to 30.
+
+**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file that exceeds the `MEND_RNV_LOG_HISTORY_TTL_DAYS` value.
+
+### Core Renovate Configuration
 
 The core Renovate OSS functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file that you mount inside the Mend Renovate container to `/usr/src/app/config.js`.
 
