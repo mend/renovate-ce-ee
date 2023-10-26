@@ -56,4 +56,4 @@ The request body must contain a single repository:
 
 `GET /api/status`
 
-Return the current status of the service since boot time. This information includes job history, job queue size, in-progress jobs, scheduler status, webhook status, and more. All timestamps in the response body are in UTC.
+Return the current status of the service since boot time. This information includes job history, job queue size, in-progress jobs, scheduler status, webhook status, Renovate version, and more. All timestamps in the response body are in UTC.
