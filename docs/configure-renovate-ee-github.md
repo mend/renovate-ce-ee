@@ -89,7 +89,7 @@ See below for a list of environment variables that relate to each.
 
 **`MEND_RNV_MC_TOKEN`**: The merge confidence token used for Smart-Merge-Control authentication
 
-**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history between multiple workers. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
 
 Where:
 - `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time

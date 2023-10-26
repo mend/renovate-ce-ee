@@ -86,7 +86,7 @@ Mend Renovate requires configuration via environment variables in addition to Re
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
 
-**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
 
 Where:
 - `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time
