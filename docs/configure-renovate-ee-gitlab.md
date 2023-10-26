@@ -92,6 +92,29 @@ See below for a list of environment variables that relate to each.
 
 **`MEND_RNV_MC_TOKEN`**: The merge confidence token used for Smart-Merge-Control authentication
 
+**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history between multiple workers. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+
+Where:
+- `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time
+- `<log_context>`: random 10 character alphanumeric string used as
+  [Renovate log context](https://docs.renovatebot.com/self-hosted-configuration/#logcontext) for cross referencing logs.
+
+For Example:
+Let `MEND_RNV_LOG_HISTORY_DIR=/home/renovate/logs`, repository=`org/repo`
+
+The corresponding Renovate job log file will be saved as:
+
+```
+/home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
+```
+
+_> [!IMPORTANT]  
+> Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container._
+
+**`MEND_RNV_LOG_HISTORY_TTL_DAYS`**: Optional: The number of days to save log files. Defaults to 30.
+
+**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file that exceeds the `MEND_RNV_LOG_HISTORY_TTL_DAYS` value.
+
 ### Environment variables - Renovate Enterprise Worker
 
 The Worker container needs to define only the following variables:
@@ -127,7 +150,7 @@ x-controller-shared-variables: &variables-controller
 services:
   renovate-ee-server:
     restart: on-failure
-    image: ghcr.io/mend/renovate-ee-server:6.0.0
+    image: ghcr.io/mend/renovate-ee-server:<VERSION>
     ports:
       - "80:8080" # Receive webhooks on port 80
     environment:
@@ -164,7 +187,7 @@ services:
       # Post deploy:
       # $ docker-compose -f docker-compose-renovate-ee.yml up --scale renovate-ee-worker=3 -d --no-recreate
       replicas: 2
-    image: ghcr.io/mend/renovate-ee-worker:6.0.0-full
+    image: ghcr.io/mend/renovate-ee-worker:<VERSION>-full
     depends_on:
       - renovate-ee-server
     environment:
