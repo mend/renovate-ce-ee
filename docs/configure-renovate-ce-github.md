@@ -125,7 +125,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 version: "3.6"
 services:
   renovate:
-    image: ghcr.io/mend/renovate-ce:6.0.0-full
+    image: ghcr.io/mend/renovate-ce:<VERSION>-full
     restart: on-failure
     ports:
       - "80:8080" # Receive webhooks on port 80
