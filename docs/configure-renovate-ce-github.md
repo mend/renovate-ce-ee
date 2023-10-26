@@ -71,6 +71,8 @@ Mend Renovate requires configuration via environment variables in addition to Re
 
 **`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled.
 
+**`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
+
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
 
 The [sqlite3](https://sqlite.org/cli.html) CLI tool is preinstalled in the Renovate CE/EE(server) images, allowing direct interaction with the underlying SQLite database.
