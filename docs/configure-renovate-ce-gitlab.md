@@ -137,7 +137,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 version: "3.6"
 services:
   renovate:
-    image: ghcr.io/mend/renovate-ce:6.0.0-full
+    image: ghcr.io/mend/renovate-ce:<VERSION>-full
     restart: on-failure
     environment:
       # Optional: Define log level. Set to Debug for more verbose output
