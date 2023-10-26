@@ -150,7 +150,7 @@ x-controller-shared-variables: &variables-controller
 services:
   renovate-ee-server:
     restart: on-failure
-    image: ghcr.io/mend/renovate-ee-server:6.0.0
+    image: ghcr.io/mend/renovate-ee-server:<VERSION>
     ports:
       - "80:8080" # Receive webhooks on port 80
     environment:
@@ -187,7 +187,7 @@ services:
       # Post deploy:
       # $ docker-compose -f docker-compose-renovate-ee.yml up --scale renovate-ee-worker=3 -d --no-recreate
       replicas: 2
-    image: ghcr.io/mend/renovate-ee-worker:6.0.0-full
+    image: ghcr.io/mend/renovate-ee-worker:<VERSION>-full
     depends_on:
       - renovate-ee-server
     environment:
