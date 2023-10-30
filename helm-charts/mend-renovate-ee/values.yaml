@@ -1,5 +1,10 @@
-image:
-  repository: ghcr.io/mend/renovate-ce
+serverImage:
+  repository: ghcr.io/mend/renovate-ee-server
+  tag: 6.5.0
+  pullPolicy: IfNotPresent
+
+workerImage:
+  repository: ghcr.io/mend/renovate-ee-worker
   tag: 6.5.0-full
   pullPolicy: IfNotPresent
 
@@ -7,8 +12,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 renovate:
-  # Additional env vars
-  extraEnvVars: []
+  # Additional worker env vars
+  extraWorkerEnvVars: []
 
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
@@ -20,7 +25,7 @@ renovate:
   # Please allow up to 24 hours to receive your license key by email.
   mendRnvLicenseKey:
 
-  # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
+  # Which platform Mend Renovate will connect to. For example "GitHub" or "GitLab"
   mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
@@ -36,8 +41,8 @@ renovate:
   mendRnvGithubAppKey:
 
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
-  # If you set cachePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
-  mendRnvSqliteFilePath: '/tmp/renovate/renovate-ce.sqlite'
+  # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
+  mendRnvSqliteFilePath: '/database/renovate-ce.sqlite'
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
   mendRnvUserAgent:
@@ -80,7 +85,10 @@ renovate:
   # Optional, defaults to 'discovered'
   mendRnvEnqueueJobsOnStartup:
 
-  # Self hosted renovate configuration file, will be mounted as a config map
+  # Number of renovate-ee-workers
+  workerReplicas: 1
+
+  # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
       // Enter self-hosted configuration options here.
@@ -109,7 +117,7 @@ renovate:
   logLevel: info
 
 ## Cache Persistence Parameters
-## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
 cachePersistence:
   ## Enable persistence using Persistent Volume Claims
@@ -124,6 +132,25 @@ cachePersistence:
     - ReadWriteOnce
   ## Persistent Volume size
   size: 1Gi
+  ## The name of an existing PVC to use for persistence
+  existingClaim: ""
+
+## Database Persistence Parameters
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+##
+databasePersistence:
+  ## Enable persistence using Persistent Volume Claims
+  enabled: false
+  ## Persistent Volume storage class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
+  storageClass: ""
+  ## @param Persistent Volume access modes
+  accessModes:
+    - ReadWriteOnce
+  ## Persistent Volume size
+  size: 200Mi
   ## The name of an existing PVC to use for persistence
   existingClaim: ""
 

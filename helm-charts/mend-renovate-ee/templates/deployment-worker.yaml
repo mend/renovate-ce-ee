@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mend-renovate.fullname" . }}
+  name: {{ include "mend-renovate.fullname" . }}-worker
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.renovate.workerReplicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
@@ -34,11 +34,20 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Chart.Name }}-worker
+          image: "{{ .Values.workerImage.repository }}:{{ .Values.workerImage.tag }}"
+          imagePullPolicy: {{ .Values.workerImage.pullPolicy }}
           env:
-            {{- with .Values.renovate.extraEnvVars }}
+            - name:  MEND_RNV_SERVER_HOSTNAME
+              value: "http://{{ .Chart.Name }}-server:{{ .Values.service.port }}"
+            {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
+            - name: MEND_RNV_SERVER_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.secret-name" . }}
+                  key: mendRnvServerApiSecret
+            {{- end }}
+            {{- with .Values.renovate.extraWorkerEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
             {{- if .Values.renovate.mendRnvAcceptTos }}
@@ -52,42 +61,6 @@ spec:
                   name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvLicenseKey
             {{- end }}
-            {{- if .Values.renovate.mendRnvPlatform }}
-            - name: MEND_RNV_PLATFORM
-              value: {{ .Values.renovate.mendRnvPlatform | quote }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvEndpoint }}
-            - name: MEND_RNV_ENDPOINT
-              value: {{ .Values.renovate.mendRnvEndpoint | quote }}
-            {{- end }}
-            {{- if or .Values.renovate.mendRnvGitlabPat .Values.renovate.existingSecret }}
-            - name: MEND_RNV_GITLAB_PAT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvGitlabPat
-                  optional: true
-            {{- end }}
-            {{- if or .Values.renovate.mendRnvGithubAppId .Values.renovate.existingSecret }}
-            - name: MEND_RNV_GITHUB_APP_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvGithubAppId
-                  optional: true
-            {{- end }}
-            {{- if or .Values.renovate.mendRnvGithubAppKey .Values.renovate.existingSecret }}
-            - name: MEND_RNV_GITHUB_APP_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvGithubAppKey
-                  optional: true
-            {{- end }}
-            {{- if .Values.renovate.mendRnvSqliteFilePath }}
-            - name: MEND_RNV_SQLITE_FILE_PATH
-              value: {{ .Values.renovate.mendRnvSqliteFilePath | quote }}
-            {{- end }}
             {{- if or .Values.renovate.githubComToken .Values.renovate.existingSecret }}
             - name: GITHUB_COM_TOKEN
               valueFrom:
@@ -95,30 +68,6 @@ spec:
                   name: {{ include "mend-renovate.secret-name" . }}
                   key: githubComToken
                   optional: true
-            {{- end }}
-            {{- if or .Values.renovate.mendRnvWebhookSecret .Values.renovate.existingSecret }}
-            - name: MEND_RNV_WEBHOOK_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvWebhookSecret
-                  optional: true
-            {{- end }}
-            {{- if .Values.renovate.mendRnvCronJobScheduler }}
-            - name: MEND_RNV_CRON_JOB_SCHEDULER
-              value: {{ .Values.renovate.mendRnvCronJobScheduler | quote }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvCronAppSync }}
-            - name: MEND_RNV_CRON_APP_SYNC
-              value: {{ .Values.renovate.mendRnvCronAppSync | quote }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvAutoDiscoverFilter }}
-            - name: MEND_RNV_AUTODISCOVER_FILTER
-              value: {{ .Values.renovate.mendRnvAutoDiscoverFilter | quote }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvEnqueueJobsOnStartup }}
-            - name: MEND_RNV_ENQUEUE_JOBS_ON_STARTUP
-              value: {{ .Values.renovate.mendRnvEnqueueJobsOnStartup | quote }}
             {{- end }}
             {{- if or .Values.renovate.pipIndexUrl .Values.renovate.existingSecret }}
             - name: PIP_INDEX_URL
@@ -140,38 +89,10 @@ spec:
             - name: RENOVATE_USER_AGENT
               value: {{ .Values.renovate.renovateUserAgent | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvUserAgent }}
-            - name: MEND_RNV_USER_AGENT
-              value: {{ .Values.renovate.mendRnvUserAgent | quote }}
-            {{- end }}
             {{- if .Values.renovate.logLevel }}
             - name: LOG_LEVEL
               value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvAdminApiEnabled }}
-            - name: MEND_RNV_ADMIN_API_ENABLED
-              value: {{ .Values.renovate.mendRnvAdminApiEnabled | quote }}
-            {{- end }}
-            {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
-            - name: MEND_RNV_SERVER_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
-                  key: mendRnvServerApiSecret
-                  optional: true
-            {{- end }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          {{- with .Values.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.livenessProbe }}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -206,16 +127,16 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
       {{- if ne (len .Values.extraVolumes) 0 }}
         {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
       {{- end }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
