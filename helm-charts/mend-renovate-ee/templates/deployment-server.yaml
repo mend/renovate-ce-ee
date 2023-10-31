@@ -130,7 +130,7 @@ spec:
                   key: mendRnvServerApiSecret
             {{- end }}
           ports:
-            - name: renovate-ee-server-port
+            - name: ee-server
               containerPort: 8080
               protocol: TCP
           {{- with .Values.livenessProbe }}

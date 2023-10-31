@@ -200,7 +200,7 @@ livenessProbe:
   initialDelaySeconds: 60
   httpGet:
     path: /health
-    port: http
+    port: ee-server
   periodSeconds: 10
   timeoutSeconds: 1
   failureThreshold: 3
@@ -209,7 +209,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /health
-    port: http
+    port: ee-server
   periodSeconds: 10
   timeoutSeconds: 1
   failureThreshold: 3

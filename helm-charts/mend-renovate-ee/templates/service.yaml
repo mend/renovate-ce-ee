@@ -16,7 +16,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: renovate-ee-server-port
+      targetPort: ee-server
       protocol: TCP
       name: http
   selector:

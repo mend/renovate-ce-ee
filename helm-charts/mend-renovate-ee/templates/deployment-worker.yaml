@@ -39,7 +39,7 @@ spec:
           imagePullPolicy: {{ .Values.workerImage.pullPolicy }}
           env:
             - name:  MEND_RNV_SERVER_HOSTNAME
-              value: "http://{{ .Chart.Name }}-server:{{ .Values.service.port }}"
+              value: "http://{{ include "mend-renovate.fullname" . }}"
             {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
               valueFrom:
