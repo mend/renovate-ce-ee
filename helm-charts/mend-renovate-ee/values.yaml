@@ -117,13 +117,13 @@ renovateServer:
     successThreshold: 1
 
   extraVolumes:
-    [ ]
+    []
     # - name: secrets-store-inline
     #   csi:
     #     driver: secrets-store.csi.k8s.io
     #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+    #     volumeAttributes:
+    #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
     [ ]
@@ -202,13 +202,13 @@ renovateWorker:
   terminationGracePeriodSeconds: 60
 
   extraVolumes:
-    [ ]
+    []
     # - name: secrets-store-inline
     #   csi:
     #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+    #     readOnly: true
+    #     volumeAttributes:
+    #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
     [ ]
@@ -216,10 +216,10 @@ renovateWorker:
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
-## Cache Persistence Parameters
+## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
-cachePersistence:
+dataPersistence:
   ## Enable persistence using Persistent Volume Claims
   enabled: false
   ## Persistent Volume storage class
@@ -232,25 +232,6 @@ cachePersistence:
     - ReadWriteOnce
   ## Persistent Volume size
   size: 1Gi
-  ## The name of an existing PVC to use for persistence
-  existingClaim: ""
-
-## Database Persistence Parameters
-## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-##
-databasePersistence:
-  ## Enable persistence using Persistent Volume Claims
-  enabled: false
-  ## Persistent Volume storage class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
-  storageClass: ""
-  ## @param Persistent Volume access modes
-  accessModes:
-    - ReadWriteOnce
-  ## Persistent Volume size
-  size: 200Mi
   ## The name of an existing PVC to use for persistence
   existingClaim: ""
 

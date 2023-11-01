@@ -124,9 +124,9 @@ spec:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
         - name: {{ .Release.Name }}-cache-volume
-          {{- if .Values.cachePersistence.enabled }}
+          {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
+            claimName: {{ .Values.dataPersistence.existingClaim | default (printf "%s-data" (include "mend-renovate.fullname" .)) }}
           {{- else }}
           emptyDir: { }
           {{- end }}

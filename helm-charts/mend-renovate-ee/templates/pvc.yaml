@@ -1,8 +1,8 @@
-{{- if and .Values.cachePersistence.enabled (not .Values.cachePersistence.existingClaim) }}
+{{- if and .Values.dataPersistence.enabled (not .Values.dataPersistence.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "mend-renovate.fullname" . }}-cache
+  name: {{ include "mend-renovate.fullname" . }}-data
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
@@ -11,53 +11,21 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   accessModes:
-  {{- if not (empty .Values.cachePersistence.accessModes) }}
-  {{- range .Values.cachePersistence.accessModes }}
+  {{- if not (empty .Values.dataPersistence.accessModes) }}
+  {{- range .Values.dataPersistence.accessModes }}
     - {{ . | quote }}
   {{- end }}
   {{- else }}
-    - {{ .Values.cachePersistence.accessMode | quote }}
+    - {{ .Values.dataPersistence.accessMode | quote }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.cachePersistence.size | quote }}
-  {{- if .Values.cachePersistence.storageClass }}
-  {{- if (eq "-" .Values.cachePersistence.storageClass) }}
+      storage: {{ .Values.dataPersistence.size | quote }}
+  {{- if .Values.dataPersistence.storageClass }}
+  {{- if (eq "-" .Values.dataPersistence.storageClass) }}
   storageClassName: ""
   {{- else }}
-  storageClassName: "{{ .Values.cachePersistence.storageClass }}"
-  {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- if and .Values.databasePersistence.enabled (not .Values.databasePersistence.existingClaim) }}
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: {{ include "mend-renovate.fullname" . }}-database
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
-    helm.sh/chart: {{ include "mend-renovate.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-spec:
-  accessModes:
-  {{- if not (empty .Values.databasePersistence.accessModes) }}
-  {{- range .Values.databasePersistence.accessModes }}
-    - {{ . | quote }}
-  {{- end }}
-  {{- else }}
-    - {{ .Values.databasePersistence.accessMode | quote }}
-  {{- end }}
-  resources:
-    requests:
-      storage: {{ .Values.databasePersistence.size | quote }}
-  {{- if .Values.databasePersistence.storageClass }}
-  {{- if (eq "-" .Values.databasePersistence.storageClass) }}
-  storageClassName: ""
-  {{- else }}
-  storageClassName: "{{ .Values.databasePersistence.storageClass }}"
+  storageClassName: "{{ .Values.dataPersistence.storageClass }}"
   {{- end }}
   {{- end }}
 {{- end }}

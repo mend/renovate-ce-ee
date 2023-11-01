@@ -159,9 +159,9 @@ spec:
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-database-volume
-          {{- if .Values.databasePersistence.enabled }}
+          {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.databasePersistence.existingClaim | default (printf "%s-database" (include "mend-renovate.fullname" .)) }}
+            claimName: {{ .Values.dataPersistence.existingClaim | default (printf "%s-data" (include "mend-renovate.fullname" .)) }}
           {{- else }}
           emptyDir: {}
           {{- end }}
