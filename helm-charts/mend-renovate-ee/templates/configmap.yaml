@@ -9,4 +9,4 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  config.js: {{ .Values.renovate.config | quote }}
+  config.js: {{ .Values.renovateWorker.config | quote }}

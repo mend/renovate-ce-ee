@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.renovate.workerReplicas }}
+  replicas: {{ .Values.renovateWorker.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
@@ -21,95 +21,96 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        {{- with .Values.labels.pods }}
+        {{- with .Values.renovateWorker.labels.pods }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- with .Values.annotations }}
+      {{- with .Values.renovateWorker.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- with .Values.podSecurityContext }}
+      {{- with .Values.renovateWorker.podSecurityContext }}
       securityContext: {{ toYaml . | nindent 8 }}
       {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.renovateWorker.terminationGracePeriodSeconds }}
       containers:
         - name: {{ .Chart.Name }}-worker
-          image: "{{ .Values.workerImage.repository }}:{{ .Values.workerImage.tag }}"
-          imagePullPolicy: {{ .Values.workerImage.pullPolicy }}
+          image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
+          imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
           env:
+            {{- with .Values.renovateWorker.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             - name:  MEND_RNV_SERVER_HOSTNAME
               value: "http://{{ include "mend-renovate.fullname" . }}"
-            {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
+            {{- if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.server-secret-name" . }}
                   key: mendRnvServerApiSecret
             {{- end }}
-            {{- with .Values.renovate.extraWorkerEnvVars }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvAcceptTos }}
+
+            {{- if .Values.license.mendRnvAcceptTos }}
             - name: MEND_RNV_ACCEPT_TOS
-              value: {{ .Values.renovate.mendRnvAcceptTos | quote }}
+              value: {{ .Values.license.mendRnvAcceptTos | quote }}
             {{- end }}
-            {{- if or .Values.renovate.mendRnvLicenseKey .Values.renovate.existingSecret }}
+            {{- if or .Values.license.mendRnvLicenseKey .Values.license.existingSecret }}
             - name: MEND_RNV_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.license-secret-name" . }}
                   key: mendRnvLicenseKey
             {{- end }}
-            {{- if or .Values.renovate.githubComToken .Values.renovate.existingSecret }}
+            {{- if or .Values.renovateWorker.githubComToken .Values.renovateWorker.existingSecret }}
             - name: GITHUB_COM_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.worker-secret-name" . }}
                   key: githubComToken
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.pipIndexUrl .Values.renovate.existingSecret }}
+            {{- if or .Values.renovateWorker.pipIndexUrl .Values.renovateWorker.existingSecret }}
             - name: PIP_INDEX_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.secret-name" . }}
+                  name: {{ include "mend-renovate.worker-secret-name" . }}
                   key: pipIndexUrl
                   optional: true
             {{- end }}
-            {{- if .Values.renovate.noNodeTlsVerify }}
+            {{- if .Values.renovateWorker.noNodeTlsVerify }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: '0'
             {{- end }}
-            {{- if .Values.renovate.noGitTlsVerify }}
+            {{- if .Values.renovateWorker.noGitTlsVerify }}
             - name: GIT_SSL_NO_VERIFY
               value: 'true'
             {{- end }}
-            {{- if .Values.renovate.renovateUserAgent }}
+            {{- if .Values.renovateWorker.renovateUserAgent }}
             - name: RENOVATE_USER_AGENT
-              value: {{ .Values.renovate.renovateUserAgent | quote }}
+              value: {{ .Values.renovateWorker.renovateUserAgent | quote }}
             {{- end }}
-            {{- if .Values.renovate.logLevel }}
+            {{- if .Values.renovateWorker.logLevel }}
             - name: LOG_LEVEL
-              value: {{ .Values.renovate.logLevel | quote }}
+              value: {{ .Values.renovateWorker.logLevel | quote }}
             {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.renovateWorker.resources | nindent 12 }}
           volumeMounts:
             - name: {{ .Release.Name }}-config-js-volume
               mountPath: /usr/src/app/config.js
               subPath: config.js
-            {{- if .Values.renovate.npmrc }}
+            {{- if .Values.renovateWorker.npmrc }}
             - name: {{ .Release.Name }}-npmrc-volume
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp/renovate
-          {{- if ne (len .Values.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.extraVolumeMounts | nindent 12 | trim }}
+          {{- if ne (len .Values.renovateWorker.extraVolumeMounts) 0 }}
+            {{ toYaml .Values.renovateWorker.extraVolumeMounts | nindent 12 | trim }}
           {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -117,7 +118,7 @@ spec:
         - name: {{ .Release.Name }}-config-js-volume
           configMap:
             name: {{ .Release.Name }}-config-js
-        {{- if or .Values.renovate.npmrc .Values.renovate.npmrcExistingSecret }}
+        {{- if or .Values.renovateWorker.npmrc .Values.renovateWorker.npmrcExistingSecret }}
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
@@ -129,14 +130,14 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.extraVolumes) 0 }}
-        {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
+      {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
+        {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.renovateWorker.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.renovateWorker.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

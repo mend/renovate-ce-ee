@@ -1,9 +1,9 @@
-{{- if not .Values.renovate.mendRnvAcceptTos }}
+{{- if not .Values.license.mendRnvAcceptTos }}
 ERROR: You must accept the Mend Terms of Service in order to run Mend Renovate.
 Please read https://mend.io/terms-of-service/ and then:
 
     helm upgrade {{ .Release.Name }} \
-        --set renovate.mendRnvAcceptTos=y renovate/mend-renovate
+        --set license.mendRnvAcceptTos=y renovate/mend-renovate
 
 {{- else }}
 

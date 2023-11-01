@@ -32,13 +32,35 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Expand the name of the default secret
+Expand the name of the license secret
 */}}
-{{- define "mend-renovate.secret-name" -}}
-{{- if .Values.renovate.existingSecret -}}
-{{- .Values.renovate.existingSecret -}}
+{{- define "mend-renovate.license-secret-name" -}}
+{{- if .Values.license.existingSecret -}}
+{{- .Values.license.existingSecret -}}
 {{- else -}}
-{{- include "mend-renovate.name" . -}}
+{{- include "mend-renovate.name" . }}-license
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the server secret
+*/}}
+{{- define "mend-renovate.server-secret-name" -}}
+{{- if .Values.renovateServer.existingSecret -}}
+{{- .Values.renovateServer.existingSecret -}}
+{{- else -}}
+{{- include "mend-renovate.name" . }}-server
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the worker secret
+*/}}
+{{- define "mend-renovate.worker-secret-name" -}}
+{{- if .Values.renovateWorker.existingSecret -}}
+{{- .Values.renovateWorker.existingSecret -}}
+{{- else -}}
+{{- include "mend-renovate.name" . }}-worker
 {{- end -}}
 {{- end -}}
 
@@ -46,8 +68,8 @@ Expand the name of the default secret
 Expand the name of the npmrc secret
 */}}
 {{- define "mend-renovate.npmrc-secret-name" -}}
-{{- if .Values.renovate.npmrcExistingSecret -}}
-{{- .Values.renovate.npmrcExistingSecret -}}
+{{- if .Values.renovateWorker.npmrcExistingSecret -}}
+{{- .Values.renovateWorker.npmrcExistingSecret -}}
 {{- else -}}
 {{- include "mend-renovate.name" . }}-npmrc
 {{- end -}}

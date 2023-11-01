@@ -1,29 +1,29 @@
-serverImage:
-  repository: ghcr.io/mend/renovate-ee-server
-  tag: 6.5.0
-  pullPolicy: IfNotPresent
-
-workerImage:
-  repository: ghcr.io/mend/renovate-ee-worker
-  tag: 6.5.0-full
-  pullPolicy: IfNotPresent
-
 nameOverride: ""
 fullnameOverride: ""
 
-renovate:
-  # Additional worker env vars
-  extraWorkerEnvVars: []
+license:
+  # Set this to the key you received by email.
+  # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
+  # Please allow up to 24 hours to receive your license key by email.
+  mendRnvLicenseKey:
 
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
   # Set this value to 'y' to consent.
   mendRnvAcceptTos:
 
-  # Set this to the key you received by email.
-  # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
-  # Please allow up to 24 hours to receive your license key by email.
-  mendRnvLicenseKey:
+  # Existing secret with secret values with the following keys:
+  #   mendRnvLicenseKey:
+  existingSecret:
+
+renovateServer:
+  image:
+    repository: ghcr.io/mend/renovate-ee-server
+    tag: 6.5.0
+    pullPolicy: IfNotPresent
+
+  # Additional worker env vars
+  extraEnvVars: []
 
   # Which platform Mend Renovate will connect to. For example "GitHub" or "GitLab"
   mendRnvPlatform:
@@ -44,7 +44,7 @@ renovate:
   # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
   mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
 
-  # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
+  # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
   mendRnvUserAgent:
 
   # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
@@ -56,21 +56,12 @@ renovate:
   # Optional, defaults to 'renovate'
   mendRnvWebhookSecret:
 
-  # Personal Access Token for github.com (used for retrieving changelogs)
-  githubComToken:
-
-  # PIP index url to get packages from. Will be mounted as a secret
-  pipIndexUrl:
-
   # Existing secret with secret values with the following keys:
-  #   mendRnvLicenseKey:
   #   mendRnvGitlabPat:
   #   mendRnvGithubAppId:
   #   mendRnvGithubAppKey:
   #   mendRnvWebhookSecret:
   #   mendRnvServerApiSecret:
-  #   githubComToken:
-  #   pipIndexUrl:
   existingSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
@@ -85,8 +76,87 @@ renovate:
   # Optional, defaults to 'discovered'
   mendRnvEnqueueJobsOnStartup:
 
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+  resources: { }
+
+  annotations: { }
+
+  labels:
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  podSecurityContext: { }
+
+  # This allows renovate to finish running for a repo and then gracefully exit
+  terminationGracePeriodSeconds: 60
+
+  livenessProbe:
+    initialDelaySeconds: 60
+    httpGet:
+      path: /health
+      port: ee-server
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: ee-server
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  extraVolumes:
+    [ ]
+    # - name: secrets-store-inline
+    #   csi:
+    #     driver: secrets-store.csi.k8s.io
+    #     readOnly: true
+  #     volumeAttributes:
+  #       secretProviderClass: "some-secret-store"
+
+  extraVolumeMounts:
+    [ ]
+    # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+
+
+renovateWorker:
+  image:
+    repository: ghcr.io/mend/renovate-ee-worker
+    tag: 6.5.0-full
+    pullPolicy: IfNotPresent
+
+  # Additional worker env vars
+  extraEnvVars: []
+
+  # Personal Access Token for github.com (used for retrieving changelogs)
+  githubComToken:
+
+  # PIP index url to get packages from. Will be mounted as a secret
+  pipIndexUrl:
+
+  # Existing secret with secret values with the following keys:
+  #   githubComToken:
+  #   pipIndexUrl:
+  existingSecret:
+
   # Number of renovate-ee-workers
-  workerReplicas: 1
+  replicas: 1
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
 
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
@@ -113,8 +183,38 @@ renovate:
   # defaults to https://github.com/renovatebot/renovate
   renovateUserAgent:
 
-  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
-  logLevel: info
+  resources: { }
+
+  annotations: { }
+
+  labels:
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  podSecurityContext: { }
+
+  # This allows renovate to finish running for a repo and then gracefully exit
+  terminationGracePeriodSeconds: 60
+
+  extraVolumes:
+    [ ]
+    # - name: secrets-store-inline
+    #   csi:
+    #     driver: secrets-store.csi.k8s.io
+  #     readOnly: true
+  #     volumeAttributes:
+  #       secretProviderClass: "some-secret-store"
+
+  extraVolumeMounts:
+    [ ]
+  # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
 
 ## Cache Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -177,55 +277,3 @@ ingress:
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
-
-resources: { }
-
-annotations: { }
-
-labels:
-  pods: { }
-
-nodeSelector: { }
-
-tolerations: [ ]
-
-affinity: { }
-
-podSecurityContext: { }
-
-# This allows renovate to finish running for a repo and then gracefully exit
-terminationGracePeriodSeconds: 60
-
-livenessProbe:
-  initialDelaySeconds: 60
-  httpGet:
-    path: /health
-    port: ee-server
-  periodSeconds: 10
-  timeoutSeconds: 1
-  failureThreshold: 3
-  successThreshold: 1
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: ee-server
-  periodSeconds: 10
-  timeoutSeconds: 1
-  failureThreshold: 3
-  successThreshold: 1
-
-extraVolumes:
-  []
-  # - name: secrets-store-inline
-  #   csi:
-  #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
-
-extraVolumeMounts:
-  []
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
