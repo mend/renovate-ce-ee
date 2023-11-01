@@ -42,7 +42,7 @@ renovate:
 
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
   # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
-  mendRnvSqliteFilePath: '/database/renovate-ce.sqlite'
+  mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
   mendRnvUserAgent:
@@ -50,8 +50,8 @@ renovate:
   # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
   mendRnvAdminApiEnabled:
 
-  # Required if Admin APIs are enabled.
-  mendRnvServerApiSecret:
+  # Required, used for api authentication.
+  mendRnvServerApiSecret: abc123
 
   # Optional, defaults to 'renovate'
   mendRnvWebhookSecret:
@@ -158,8 +158,8 @@ service:
   type: ClusterIP
   port: 80
   annotations:
-    {}
-    # cloud.google.com/load-balancer-type: "Internal"
+    { }
+  # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
   enabled: false
@@ -169,29 +169,29 @@ ingress:
   # ingressClassName: nginx
 
   annotations:
-    {}
-    # kubernetes.io/tls-acme: "true"
+    { }
+  # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local
-  tls: []
+  tls: [ ]
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
 
-resources: {}
+resources: { }
 
-annotations: {}
+annotations: { }
 
 labels:
-  pods: {}
+  pods: { }
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-podSecurityContext: {}
+podSecurityContext: { }
 
 # This allows renovate to finish running for a repo and then gracefully exit
 terminationGracePeriodSeconds: 60

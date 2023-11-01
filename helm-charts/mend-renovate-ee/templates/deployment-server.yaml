@@ -14,6 +14,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ include "mend-renovate.name" . }}-server
   strategy:
     type: Recreate
   template:
@@ -21,7 +22,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        app: {{ .Chart.Name }}-server
+        app: {{ include "mend-renovate.name" . }}-server
         {{- with .Values.labels.pods }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
