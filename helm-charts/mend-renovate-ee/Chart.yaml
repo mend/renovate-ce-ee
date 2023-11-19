@@ -1,7 +1,7 @@
 apiVersion: v1
 name: mend-renovate-enterprise-edition
-version: 0.1.0
-appVersion: 6.5.0
+version: 0.2.0
+appVersion: 6.6.0
 description: Mend Renovate Enterprise Edition
 home: https://github.com/mend/renovate-ce-ee
 sources:
