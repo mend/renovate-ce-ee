@@ -1,0 +1,260 @@
+nameOverride: ""
+fullnameOverride: ""
+
+license:
+  # Set this to the key you received by email.
+  # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
+  # Please allow up to 24 hours to receive your license key by email.
+  mendRnvLicenseKey:
+
+  # You must accept the Mend Terms of Service to use the image.
+  # Please read https://www.mend.io/terms-of-service/
+  # Set this value to 'y' to consent.
+  mendRnvAcceptTos:
+
+  # Existing secret with secret values with the following keys:
+  #   mendRnvLicenseKey:
+  existingSecret:
+
+renovateServer:
+  image:
+    repository: ghcr.io/mend/renovate-ee-server
+    tag: 6.5.0
+    pullPolicy: IfNotPresent
+
+  # Additional server env vars
+  extraEnvVars: []
+
+  # Which platform Mend Renovate will connect to. For example "GitHub" or "GitLab"
+  mendRnvPlatform:
+
+  # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
+  mendRnvEndpoint:
+
+  # Personal Access Token for bot account (GitLab only)
+  mendRnvGitlabPat:
+
+  # The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
+  mendRnvGithubAppId:
+
+  # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
+  mendRnvGithubAppKey:
+
+  # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+  # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
+  mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
+
+  # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
+  mendRnvUserAgent:
+
+  # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+  mendRnvAdminApiEnabled:
+
+  # Required, used for api authentication.
+  mendRnvServerApiSecret: abc123
+
+  # Optional, defaults to 'renovate'
+  mendRnvWebhookSecret:
+
+  # Existing secret with secret values with the following keys:
+  #   mendRnvGitlabPat:
+  #   mendRnvGithubAppId:
+  #   mendRnvGithubAppKey:
+  #   mendRnvWebhookSecret:
+  #   mendRnvServerApiSecret:
+  existingSecret:
+
+  # Optional, defaults to '0 * * * *' (hourly)
+  mendRnvCronJobScheduler:
+
+  # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
+  mendRnvCronAppSync:
+
+  # Optional
+  mendRnvAutoDiscoverFilter:
+
+  # Optional, defaults to 'discovered'
+  mendRnvEnqueueJobsOnStartup:
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+  resources: { }
+
+  annotations: { }
+
+  labels:
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  podSecurityContext: { }
+
+  # This allows renovate to finish running for a repo and then gracefully exit
+  terminationGracePeriodSeconds: 60
+
+  livenessProbe:
+    initialDelaySeconds: 60
+    httpGet:
+      path: /health
+      port: ee-server
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: ee-server
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  extraVolumes:
+    []
+    # - name: secrets-store-inline
+    #   csi:
+    #     driver: secrets-store.csi.k8s.io
+    #     readOnly: true
+    #     volumeAttributes:
+    #       secretProviderClass: "some-secret-store"
+
+  extraVolumeMounts:
+    [ ]
+    # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+
+
+renovateWorker:
+  image:
+    repository: ghcr.io/mend/renovate-ee-worker
+    tag: 6.5.0-full
+    pullPolicy: IfNotPresent
+
+  # Additional worker env vars
+  extraEnvVars: []
+
+  # Personal Access Token for github.com (used for retrieving changelogs)
+  githubComToken:
+
+  # PIP index url to get packages from. Will be mounted as a secret
+  pipIndexUrl:
+
+  # Existing secret with secret values with the following keys:
+  #   githubComToken:
+  #   pipIndexUrl:
+  existingSecret:
+
+  # Number of renovate-ee-workers
+  replicas: 1
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+  # Self-hosted renovate configuration file, will be mounted as a config map
+  config: |
+    module.exports = {
+      // Enter self-hosted configuration options here.
+      // https://docs.renovatebot.com/self-hosted-configuration/
+    }
+
+  # Npmrc file. Will be mounted as a secret
+  # npmrc: |
+    # //registry.npmjs.org/:_authToken=xxxxxx
+
+  # Existing secret with npmrc configuration with key:
+  #   .npmrc:
+  npmrcExistingSecret:
+
+  # Disable NodeJS SSL verify (do not use for production)
+  noNodeTlsVerify: false
+
+  # Disable GIT SSL verify (do not use for production)
+  noGitTlsVerify: false
+
+  # Set User Agent Mend Renovate will use to query the registries
+  # defaults to https://github.com/renovatebot/renovate
+  renovateUserAgent:
+
+  resources: { }
+
+  annotations: { }
+
+  labels:
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  podSecurityContext: { }
+
+  # This allows renovate to finish running for a repo and then gracefully exit
+  terminationGracePeriodSeconds: 60
+
+  extraVolumes:
+    []
+    # - name: secrets-store-inline
+    #   csi:
+    #     driver: secrets-store.csi.k8s.io
+    #     readOnly: true
+    #     volumeAttributes:
+    #       secretProviderClass: "some-secret-store"
+
+  extraVolumeMounts:
+    [ ]
+  # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+
+## data Persistence Parameters
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+##
+dataPersistence:
+  ## Enable persistence using Persistent Volume Claims
+  enabled: false
+  ## Persistent Volume storage class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
+  storageClass: ""
+  ## @param Persistent Volume access modes
+  accessModes:
+    - ReadWriteOnce
+  ## Persistent Volume size
+  size: 1Gi
+  ## The name of an existing PVC to use for persistence
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations:
+    { }
+  # cloud.google.com/load-balancer-type: "Internal"
+
+ingress:
+  enabled: false
+
+  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+  # ingressClassName: nginx
+
+  annotations:
+    { }
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - mend-renovate.local
+  tls: [ ]
+  #  - secretName: mend-renovate-tls
+  #    hosts:
+  #      - mend-renovate.local

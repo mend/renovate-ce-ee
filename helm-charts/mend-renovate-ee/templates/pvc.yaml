@@ -1,0 +1,31 @@
+{{- if and .Values.dataPersistence.enabled (not .Values.dataPersistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mend-renovate.fullname" . }}-data
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  accessModes:
+  {{- if not (empty .Values.dataPersistence.accessModes) }}
+  {{- range .Values.dataPersistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  {{- else }}
+    - {{ .Values.dataPersistence.accessMode | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.dataPersistence.size | quote }}
+  {{- if .Values.dataPersistence.storageClass }}
+  {{- if (eq "-" .Values.dataPersistence.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: "{{ .Values.dataPersistence.storageClass }}"
+  {{- end }}
+  {{- end }}
+{{- end }}
