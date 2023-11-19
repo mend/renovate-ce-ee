@@ -140,6 +140,7 @@ The Worker container needs to define only the following variables:
 * **`MEND_RNV_SERVER_API_SECRET`**: Set to same as Server
 * **`MEND_RNV_ACCEPT_TOS`**: Set to same as Server
 * **`MEND_RNV_LICENSE_KEY`**: Set to same as Server
+* **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
 
 ## Configure Renovate Core
 
