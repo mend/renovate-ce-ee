@@ -22,7 +22,7 @@ renovateServer:
     tag: 6.5.0
     pullPolicy: IfNotPresent
 
-  # Additional worker env vars
+  # Additional server env vars
   extraEnvVars: []
 
   # Which platform Mend Renovate will connect to. For example "GitHub" or "GitLab"
