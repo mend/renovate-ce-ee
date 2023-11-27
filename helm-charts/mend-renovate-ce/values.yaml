@@ -74,13 +74,30 @@ renovate:
   # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
   mendRnvCronAppSync:
 
-  # Optional
+  # Optional, a string of a comma separated values. (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate cli 'autodiscoverFilter' feature
+  # Warning: The Renovate CLI 'autodiscover' configuration option is disabled.
+  # Repository filtering should solely rely on server-side filtering using 'mendRnvAutoDiscoverFilter'.
   mendRnvAutoDiscoverFilter:
 
-  # Optional, defaults to 'discovered'
+  # Optional. Accepted values: 'enabled', 'discovered', and 'disabled'. Defaults to 'discovered'.
   mendRnvEnqueueJobsOnStartup:
 
-  # Self hosted renovate configuration file, will be mounted as a config map
+  # Optional. Specify a directory path to save Renovate job log files.
+  # It is recommended to use an external volume to preserve history.
+  mendRnvLogHistoryDir:
+
+  # Optional: The number of days to save log files. Defaults to 30.
+  mendRnvLogHistoryTTLDays:
+
+  # Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight).
+  # This cron job cleans up log history in the directory defined by `mendRnvLogHistoryDir`.
+  # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
+  mendRnvLogHistoryCleanupCron:
+
+  # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+  mendRnvWorkerExecutionTimeout:
+
+  # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
       // Enter self-hosted configuration options here.
