@@ -27,7 +27,7 @@ See the specific configuration instructions ([GitHub](./configure-renovate-ce-gi
 ### Repository auto-discovery
 > [!WARNING]  
 > The Renovate CLI `autodiscover` configuration option is disabled at the client level. 
-Repository filtering should solely rely on server-side filtering using MEND_RNV_AUTODISCOVER_FILTER
+Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
 
 ### Variables specific to GitHub instances
 | Renovate On-Premises EnvVars | Renovate Community Edition |
