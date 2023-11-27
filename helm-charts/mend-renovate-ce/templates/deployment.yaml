@@ -160,6 +160,22 @@ spec:
                   key: mendRnvServerApiSecret
                   optional: true
             {{- end }}
+            {{- if .Values.renovate.mendRnvLogHistoryDir }}
+            - name: MEND_RNV_LOG_HISTORY_DIR
+              value: {{ .Values.renovate.mendRnvLogHistoryDir }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvLogHistoryTTLDays }}
+            - name: MEND_RNV_LOG_HISTORY_TTL_DAYS
+              value: {{ .Values.renovate.mendRnvLogHistoryTTLDays | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvLogHistoryCleanupCron }}
+            - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
+              value: {{ .Values.renovate.mendRnvLogHistoryCleanupCron }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvWorkerExecutionTimeout }}
+            - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
+              value: {{ .Values.renovate.mendRnvWorkerExecutionTimeout | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -206,7 +222,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
       {{- if ne (len .Values.extraVolumes) 0 }}
         {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
