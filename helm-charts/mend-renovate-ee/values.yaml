@@ -19,7 +19,7 @@ license:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    tag: 6.6.0
+    tag: 6.7.0
     pullPolicy: IfNotPresent
 
   # Additional server env vars
