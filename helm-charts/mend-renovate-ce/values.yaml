@@ -75,7 +75,7 @@ renovate:
   mendRnvCronAppSync:
 
   # Optional, a string of a comma separated values. (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate cli 'autodiscoverFilter' feature
-  # Warning: The Renovate CLI 'autodiscover' configuration option is disabled at the client level.
+  # Warning: The Renovate CLI 'autodiscover' configuration option is disabled.
   # Repository filtering should solely rely on server-side filtering using 'mendRnvAutoDiscoverFilter'.
   mendRnvAutoDiscoverFilter:
 
