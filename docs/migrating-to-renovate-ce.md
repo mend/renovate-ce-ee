@@ -10,9 +10,9 @@ If you are using a "health check" of the Renovate container then you should poin
 
 Some existing environment variables have been renamed, and some new ones have been added.
 
-See the specific configuration instructions ([GitHub](./configuration-github.md), [GitLab](./configuration-gitlab.md)) to learn more about the variables mentioned below.
+See the specific configuration instructions ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ee-gitlab.md)) to learn more about the variables mentioned below.
 
-### Common variables
+### Environment Variable Key Migration
 
 | Renovate On-Premises   | Renovate Community Edition |
 |------------------------|--|
@@ -23,10 +23,11 @@ See the specific configuration instructions ([GitHub](./configuration-github.md)
 | RENOVATE_ENDPOINT      | MEND_RNV_ENDPOINT |
 | SCHEDULER_CRON         | MEND_RNV_CRON_JOB_SCHEDULER |
 | WEBHOOK_SECRET         | MEND_RNV_WEBHOOK_SECRET |
-| [New]                  | MEND_RNV_CRON_APP_SYNC |
-| [New]                  | MEND_RNV_ADMIN_API_ENABLED |
-| [New]                  | MEND_RNV_SERVER_API_SECRET |
-| [New]                  | MEND_RNV_SQLITE_FILE_PATH |
+
+### Repository auto-discovery
+> [!WARNING]  
+> The Renovate CLI `autodiscover` configuration option is disabled at the client level. 
+Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
 
 ### Variables specific to GitHub instances
 | Renovate On-Premises EnvVars | Renovate Community Edition |
