@@ -220,7 +220,7 @@ Webhooks can be enabled at the project level or at the repository level.
 Note: Only a Bitbucket user with Admin or System Admin global permissions can create web hooks on a project or repository.
 Create webhooks via the Bitbucket UI
 
-To create a webhook on a repository:
+**To create a webhook on a repository:**
 
 - Navigate to the repository in which you want to add a webhook
 
@@ -230,7 +230,7 @@ To create a webhook on a repository:
 
 [Insert image here]
 
-Click “Create webhook” to open the Create webhook page
+- Click “Create webhook” to open the Create webhook page
 
 **Provide the following values for the webhook:**
 - Name: Can be anything. Duplicates are allowed.
@@ -256,25 +256,27 @@ Renovate jobs will automatically run on the triggering repository as required.
 Run Bitbucket API to create webhooks on repositories and projects.
 
 **Permissions**
+
 Only Bitbucket users with Admin or System admin global permissions can create webhooks on projects or repositories.
 To create a webhook using the Bitbucket APIs, the APIs must pass an HTTP access token as a Bearer Authorization token in the API header.
 
 ### Fetch the Authorization Bearer token
-Log in to Bitbucket as a user with Admin or System admin global permissions
-Navigate to the HTTP access tokens page
-http://localhost:7990/plugins/servlet/access-tokens/users/admin/manage
 
+- Log in to Bitbucket as a user with Admin or System admin global permissions
+- Navigate to the HTTP access tokens page<br>
+  http://localhost:7990/plugins/servlet/access-tokens/users/admin/manage
 
+[Insert image here]
 
-Press “Create token” to create the Bearer token required for calling the Bitbucket Server webhook APIs.
+- Press “Create token” to create the Bearer token required for calling the Bitbucket Server webhook APIs.
 
-To create project webhooks, the HTTP access token must have Project Admin permissions.
-To create repository webhooks, the HTTP access token must have Repository Admin permissions. (Project Admin not required.)
+To create **project** webhooks, the HTTP access token must have `Project Admin` permissions.
+To create **repository** webhooks, the HTTP access token must have `Repository Admin` permissions. (Project Admin not required.)
 
+[Insert image here]
 
-
-Click “Create” to finish creating the access token
-Copy the access token when it is presented. Store it for use when calling Bitbucket Admin APIs.
+- Click “Create” to finish creating the access token
+- Copy the access token when it is presented. Store it for use when calling Bitbucket Admin APIs.
 
 ### Create Repository webhooks via Bitbucket API
 
