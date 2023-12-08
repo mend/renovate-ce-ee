@@ -23,7 +23,7 @@ Also, only repo admins can add the Renovate Bot user and webhooks.
 - Navigate to the User settings page in Administration (Settings → Accounts/Users)<br>
 eg. http://localhost:7990/admin/users
 
-[Imsert image here]
+[Insert image here]
 
 - Click “Create user” to create an account for the Renovate Bot user.  (eg. http://localhost:7990/admin/users?create)
 
@@ -31,60 +31,61 @@ We recommend calling the account “Renovate Bot”.
 - Username: “renovate-bot”
 - Full name: “Renovate Bot”
 
-[Imsert image here]
+[Insert image here]
 
 - Note: The Renovate Bot user will be the author of Renovate pull requests.
 
-[Imsert image here]
+[Insert image here]
 
 - Give the Renovate Bot user basic Bitbucket user access (only required so a HTTP Token can be created through the UI)
   - Under Global permissions, in the User Access section, click into the table header bar (where it says “Add Users”) and search for the Renovate Bot user.
   - Leave the access level at “Bitbucket User”.
   - Press “Add”
 
-[Imsert image here]
+[Insert image here]
 
 - The end results should be a Renovate Bot user with “Bitbucket User” access only.
 
-[Imsert image here]
+[Insert image here]
 
 <div style="padding: 3px; outline: grey solid 1px; outline-offset: 5px;">
 Note: It is essential that the Renovate Bot user does NOT have Admin or System admin access. Because Bitbucket Admin and System admin users have full access to all projects and repos, there will be no way to control which repos Renovate will run against, and so Renovate will run against all repos. When the Renovate Bot user has only basic user access, administrators can control which repos run with Renovate by adding the Renovate Bot user to specific repos.
 </div>
 
 # Stage 1b: Fetch HTTP Access Token for the Renovate Bot user
+
 Once the Renovate Bot user account is created, log in to Bitbucket with the Renovate User account to fetch an HTTP access token for it. This will be used as the MEND_RNV_BITBUCKET_PAT in the Renovate CE/EE configuration.
 It will be used by Renovate OSS CLI to connect to repos on Bitbucket that the Renovate User has access to.
-Log in to Bitbucket as the Renovate User
+
+- Log in to Bitbucket as the Renovate User<br>
 http://localhost:7990/login
 
-Don’t use the Admin user account!
-If logged in as an Admin user account, log out of Bitbucket first.
-Alternatively, open a new web browser in incognito mode. (Ctrl+Shift+N from a web browser)
+**_Don’t use the Admin user account!_**
+- If logged in as an Admin user account, log out of Bitbucket first.
+- Alternatively, open a new web browser in incognito mode. _(Ctrl+Shift+N from a web browser)_
 
+[Insert image here]
 
-
-
-Go to the Account management page (eg. http://localhost:7990/account)
+- Go to the Account management page (eg. http://localhost:7990/account)
 
 You can expand the menu on the user profile icon (top right of page) and click “Manage account”.
+[Insert image here]
 
+- Navigate to the HTTP access tokens page
 
-Navigate to the HTTP access tokens page
+- Press “Create token” to create a new HTTP access token
 
-Press “Create token” to create a new HTTP access token
+[Insert image here]
 
+- Create an HTTP access token (with `Repository Write` permission)
+  - Token name: Can be anything (eg. “Renovate User PAT”)
+  - Permissions:
+    - Project permissions: `Project read`
+    - Repository permissions: `Repository write`
 
+[Insert image here]
 
-Create an HTTP access token (with Repository Write permission)
-Token name: Can be anything (eg. “Renovate User PAT”)
-Permissions:
-Project permissions: Project read
-Repository permissions: Repository write
-
-
-
-Copy the token and store it for later use.
+- Copy the token and store it for later use.<br>
 This will be used as the MEND_RNV_BITBUCKET_PAT in the Renovate CE/EE configuration.
 
 <hr>
