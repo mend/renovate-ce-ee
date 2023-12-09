@@ -280,50 +280,54 @@ To create **repository** webhooks, the HTTP access token must have `Repository A
 
 ### Create Repository webhooks via Bitbucket API
 
-POST  http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/repos/<REPO>/webhooks
+POST - http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/repos/<REPO>/webhooks
+
 Authorization: Bearer <Bitbucket Admin User Http access token with Repository Admin access>
+
 Body: (raw - JSON)
 ```json
 {
-"name": "renovate",
-"url": "https://<Renovate.Server.URL>/webhook",
-"configuration": { "secret": "renovate" },    ← Must match MEND_RNV_WEBHOOK_SECRET
-"events": [
-"repo:refs_changed",
-"repo:modified",
-"pr:modified"
-],
-"active": true,
-"statistics": {},
-"scopeType": "repository",
-"sslVerificationRequired": false
+  "name": "renovate",
+  "url": "https://<Renovate.Server.URL>/webhook",
+  "configuration": { "secret": "renovate" },    ← Must match MEND_RNV_WEBHOOK_SECRET
+  "events": [
+    "repo:refs_changed",
+    "repo:modified",
+    "pr:modified"
+  ],
+  "active": true,
+  "statistics": {},
+  "scopeType": "repository",
+  "sslVerificationRequired": false
 }
 ```
 
 ### Create Project webhooks via Bitbucket API
 
 POST  http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/webhooks
+
 Authorization: Bearer <Bitbucket Admin User Http access token with Project Admin access>
+
 Body: (raw - JSON)
 ```json
 {
-"name": "renovate",
-"url": "https://<Renovate.Server.URL>/webhook",
-"configuration": { "secret": "renovate" },    ← Must match MEND_RNV_WEBHOOK_SECRET
-"events": [
-"pr:modified",                    ← Optional: Add this if you want ALL repos on the project to trigger
-"repo:refs_changed",        ← Optional: Add this if you want ALL repos on the project to trigger
-"repo:modified",                ← Optional: Add this if you want ALL repos on the project to trigger
-"project:modified"
-],
-"active": true,
-"statistics": {},
-"scopeType": "repository",
-"sslVerificationRequired": false
+  "name": "renovate",
+  "url": "https://<Renovate.Server.URL>/webhook",
+  "configuration": { "secret": "renovate" },    ← Must match MEND_RNV_WEBHOOK_SECRET
+  "events": [
+    "pr:modified",                    ← Optional: Add this if you want ALL repos on the project to trigger
+    "repo:refs_changed",        ← Optional: Add this if you want ALL repos on the project to trigger
+    "repo:modified",                ← Optional: Add this if you want ALL repos on the project to trigger
+    "project:modified"
+  ],
+  "active": true,
+  "statistics": {},
+  "scopeType": "repository",
+  "sslVerificationRequired": false
 }
 ```
 
-Provide the following values:
+**Provide the following values:**
 - name: Can be anything. Duplicate names are allowed.
 - url: The URL and port of the Renovate Server.
   - Note: Ensure ports are open to receiving incoming calls from the Bitbucket server.
