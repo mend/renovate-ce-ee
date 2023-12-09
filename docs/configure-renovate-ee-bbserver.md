@@ -69,6 +69,7 @@ http://localhost:7990/login
 - Go to the Account management page (eg. http://localhost:7990/account)
 
 You can expand the menu on the user profile icon (top right of page) and click “Manage account”.
+
 ![bb-manage-account.png](images%2Fbb-manage-account.png)
 
 - Navigate to the HTTP access tokens page
