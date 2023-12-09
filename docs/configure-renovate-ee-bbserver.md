@@ -23,7 +23,7 @@ Also, only repo admins can add the Renovate Bot user and webhooks.
 - Navigate to the User settings page in Administration (Settings → Accounts/Users)<br>
 eg. http://localhost:7990/admin/users
 
-[Insert image here]
+![bb-admin-users.png](images%2Fbb-admin-users.png)
 
 - Click “Create user” to create an account for the Renovate Bot user.  (eg. http://localhost:7990/admin/users?create)
 
@@ -31,22 +31,22 @@ We recommend calling the account “Renovate Bot”.
 - Username: “renovate-bot”
 - Full name: “Renovate Bot”
 
-[Insert image here]
+![bb-create-user.png](images%2Fbb-create-user.png)
 
 - Note: The Renovate Bot user will be the author of Renovate pull requests.
 
-[Insert image here]
+![bb-renovate-bot.png](images%2Fbb-renovate-bot.png)
 
 - Give the Renovate Bot user basic Bitbucket user access (only required so a HTTP Token can be created through the UI)
   - Under Global permissions, in the User Access section, click into the table header bar (where it says “Add Users”) and search for the Renovate Bot user.
   - Leave the access level at “Bitbucket User”.
   - Press “Add”
 
-[Insert image here]
+![bb-user-access-1.png](images%2Fbb-user-access-1.png)
 
 - The end results should be a Renovate Bot user with “Bitbucket User” access only.
 
-[Insert image here]
+![bb-user-access-2.png](images%2Fbb-user-access-2.png)
 
 <div style="padding: 3px; outline: grey solid 1px; outline-offset: 5px;">
 Note: It is essential that the Renovate Bot user does NOT have Admin or System admin access. Because Bitbucket Admin and System admin users have full access to all projects and repos, there will be no way to control which repos Renovate will run against, and so Renovate will run against all repos. When the Renovate Bot user has only basic user access, administrators can control which repos run with Renovate by adding the Renovate Bot user to specific repos.
@@ -64,18 +64,18 @@ http://localhost:7990/login
 - If logged in as an Admin user account, log out of Bitbucket first.
 - Alternatively, open a new web browser in incognito mode. _(Ctrl+Shift+N from a web browser)_
 
-[Insert image here]
+![bb-log-in.png](images%2Fbb-log-in.png)
 
 - Go to the Account management page (eg. http://localhost:7990/account)
 
 You can expand the menu on the user profile icon (top right of page) and click “Manage account”.
-[Insert image here]
+![bb-manage-account.png](images%2Fbb-manage-account.png)
 
 - Navigate to the HTTP access tokens page
 
 - Press “Create token” to create a new HTTP access token
 
-[Insert image here]
+![bb-access-token.png](images%2Fbb-access-token.png)
 
 - Create an HTTP access token (with `Repository Write` permission)
   - Token name: Can be anything (eg. “Renovate User PAT”)
@@ -83,7 +83,7 @@ You can expand the menu on the user profile icon (top right of page) and click �
     - Project permissions: `Project read`
     - Repository permissions: `Repository write`
 
-[Insert image here]
+![bb-new-token.png](images%2Fbb-new-token.png)
 
 - Copy the token and store it for later use.<br>
 This will be used as the MEND_RNV_BITBUCKET_PAT in the Renovate CE/EE configuration.
@@ -176,14 +176,14 @@ Note: Any Bitbucket user with global permissions of Admin or System admin has fu
 Repo → Repository Settings → Repository permissions
 
 Repo settings page: http://localhost:7990/projects/PROJ1/repos/repo-1/permissions
-[Insert image here]
+![bb-repo-permissions.png](images%2Fbb-repo-permissions.png)
 
 - Click the “Add user or group” button (Top right corner)
 
 - Add the Renovate Bot user with permission: Repository Write<br>
   Note: The Renovate Bot user needs write permission so it can create pull requests on the repository.
 
-[Insert image here]
+![bb-add-user.png](images%2Fbb-add-user.png)
 
 Now the Renovate Bot is installed on the repo.
 
@@ -207,7 +207,7 @@ Note: To run APIs, ensure Renovate Server has EnvVar `MEND_RNV_ADMIN_API_ENABLED
 [POST]   http://<RENOVATE-SERVER-URL>/api/sync
 Authorization: <MEND_RNV_SERVER_API_SECRET>
 
-[Insert image here]
+![bb-postman-sync.png](images%2Fbb-postman-sync.png)
 
 <hr>
 
@@ -228,9 +228,11 @@ Create webhooks via the Bitbucket UI
   [Repo → Repository Settings → Webhooks]<br>
   http://localhost:7990/projects/PROJ1/repos/repo-1/settings
 
-[Insert image here]
+![bb-repo-webhooks.png](images%2Fbb-repo-webhooks.png)
 
 - Click “Create webhook” to open the Create webhook page
+
+![bb-create-webhook-1.png](images%2Fbb-create-webhook-1.png)
 
 **Provide the following values for the webhook:**
 - Name: Can be anything. Duplicates are allowed.
@@ -244,7 +246,7 @@ Create webhooks via the Bitbucket UI
   - Repository: Push, Modified
   - Pull request: Modified
 
-[Insert image here]
+![bb-create-webhook-2.png](images%2Fbb-create-webhook-2.png)
 
 - Click “Save” to finish creating the webhook
 
@@ -266,14 +268,15 @@ To create a webhook using the Bitbucket APIs, the APIs must pass an HTTP access 
 - Navigate to the HTTP access tokens page<br>
   http://localhost:7990/plugins/servlet/access-tokens/users/admin/manage
 
-[Insert image here]
+![bb-admin-token.png](images%2Fbb-admin-token.png)
 
 - Press “Create token” to create the Bearer token required for calling the Bitbucket Server webhook APIs.
 
-To create **project** webhooks, the HTTP access token must have `Project Admin` permissions.
-To create **repository** webhooks, the HTTP access token must have `Repository Admin` permissions. (Project Admin not required.)
+Note:
+- To create **project** webhooks, the HTTP access token must have `Project Admin` permissions.<br>
+- To create **repository** webhooks, the HTTP access token must have `Repository Admin` permissions. (Project Admin not required.)
 
-[Insert image here]
+![bb-create-admin-token.png](images%2Fbb-create-admin-token.png)
 
 - Click “Create” to finish creating the access token
 - Copy the access token when it is presented. Store it for use when calling Bitbucket Admin APIs.
