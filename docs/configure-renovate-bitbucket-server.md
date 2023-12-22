@@ -1,4 +1,4 @@
-# Configuration - Mend Renovate for Bitbucket Server
+# Configuration - Mend Renovate CE/EE for Bitbucket Server
 
 # Installation Stages
 
@@ -87,7 +87,7 @@ You can expand the menu on the user profile icon (top right of page) and click �
 ![bb-new-token.png](images%2Fbb-new-token.png)
 
 - Copy the token and store it for later use.<br>
-This will be used as the MEND_RNV_BITBUCKET_PAT in the Renovate CE/EE configuration.
+This will be used as the `MEND_RNV_BITBUCKET_PAT` in the Renovate CE/EE configuration.
 
 <hr>
 
@@ -107,7 +107,7 @@ You will need the following information to proceed.
 #### Mend Licence Keys
 Renovate CE or Renovate EE licence key
 Accept Terms of Service  (‘Y’)
-Merge Confidence API token - only required if using Smart Merge Control with Renovate EE (ie. matchConfidence in package rules)
+Merge Confidence API token - only required if using Smart Merge Control with Renovate EE (ie. `matchConfidence` in package rules)
 
 #### Bitbucket Server Connection details
 Bitbucket server URL   (eg, http://localhost:7990/)
@@ -155,7 +155,7 @@ If there are repos with Renovate Bot installed, watch the logs to see it run. Op
 
 
 # Stage 3a: Install Renovate Bot on Repositories(/Projects)
-Overview
+#### Overview
 Add the Renovate Bot user to any repo (or project) you want Renovate to run on.
 Needs “Repository Write” permission so that it can create pull requests on the repo.
 
@@ -196,7 +196,7 @@ The Renovate server will detect the new repo on the next App Sync.
 
 App Sync runs on a schedule, which defaults to every 4 hours.
 To update the schedule, set the EnvVar MEND_RNV_CRON_APP_SYNC on the Renovate Server.
-Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 \* \* \*` (every 4 hours, on the hour).
+Accepts a 5-part cron schedule. Defaults to `0 */4* * * *` (every 4 hours, on the hour).
 
 **Force App Sync via API call**
 
