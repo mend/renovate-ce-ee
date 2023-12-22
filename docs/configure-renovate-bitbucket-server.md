@@ -284,9 +284,11 @@ Note:
 
 ### Create Repository webhooks via Bitbucket API
 
+```
 POST - http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/repos/<REPO>/webhooks
 
 Authorization: Bearer <Bitbucket Admin User Http access token with Repository Admin access>
+```
 
 Body: (raw - JSON)
 ```json
@@ -308,9 +310,11 @@ Body: (raw - JSON)
 
 ### Create Project webhooks via Bitbucket API
 
+```
 POST  http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/webhooks
 
 Authorization: Bearer <Bitbucket Admin User Http access token with Project Admin access>
+```
 
 Body: (raw - JSON)
 ```json
