@@ -1,4 +1,4 @@
-# Configuration - Mend Renovate Enterprise Edition for Bitbucket Server
+# Configuration - Mend Renovate for Bitbucket Server
 
 # Installation Stages
 
@@ -54,7 +54,7 @@ Note: It is essential that the Renovate Bot user does NOT have Admin or System a
 
 # Stage 1b: Fetch HTTP Access Token for the Renovate Bot user
 
-Once the Renovate Bot user account is created, log in to Bitbucket with the Renovate User account to fetch an HTTP access token for it. This will be used as the MEND_RNV_BITBUCKET_PAT in the Renovate CE/EE configuration.
+Once the Renovate Bot user account is created, log in to Bitbucket with the Renovate User account to fetch an HTTP access token for it. This will be used as the `MEND_RNV_BITBUCKET_PAT` in the Renovate CE/EE configuration.
 It will be used by Renovate OSS CLI to connect to repos on Bitbucket that the Renovate User has access to.
 
 - Log in to Bitbucket as the Renovate User<br>
@@ -114,11 +114,11 @@ Bitbucket server URL   (eg, http://localhost:7990/)
 Bitbucket Renovate Bot User PAT - See instructions above for getting HTTP access token for Renovate Bot user on Bitbucket
 
 #### Other strongly recommended Renovate Server environment settings
-MEND_RNV_ADMIN_API_ENABLED - APIs are off by default. Set this to true to enable admin APIs.
-Needs MEND_RNV_SERVER_API_SECRET to be set.
-MEND_RNV_SQLITE_FILE_PATH - Mount the DB file to disc. Ensure volume mount is configured below.
-MEND_RNV_LOG_HISTORY_DIR - Mount the Renovate job logs (Note: This is the Job logs; Not the server/worker machine logs.)
-RENOVATE_REPOSITORY_CACHE - Faster performance running Renovate on repos on subsequent scans.
+`MEND_RNV_ADMIN_API_ENABLED` - APIs are off by default. Set this to true to enable admin APIs.
+Needs `MEND_RNV_SERVER_API_SECRET` to be set.
+`MEND_RNV_SQLITE_FILE_PATH` - Mount the DB file to disc. Ensure volume mount is configured below.
+`MEND_RNV_LOG_HISTORY_DIR` - Mount the Renovate job logs (Note: This is the Job logs; Not the server/worker machine logs.)
+`RENOVATE_REPOSITORY_CACHE` - Faster performance running Renovate on repos on subsequent scans.
 
 ## Run the Server
 If using Docker, run the Docker Compose file after all values have been correctly inserted.
@@ -239,7 +239,7 @@ Create webhooks via the Bitbucket UI
 - Name: Can be anything. Duplicates are allowed.
 - URL: The URL of the Renovate Server plus “/webhook”. Must be accessible to receive incoming calls from the Bitbucker server.
 - Status: Active (true)
-- Secret: Must match the value in MEND_RNV_WEBHOOK_SECRET. (Defaults to ‘renovate’)
+- Secret: Must match the value in `MEND_RNV_WEBHOOK_SECRET`. (Defaults to ‘renovate’)
 - Authentication: None
 - SSL/TLS: (Do not skip certificate verification)
 - Events:
@@ -336,3 +336,13 @@ Body: (raw - JSON)
 - url: The URL and port of the Renovate Server.
   - Note: Ensure ports are open to receiving incoming calls from the Bitbucket server.
 - secret: The Webhook secret defined in the MEND_RNV_WEBHOOK_SECRET environment variable on the Renovate Server.
+
+### Allow Renovate CE/EE to create Repository webhooks via Bitbucket API
+
+By setting the values of the two environment variables `MEND_RNV_WEBHOOK_URL` and `MEND_RNV_ADMIN_TOKEN` 
+the server will manage the repositories webhooks automatically 
+
+
+Notes: `MEND_RNV_ADMIN_TOKEN` 
+1. Recommended to use a different token than the token for Renovate bot user
+2. This admin token is only used for searching/adding and removing of webhooks on repository level
