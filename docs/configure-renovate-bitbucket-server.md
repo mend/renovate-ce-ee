@@ -1,21 +1,116 @@
 # Configuration - Mend Renovate CE/EE for Bitbucket Server
  
 ## Beta Disclaimer!
-Please be aware that BitBucket-Server support is in beta phase
+> [!WARNING]  
+> Please be aware that BitBucket-Server support is in beta phase
 
+# Table of Content
+* [Available Renovate CE/EE Configurations](#available_config)
+* [Installation Stages](#stages)
+  * [Stage 1: Configure Renovate Bot account on Bitbucket Server](#stg_1)
+    * [1a: Create a Renovate Bot user account (“Bitbucket User” access only)](#stg_1a)
+    * [1b: Fetch an HTTP Access Token for the Renovate Bot user (Project Read, Repo Write)](#stg_1b)
+  * [Stage 2: Install Renovate CE/EE application server (Docker-compose or Kubernetes)](#stg_2)
+  * [Stage 3: Install Renovate Bot and Webhooks on BitBucket project or repository](#stg_3)
+    * [3a: Install the Renovate Bot on Repositories](#stg_3a)
+    * [3b: Add Webhooks to Repositories(/Projects)](#stg_3b)
+
+<a id="available_config"></a>
+# Available Configurations for CE/EE
+
+`MEND_RNV_ACCEPT_TOS`: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
+
+`MEND_RNV_LICENSE_KEY`: This should be the license key you obtained after registering at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
+
+`MEND_RNV_PLATFORM`: Set this to `bitbucket-server`.
+
+`MEND_RNV_ENDPOINT`: This is the API endpoint for your BitBucket Server installation.
+
+`MEND_RNV_BITBUCKET_USER`: Renovate Bot user account (“Bitbucket User” access only)
+
+`MEND_RNV_BITBUCKET_PAT`: BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`
+
+`MEND_RNV_WEBHOOK_SECRET`: Optional: Defaults to `renovate`
+
+`MEND_RNV_WEBHOOK_URL`: Optional: The URL of the Renovate Server plus `/webhook`. Must be accessible to receive incoming calls from the BitBucket server.
+
+`MEND_RNV_ADMIN_TOKEN`: Optional: A token used for searching/add/removing repository webhooks. required if `MEND_RNV_WEBHOOK_URL` is set.
+
+`MEND_RNV_ADMIN_API_ENABLED`: Optional: Set to `true` to enable Admin APIs. Defaults to `false`.
+
+`MEND_RNV_SERVER_API_SECRET`: Required if Admin APIs are enabled.
+
+`MEND_RNV_SERVER_PORT`: The port on which the server listens for webhooks and api requests. Defaults to 8080.
+
+`MEND_RNV_CRON_JOB_SCHEDULER`: Optional: Accepts a 5-part cron schedule. Defaults to `0 * * * *` (i.e. once per hour exactly on the hour). This cron job triggers the Renovate bot against the projects in the SQLite database. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
+
+`MEND_RNV_CRON_APP_SYNC`: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
+
+`MEND_RNV_WORKER_EXECUTION_TIMEOUT`: Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+
+`MEND_RNV_AUTODISCOVER_FILTER`: a string of a comma separated values. (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
+
+> [!WARNING]  
+> The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
+
+`MEND_RNV_ENQUEUE_JOBS_ON_STARTUP`: The job enqueue behavior on start (or restart). Defaults to `discovered`. (Note that the behavior can be different if the database is persisted or not)
+- `enabled`: enqueue a job for all available repositories
+- `discovered`: enqueue a job only for newly discovered repositories
+- `disabled`: No jobs are enqueued
+
+`MEND_RNV_SQLITE_FILE_PATH`: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+
+> [!IMPORTANT]  
+> The container running the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. Additionally, the process inside the container executes with uid=1000 (ubuntu) and gid=0 (root).
+
+The [sqlite3](https://sqlite.org/cli.html) CLI tool is preinstalled in the Renovate CE/EE(server) images, allowing direct interaction with the underlying SQLite database.
+
+For example, Let `MEND_RNV_SQLITE_FILE_PATH=/db/renovate-ce.sqlite`:
+```shell
+ubuntu@23cf5aaa72ed:/usr/src/app$ sqlite3
+SQLite version 3.31.1 2020-01-27 19:55:54
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open -readonly /db/renovate-ce.sqlite
+sqlite> .tables
+job_queue   migrations  org         repo        task_queue
+sqlite> 
+```
+
+`MEND_RNV_LOG_HISTORY_DIR`: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+
+Where:
+- `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time
+- `<log_context>`: random 10 character alphanumeric string used as
+  [Renovate log context](https://docs.renovatebot.com/self-hosted-configuration/#logcontext) for cross referencing logs.
+
+For Example:
+Let `MEND_RNV_LOG_HISTORY_DIR=/home/renovate/logs`, repository=`org/repo`
+
+The corresponding Renovate job log file will be saved as:
+
+```
+/home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
+```
+
+> [!IMPORTANT]  
+> Note for EE: Logs are saved by the workers but clean is done by the server, so the corresponding folder must be shared between the Worker and Server containers.
+
+`MEND_RNV_LOG_HISTORY_TTL_DAYS`: Optional: The number of days to save log files. Defaults to 30.
+
+`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file that exceeds the `MEND_RNV_LOG_HISTORY_TTL_DAYS` value.
+
+`MEND_RNV_MC_TOKEN` _(EE only)_: The merge confidence token used for Smart-Merge-Control authentication
+
+<a id="stages"></a>
 # Installation Stages
 
-* Stage 1: Configure Renovate Bot account on Bitbucket Server
-  * 1a: Create a Renovate Bot user account (“Bitbucket User” access only)
-  * 1b: Fetch an HTTP Access Token for the Renovate Bot user (Project Read, Repo Write)
-* Stage 2: Install Renovate CE/EE application server (Docker-compose or Kubernetes)
-* Stage 3: Install Renovate Bot and Webhooks
-  * 3a: Install the Renovate Bot on Repositories
-  * 3b: Add Webhooks to Repositories(/Projects)
+<a id="stg_1"></a>
+## Stage 1
 
-<hr>
-
-# Stage 1a: Configure Renovate Bot User Account
+<a id="stg_1a"></a>
+### 1.a. Configure Renovate Bot User Account
 
 The following configuration instructions are to be performed on Bitbucket Server by a user account with “Admin” or “System admin” global permissions on the Bitbucket Server.
 
@@ -55,6 +150,7 @@ We recommend calling the account “Renovate Bot”.
 Note: It is essential that the Renovate Bot user does NOT have Admin or System admin access. Because Bitbucket Admin and System admin users have full access to all projects and repos, there will be no way to control which repos Renovate will run against, and so Renovate will run against all repos. When the Renovate Bot user has only basic user access, administrators can control which repos run with Renovate by adding the Renovate Bot user to specific repos.
 </div>
 
+<a id="stg_1b"></a>
 # Stage 1b: Fetch HTTP Access Token for the Renovate Bot user
 
 Once the Renovate Bot user account is created, log in to Bitbucket with the Renovate User account to fetch an HTTP access token for it. This will be used as the `MEND_RNV_BITBUCKET_PAT` in the Renovate CE/EE configuration.
@@ -94,6 +190,7 @@ This will be used as the `MEND_RNV_BITBUCKET_PAT` in the Renovate CE/EE configur
 
 <hr>
 
+<a id="stg_2"></a>
 # Stage 2: Install Renovate CE/EE Application Server
 
 ## Configure the Docker files / Helm charts
@@ -103,7 +200,7 @@ Example files available here:
 - Helm charts (Renovate CE / Renovate EE)
 
 Edit the docker files / helm chart values to provide the required environment variables.
-Refer to [LINK] for a full list of Renovate CE/EE server variables.
+Refer to [Available Configurations section](#available_config) for a full list of Renovate CE/EE server variables.
 
 You will need the following information to proceed.
 
@@ -126,11 +223,11 @@ Needs `MEND_RNV_SERVER_API_SECRET` to be set.
 ## Run the Server
 If using Docker, run the Docker Compose file after all values have been correctly inserted.
 
-> docker-compose -f docker-compose-bitbucket.yaml up  [Check this]
+> docker-compose -f docker-compose-bitbucket.yaml up
 
 If using Kubernetes, install the Helm charts after all values have been correctly inserted in the values.yaml.
 
-> helm install renovate-ce    [Check this]
+> helm install renovate-ce
 
 ## Test and Troubleshoot
 
@@ -155,26 +252,28 @@ If there are repos with Renovate Bot installed, watch the logs to see it run. Op
 - Force an app sync			- POST /api/sync
 - Force a Renovate job on a repo	- POST /api/job/add   { “repositories”: ”org/repo” }
 
+<a id="stg_3"></a>
+# Install Renovate Bot and Webhooks on BitBucket project or repository
 
-
-# Stage 3a: Install Renovate Bot on Repositories(/Projects)
-#### Overview
+<a id="stg_3a"></a>
+## Stage 3a: Install Renovate Bot on Repositories(/Projects)
+### Overview
 Add the Renovate Bot user to any repo (or project) you want Renovate to run on.
 Needs “Repository Write” permission so that it can create pull requests on the repo.
 
-#### How it works
+### How it works
 Renovate will run scans and create PRs on repositories in which the Renovate Bot user has Write access.
 So, to install Renovate on a repository, add the Renovate Bot user to the Repository permissions for the repositories or projects you want it installed on.
 
-#### Permissions required to install the Renovate Bot user
+### Permissions required to install the Renovate Bot user
 This must be done by a user with Repository Admin permission to the specific repository being added.
 Note: Any Bitbucket user with global permissions of Admin or System admin has full access to every project and repository.
 
-#### Note:
+### Note:
 - Adding the Renovate Bot user to a **project** will install Renovate on **all repositories** in the project (current and future).
 - Giving the Renovate Bot user `global Admin` user access will install Renovate on **all repositories** on the Bitbucket server.
 
-## How to add Renovate Bot to a Repository
+### How to add Renovate Bot to a Repository
 
 - Navigate to the Repository Settings page for a specific repository.<br>
 Repo → Repository Settings → Repository permissions
@@ -193,7 +292,7 @@ Now the Renovate Bot is installed on the repo.
 
 The Renovate server will detect the new repo on the next App Sync.
 
-## Run App Sync to detect new repositories
+### Run App Sync to detect new repositories
 
 **App Sync on schedule**
 
@@ -215,7 +314,8 @@ Authorization: <MEND_RNV_SERVER_API_SECRET>
 
 <hr>
 
-# Stage 3b: Add Webhooks to Repositories(/Projects)
+<a id="stg_3b"></a>
+## Stage 3b: Add Webhooks to Repositories(/Projects)
 
 Webhooks enable a message to be sent from the Bitbucket repository to the Renovate server to trigger a Renovate job on a repository when important files have changed (ie. package files, Renovate config files).
 
@@ -257,7 +357,7 @@ Create webhooks via the Bitbucket UI
 Webhooks will now be triggered when relevant events occur on the repository.
 Renovate jobs will automatically run on the triggering repository as required.
 
-## Create webhooks via the Bitbucket API
+### Create webhooks via the Bitbucket API
 
 Run Bitbucket API to create webhooks on repositories and projects.
 
@@ -266,7 +366,7 @@ Run Bitbucket API to create webhooks on repositories and projects.
 Only Bitbucket users with Admin or System admin global permissions can create webhooks on projects or repositories.
 To create a webhook using the Bitbucket APIs, the APIs must pass an HTTP access token as a Bearer Authorization token in the API header.
 
-### Fetch the Authorization Bearer token
+#### Fetch the Authorization Bearer token
 
 - Log in to Bitbucket as a user with Admin or System admin global permissions
 - Navigate to the HTTP access tokens page<br>
