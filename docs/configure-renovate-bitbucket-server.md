@@ -307,8 +307,10 @@ Requires
 
 Note: To run APIs, ensure Renovate Server has EnvVar `MEND_RNV_ADMIN_API_ENABLED=true`
 
+```
 [POST]   http://<RENOVATE-SERVER-URL>/api/sync
 Authorization: <MEND_RNV_SERVER_API_SECRET>
+```
 
 ![bb-postman-sync.png](images%2Fbb-postman-sync.png)
 
@@ -388,7 +390,7 @@ Note:
 ### Create Repository webhooks via Bitbucket API
 
 ```
-POST - http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/repos/<REPO>/webhooks
+[POST] - http://<Bitbucket.Server.URL>/rest/api/latest/projects/<PROJ>/repos/<REPO>/webhooks
 
 Authorization: Bearer <Bitbucket Admin User Http access token with Repository Admin access>
 ```
