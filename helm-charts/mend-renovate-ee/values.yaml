@@ -25,7 +25,7 @@ renovateServer:
   # Additional server env vars
   extraEnvVars: []
 
-  # Which platform Mend Renovate will connect to. For example "GitHub" or "GitLab"
+  # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
   mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
