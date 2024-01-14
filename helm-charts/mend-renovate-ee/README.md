@@ -10,7 +10,6 @@ helm repo update
 ## Install Renovate chart
 
 ```shell
-helm pull mend-renovate-ce-ee/mend-renovate-enterprise-edition
 helm install --generate-name --set renovateWorker.config='\{\"token\":\"...\"\}' mend-renovate-ce-ee/mend-renovate-enterprise-edition
 ```
 
