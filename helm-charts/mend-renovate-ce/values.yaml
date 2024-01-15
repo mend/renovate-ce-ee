@@ -183,6 +183,8 @@ affinity: {}
 
 podSecurityContext: {}
 
+containerSecurityContext: {}
+
 # This allows renovate to finish running for a repo and then gracefully exit
 terminationGracePeriodSeconds: 60
 
