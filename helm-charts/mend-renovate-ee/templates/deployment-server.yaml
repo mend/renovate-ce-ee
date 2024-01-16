@@ -39,6 +39,9 @@ spec:
         - name: {{ .Chart.Name }}-server
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.tag }}"
           imagePullPolicy: {{ .Values.renovateServer.image.pullPolicy }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext: {{ toYaml . | nindent 10 }}
+          {{- end }}
           env:
             {{- with .Values.renovateServer.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
