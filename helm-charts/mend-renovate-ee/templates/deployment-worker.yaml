@@ -42,7 +42,7 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
             - name: MEND_RNV_SERVER_HOSTNAME
-              value: "http://{{ include "mend-renovate.fullname" . }}"
+              value: "http://{{ include "mend-renovate.fullname" . }}-srv-server"
             {{- if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
               valueFrom:
@@ -109,6 +109,10 @@ spec:
             {{- if .Values.renovateWorker.logLevel }}
             - name: LOG_LEVEL
               value: {{ .Values.renovateWorker.logLevel | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.logFormat }}
+            - name: LOG_FORMAT
+              value: {{ .Values.renovateWorker.logFormat | quote }}
             {{- end }}
           resources:
             {{- toYaml .Values.renovateWorker.resources | nindent 12 }}
