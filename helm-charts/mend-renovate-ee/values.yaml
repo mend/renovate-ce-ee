@@ -1,5 +1,5 @@
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "mend-renovate"
+fullnameOverride: "mend-renovate"
 
 license:
   # Set this to the key you received by email.
@@ -16,11 +16,29 @@ license:
   #   mendRnvLicenseKey:
   existingSecret:
 
+postgresql:
+    # if to use PostgreSQL, if set to 'false' SQLite will be used instead
+    enabled:
+    host:
+    port:
+    database:
+    user:
+    password:
+
+    # used for development purposes
+    development: {}
+      # repository: postgres
+      # tag: 16.1-alpine3.17
+      # pullPolicy: IfNotPresent
+
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
     tag: 6.8.0
     pullPolicy: IfNotPresent
+
+  # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
+  replicas: 1
 
   # Additional server env vars
   extraEnvVars: []
@@ -78,6 +96,8 @@ renovateServer:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+  # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
+  logFormat: json
 
   resources: { }
 
@@ -174,6 +194,8 @@ renovateWorker:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+  # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
+  logFormat: json
 
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
