@@ -2,7 +2,7 @@
 
 Renovate Enterprise Edition allows scaling of Renovate Server containers, separately to the scaling of the Worker containers. Server redundancy provides high availability for the Renovate Server by reducing bottlenecks caused by large volumes of incoming Webhook and API requests.
 
-In order to allow multiple servers to access the one database, a requirement of the High Availability is that the DB be network accessible. The current implementation uses a PostgreSQL database. See the documentation for [PostgreSQL DB configuration](https://docs.google.com/document/d/19OcNV3mYdoyGe4qHoZC0mQn4M1qn9pqTA8WqjkNqQa0/edit?usp=sharing) for further details.
+In order to allow multiple servers to access the one database, a requirement of the High Availability is that the DB be network accessible. The current implementation uses a PostgreSQL database. See the documentation for [PostgreSQL DB configuration](https://github.com/mend/renovate-ce-ee/blob/main/docs/configure-postgres-db.md) for further details.
 
 ## Technical Requirements
 
@@ -13,7 +13,7 @@ High Availability Server is a feature only available with Renovate Enterprise Ed
 With multiple Server containers requiring access to the information in the Renovate database, it is essential that the DB be available as a network database rather than residing only on a single Server container.
 The current implementation of the Renovate database for HA Server is PostgreSQL. When hosting Renovate EE with HA Server, a Postgres instance must be available and accessible to the Renovate Server pool.
 
-See the documentation for [PostgreSQL DB configuration](https://docs.google.com/document/d/19OcNV3mYdoyGe4qHoZC0mQn4M1qn9pqTA8WqjkNqQa0/edit?usp=sharing) for further details.
+See the documentation for [PostgreSQL DB configuration](https://github.com/mend/renovate-ce-ee/blob/main/docs/configure-postgres-db.md) for further details.
 
 ## How it works
 **Summary: All Renovate Servers process incoming requests. The Primary server also runs cron jobs.**
@@ -23,8 +23,10 @@ One server will designate itself as the Primary server, and this server will als
 
 ### Selecting the Primary Server
 
-On startup, each Renovate Server will check the database to see if a Primary server is already allocated. If not, it will allocate itself as the primary server and update the database to reflect it. You can check the container logs at startup to see whether a server has taken the primary role.
-Also, all Renovate Server will perform the Primary check every 30 seconds. This provides faster failover if one of the servers goes down.
+On startup, each Renovate Server will check the database to see if a Primary server is already allocated. If not, it will allocate itself as the primary server and update the database to reflect it.
+Also, all Renovate Servers will perform the Primary check every 30 seconds. This provides faster failover if one of the servers goes down.
+
+You can check the container logs to see whether a server has taken the primary role.
 
 ### Load balancing the servers
 
