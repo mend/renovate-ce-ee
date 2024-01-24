@@ -47,7 +47,6 @@ For convenience, you can spin up your own instance of a PostgreSQL DB, and an  o
 ###  Docker Compose example
 
 An example of using a PostgreSQL DB server container with Docker Compose is shown below.
-```
 …
   postgres-database:
     restart: always
