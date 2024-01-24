@@ -33,7 +33,6 @@ Swap out the values of PGXXX parameters for your own instances of the PostgreSQL
       PGPASSWORD: password
       PGHOST: postgres-database
       PGPORT: 5432
-…
 ```
 
 Details of the PostgreSQL user, password, host and port must match your hosted instance of the Renovate PostgreSQL DB.
@@ -56,7 +55,6 @@ An example of using a PostgreSQL DB server container with Docker Compose is show
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
-…
 ```
 
 ### Helm Charts example
