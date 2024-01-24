@@ -65,7 +65,7 @@ See below for a list of environment variables that relate to each.
 
 **`MEND_RNV_PLATFORM`**: Set this to `gitlab`.
 
-**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your self-hosted GitLab instance installation. Include the trailing slash. (eg. 'http://1.2.3.4/api/v4')
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your self-hosted GitLab instance installation. Include the trailing slash. (eg. `https://1.2.3.4/api/v4`)
 
 **`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account.
 
