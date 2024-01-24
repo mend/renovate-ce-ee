@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}-postgresql
-          image: "{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}"
-          imagePullPolicy: {{ .Values.postgresql.image.pullPolicy }}
+          image: "{{ .Values.postgresql.development.repository }}:{{ .Values.postgresql.development.tag }}"
+          imagePullPolicy: {{ .Values.postgresql.development.pullPolicy }}
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgresql.user | quote }}
