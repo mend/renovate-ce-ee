@@ -23,8 +23,6 @@ Swap out the values of PGXXX parameters for your own instances of the PostgreSQL
   rnv-ee-server:
     restart: always
     image: ghcr.io/mend/renovate-ee-server
-    deploy:
-      replicas: 2
     depends_on:
       - postgres-database
     ports:
