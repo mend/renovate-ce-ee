@@ -184,8 +184,6 @@ services:
       MEND_RNV_PLATFORM: # Set to `github` or `gitlab`
       MEND_RNV_ENDPOINT: # Required for GitLab or GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
       MEND_RNV_GITLAB_PAT: # Personal Access Token for the GitLab bot account.
-      # MEND_RNV_GITHUB_APP_ID: # GitHub Only! GitHub App ID
-      # MEND_RNV_GITHUB_APP_KEY: # GitHub Only! GitHub App Key (PEM file). Alternatively mount as a volume below
       MEND_RNV_WEBHOOK_SECRET: # Optional: defaults to 'renovate'
       # Optional settings for Mend Renovate
       # MEND_RNV_ADMIN_API_ENABLED: # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
