@@ -2,14 +2,14 @@
 
 To configure renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
 
-| Environment variable name | Description |
-|---|---|
-| MEND_RNV_DATA_HANDLER_TYPE | Set to ‘postgresql’ to use a PostgreSQL database |
-| PGDATABASE | Name of the database instance. Eg. ‘postgres’ |
-| PGUSER | Postgres User name. Must have Create Schema permission. |
-| PGPASSWORD | Postgres User password |
-| PGHOST | Host name of the PostgreSQL instance |
-| PGPORT | Host Port for the PostgreSQL instance |
+| Environment variable name  | Description                                             |
+|----------------------------|---------------------------------------------------------|
+| MEND_RNV_DATA_HANDLER_TYPE | Set to ‘postgresql’ to use a PostgreSQL database        |
+| PGDATABASE                 | Name of the database instance. Eg. ‘postgres’           |
+| PGUSER                     | Postgres User name. Must have Create Schema permission. |
+| PGPASSWORD                 | Postgres User password                                  |
+| PGHOST                     | Host name of the PostgreSQL instance                    |
+| PGPORT                     | Host Port for the PostgreSQL instance                   |
 
 **Note:** DB size is related to the number of repositories installed for Renovate.
 
@@ -45,7 +45,8 @@ This could be an externally managed PostgreSQL server, or an instance started in
 For convenience, you can spin up your own instance of a PostgreSQL DB, and an  optional frontend Web UI.
 
 ###  Docker Compose example
-An example of starting a PostgreSQL DB server container in a Docker Compose file is shown below.
+
+An example of using a PostgreSQL DB server container with Docker Compose is shown below.
 ```
 …
   postgres-database:
@@ -60,5 +61,6 @@ An example of starting a PostgreSQL DB server container in a Docker Compose file
 ```
 
 ### Helm Charts example
-An example of spinning up a PostgreSQL DB in Helm Charts is available in the [Helm chart example](https://github.com/mend/renovate-ce-ee/tree/main/helm-charts/mend-renovate-ee).
+
+An example of using PostgreSQL in Helm Charts is available in the [Helm chart example](https://github.com/mend/renovate-ce-ee/tree/main/helm-charts/mend-renovate-ee).
 
