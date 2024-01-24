@@ -19,7 +19,6 @@ Example configuration in a Docker Compose file is shown below.
 Swap out the values of PGXXX parameters for your own instances of the PostgreSQL database.
 
 ```
-…
   rnv-ee-server:
     restart: always
     image: ghcr.io/mend/renovate-ee-server
@@ -47,7 +46,8 @@ For convenience, you can spin up your own instance of a PostgreSQL DB, and an  o
 ###  Docker Compose example
 
 An example of using a PostgreSQL DB server container with Docker Compose is shown below.
-…
+
+```
   postgres-database:
     restart: always
     image: postgres:16.1-alpine3.17
