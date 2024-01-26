@@ -4,6 +4,15 @@ This repository provides documentation specific to Mend Renovate Community Editi
 
 Mend Renovate CE was formerly known as "Mend Renovate On-Premises".
 
+## Supported platforms
+
+The following platforms are supported by Mend Renovate Community Edition and Enterprise Edition:
+- GitHub.com
+- GitHub Enterprise Server
+- GitLab Enterprise Edition
+
+## Documentation contents
+
 1. [Overview](./overview.md)
 1. Installation ([Helm](./installation-helm.md))
 1. Configuration
