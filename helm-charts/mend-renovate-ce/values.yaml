@@ -182,8 +182,16 @@ tolerations: []
 affinity: {}
 
 podSecurityContext: {}
+#   runAsNonRoot: true
+#   seccompProfile:
+#     type: RuntimeDefault
 
 containerSecurityContext: {}
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+#   capabilities:
+#     drop:
+#       - ALL
 
 # This allows renovate to finish running for a repo and then gracefully exit
 terminationGracePeriodSeconds: 60

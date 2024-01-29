@@ -29,6 +29,9 @@ spec:
         - name: {{ .Chart.Name }}-postgresql
           image: "{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}"
           imagePullPolicy: {{ .Values.postgresql.image.pullPolicy }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgresql.user | quote }}

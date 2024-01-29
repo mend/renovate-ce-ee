@@ -32,7 +32,7 @@ spec:
       {{- end }}
     spec:
       {{- with .Values.renovateServer.podSecurityContext }}
-      securityContext: {{ toYaml . | nindent 8 }}
+      securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.renovateServer.terminationGracePeriodSeconds }}
       containers:
@@ -40,7 +40,7 @@ spec:
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.tag }}"
           imagePullPolicy: {{ .Values.renovateServer.image.pullPolicy }}
           {{- with .Values.containerSecurityContext }}
-          securityContext: {{ toYaml . | nindent 10 }}
+          securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
             {{- with .Values.renovateServer.extraEnvVars }}
