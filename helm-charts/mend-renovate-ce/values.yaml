@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 6.9.1-full
+  tag: 6.10.0-full
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -184,8 +184,16 @@ tolerations: []
 affinity: {}
 
 podSecurityContext: {}
+#   runAsNonRoot: true
+#   seccompProfile:
+#     type: RuntimeDefault
 
 containerSecurityContext: {}
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+#   capabilities:
+#     drop:
+#       - ALL
 
 # This allows renovate to finish running for a repo and then gracefully exit
 terminationGracePeriodSeconds: 60
