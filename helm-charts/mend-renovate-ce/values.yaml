@@ -168,7 +168,7 @@ ingress:
   #    hosts:
   #      - mend-renovate.local
 
-serviceAccount: ""
+serviceAccount: 
 
 resources: {}
 
