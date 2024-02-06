@@ -165,7 +165,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    tag: 6.10.0-full
+    tag: 6.11.0-full
     pullPolicy: IfNotPresent
 
   # Optional. Specify a directory path to save Renovate job log files.
