@@ -34,7 +34,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    tag: 6.10.0
+    tag: 6.11.0
     pullPolicy: IfNotPresent
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
