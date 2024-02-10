@@ -32,12 +32,11 @@ services:
       - "8080"
     ## Note: Requires config for a platform (ie. GitHub, GitLab). Insert platform vars in 'environment' section below
     ## Or place platform-specific configuration in a separate env file referenced in the 'env_file' section.
-    # env_file:
-    #  - env/mend.env  # License activation keys
-    #  - env/github.env  # Renovate App connection details
+    env_file:
+     - env/mend-rnv-ee.env  # License activation keys
+     - env/github.env  # Renovate App connection details
     environment:
       <<: *variables-controller
-      LOG_LEVEL: debug
       MEND_RNV_ADMIN_API_ENABLED: false # Set to 'true' to enable incoming API calls
       MEND_RNV_LOG_HISTORY_DIR: /logs   # Must match volume defined in Worker and Server
       MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
@@ -59,7 +58,7 @@ services:
     depends_on:
       - rnv-ee-server
     env_file:
-      - env/mend.env
+      - env/mend-rnv-ee.env
     environment:
       <<: *variables-controller
     volumes:
