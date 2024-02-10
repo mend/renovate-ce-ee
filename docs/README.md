@@ -10,6 +10,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 - GitHub.com
 - GitHub Enterprise Server
 - GitLab Enterprise Edition
+- Bitbucket Server/Datacenter (in beta)
 
 ## Documentation contents
 

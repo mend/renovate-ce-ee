@@ -34,7 +34,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    tag: 6.9.1
+    tag: 6.11.0
     pullPolicy: IfNotPresent
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -99,22 +99,30 @@ renovateServer:
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
   logFormat: json
 
-  resources: { }
+  resources: {}
 
-  annotations: { }
+  annotations: {}
 
   labels:
-    pods: { }
+    pods: {}
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
+  affinity: {}
 
-  podSecurityContext: { }
+  podSecurityContext: {}
+  #   runAsNonRoot: true
+  #   seccompProfile:
+  #     type: RuntimeDefault
 
-  containerSecurityContext: { }
+  containerSecurityContext: {}
+  #   allowPrivilegeEscalation: false
+  #   readOnlyRootFilesystem: true
+  #   capabilities:
+  #     drop:
+  #       - ALL
 
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
@@ -148,7 +156,7 @@ renovateServer:
     #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
-    [ ]
+    []
     # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
@@ -157,7 +165,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    tag: 6.9.1-full
+    tag: 6.11.0-full
     pullPolicy: IfNotPresent
 
   # Optional. Specify a directory path to save Renovate job log files.
@@ -222,20 +230,18 @@ renovateWorker:
   # defaults to https://github.com/renovatebot/renovate
   renovateUserAgent:
 
-  resources: { }
+  resources: {}
 
-  annotations: { }
+  annotations: {}
 
   labels:
-    pods: { }
+    pods: {}
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
-
-  podSecurityContext: { }
+  affinity: {}
 
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
@@ -250,7 +256,7 @@ renovateWorker:
     #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
-    [ ]
+    []
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
@@ -278,7 +284,7 @@ service:
   type: ClusterIP
   port: 80
   annotations:
-    { }
+    {}
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -289,11 +295,11 @@ ingress:
   # ingressClassName: nginx
 
   annotations:
-    { }
+    {}
   # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local
-  tls: [ ]
+  tls: []
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
