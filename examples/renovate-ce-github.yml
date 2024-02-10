@@ -1,0 +1,31 @@
+version: "3.6"
+
+services:
+  renovate-ce:
+    # restart: on-failure
+    image: ghcr.io/mend/renovate-ce:6.9.1
+    ports:
+      - "3000:3000" # Receive webhooks on port 300~0
+    env_file:
+      - .env.local  # ONBOARDING_CONFIG
+    environment:
+      # Optional: Enable debug logging for verbose output
+      LOG_LEVEL: DEBUG
+      # Provide a license key and accept the Terms Of Service
+      MEND_LICENSE_KEY: # Get License key from Mend.io
+      MEND_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
+      # Provide connection details for the GitHub App
+      MEND_RNV_PLATFORM: github
+      MEND_RNV_GITHUB_APP_ID:
+      MEND_RNV_GITHUB_APP_KEY:
+      MEND_RNV_GITHUB_WEBHOOK_SECRET: renovate
+      # Mend Renovate Application settings
+      # MEND_RNV_ADMIN_API_ENABLED: true # Set to 'true' to enable incoming API calls
+      # MEND_RNV_LOG_HISTORY_DIR: /logs
+      # MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ce.sqlite
+      # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+    # Enable volumes if persisting the application database or Renovate job logs
+    # volumes:
+    #   - /tmp/renovate/job-logs:/logs   # Unix version
+    #   - C:\tmp\renovate\job-logs:/logs  # Windows version
+    #   - C:\tmp\renovate\db:/db
