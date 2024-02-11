@@ -24,7 +24,7 @@ x-server-variables: &server_variables
   # MEND_RNV_PLATFORM: github
   # MEND_RNV_GITHUB_APP_ID: # App ID
   # MEND_RNV_GITHUB_APP_KEY: # Private key
-  # MEND_RNV_GITHUB_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+  # MEND_RNV_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
 
   ## Mend Renovate Application settings
   MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls
