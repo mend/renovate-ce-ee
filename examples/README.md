@@ -12,9 +12,9 @@ See the [helm-charts](../helm-charts) folder for examples of using Helm Charts.
 
 ### Mend Renovate Community Edition
 
-| File                                                            | Description                                                                                                                                       |
-|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| [renovate-ce-github.yml](docker-compose/renovate-ce-github.yml) | Starts a single container for Mend Renovate Community Edition.<br/>Creates:<li>1 x Mend Renovate CE container</li> that acts as Server and Worker |
+| File                                                            | Description                                                     | Containers created                                                              |
+|-----------------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------|
+| [renovate-ce-github.yml](docker-compose/renovate-ce-github.yml) | Starts a single container for Mend Renovate Community Edition.  | <li>1 x Mend Renovate CE container</li> Acts as both Server and Worker          |
 
 ### Mend Renovate Enterprise Edition
 
