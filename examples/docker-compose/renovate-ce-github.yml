@@ -13,7 +13,7 @@ services:
       - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
     environment:
       # Optional: Enable debug logging for verbose output
-      # LOG_LEVEL: DEBUG
+      LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Useful when importing logs to reporting tool (eg. Splunk).
 
       # Provide a license key and accept the Terms of Service

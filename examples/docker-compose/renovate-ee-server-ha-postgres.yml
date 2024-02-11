@@ -50,9 +50,8 @@ services:
     ports:
       - "8080"  # Must match MEND_RNV_SERVER_PORT, plus 'proxy_pass' in nginx.conf
     environment:
-      <<: *shared_variables
-      <<: *server_variables
-      # LOG_LEVEL: debug  # Defaults to 'info'
+      <<: [*shared_variables, *server_variables]
+      LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'
       ## Network DB settings (Postgres)
       MEND_RNV_DATA_HANDLER_TYPE: postgresql
@@ -75,7 +74,7 @@ services:
       - rnv-ee-server
     environment:
       <<: *shared_variables
-      # LOG_LEVEL: debug  # Defaults to 'info'
+      LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'
     volumes:
 #      - /tmp/renovate/job-logs:/logs   # Unix version
