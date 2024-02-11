@@ -42,7 +42,7 @@ services:
   ## Renovate Server containers
   rnv-ee-server:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
-    image: ghcr.io/mend/renovate-ee-server:6.11.0
+    image: ghcr.io/mend/renovate-ee-server:<latest-version>
     deploy:
       replicas: 2
     depends_on:
@@ -68,7 +68,7 @@ services:
   ## Renovate Worker containers
   rnv-ee-worker:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
-    image: ghcr.io/mend/renovate-ee-worker:6.11.0
+    image: ghcr.io/mend/renovate-ee-worker:<latest-version>
     deploy:
       replicas: 2
     depends_on:
