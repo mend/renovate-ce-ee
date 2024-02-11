@@ -1,8 +1,8 @@
 version: "3.6"
 
 ## Title: Renovate CE with SQLite DB
-## Description: This example Docker Compose file starts containers for Mend Renovate Community Edition.
-## Details: Creates 1 container that acts as Server and Worker.
+## Description: This example Docker Compose file starts a single container for Mend Renovate Community Edition.
+## Details: Creates 1 x Mend Renovate CE container that acts as Server and Worker.
 
 services:
   renovate-ce:
@@ -24,7 +24,7 @@ services:
       MEND_RNV_PLATFORM: github
       MEND_RNV_GITHUB_APP_ID: # App ID
       MEND_RNV_GITHUB_APP_KEY: # Private key
-      # MEND_RNV_GITHUB_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+      # MEND_RNV_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
 
       # Mend Renovate Application settings (Optional)
       # MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls. Must set MEND_RNV_SERVER_API_SECRET.
