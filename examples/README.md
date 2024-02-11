@@ -12,9 +12,10 @@ See the [helm-charts](../helm-charts) folder for examples of using Helm Charts.
 
 ### Mend Renovate Community Edition
 
-| File                                                            | Description                                                     | Containers created                                                              |
-|-----------------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------|
-| [renovate-ce-github.yml](docker-compose/renovate-ce-github.yml) | Starts a single container for Mend Renovate Community Edition.  | <li>1 x Mend Renovate CE container</li> Acts as both Server and Worker          |
+| File                                                                | Description                                                                                                                                                               | Containers created                                                                  |
+|---------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [renovate-ce-github.yml](docker-compose/renovate-ce-github.yml)     | Starts a single container for Mend Renovate Community Edition.                                                                                                            | <li>1 x Mend Renovate CE container</li>            |
+| [renovate-ce-postgres.yml](docker-compose/renovate-ce-postgres.yml) | Starts a single container for Mend Renovate Community Edition.<li>Uses network accessible PostgreSQL DB</li><br/><br/>Requires additional files: <li>[pgAdmin Dockerfile](dockerfiles/pgadmin/Dockerfile)</li> | <li>1 x Mend Renovate CE</li><li>Postgres DB</li><li>Postgres Web UI (pgAdmin)</li> |
 
 ### Mend Renovate Enterprise Edition
 
