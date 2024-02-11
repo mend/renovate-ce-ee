@@ -1,45 +1,60 @@
 version: "3.4"
 
-x-controller-shared-variables: &variables-controller
-  ## Shared variables - used in both Server and Worker
-  MEND_RNV_SERVER_HOSTNAME: http://nginx:4000
-  LOG_LEVEL: debug
+## Title: Renovate Enterprise High Availability Server with Postgres DB
+## Description: This example Docker Compose file starts containers for Mend Renovate Enterprise Edition.
+## Details: Creates 2 x Servers, 2 x Workers, Nginx load balancer (for Servers), Postgres DB, Postgres Web UI (PGAdmin)
 
-  ## Mend-Renovate variables. All values must be set!
-  ## Note: Can be moved to a separate file (eg. mend.env) and referenced as 'env_file' in both Server and Worker
-  # # License Activation
-  # MEND_RNV_LICENSE_KEY= # Enterprise licence key. Get License key from Mend.io
-  # MEND_RNV_ACCEPT_TOS= # Set to 'Y' to accept Terms of Service
-  # MEND_RNV_MC_TOKEN= # Provide token or set to 'auto' to enable Merge Confidence package rules
-  # Enable API calls
-  # MEND_RNV_ADMIN_API_ENABLED= # Set to 'true' to enable incoming API calls
-  # MEND_RNV_SERVER_API_SECRET=abc123 # Must be set when using APIs. Required on Renovate EE Servers.
+## Shared variables - used in both Server and Worker
+x-shared-variables: &shared_variables
+  MEND_RNV_SERVER_HOSTNAME: http://nginx:4000  # Server URL. Use URL of load balancer if there are multiple Servers.
+
+  ## Mend-Renovate essential variables
+  MEND_RNV_LICENSE_KEY: # Enterprise licence key. Get License key from Mend.io
+  MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
+  MEND_RNV_SERVER_API_SECRET: abc123 # Required on Server and Worker for internal communication
+
+## Server variables
+x-server-variables: &server_variables
+  # Enable Merge Confidence package rules
+  MEND_RNV_MC_TOKEN: auto # Provide token or set to 'auto'
+
+  # Renovate App connection details (eg. GitHub, GitLab, Bitbucket)
+  # GitHub configuration variables provided below for convenience.
+  # See Renovate-CE-EE documentation for connection details for all platforms.
+  # MEND_RNV_PLATFORM: github
+  # MEND_RNV_GITHUB_APP_ID: # App ID
+  # MEND_RNV_GITHUB_APP_KEY: # Private key
+  # MEND_RNV_GITHUB_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+
+  ## Mend Renovate Application settings
+  MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls
+  MEND_RNV_LOG_HISTORY_DIR: /logs  # Write Renovate job logs to file. Enable volume mount on Server and Worker!
+  MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+  # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
 
 services:
 
-  # To scale Server and Worker instances post deployment, run the following command (replace values as appropriate):
+  ## Scaling Server and Worker instances after initial deployment
+  # To increase or decrease Server or Worker instances, run the following command (replace values as appropriate):
   # $ docker-compose -f renovate-ee-server-ha-postgres.yml up --scale rnv-ee-server=3 --scale rnv-ee-worker=4 -d --no-recreate
+  # Note: Always specify both Server and Worker scaling. Whichever is unspecified will be re-scaled to its original value.
 
-  ## Details for Renovate Server containers
+  ## Renovate Server containers
   rnv-ee-server:
-    #    restart: unless-stopped
-    image: ghcr.io/mend/renovate-ee-server:6.9.1
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
+    image: ghcr.io/mend/renovate-ee-server:6.11.0
     deploy:
       replicas: 2
     depends_on:
       - postgres-database
     ports:
-      - "8080"
-    ## Note: Requires config for a platform (ie. GitHub, GitLab). Insert platform vars in 'environment' section below
-    ## Or place platform-specific configuration in a separate env file referenced in the 'env_file' section.
-    env_file:
-     - env/mend-rnv-ee.env  # License activation keys
-     - env/github.env  # Renovate App connection details
+      - "8080"  # Must match MEND_RNV_SERVER_PORT, plus 'proxy_pass' in nginx.conf
     environment:
-      <<: *variables-controller
-      MEND_RNV_ADMIN_API_ENABLED: false # Set to 'true' to enable incoming API calls
-      MEND_RNV_LOG_HISTORY_DIR: /logs   # Must match volume defined in Worker and Server
-      MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+      <<: *shared_variables
+      <<: *server_variables
+      # LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
+      ## Network DB settings (Postgres)
       MEND_RNV_DATA_HANDLER_TYPE: postgresql
       PGDATABASE: postgres
       PGUSER: postgres
@@ -50,17 +65,18 @@ services:
 #      - /tmp/renovate/job-logs:/logs   # Unix version
       - C:\tmp\renovate\job-logs:/logs  # Windows version
 
+  ## Renovate Worker containers
   rnv-ee-worker:
-    #    restart: always
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
+    image: ghcr.io/mend/renovate-ee-worker:6.11.0
     deploy:
       replicas: 2
-    image: ghcr.io/mend/renovate-ee-worker:6.9.1
     depends_on:
       - rnv-ee-server
-    env_file:
-      - env/mend-rnv-ee.env
     environment:
-      <<: *variables-controller
+      <<: *shared_variables
+      # LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
     volumes:
 #      - /tmp/renovate/job-logs:/logs   # Unix version
       - C:\tmp\renovate\job-logs:/logs  # Windows version

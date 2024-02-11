@@ -1,5 +1,9 @@
 version: "3.6"
 
+## Title: Renovate CE with SQLite DB
+## Description: This example Docker Compose file starts containers for Mend Renovate Community Edition.
+## Details: Creates 1 container that acts as Server and Worker.
+
 services:
   renovate-ce:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ce
