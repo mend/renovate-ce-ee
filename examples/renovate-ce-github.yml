@@ -10,22 +10,26 @@ services:
     environment:
       # Optional: Enable debug logging for verbose output
       # LOG_LEVEL: DEBUG
-      # Provide a license key and accept the Terms Of Service
-      MEND_RNV_LICENSE_KEY: # Community license key. Get License key from Mend.io
+      # LOG_FORMAT: json  # Defaults to 'pretty'. Useful when importing logs to reporting tool (eg. Splunk).
+
+      # Provide a license key and accept the Terms of Service
+      MEND_RNV_LICENSE_KEY: # Get Community Edition license key from https://www.mend.io/renovate-community/
       MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
       # Provide connection details for the GitHub App
       # Available at: https://github.com/settings/apps/<your-renovate-app>
       MEND_RNV_PLATFORM: github
       MEND_RNV_GITHUB_APP_ID: # App ID
       MEND_RNV_GITHUB_APP_KEY: # Private key
-      MEND_RNV_GITHUB_WEBHOOK_SECRET: renovate  # Webhook secret (Optional)
+      # MEND_RNV_GITHUB_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+
       # Mend Renovate Application settings (Optional)
       # MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls. Must set MEND_RNV_SERVER_API_SECRET.
       # MEND_RNV_SERVER_API_SECRET: abc123 # Required to enable APIs
-      # MEND_RNV_LOG_HISTORY_DIR: /logs  # Write Renovate job logs to file. Enable volume mount!
-      # MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ce.sqlite  # Persist database to file. Enable volume mount!
+      # MEND_RNV_LOG_HISTORY_DIR: /logs  # Persist Renovate job logs - organized by org/rep/timestamp. Enable volume mount!
+      # MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ce.sqlite  # Persist database to file. Enable volume mount! (Defaults to '/tmp/database.sqlite')
       # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
       # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+
     # Enable volumes if persisting the application database or Renovate job logs
     # volumes:
     # Tip: Create folders in advance to avoid permission issues (ie. when Renovate CLI tries to write logs)
