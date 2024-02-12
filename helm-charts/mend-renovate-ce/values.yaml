@@ -20,7 +20,8 @@ renovate:
   # Please allow up to 24 hours to receive your license key by email.
   mendRnvLicenseKey:
 
-  # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
+  # Which platform Mend Renovate will connect to.
+  # valid values: "github", "gitlab" or "bitbucket-server"
   mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
@@ -34,6 +35,20 @@ renovate:
 
   # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
   mendRnvGithubAppKey:
+
+  # Renovate Bot user account (Bitbucket "User" access only)
+  mendRnvBitbucketUser:
+
+  # BitBucket access token for the bot user
+  mendRnvBitbucketPat:
+
+  # Optional: The URL of the Renovate Server plus '/webhook' suffix.
+  # Must be accessible to receive incoming calls from the BitBucket server.
+  mendRnvWebhookURL:
+
+  # Optional: A token used for searching/adding/removing repository webhooks.
+  # required if MEND_RNV_WEBHOOK_URL is set.
+  mendRnvAdminToken:
 
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
   # If you set cachePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
@@ -124,6 +139,16 @@ renovate:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+
+postgresql:
+  # if to use PostgreSQL, if unset SQLite will be used instead
+  enabled:
+  host:
+  port:
+  database:
+  user:
+  password:
+
 
 ## Cache Persistence Parameters
 ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/

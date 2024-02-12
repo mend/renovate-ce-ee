@@ -78,18 +78,6 @@ spec:
                   key: pipIndexUrl
                   optional: true
             {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryDir }}
-            - name: MEND_RNV_LOG_HISTORY_DIR
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryDir }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryTTLDays }}
-            - name: MEND_RNV_LOG_HISTORY_TTL_DAYS
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryTTLDays | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryCleanupCron }}
-            - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryCleanupCron }}
-            {{- end }}
             {{- if .Values.renovateWorker.mendRnvWorkerExecutionTimeout }}
             - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
               value: {{ .Values.renovateWorker.mendRnvWorkerExecutionTimeout | quote }}

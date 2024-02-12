@@ -46,27 +46,6 @@ spec:
             {{- with .Values.renovateServer.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-
-            {{- if .Values.postgresql.enabled }}
-            - name: MEND_RNV_DATA_HANDLER_TYPE
-              value: postgresql
-            - name: PGDATABASE
-              value: {{ .Values.postgresql.database | quote }}
-            - name: PGUSER
-              value: {{ .Values.postgresql.user | quote }}
-            - name: PGPASSWORD
-              value: {{ .Values.postgresql.password | quote }}
-            - name: PGPORT
-              value: {{ .Values.postgresql.port | quote }}
-            {{- end }}
-            {{- if and .Values.postgresql.enabled .Values.postgresql.development }}
-            - name: PGHOST
-              value: "{{ include "mend-renovate.fullname" . }}-srv-database"
-            {{- else if .Values.postgresql.enabled }}
-            - name: PGHOST
-              value: {{ .Values.postgresql.host | quote }}
-            {{- end }}
-
             {{- if .Values.license.mendRnvAcceptTos }}
             - name: MEND_RNV_ACCEPT_TOS
               value: {{ .Values.license.mendRnvAcceptTos | quote }}
@@ -86,6 +65,7 @@ spec:
             - name: MEND_RNV_ENDPOINT
               value: {{ .Values.renovateServer.mendRnvEndpoint | quote }}
             {{- end }}
+            # GitLab
             {{- if or .Values.renovateServer.mendRnvGitlabPat .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_GITLAB_PAT
               valueFrom:
@@ -94,6 +74,7 @@ spec:
                   key: mendRnvGitlabPat
                   optional: true
             {{- end }}
+            # GitHub
             {{- if or .Values.renovateServer.mendRnvGithubAppId .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_ID
               valueFrom:
@@ -109,6 +90,53 @@ spec:
                   name: {{ include "mend-renovate.server-secret-name" . }}
                   key: mendRnvGithubAppKey
                   optional: true
+            {{- end }}
+            # BitBucket
+            {{- if or .Values.renovateServer.mendRnvBitbucketUser }}
+            - name: MEND_RNV_BITBUCKET_USER
+              value: {{ .Values.renovateServer.mendRnvBitbucketUser | quote }}
+            {{- end }}
+            {{- if or .Values.renovateServer.mendRnvBitbucketPat .Values.renovateServer.existingSecret }}
+            - name: MEND_RNV_BITBUCKET_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: mendRnvBitbucketPat
+                  optional: true
+            {{- end }}
+            # PostgrSQL database
+            {{- if .Values.postgresql.enabled }}
+            - name: MEND_RNV_DATA_HANDLER_TYPE
+              value: postgresql
+            - name: PGDATABASE
+              value: {{ .Values.postgresql.database | quote }}
+            - name: PGUSER
+              value: {{ .Values.postgresql.user | quote }}
+            - name: PGPORT
+              value: {{ .Values.postgresql.port | quote }}
+            - name: PGHOST
+              value: {{ .Values.postgresql.host | quote }}
+            {{- end }}
+            {{- if or .Values.postgresql.enabled .Values.renovate.existingSecret }}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: pgPassword
+                  optional: true
+            {{- end }}
+
+            {{- if or .Values.renovateServer.mendRnvAdminToken .Values.renovateServer.existingSecret }}
+            - name: MEND_RNV_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: mendRnvAdminToken
+                  optional: true
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvWebhookURL }}
+            - name: MEND_RNV_WEBHOOK_URL
+              value: {{ .Values.renovateServer.mendRnvWebhookURL | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvSqliteFilePath }}
             - name: MEND_RNV_SQLITE_FILE_PATH
@@ -142,6 +170,18 @@ spec:
             - name: MEND_RNV_USER_AGENT
               value: {{ .Values.renovateServer.mendRnvUserAgent | quote }}
             {{- end }}
+            {{- if .Values.renovateServer.mendRnvLogHistoryDir }}
+            - name: MEND_RNV_LOG_HISTORY_DIR
+              value: {{ .Values.renovateServer.mendRnvLogHistoryDir }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvLogHistoryTTLDays }}
+            - name: MEND_RNV_LOG_HISTORY_TTL_DAYS
+              value: {{ .Values.renovateServer.mendRnvLogHistoryTTLDays | quote }}
+            {{ - end }}
+            {{ - if .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
+            - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
+              value: {{ .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
+            {{ - end }}
             {{- if .Values.renovateServer.logLevel }}
             - name: LOG_LEVEL
               value: {{ .Values.renovateServer.logLevel | quote }}
