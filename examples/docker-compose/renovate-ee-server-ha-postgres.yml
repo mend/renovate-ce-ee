@@ -1,0 +1,118 @@
+version: "3.4"
+
+## Title: Renovate Enterprise High Availability Server with Postgres DB
+## Description: This example Docker Compose file starts containers for Mend Renovate Enterprise Edition.
+## Details: Creates 2 x Servers, 2 x Workers, Nginx load balancer (for Servers), Postgres DB, Postgres Web UI (PGAdmin)
+
+## Shared variables - used in both Server and Worker
+x-shared-variables: &shared_variables
+  MEND_RNV_SERVER_HOSTNAME: http://nginx:4000  # Server URL. Use URL of load balancer if there are multiple Servers.
+
+  ## Mend-Renovate essential variables
+  MEND_RNV_LICENSE_KEY: # Enterprise licence key. Get License key from Mend.io
+  MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
+  MEND_RNV_SERVER_API_SECRET: abc123 # Required on Server and Worker for internal communication
+
+## Server variables
+x-server-variables: &server_variables
+  # Enable Merge Confidence package rules
+  MEND_RNV_MC_TOKEN: auto # Provide token or set to 'auto'
+
+  # Renovate App connection details (eg. GitHub, GitLab, Bitbucket)
+  # GitHub configuration variables provided below for convenience.
+  # See Renovate-CE-EE documentation for connection details for all platforms.
+  # MEND_RNV_PLATFORM: github
+  # MEND_RNV_GITHUB_APP_ID: # App ID
+  # MEND_RNV_GITHUB_APP_KEY: # Private key
+  # MEND_RNV_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+
+  ## Mend Renovate Application settings
+  MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls
+  MEND_RNV_LOG_HISTORY_DIR: /logs  # Write Renovate job logs to file. Enable volume mount on Server and Worker!
+  MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+  # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+
+services:
+
+  ## Scaling Server and Worker instances after initial deployment
+  # To increase or decrease Server or Worker instances, run the following command (replace values as appropriate):
+  # $ docker-compose -f renovate-ee-server-ha-postgres.yml up --scale rnv-ee-server=3 --scale rnv-ee-worker=4 -d --no-recreate
+  # Note: Always specify both Server and Worker scaling. Whichever is unspecified will be re-scaled to its original value.
+
+  ## Renovate Server containers
+  rnv-ee-server:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
+    image: ghcr.io/mend/renovate-ee-server:<latest-version>
+    deploy:
+      replicas: 2
+    depends_on:
+      - postgres-database
+    ports:
+      - "8080"  # Must match MEND_RNV_SERVER_PORT, plus 'proxy_pass' in nginx.conf
+    environment:
+      <<: [*shared_variables, *server_variables]
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
+      ## Network DB settings (Postgres)
+      MEND_RNV_DATA_HANDLER_TYPE: postgresql
+      PGDATABASE: postgres
+      PGUSER: postgres
+      PGPASSWORD: password
+      PGHOST: postgres-database
+      PGPORT: 5432
+    volumes:
+#      - /tmp/renovate/job-logs:/logs   # Unix version
+      - C:\tmp\renovate\job-logs:/logs  # Windows version
+
+  ## Renovate Worker containers
+  rnv-ee-worker:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
+    image: ghcr.io/mend/renovate-ee-worker:<latest-version>
+    deploy:
+      replicas: 2
+    depends_on:
+      - rnv-ee-server
+    environment:
+      <<: *shared_variables
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
+    volumes:
+#      - /tmp/renovate/job-logs:/logs   # Unix version
+      - C:\tmp\renovate\job-logs:/logs  # Windows version
+
+  ## Load balancer for Renovate Server containers
+  ## Will balance traffic sent to http://localhost:4000/ between Renovate Server instances (rnv-ee-server)
+  ## Note! Requires 'nginx.conf' file (available in 'conf' directory).
+  nginx:
+    image: nginx:1.25.3
+    volumes:
+      - ../conf/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - rnv-ee-server
+    ports:
+      - "4000:4000"
+
+  ## Postgres Database - used for persisting data held by Mend Renovate about jobs and repos
+  postgres-database:
+    restart: always
+    image: postgres:16.1-alpine3.17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  ## [Optional] Postgres Web Frontend (pgAdmin)
+  ## View the database contents via URL: http://localhost:5050/ with user/pwd as defined below
+  ## Note! pgAdmin requires 'Dockerfile' file (available in 'dockerfiles/pgadmin' directory).
+  pgadmin:
+    restart: unless-stopped
+    build:
+      context: ../dockerfiles/pgadmin
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-database
+    ports:
+      - "5050:5050"
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
