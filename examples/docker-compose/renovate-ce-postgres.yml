@@ -1,0 +1,75 @@
+version: "3.6"
+
+## Title: Renovate CE with SQLite DB
+## Description: This example Docker Compose file starts a single container for Mend Renovate Community Edition.
+## Details: Creates 1 x Mend Renovate CE container that acts as Server and Worker.
+
+services:
+  renovate-ce:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ce
+    image: ghcr.io/mend/renovate-ce:<latest-version>
+    depends_on:
+      - postgres-database
+    ports:
+      # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
+      - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
+    environment:
+      # Optional: Enable debug logging for verbose output
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'. Useful when importing logs to reporting tool (eg. Splunk).
+
+      # Provide a license key and accept the Terms of Service
+      MEND_RNV_LICENSE_KEY: # Get Community Edition license key from https://www.mend.io/renovate-community/
+      MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
+      # Provide connection details for the GitHub App
+      # Available at: https://github.com/settings/apps/<your-renovate-app>
+      MEND_RNV_PLATFORM: github
+      MEND_RNV_GITHUB_APP_ID: # App ID
+      MEND_RNV_GITHUB_APP_KEY: # Private key
+      # MEND_RNV_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
+
+      # Mend Renovate Application settings (Optional)
+      # MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls. Must set MEND_RNV_SERVER_API_SECRET.
+      # MEND_RNV_SERVER_API_SECRET: abc123 # Required to enable APIs
+      # MEND_RNV_LOG_HISTORY_DIR: /logs  # Persist Renovate job logs - organized by org/rep/timestamp. Enable volume mount!
+      # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+      # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+
+      # Connection details to the Postgres DB
+      MEND_RNV_DATA_HANDLER_TYPE: postgresql
+      PGDATABASE: postgres
+      PGUSER: postgres
+      PGPASSWORD: password
+      PGHOST: postgres-database
+      PGPORT: 5432
+
+    # Enable volumes if persisting Renovate job logs
+    # volumes:
+      # Tip: Create folders in advance to avoid permission issues (ie. when Renovate CLI tries to write logs)
+      # - /tmp/renovate/job-logs:/logs   # Unix version
+      # - C:\tmp\renovate\job-logs:/logs  # Windows version
+
+  ## Postgres Database - used for persisting data held by Mend Renovate about jobs and repos
+  postgres-database:
+    restart: always
+    image: postgres:16.1-alpine3.17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  ## [Optional] Postgres Web Frontend (pgAdmin)
+  ## View the database contents via URL: http://localhost:5050/ with user/pwd as defined below
+  ## Note! pgAdmin requires 'Dockerfile' file (available in 'dockerfiles/pgadmin' directory).
+  pgadmin:
+    restart: unless-stopped
+    build:
+      context: ../dockerfiles/pgadmin
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-database
+    ports:
+      - "5050:5050"
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
