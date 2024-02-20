@@ -258,7 +258,11 @@ spec:
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: .Values.imagePullSecrets
+      {{- end }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
