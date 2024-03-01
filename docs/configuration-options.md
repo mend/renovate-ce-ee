@@ -11,23 +11,40 @@ See below for a list of environment variables that relate to each.
 The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.<br/>
 Environment variables for the **Mend Renovate Enterprise Worker** are in the next section.
 
+#### Mend licensing config
+
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
-**`MEND_RNV_LICENSE_KEY`**: For a Renovate Enterprise license key, contact Mend via the [Renovate Enterprise webpage](https://www.mend.io/renovate-enterprise/).
+**`MEND_RNV_LICENSE_KEY`**: Contact Mend to request a license key. [Mend.io/renovate](https://www.mend.io/renovate/)
 
-**`MEND_RNV_PLATFORM`**: Set this to `github`.
+**`MEND_RNV_MC_TOKEN`**: [Enterprise only] The merge confidence token used for Smart-Merge-Control authentication.
 
-**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your GitHub Enterprise installation. Required for GitHub Enterprise Server; not for GitHub.com. Include the trailing slash.
+#### Source code management (SCM) connection details
 
-**`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
+This section contains configuration variables for connecting to your source code repository.
+Use the appropriate settings to define connection details to your specific SCM.
 
-**`MEND_RNV_GITHUB_APP_KEY`**: A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
+**`MEND_RNV_PLATFORM`**: The type of SCM. Options: github, gitlab, bitbucket.
 
-**`RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your SCM. Required for self-hosted SCMs; not for GitHub.com. Include the trailing slash.
+
+**`MEND_RNV_GITHUB_APP_ID`**: [GitHub only] The GitHub App ID of the provisioned Renovate app on GitHub.
+
+**`MEND_RNV_GITHUB_APP_KEY`**: [GitHub only] A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
+
+**`RNV_GITHUB_PEM_FILE_PATH`**: [GitHub only] The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
+
+**`MEND_RNV_GITLAB_PAT`**: [GitLab only] Personal Access Token for the GitLab bot account.
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
-**`MEND_RNV_SERVER_API_SECRET`**: Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
+#### Optional Mend Renovate configuration
+
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance).
+This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
+It needs only read-only access privileges. Not required if SCM is GitHub.com.
+
+**`MEND_RNV_SERVER_API_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
@@ -57,8 +74,6 @@ sqlite>
 
 **`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 \* \* \*` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance). This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to. It needs only read-only access privileges. Note: This is required if you are using a self-hosted GitHub Enterprise instance but should not be configured if your `RENOVATE_ENDPOINT` is `https://api.github.com`.
-
 **`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
 
 > [!WARNING]  
@@ -68,8 +83,6 @@ sqlite>
 - `enabled`: enqueue a job for all available repositories
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
-
-**`MEND_RNV_MC_TOKEN`**: The merge confidence token used for Smart-Merge-Control authentication
 
 **`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history between multiple workers. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
 
