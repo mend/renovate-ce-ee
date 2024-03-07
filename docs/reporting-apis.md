@@ -15,27 +15,29 @@ Set `RENOVATE_REPOSITORY_CACHE=enabled` on the Renovate EE Worker containers.
 
 Note: The Repo-Pulls API only works with GitHub repositories.
 
-## List of Reporting APIs
+## Available Reporting APIs
 
-Available reporting APIs:
+Available reporting APIs are listed below. Follow the links on the API names for full details.
 
-- Org info ← Stats for a single org
-- Repo info ← List of repos for a single org
-- Repo list ← Stats for a single repo
-- Repo dashboard ← Dependency Dashboard information
-- Repo pull requests (*) ← List of pull requests for a single repo
-
-(*) Note: The Repo Pull Requests API is only available for GitHub repositories. It requires `RENOVATE_REPOSITORY_CACHE=enabled`.
+- [Org info](#org-info) ← Stats for a single org
+- [Repo list](#repo-list) ← List of repos for a single org
+- [Repo info](#repo-info) ← Stats for a single repo
+- [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information
+- [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo
+  - Note: The `Repo pull requests` API is only available for GitHub repositories.
+  - It requires `RENOVATE_REPOSITORY_CACHE=enabled`.
 
 ## Reporting API URLs
 
-|API| URL format                          |
-|---|-------------------------------------|
-| Org info | /api/orgs/{org}                     |
-| Repo info | /api/orgs/{org}/-/repos             |
-| Repo list | /api/repos/{org}/-/{repo}           |
-| Repo Dashboard | /api/repos/{org}/-/{repo}/dashboard |
-| Repo PRs | /api/repos/{org}/-/{repo}/pulls     |
+See the table below for a list of reporting API URL formats.
+
+| API                                       | URL format                          | Query parameters <br> (defaults shown in brackets) |
+|-------------------------------------------|-------------------------------------|----------------------------------------------------|
+| [Org info](#org-info)                     | /api/orgs/{org}                     |                                                    |
+| [Repo list](#repo-list)                   | /api/orgs/{org}/-/repos             | state=[installed],uninstalled,all                  |
+| [Repo info](#repo-info)                   | /api/repos/{org}/-/{repo}           |                                                    |
+| [Repo dashboard](#repo-dashboard)         | /api/repos/{org}/-/{repo}/dashboard |                                                    |
+| [Repo pull requests](#repo-pull-requests) | /api/repos/{org}/-/{repo}/pulls     | state=[open],merged,closed,all <br> limit=[100]    |
 
 ## Details of Reporting APIs
 
@@ -43,9 +45,10 @@ Available reporting APIs:
 
 API: [GET] /api/orgs/{org}
 
-Description: Stats for a single org
+**Description:** Stats for a single org
 
-Example: Fetch info and stats for org ‘justo-mend’
+**Example:** Fetch info and stats for org ‘justo-mend’
+
 [GET] http://localhost/api/orgs/justo-mend   (Note: no trailing slash!)
 
 ```json
@@ -88,9 +91,9 @@ API: [GET] /api/orgs/{org}/-/repos
 query parameters:
 - state=[installed],uninstalled,all
 
-Description: List of repos for a single org
+**Description:** List of repos for a single org
 
-Example: Fetch a list of all currently installed repos on org ‘justo-mend’
+**Example:** Fetch a list of all currently installed repos on org ‘justo-mend’
 
 [GET] http://localhost/api/orgs/justo-mend/-/repos
 
@@ -111,7 +114,7 @@ Example: Fetch a list of all currently installed repos on org ‘justo-mend’
 ]
 ```
 
-Example: Fetch a list of all repos (installed and uninstalled)
+**Example:** Fetch a list of all repos (installed and uninstalled)
 
 [GET] http://localhost/api/orgs/justo-mend/-/repos?state=all
 
@@ -146,7 +149,7 @@ Example: Fetch a list of all repos (installed and uninstalled)
 ]
 ```
 
-Example: Fetch a list of uninstalled repos
+**Example:** Fetch a list of uninstalled repos
 
 [GET] http://localhost/api/orgs/justo-mend/-/repos?state=uninstalled
 
@@ -171,11 +174,11 @@ Example: Fetch a list of uninstalled repos
 
 ### Repo info
 
-API: [GET] /api/orgs/{org}/-/{repo}
+API: [GET] /api/repos/{org}/-/{repo}
 
-Description: Stats for a single repo
+**Description:** Stats for a single repo
 
-Example: Fetch info and stats for repo ‘justo-mend/demo-repo-7’
+**Example:** Fetch info and stats for repo ‘justo-mend/demo-repo-7’
 
 [GET] http://localhost/api/repos/justo-mend/-/demo-repo-7
 
@@ -198,7 +201,7 @@ Example: Fetch info and stats for repo ‘justo-mend/demo-repo-7’
 
 ### Repo dashboard
 
-API: [GET] /api/orgs/{org}/-/{repo}/dashboard
+API: [GET] /api/repos/{org}/-/{repo}/dashboard
 
 **Description:** Replicates the Dependency Dashboard Issue contents.
 Includes:
