@@ -444,7 +444,7 @@ Includes:
 
 ### Repo pull requests
 
-> [!NOTE]  
+> [!IMPORTANT]  
 > 1. This API is available for GitHub repositories only.
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
 
