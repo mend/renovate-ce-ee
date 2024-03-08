@@ -1,8 +1,14 @@
 # Renovate EE Reporting APIs
 
-Reporting APIs are available only on Mend Renovate Enterprise Edition.
+Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that managed by Mend Renovate.
+These APIs are available only on Mend Renovate Enterprise Edition instances running with a Postgres DB.
 
 **Version**: This documentation reflects APIs available in Mend Renovate Enterprise v7.0.0
+
+> [!IMPORTANT]  
+> Reporting APIs are only supported for the following configuration:
+> - Mend Renovate Enterprise Edition
+> - Using PostgresDB for Renovate database
 
 ## Available Reporting APIs
 
