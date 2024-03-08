@@ -47,7 +47,7 @@ API: [GET] /api/orgs/{org}
 
 **Description:** Stats for a single org
 
-**Example:** Fetch info and stats for org ‘justo-mend’
+**Example:** Fetch info and stats for org `justo-mend`
 
 [GET] http://localhost/api/orgs/justo-mend   (Note: no trailing slash!)
 
@@ -93,7 +93,7 @@ query parameters:
 
 **Description:** List of repos for a single org
 
-**Example:** Fetch a list of all currently installed repos on org ‘justo-mend’
+**Example:** Fetch a list of all currently installed repos on org `justo-mend`
 
 [GET] http://localhost/api/orgs/justo-mend/-/repos
 
@@ -149,7 +149,7 @@ query parameters:
 ]
 ```
 
-**Example:** Fetch a list of uninstalled repos
+**Example:** Fetch a list of uninstalled repos for org `justo-mend`
 
 [GET] http://localhost/api/orgs/justo-mend/-/repos?state=uninstalled
 
@@ -178,7 +178,7 @@ API: [GET] /api/repos/{org}/-/{repo}
 
 **Description:** Stats for a single repo
 
-**Example:** Fetch info and stats for repo ‘justo-mend/demo-repo-7’
+**Example:** Fetch info and stats for repo `justo-mend/demo-repo-7`
 
 [GET] http://localhost/api/repos/justo-mend/-/demo-repo-7
 
@@ -210,7 +210,7 @@ Includes:
 - Renovate Updates (‘updates’)
 
 
-**Example:** Fetch all Dependency Dashboard information for repo ‘justo-mend/demo-repo-7’
+**Example:** Fetch all Dependency Dashboard information for repo `justo-mend/demo-repo-7`
 
 [GET] http://localhost/api/repos/justo-mend/-/demo-repo-7/dashboard
 
@@ -450,7 +450,7 @@ query parameters:
 
 Defaults to Open pull requests only
 
-**Example:** Fetch a list of all open pull requests created by Renovate on repos on org ‘justo-mend’
+**Example:** Fetch a list of all open pull requests created by Renovate on repo `justo-mend/demo-repo-7`
 
 [GET] http://localhost/api/repos/justo-mend/-/demo-repo-7/pulls
 
