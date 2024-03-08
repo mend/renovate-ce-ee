@@ -8,14 +8,14 @@ See below for a list of environment variables that relate to each.
 
 ### Environment variables for Community Edition and Enterprise Server
 
-The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.<br/>
+The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.
 Environment variables for the **Mend Renovate Enterprise Worker** are in the next section.
 
 #### Mend licensing config
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
-**`MEND_RNV_LICENSE_KEY`**: Contact Mend to request a license key. [Mend.io/renovate](https://www.mend.io/renovate/)
+**`MEND_RNV_LICENSE_KEY`**: Contact Mend to request a license key at [mend.io/renovate-community](https://www.mend.io/renovate-community/)
 
 **`MEND_RNV_MC_TOKEN`**: [Enterprise only] The merge confidence token used for Smart-Merge-Control authentication.
 
@@ -24,7 +24,7 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 This section contains configuration variables for connecting to your source code repository.
 Use the appropriate settings to define connection details to your specific SCM.
 
-**`MEND_RNV_PLATFORM`**: The type of SCM. Options: github, gitlab, bitbucket.
+**`MEND_RNV_PLATFORM`**: The type of SCM. Options: `github`, `gitlab`, `bitbucket-server`.
 
 **`MEND_RNV_ENDPOINT`**: This is the API endpoint for your SCM. Required for self-hosted SCMs; not for GitHub.com. Include the trailing slash.
 
@@ -106,6 +106,26 @@ The corresponding Renovate job log file will be saved as:
 
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
+
+#### Postgres DB Configuration
+
+To configure Mend Renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
+
+For more information, see the [Postgres DB Configuration](configure-postgres-db.md) documentation.
+
+**`MEND_RNV_DATA_HANDLER_TYPE`**: Set to ‘postgresql’ to use a PostgreSQL database
+
+**`MEND_RNV_POSTGRES_SSL_PEM_PATH`**: The `.pem` file location in the container for SSL connection
+
+**`PGDATABASE`**: Name of the database instance. Eg. ‘postgres’
+
+**`PGUSER`**: Postgres User name. Must have Create Schema permission.
+
+**`PGPASSWORD`**: Postgres User password
+
+**`PGHOST`**: Host name of the PostgreSQL instance
+
+**`PGPORT`**: Host Port for the PostgreSQL instance
 
 ### Environment variables for Enterprise Worker
 
