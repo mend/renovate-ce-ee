@@ -7,7 +7,6 @@ Reporting APIs are an Enterprise feature available only on Mend Renovate Enterpr
 1. To enable base reporting APIs: (org info, repo list, repo stats, repo dashboard)
 
 Set `MEND_RNV_REPORTING_ENABLED=true` on the Renovate EE Server containers.
-
    
 2. [Optional] To enable the Repo-Pulls API: (repo pull requests)
 
@@ -31,13 +30,13 @@ Available reporting APIs are listed below. Follow the links on the API names for
 
 See the table below for a list of reporting API URL formats.
 
-| API                                       | URL format                                | Query parameters <br> (defaults shown in brackets) |
-|-------------------------------------------|-------------------------------------------|----------------------------------------------------|
-| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                    |
-| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed],uninstalled,all                  |
-| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/-/{repo}           |                                                    |
-| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/-/{repo}/dashboard |                                                    |
-| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/-/{repo}/pulls     | state=[open],merged,closed,all <br> limit=[100]    |
+| API                                       | URL format                                | Query parameters                                                                   |
+|-------------------------------------------|-------------------------------------------|------------------------------------------------------------------------------------|
+| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                                                    |
+| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed)                              |
+| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/-/{repo}           |                                                                                    |
+| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/-/{repo}/dashboard |                                                                                    |
+| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/-/{repo}/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000) |
 
 ## Details of Reporting APIs
 
@@ -89,7 +88,9 @@ API: [GET] /api/orgs/{org}
 API: [GET] /api/orgs/{org}/-/repos
 
 query parameters:
-- state=[installed],uninstalled,all
+- state
+    - Options = installed, uninstalled, all
+    - Default = installed
 
 **Description:** List of repos for a single org
 
@@ -208,7 +209,6 @@ Includes:
 - Notes/Warnings
 - Detected Dependencies (‘deps’)
 - Renovate Updates (‘updates’)
-
 
 **Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
@@ -441,14 +441,19 @@ Includes:
 API: [GET] /api/repos/{org}/-/{repo}/pulls
 
 query parameters:
-- state=[open],merged,closed,all
-- limit=[100]  (Max=10,000)
+- state
+  - Options = open, merged, closed, all
+  - Default = open
+- limit
+  - Max = 10,000
+  - Default = 100
+  - Sorted by most recently updated
 
 **_Note: Available for GitHub repos only._** Requires `RENOVATE_REPOSITORY_CACHE=enabled` on the Worker.
 
 **Description:** List of pull requests for a single repo
-
-Defaults to Open pull requests only
+- Defaults to `open` pull requests only with limit of `100`.
+- Results are sorted descending by PR update date.
 
 **Example:** Fetch a list of all open pull requests created by Renovate on repo `my-org/demo-repo-2`
 
