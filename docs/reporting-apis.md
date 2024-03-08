@@ -23,12 +23,14 @@ Reporting APIs are disabled by default. When Reporting APIs are enabled, relevan
 To enable reporting APIs:
 * Set `MEND_RNV_REPORTING_ENABLED=true` on the Renovate EE Server containers.
 
-> **Important**: Data will not be available for the `Repo pull requests` API unless Renovate is run with Repository Cache enabled.
+> [!IMPORTANT]  
+> Data will not be available for the `Repo pull requests` API unless Renovate is run with Repository Cache enabled.
 
 To enable data collection for the `Repo pull requests` API:
 * Set `RENOVATE_REPOSITORY_CACHE=enabled` on the Renovate EE Worker containers.
 
-> **Note**: The `Repo pull request` API only works with GitHub repositories.
+> [!NOTE]  
+> The `Repo pull request` API only works with GitHub repositories.
 
 ## Reporting API URLs
 
