@@ -1,6 +1,6 @@
 # Renovate EE Reporting APIs
 
-Reporting APIs are an Enterprise feature available only on Mend Renovate Enterprise Edition. Reporting APIs  are not available on Mend Renovate Community Edition.
+Reporting APIs are available only on Mend Renovate Enterprise Edition.
 
 **Version**: This documentation reflects APIs available in Mend Renovate Enterprise v7.0.0
 
@@ -444,6 +444,9 @@ Includes:
 
 ### Repo pull requests
 
+> [!NOTE] **Available for GitHub repositories only.**
+> * Requires `RENOVATE_REPOSITORY_CACHE=enabled` on Worker containers.
+
 API: [GET] /api/repos/{org}/-/{repo}/pulls
 
 query parameters:
@@ -453,9 +456,8 @@ query parameters:
 - limit
   - Max = 10,000
   - Default = 100
-  - Sorted by most recently updated
 
-**_Note: Available for GitHub repos only._** Requires `RENOVATE_REPOSITORY_CACHE=enabled` on the Worker.
+Pagination is not supported. Results are sorted with most recently updated first.
 
 **Description:** List of pull requests for a single repo
 - Defaults to `open` pull requests only with limit of `100`.
