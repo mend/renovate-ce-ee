@@ -12,7 +12,7 @@ The list below describes the available reporting APIs. Follow the links on the A
 - [Repo list](#repo-list) ← List of repos for a single org
 - [Repo info](#repo-info) ← Stats for a single repo
 - [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information
-- [Repo pull requests](#repo-pull-requests) ← [GitHub only] List of pull requests for a single repo
+- [Repo pull requests](#repo-pull-requests) [GitHub only] ← List of pull requests for a single repo
 
 ## Enable Reporting APIs
 
