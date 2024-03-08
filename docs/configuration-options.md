@@ -113,19 +113,13 @@ To configure Mend Renovate to use a PostgreSQL database, the following environme
 
 For more information, see the [Postgres DB Configuration](configure-postgres-db.md) documentation.
 
-**`MEND_RNV_DATA_HANDLER_TYPE`**: Set to ‘postgresql’ to use a PostgreSQL database
-
-**`MEND_RNV_POSTGRES_SSL_PEM_PATH`**: The `.pem` file location in the container for SSL connection
-
-**`PGDATABASE`**: Name of the database instance. Eg. ‘postgres’
-
-**`PGUSER`**: Postgres User name. Must have Create Schema permission.
-
-**`PGPASSWORD`**: Postgres User password
-
-**`PGHOST`**: Host name of the PostgreSQL instance
-
-**`PGPORT`**: Host Port for the PostgreSQL instance
+* **`MEND_RNV_DATA_HANDLER_TYPE`**: Set to ‘postgresql’ to use a PostgreSQL database
+* **`MEND_RNV_POSTGRES_SSL_PEM_PATH`**: The `.pem` file location in the container for SSL connection
+* **`PGDATABASE`**: Name of the database instance. Eg. ‘postgres’
+* **`PGUSER`**: Postgres User name. Must have Create Schema permission.
+* **`PGPASSWORD`**: Postgres User password
+* **`PGHOST`**: Host name of the PostgreSQL instance
+* **`PGPORT`**: Host Port for the PostgreSQL instance
 
 ### Environment variables for Enterprise Worker
 
