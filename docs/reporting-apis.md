@@ -47,14 +47,14 @@ API: [GET] /api/orgs/{org}
 
 **Description:** Stats for a single org
 
-**Example:** Fetch info and stats for org `justo-mend`
+**Example:** Fetch info and stats for org `my-org`
 
-[GET] http://localhost/api/orgs/justo-mend   (Note: no trailing slash!)
+[GET] http://localhost/api/orgs/my-org   (Note: no trailing slash!)
 
 ```json
 {
   "id": "97cabe6b-a757-52e6-ba28-c8173b571efd",
-  "name": "justo-mend",
+  "name": "my-org",
   "enabled": true,
   "suspended": false,
   "installationId": 42985750,
@@ -93,21 +93,21 @@ query parameters:
 
 **Description:** List of repos for a single org
 
-**Example:** Fetch a list of all currently installed repos on org `justo-mend`
+**Example:** Fetch a list of all currently installed repos on org `my-org`
 
-[GET] http://localhost/api/orgs/justo-mend/-/repos
+[GET] http://localhost/api/orgs/my-org/-/repos
 
 ```json
 [
   {
-    "name": "demo-removate-nuget",
-    "fullName": "justo-mend/demo-removate-nuget",
+    "name": "demo-repo-1",
+    "fullName": "my-org/demo-repo-1",
     "enabled": true,
     "installedAt": "2024-03-07 10:56:50.55661"
   },
   {
-    "name": "demo-repo-7",
-    "fullName": "justo-mend/demo-repo-7",
+    "name": "demo-repo-2",
+    "fullName": "my-org/demo-repo-2",
     "enabled": true,
     "installedAt": "2024-03-07 10:56:50.55661"
   }
@@ -116,32 +116,32 @@ query parameters:
 
 **Example:** Fetch a list of all repos (installed and uninstalled)
 
-[GET] http://localhost/api/orgs/justo-mend/-/repos?state=all
+[GET] http://localhost/api/orgs/my-org/-/repos?state=all
 
 ```json
 [
   {
-    "name": "demo-removate-nuget",
-    "fullName": "justo-mend/demo-removate-nuget",
+    "name": "demo-repo-1",
+    "fullName": "my-org/demo-repo-1",
     "enabled": true,
     "installedAt": "2024-03-07 10:56:50.55661"
   },
   {
-    "name": "demo-repo-7",
-    "fullName": "justo-mend/demo-repo-7",
+    "name": "demo-repo-2",
+    "fullName": "my-org/demo-repo-2",
     "enabled": true,
     "installedAt": "2024-03-07 10:56:50.55661"
   },
   {
-    "name": "demo-cve",
-    "fullName": "justo-mend/demo-cve",
+    "name": "demo-repo-3",
+    "fullName": "my-org/demo-repo-3",
     "enabled": false,
     "installedAt": "2024-03-07 10:56:50.55661",
     "removedAt": "2024-03-07 11:01:04.543134"
   },
   {
-    "name": "demo-cve-db",
-    "fullName": "justo-mend/demo-cve-db",
+    "name": "demo-repo-4",
+    "fullName": "my-org/demo-repo-4",
     "enabled": false,
     "installedAt": "2024-03-07 10:56:50.55661",
     "removedAt": "2024-03-07 11:01:04.543134"
@@ -149,22 +149,22 @@ query parameters:
 ]
 ```
 
-**Example:** Fetch a list of uninstalled repos for org `justo-mend`
+**Example:** Fetch a list of uninstalled repos for org `my-org`
 
-[GET] http://localhost/api/orgs/justo-mend/-/repos?state=uninstalled
+[GET] http://localhost/api/orgs/my-org/-/repos?state=uninstalled
 
 ```json
 [
   {
-    "name": "demo-cve",
-    "fullName": "justo-mend/demo-cve",
+    "name": "demo-repo-3",
+    "fullName": "my-org/demo-repo-3",
     "enabled": false,
     "installedAt": "2024-03-07 10:56:50.55661",
     "removedAt": "2024-03-07 11:01:04.543134"
   },
   {
-    "name": "demo-cve-db",
-    "fullName": "justo-mend/demo-cve-db",
+    "name": "demo-repo-4",
+    "fullName": "my-org/demo-repo-4",
     "enabled": false,
     "installedAt": "2024-03-07 10:56:50.55661",
     "removedAt": "2024-03-07 11:01:04.543134"
@@ -178,15 +178,15 @@ API: [GET] /api/repos/{org}/-/{repo}
 
 **Description:** Stats for a single repo
 
-**Example:** Fetch info and stats for repo `justo-mend/demo-repo-7`
+**Example:** Fetch info and stats for repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/justo-mend/-/demo-repo-7
+[GET] http://localhost/api/repos/my-org/-/demo-repo-2
 
 ```json
 {
     "id": "ea26988f-7e8b-56b4-9fe3-68903d349251",
-    "name": "demo-repo-7",
-    "fullName": "justo-mend/demo-repo-7",
+    "name": "demo-repo-2",
+    "fullName": "my-org/demo-repo-2",
     "state": "installed",
     "status": "activated",
     "installedAt": "2024-03-07 10:56:50.55661",
@@ -210,9 +210,9 @@ Includes:
 - Renovate Updates (‘updates’)
 
 
-**Example:** Fetch all Dependency Dashboard information for repo `justo-mend/demo-repo-7`
+**Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/justo-mend/-/demo-repo-7/dashboard
+[GET] http://localhost/api/repos/my-org/-/demo-repo-2/dashboard
 
 ```json
 {
@@ -450,9 +450,9 @@ query parameters:
 
 Defaults to Open pull requests only
 
-**Example:** Fetch a list of all open pull requests created by Renovate on repo `justo-mend/demo-repo-7`
+**Example:** Fetch a list of all open pull requests created by Renovate on repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/justo-mend/-/demo-repo-7/pulls
+[GET] http://localhost/api/repos/my-org/-/demo-repo-2/pulls
 
 ```json
 [
@@ -465,7 +465,7 @@ Defaults to Open pull requests only
         "createdAt": "2024-03-07 16:53:23.925878",
         "updatedAt": "2024-03-07 16:53:23.925878",
         "state": "open",
-        "link": "https://github.com/justo-mend/demo-repo-7/pull/9"
+        "link": "https://github.com/my-org/demo-repo-2/pull/9"
     },
     {
         "repoId": "ea26988f-7e8b-56b4-9fe3-68903d349251",
@@ -476,7 +476,7 @@ Defaults to Open pull requests only
         "createdAt": "2024-03-07 11:02:19.496966",
         "updatedAt": "2024-03-07 11:02:19.496966",
         "state": "open",
-        "link": "https://github.com/justo-mend/demo-repo-7/pull/8"
+        "link": "https://github.com/my-org/demo-repo-2/pull/8"
     },
     {
         "repoId": "ea26988f-7e8b-56b4-9fe3-68903d349251",
@@ -487,7 +487,7 @@ Defaults to Open pull requests only
         "createdAt": "2024-03-07 11:02:19.496966",
         "updatedAt": "2024-03-07 11:02:19.496966",
         "state": "open",
-        "link": "https://github.com/justo-mend/demo-repo-7/pull/2"
+        "link": "https://github.com/my-org/demo-repo-2/pull/2"
     }
 ]
 ```
