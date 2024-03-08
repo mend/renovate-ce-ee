@@ -54,7 +54,7 @@ API: [GET] /api/orgs/{org}
 
 **Example:** Fetch info and stats for org `my-org`
 
-[GET] http://localhost/api/orgs/my-org   (Note: no trailing slash!)
+[GET] http://my.renovate.server.com/api/orgs/my-org   (Note: no trailing slash!)
 
 ```json
 {
@@ -102,7 +102,7 @@ query parameters:
 
 **Example:** Fetch a list of all currently installed repos on org `my-org`
 
-[GET] http://localhost/api/orgs/my-org/-/repos
+[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos
 
 ```json
 [
@@ -123,7 +123,7 @@ query parameters:
 
 **Example:** Fetch a list of all repos (installed and uninstalled)
 
-[GET] http://localhost/api/orgs/my-org/-/repos?state=all
+[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos?state=all
 
 ```json
 [
@@ -158,7 +158,7 @@ query parameters:
 
 **Example:** Fetch a list of uninstalled repos for org `my-org`
 
-[GET] http://localhost/api/orgs/my-org/-/repos?state=uninstalled
+[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos?state=uninstalled
 
 ```json
 [
@@ -187,7 +187,7 @@ API: [GET] /api/repos/{org}/-/{repo}
 
 **Example:** Fetch info and stats for repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/my-org/-/demo-repo-2
+[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2
 
 ```json
 {
@@ -218,7 +218,7 @@ Includes:
 
 **Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/my-org/-/demo-repo-2/dashboard
+[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2/dashboard
 
 ```json
 {
@@ -444,8 +444,9 @@ Includes:
 
 ### Repo pull requests
 
-> [!NOTE] **Available for GitHub repositories only.**
-> * Requires `RENOVATE_REPOSITORY_CACHE=enabled` on Worker containers.
+> [!NOTE]  
+> 1. This API is available for GitHub repositories only.
+> 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
 
 API: [GET] /api/repos/{org}/-/{repo}/pulls
 
@@ -465,7 +466,7 @@ Pagination is not supported. Results are sorted with most recently updated first
 
 **Example:** Fetch a list of all open pull requests created by Renovate on repo `my-org/demo-repo-2`
 
-[GET] http://localhost/api/repos/my-org/-/demo-repo-2/pulls
+[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2/pulls
 
 ```json
 [
