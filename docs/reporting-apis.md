@@ -31,13 +31,13 @@ Available reporting APIs are listed below. Follow the links on the API names for
 
 See the table below for a list of reporting API URL formats.
 
-| API                                       | URL format                          | Query parameters <br> (defaults shown in brackets) |
-|-------------------------------------------|-------------------------------------|----------------------------------------------------|
-| [Org info](#org-info)                     | /api/orgs/{org}                     |                                                    |
-| [Repo list](#repo-list)                   | /api/orgs/{org}/-/repos             | state=[installed],uninstalled,all                  |
-| [Repo info](#repo-info)                   | /api/repos/{org}/-/{repo}           |                                                    |
-| [Repo dashboard](#repo-dashboard)         | /api/repos/{org}/-/{repo}/dashboard |                                                    |
-| [Repo pull requests](#repo-pull-requests) | /api/repos/{org}/-/{repo}/pulls     | state=[open],merged,closed,all <br> limit=[100]    |
+| API                                       | URL format                                | Query parameters <br> (defaults shown in brackets) |
+|-------------------------------------------|-------------------------------------------|----------------------------------------------------|
+| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                    |
+| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed],uninstalled,all                  |
+| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/-/{repo}           |                                                    |
+| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/-/{repo}/dashboard |                                                    |
+| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/-/{repo}/pulls     | state=[open],merged,closed,all <br> limit=[100]    |
 
 ## Details of Reporting APIs
 
