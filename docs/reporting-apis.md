@@ -6,16 +6,14 @@ Reporting APIs are available only on Mend Renovate Enterprise Edition.
 
 ## Available Reporting APIs
 
-Available reporting APIs are listed below. Follow the links on the API names for full details.
+The list below describes the available reporting APIs. Follow the links on the API names for full details.
 
 - [Org info](#org-info) ← Stats for a single org
 - [Repo list](#repo-list) ← List of repos for a single org
 - [Repo info](#repo-info) ← Stats for a single repo
 - [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information
-- [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo
-  - Note: The `Repo pull requests` API is only available for GitHub repositories.
-  - It requires `RENOVATE_REPOSITORY_CACHE=enabled`.
-  
+- [Repo pull requests](#repo-pull-requests) ← [GitHub only] List of pull requests for a single repo
+
 ## Enable Reporting APIs
 
 Reporting APIs are disabled by default. When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
