@@ -120,7 +120,11 @@ spec:
           {{- end }}
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
+      {{- if .Values.renovateWorker.imagePullSecrets }}
+      imagePullSecrets:
+        - name: .Values.renovateWorker.imagePullSecrets
+      {{- end }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume

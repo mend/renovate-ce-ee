@@ -138,6 +138,9 @@ renovateServer:
 
   containerSecurityContext: { }
 
+  # name of the image pull secret
+  imagePullSecrets: ""
+
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
@@ -246,6 +249,9 @@ renovateWorker:
   affinity: { }
 
   podSecurityContext: { }
+
+  # name of the image pull secret
+  imagePullSecrets: ""
 
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
