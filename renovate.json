@@ -4,7 +4,12 @@
     ":pinDigestsDisabled"
   ],
   "packageRules": [{
-    "packageNames": ["ghcr.io/mend/renovate-ce"],
+    "groupName": "Update Mend Renovate docker images",
+    "packageNames": [
+      "ghcr.io/mend/renovate-ce",
+      "ghcr.io/mend/renovate-ee-server",
+      "ghcr.io/mend/renovate-ee-worker"
+    ],
     "versioning": "docker",
     "automerge": true
   }],

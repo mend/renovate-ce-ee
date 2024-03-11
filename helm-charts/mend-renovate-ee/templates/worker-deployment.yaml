@@ -30,13 +30,16 @@ spec:
       {{- end }}
     spec:
       {{- with .Values.renovateWorker.podSecurityContext }}
-      securityContext: {{ toYaml . | nindent 8 }}
+      securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.renovateWorker.terminationGracePeriodSeconds }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             {{- with .Values.renovateWorker.extraEnvVars }}
             {{- toYaml . | nindent 12 }}

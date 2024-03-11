@@ -30,7 +30,10 @@ spec:
       {{- end }}
     spec:
       {{- with .Values.podSecurityContext }}
-      securityContext: {{ toYaml . | nindent 8 }}
+      securityContext: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
@@ -38,7 +41,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.containerSecurityContext }}
-          securityContext: {{ toYaml . | nindent 10 }}
+          securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
             {{- with .Values.renovate.extraEnvVars }}
