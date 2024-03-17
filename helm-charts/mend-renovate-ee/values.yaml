@@ -17,8 +17,8 @@ license:
   existingSecret:
 
 postgresql:
-    # if to use PostgreSQL, if unset SQLite will be used instead
-    enabled:
+    # if to use PostgreSQL, if set to 'false' SQLite will be used instead
+    enabled: false
     host:
     port:
     database:

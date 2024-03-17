@@ -141,7 +141,7 @@ renovate:
   logLevel: info
 
 postgresql:
-  # if to use PostgreSQL, if unset SQLite will be used instead
+  # if to use PostgreSQL, if set to 'false' SQLite will be used instead
   enabled: false
   host:
   port:
