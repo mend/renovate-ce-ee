@@ -142,7 +142,7 @@ renovate:
 
 postgresql:
   # if to use PostgreSQL, if unset SQLite will be used instead
-  enabled:
+  enabled: false
   host:
   port:
   database:
