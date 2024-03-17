@@ -216,7 +216,7 @@ spec:
           resources:
           {{- toYaml .Values.renovateServer.resources | nindent 12 }}
           volumeMounts:
-            - name: { { .Release.Name } }-database-volume
+            - name: {{ .Release.Name }}-database-volume
               mountPath: /database
           {{- if ne (len .Values.renovateServer.extraVolumeMounts) 0 }}
             {{ toYaml .Values.renovateServer.extraVolumeMounts | nindent 12 | trim }}
