@@ -21,7 +21,7 @@ renovate:
   mendRnvLicenseKey:
 
   # Which platform Mend Renovate will connect to.
-  # valid values: "github", "gitlab" or "bitbucket-server"
+  # valid values: "bitbucket-server", "github" or "gitlab"
   mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
