@@ -37,7 +37,7 @@ spec:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
-          {{- with .Values.containerSecurityContext }}
+          {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
@@ -124,10 +124,10 @@ spec:
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.renovateWorker.imagePullSecrets }}
       imagePullSecrets:
         - name: .Values.renovateWorker.imagePullSecrets
-      {{- end }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume

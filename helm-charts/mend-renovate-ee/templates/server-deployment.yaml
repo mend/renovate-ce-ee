@@ -39,7 +39,7 @@ spec:
         - name: {{ .Chart.Name }}-server
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.tag }}"
           imagePullPolicy: {{ .Values.renovateServer.image.pullPolicy }}
-          {{- with .Values.containerSecurityContext }}
+          {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
@@ -224,10 +224,10 @@ spec:
       {{- with .Values.renovateServer.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.renovateServer.imagePullSecrets }}
       imagePullSecrets:
         - name: .Values.renovateServer.imagePullSecrets
-      {{- end }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-database-volume
