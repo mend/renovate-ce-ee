@@ -37,7 +37,7 @@ spec:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
-          {{- with .Values.containerSecurityContext }}
+          {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
@@ -45,7 +45,7 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
             - name: MEND_RNV_SERVER_HOSTNAME
-              value: "http://{{ include "mend-renovate.fullname" . }}-srv-server"
+              value: "http://{{ include "mend-renovate.fullname" . }}-svc-server"
             {{- if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
               valueFrom:
@@ -80,18 +80,6 @@ spec:
                   name: {{ include "mend-renovate.worker-secret-name" . }}
                   key: pipIndexUrl
                   optional: true
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryDir }}
-            - name: MEND_RNV_LOG_HISTORY_DIR
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryDir }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryTTLDays }}
-            - name: MEND_RNV_LOG_HISTORY_TTL_DAYS
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryTTLDays | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvLogHistoryCleanupCron }}
-            - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
-              value: {{ .Values.renovateWorker.mendRnvLogHistoryCleanupCron }}
             {{- end }}
             {{- if .Values.renovateWorker.mendRnvWorkerExecutionTimeout }}
             - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
@@ -135,7 +123,11 @@ spec:
           {{- end }}
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.renovateWorker.imagePullSecrets }}
+      imagePullSecrets:
+        - name: .Values.renovateWorker.imagePullSecrets
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
