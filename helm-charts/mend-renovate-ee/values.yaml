@@ -18,18 +18,12 @@ license:
 
 postgresql:
     # if to use PostgreSQL, if set to 'false' SQLite will be used instead
-    enabled:
+    enabled: false
     host:
     port:
     database:
     user:
     password:
-
-    # used for development purposes
-    development: {}
-      # repository: postgres
-      # tag: 16.1-alpine3.17
-      # pullPolicy: IfNotPresent
 
 renovateServer:
   image:
@@ -43,7 +37,8 @@ renovateServer:
   # Additional server env vars
   extraEnvVars: []
 
-  # Which platform Mend Renovate will connect to. For example "github" or "gitlab"
+  # Which platform Mend Renovate will connect to.
+  # valid values: "bitbucket-server", "github" or "gitlab"
   mendRnvPlatform:
 
   # API endpoint, include trailing slash. Examples: https://api.github.com/, https://gitlab.com/api/v4/
@@ -58,7 +53,22 @@ renovateServer:
   # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
   mendRnvGithubAppKey:
 
-  # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+  # Renovate Bot user account (Bitbucket "User" access only)
+  mendRnvBitbucketUser:
+
+  # BitBucket access token for the bot user
+  mendRnvBitbucketPat:
+
+  # Optional: The URL of the Renovate Server plus '/webhook' suffix.
+  # Must be accessible to receive incoming calls from the BitBucket server.
+  mendRnvWebhookURL:
+
+  # Optional: A token used for searching/adding/removing repository webhooks.
+  # required if MEND_RNV_WEBHOOK_URL is set.
+  mendRnvAdminToken:
+
+  # Optional: Provide a path to persist the SQLite database
+  # eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume
   # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
   mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
 
@@ -94,6 +104,18 @@ renovateServer:
   # Optional, defaults to 'discovered'
   mendRnvEnqueueJobsOnStartup:
 
+  # Optional. Specify a directory path to save Renovate job log files.
+  # It is recommended to use an external volume to preserve history.
+  mendRnvLogHistoryDir:
+
+  # Optional: The number of days to save log files. Defaults to 30.
+  mendRnvLogHistoryTTLDays:
+
+  # Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight).
+  # This cron job cleans up log history in the directory defined by `mendRnvLogHistoryDir`.
+  # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
+  mendRnvLogHistoryCleanupCron:
+
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
@@ -123,6 +145,9 @@ renovateServer:
   #   capabilities:
   #     drop:
   #       - ALL
+
+  # name of the image pull secret
+  imagePullSecrets: ""
 
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
@@ -167,18 +192,6 @@ renovateWorker:
     repository: ghcr.io/mend/renovate-ee-worker
     tag: 6.11.0-full
     pullPolicy: IfNotPresent
-
-  # Optional. Specify a directory path to save Renovate job log files.
-  # It is recommended to use an external volume to preserve history.
-  mendRnvLogHistoryDir:
-
-  # Optional: The number of days to save log files. Defaults to 30.
-  mendRnvLogHistoryTTLDays:
-
-  # Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight).
-  # This cron job cleans up log history in the directory defined by `mendRnvLogHistoryDir`.
-  # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
-  mendRnvLogHistoryCleanupCron:
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
@@ -242,6 +255,9 @@ renovateWorker:
   tolerations: []
 
   affinity: {}
+
+  # name of the image pull secret
+  imagePullSecrets: ""
 
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60

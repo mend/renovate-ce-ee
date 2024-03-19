@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "mend-renovate.fullname" . }}-srv-server
+  name: {{ include "mend-renovate.fullname" . }}-svc-server
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
