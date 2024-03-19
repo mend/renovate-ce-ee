@@ -101,7 +101,7 @@ spec:
             - name: MEND_RNV_BITBUCKET_PAT
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvBitbucketPat
                   optional: true
             {{- end }}
@@ -122,7 +122,7 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: pgPassword
                   optional: true
             {{- end }}
@@ -131,7 +131,7 @@ spec:
             - name: MEND_RNV_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvAdminToken
                   optional: true
             {{- end }}
@@ -262,10 +262,10 @@ spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
-      {{- if $.Values.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ $.Values.imagePullSecrets }}
       {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume

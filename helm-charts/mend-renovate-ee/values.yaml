@@ -256,6 +256,19 @@ renovateWorker:
 
   affinity: {}
 
+  
+  podSecurityContext: {}
+  #   runAsNonRoot: true
+  #   seccompProfile:
+  #     type: RuntimeDefault
+
+  containerSecurityContext: {}
+  #   allowPrivilegeEscalation: false
+  #   readOnlyRootFilesystem: true
+  #   capabilities:
+  #     drop:
+  #       - ALL
+
   # name of the image pull secret
   imagePullSecrets: ""
 
