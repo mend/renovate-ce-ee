@@ -66,6 +66,7 @@ spec:
             - name: MEND_RNV_ENDPOINT
               value: {{ .Values.renovate.mendRnvEndpoint | quote }}
             {{- end }}
+            # GitLab
             {{- if or .Values.renovate.mendRnvGitlabPat .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITLAB_PAT
               valueFrom:
@@ -74,6 +75,7 @@ spec:
                   key: mendRnvGitlabPat
                   optional: true
             {{- end }}
+            # GitHub
             {{- if or .Values.renovate.mendRnvGithubAppId .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_ID
               valueFrom:
@@ -89,6 +91,53 @@ spec:
                   name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvGithubAppKey
                   optional: true
+            {{- end }}
+            # BitBucket
+            {{- if or .Values.renovate.mendRnvBitbucketUser }}
+            - name: MEND_RNV_BITBUCKET_USER
+              value: {{ .Values.renovate.mendRnvBitbucketUser | quote }}
+            {{- end }}
+            {{- if or .Values.renovate.mendRnvBitbucketPat .Values.renovate.existingSecret }}
+            - name: MEND_RNV_BITBUCKET_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.secret-name" . }}
+                  key: mendRnvBitbucketPat
+                  optional: true
+            {{- end }}
+            # PostgrSQL database
+            {{- if .Values.postgresql.enabled }}
+            - name: MEND_RNV_DATA_HANDLER_TYPE
+              value: postgresql
+            - name: PGDATABASE
+              value: {{ .Values.postgresql.database | quote }}
+            - name: PGUSER
+              value: {{ .Values.postgresql.user | quote }}
+            - name: PGPORT
+              value: {{ .Values.postgresql.port | quote }}
+            - name: PGHOST
+              value: {{ .Values.postgresql.host | quote }}
+            {{- end }}
+            {{- if or .Values.postgresql.enabled .Values.renovate.existingSecret }}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.secret-name" . }}
+                  key: pgPassword
+                  optional: true
+            {{- end }}
+
+            {{- if or .Values.renovate.mendRnvAdminToken .Values.renovate.existingSecret }}
+            - name: MEND_RNV_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.secret-name" . }}
+                  key: mendRnvAdminToken
+                  optional: true
+            {{- end }}
+            {{- if .Values.renovate.mendRnvWebhookURL }}
+            - name: MEND_RNV_WEBHOOK_URL
+              value: {{ .Values.renovate.mendRnvWebhookURL | quote }}
             {{- end }}
             {{- if .Values.renovate.mendRnvSqliteFilePath }}
             - name: MEND_RNV_SQLITE_FILE_PATH
@@ -212,7 +261,11 @@ spec:
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
