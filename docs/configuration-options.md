@@ -17,7 +17,7 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 
 **`MEND_RNV_LICENSE_KEY`**: Contact Mend to request a license key at [mend.io/renovate-community](https://www.mend.io/renovate-community/)
 
-**`MEND_RNV_MC_TOKEN`**: [Enterprise only] The merge confidence token used for Smart-Merge-Control authentication.
+**`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto' (default), or provide the value of a merge confidence API token.
 
 #### Source code management (SCM) connection details
 
@@ -48,6 +48,8 @@ It needs only read-only access privileges. Not required if SCM is GitHub.com.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
+**`MEND_RNV_REPORTING_ENABLED`**: [from v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
+
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
@@ -69,6 +71,14 @@ sqlite> .tables
 job_queue   migrations  org         repo        task_queue
 sqlite> 
 ```
+
+**`MEND_RNV_SYNC_ON_STARTUP`**: Defines if App Sync will be performed when the server starts. Defaults to true.
+
+**`MEND_RNV_APP_SYNC_MODE`**: [GitHub only] Options: 'bulk' (default), 'batch'.
+
+values:
+- `bulk` (default) - will process all repos in one operation
+- `batch` - will process repos in smaller batches
 
 **`MEND_RNV_CRON_JOB_SCHEDULER`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 * * * *` (i.e. once per hour exactly on the hour). This cron job triggers the Renovate bot against the projects in the SQLite database. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
 
@@ -100,12 +110,52 @@ The corresponding Renovate job log file will be saved as:
 /home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
 ```
 
+**`MEND_RNV_LOG_HISTORY_S3`**: Optional. Defines S3 storage location for saving job logs. Supports connection to AWS or MinIO S3 storage.
+Uses standard AWS environment variables to establish connection.
+
+Format: `s3://bucket/dir1/dir2`
+
+**`MEND_RNV_S3_FORCE_PATH_STYLE`**: Optional. Set to 'true' if the endpoint for your S3 storage must be used without manipulation - eg. connecting to MinIO S3. Defaults to 'false'. (See `MEND_RNV_LOG_HISTORY_S3`)
+
 **`MEND_RNV_LOG_HISTORY_TTL_DAYS`**: Optional: The number of days to save log files. Defaults to 30.
 
 **`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file that exceeds the `MEND_RNV_LOG_HISTORY_TTL_DAYS` value.
 
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
+
+**`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
+
+Values:
+- `off` - no cleanup is preformed
+- `always` - cleanup is done after every job completion.
+- (cron schedule) - all other values will be treated as a cron time. If it is invalid, the service will shut down. Otherwise, a cron scheduler will run at the specified intervals.<br>
+  e.g. `MEND_RNV_WORKER_CLEANUP="0 0 * * *"` will perform cleanup daily at midnight.
+
+**`MEND_RNV_WORKER_CLEANUP_DIRS`**: [from v7.0.0] Optional. Comma separated list of directories to clean during Worker cleanup (see `MEND_RNV_WORKER_CLEANUP`)
+
+By default, all files within these folders that were created _after_ the worker/CE booted will be removed.
+```
+/opt/containerbase
+/tmp/renovate/cache
+/tmp/renovate/repos
+/home/ubuntu
+```
+
+Note: Setting this variable will **_replace_** the default list of directories. To add a directory to the existing default list, you must include all the default folders in the new value.
+
+**`MEND_RNV_VERSION_CHECK_INTERVAL`**: [Enterprise only] Escalation period (minutes) for mismatching Server/Worker versions. Defaults to 60.
+
+When an API call is received by the Server, it compares the version of the Worker that sent the request. If the Server and Worker have different versions, a message will be logged to the Server console.
+
+```
+INFO: Mismatching versions of Server XXX and Worker YYY
+```
+
+Only one message will be printed during the version check interval. If mismatches continue to occur after the interval, the log messages will escalate from INFO to WARN and ERROR.
+Escalation is reset when no mismatching versions are found during the version check interval.
+
+Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
 #### Postgres DB Configuration
 
