@@ -74,7 +74,7 @@ sqlite>
 
 **`MEND_RNV_SYNC_ON_STARTUP`**: Defines if App Sync will be performed when the server starts. Defaults to true.
 
-**`MEND_RNV_APP_SYNC_MODE`**: [GitHub only] Options: 'bulk' (default), 'batch'.
+**`MEND_RNV_APP_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
 
 values:
 - `bulk` (default) - will process all repos in one operation
@@ -82,7 +82,7 @@ values:
 
 **`MEND_RNV_CRON_JOB_SCHEDULER`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 * * * *` (i.e. once per hour exactly on the hour). This cron job triggers the Renovate bot against the projects in the SQLite database. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
 
-**`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 \* \* \*` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
+**`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
 
 **`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
 
@@ -110,10 +110,8 @@ The corresponding Renovate job log file will be saved as:
 /home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
 ```
 
-**`MEND_RNV_LOG_HISTORY_S3`**: Optional. Defines S3 storage location for saving job logs. Supports connection to AWS or MinIO S3 storage.
-Uses standard AWS environment variables to establish connection.
-
-Format: `s3://bucket/dir1/dir2`
+**`MEND_RNV_LOG_HISTORY_S3`**: Optional. Format: `s3://bucket/dir1/dir2`. Defines S3 storage location for saving job logs. Supports connection to AWS or MinIO S3 storage.
+Uses standard AWS environment variables to establish connection. (Also see `MEND_RNV_S3_FORCE_PATH_STYLE`.)
 
 **`MEND_RNV_S3_FORCE_PATH_STYLE`**: Optional. Set to 'true' if the endpoint for your S3 storage must be used without manipulation - eg. connecting to MinIO S3. Defaults to 'false'. (See `MEND_RNV_LOG_HISTORY_S3`)
 
@@ -124,7 +122,7 @@ Format: `s3://bucket/dir1/dir2`
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
-**`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
+**`MEND_RNV_WORKER_CLEANUP`**: [Enterprise Only. From v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
 
 Values:
 - `off` - no cleanup is preformed
@@ -132,7 +130,7 @@ Values:
 - (cron schedule) - all other values will be treated as a cron time. If it is invalid, the service will shut down. Otherwise, a cron scheduler will run at the specified intervals.<br>
   e.g. `MEND_RNV_WORKER_CLEANUP="0 0 * * *"` will perform cleanup daily at midnight.
 
-**`MEND_RNV_WORKER_CLEANUP_DIRS`**: [from v7.0.0] Optional. Comma separated list of directories to clean during Worker cleanup (see `MEND_RNV_WORKER_CLEANUP`)
+**`MEND_RNV_WORKER_CLEANUP_DIRS`**: [Enterprise Only. From v7.0.0] Optional. Comma separated list of directories to clean during Worker cleanup (see `MEND_RNV_WORKER_CLEANUP`)
 
 By default, all files within these folders that were created _after_ the worker/CE booted will be removed.
 ```
