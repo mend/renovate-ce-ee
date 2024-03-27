@@ -44,9 +44,9 @@ See the table below for a list of reporting API URL formats.
 |-------------------------------------------|-------------------------------------------|------------------------------------------------------------------------------------|
 | [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                                                    |
 | [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed)                              |
-| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/-/{repo}           |                                                                                    |
-| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/-/{repo}/dashboard |                                                                                    |
-| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/-/{repo}/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000) |
+| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/{repo}           |                                                                                    |
+| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                    |
+| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000) |
 
 ## Details of Reporting APIs
 
@@ -185,13 +185,13 @@ query parameters:
 
 ### Repo info
 
-API: [GET] /api/repos/{org}/-/{repo}
+API: [GET] /api/repos/{org}/{repo}
 
 **Description:** Stats for a single repo
 
 **Example:** Fetch info and stats for repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2
+[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2
 
 ```json
 {
@@ -212,7 +212,7 @@ API: [GET] /api/repos/{org}/-/{repo}
 
 ### Repo dashboard
 
-API: [GET] /api/repos/{org}/-/{repo}/dashboard
+API: [GET] /api/repos/{org}/{repo}/-/dashboard
 
 **Description:** Replicates the Dependency Dashboard Issue contents.
 Includes:
@@ -222,7 +222,7 @@ Includes:
 
 **Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2/dashboard
+[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2/-/dashboard
 
 ```json
 {
@@ -452,7 +452,7 @@ Includes:
 > 1. This API is available for GitHub repositories only.
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
 
-API: [GET] /api/repos/{org}/-/{repo}/pulls
+API: [GET] /api/repos/{org}/{repo}/-/pulls
 
 query parameters:
 - state
@@ -470,7 +470,7 @@ Pagination is not supported. Results are sorted with most recently updated first
 
 **Example:** Fetch a list of all open pull requests created by Renovate on repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/-/demo-repo-2/pulls
+[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2/-/pulls
 
 ```json
 [
