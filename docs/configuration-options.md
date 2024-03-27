@@ -117,7 +117,7 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 
 **`MEND_RNV_LOG_HISTORY_TTL_DAYS`**: Optional: The number of days to save log files. Defaults to 30.
 
-**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file that exceeds the `MEND_RNV_LOG_HISTORY_TTL_DAYS` value.
+**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file older than `MEND_RNV_LOG_HISTORY_TTL_DAYS`.
 
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
