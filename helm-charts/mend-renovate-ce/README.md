@@ -13,4 +13,4 @@ helm repo update
 helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' mend-renovate-ce-ee/mend-renovate-ce
 ```
 
-See the [docs](<[https://github.com/mend/renovate-cc-ee/tree/main/docs](https://github.com/mend/renovate-cc-ee/tree/main/docs)>) for further configuration.
+See [Configuration Options](https://github.com/mend/renovate-ce-ee/blob/main/docs/configuration-options.md) for more information.
