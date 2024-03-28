@@ -20,5 +20,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - Renovate Community Edition - ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ce-gitlab.md))
    - Renovate Enterprise Edition - ([GitHub](./configure-renovate-ee-github.md), [GitLab](./configure-renovate-ee-gitlab.md))
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
-1. API ([API Documentation](./api.md))
+1. API Documentation
+   - [Admin APIs](./api.md)
+   - [Reporting APIs](./reporting-apis.md)
 1. [Advanced topics](./advanced.md)
