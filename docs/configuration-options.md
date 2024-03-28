@@ -48,7 +48,7 @@ It needs only read-only access privileges. Not required if SCM is GitHub.com.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
-**`MEND_RNV_REPORTING_ENABLED`**: [from v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
+**`MEND_RNV_REPORTING_ENABLED`**: [Enterprise Only. From v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
@@ -74,7 +74,7 @@ sqlite>
 
 **`MEND_RNV_SYNC_ON_STARTUP`**: Defines if App Sync will be performed when the server starts. Defaults to true.
 
-**`MEND_RNV_APP_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
+**`MEND_RNV_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
 
 values:
 - `bulk` (default) - will process all repos in one operation
@@ -122,7 +122,7 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
-**`MEND_RNV_WORKER_CLEANUP`**: [Enterprise Only. From v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
+**`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
 
 Values:
 - `off` - no cleanup is preformed
