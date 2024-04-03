@@ -117,7 +117,7 @@ spec:
             - name: PGHOST
               value: {{ .Values.postgresql.host | quote }}
             {{- end }}
-            {{- if or .Values.postgresql.enabled .Values.renovate.existingSecret }}
+            {{- if or .Values.postgresql.enabled .Values.renovateServer.existingSecret }}
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
@@ -157,6 +157,26 @@ spec:
             {{- if .Values.renovateServer.mendRnvCronAppSync }}
             - name: MEND_RNV_CRON_APP_SYNC
               value: {{ .Values.renovateServer.mendRnvCronAppSync | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvSyncOnStartup }}
+            - name: MEND_RNV_SYNC_ON_STARTUP
+              value: {{ .Values.renovateServer.mendRnvSyncOnStartup | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvSyncMode }}
+            - name: MEND_RNV_SYNC_MODE
+              value: {{ .Values.renovateServer.mendRnvSyncMode | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvMergeConfidenceToken }}
+            - name: MEND_RNV_MC_TOKEN
+              value: {{ .Values.renovateServer.mendRnvMergeConfidenceToken | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvReportingEnabled }}
+            - name: MEND_RNV_REPORTING_ENABLED
+              value: {{ .Values.renovateServer.mendRnvReportingEnabled | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvLogHistoryS3 }}
+            - name: MEND_RNV_LOG_HISTORY_S3
+              value: {{ .Values.renovateServer.mendRnvLogHistoryS3 | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvAutoDiscoverFilter }}
             - name: MEND_RNV_AUTODISCOVER_FILTER
