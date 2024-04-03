@@ -130,7 +130,7 @@ Values:
 - (cron schedule) - all other values will be treated as a cron time. If it is invalid, the service will shut down. Otherwise, a cron scheduler will run at the specified intervals.<br>
   e.g. `MEND_RNV_WORKER_CLEANUP="0 0 * * *"` will perform cleanup daily at midnight.
 
-**`MEND_RNV_WORKER_CLEANUP_DIRS`**: [Enterprise Only. From v7.0.0] Optional. Comma separated list of directories to clean during Worker cleanup (see `MEND_RNV_WORKER_CLEANUP`)
+**`MEND_RNV_WORKER_CLEANUP_DIRS`**: [From v7.0.0] Optional. Comma separated list of directories to clean during Worker cleanup (see `MEND_RNV_WORKER_CLEANUP`)
 
 By default, all files within these folders that were created _after_ the worker/CE booted will be removed.
 ```
