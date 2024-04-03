@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 6.11.0-full
+  tag: 7.0.0-full
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -89,6 +89,19 @@ renovate:
   # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
   mendRnvCronAppSync:
 
+  # defaults to 'true'
+  mendRnvSyncOnStartup:
+
+  # defaults to 'bulk'
+  # GitHub users only: can be set to 'batch'
+  mendRnvSyncMode:
+
+  # Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
+  mendRnvReportingEnabled:
+
+  # Optional. Format: s3://bucket/dir1/dir2. Defines S3 storage location for saving job logs
+  mendRnvLogHistoryS3:
+
   # Optional, a string of a comma separated values. (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate cli 'autodiscoverFilter' feature
   # Warning: The Renovate CLI 'autodiscover' configuration option is disabled.
   # Repository filtering should solely rely on server-side filtering using 'mendRnvAutoDiscoverFilter'.
@@ -111,6 +124,16 @@ renovate:
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
+
+  # optional: valid values are 'off', 'always', a cron (example: '0 0 * * *' daily at midnight)
+  mendRnvWorkerCleanup: off
+
+  # defaults to: '/opt/containerbase, /tmp/renovate/cache, /tmp/renovate/repos, /home/ubuntu'
+  # Note: setting this value will override the default value
+  mendRnvWorkerCleanupDirs:
+
+  # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
+  mendRnvWorkerNodeArgs:
 
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
