@@ -69,6 +69,10 @@ spec:
             - name: MEND_RNV_WORKER_CLEANUP
               value: {{ .Values.renovateWorker.mendRnvWorkerCleanup | quote }}
             {{- end }}
+            {{- if .Values.renovateWorker.mendRnvWorkerCleanupDirs }}
+            - name: MEND_RNV_WORKER_CLEANUP_DIRS
+              value: {{ .Values.renovateWorker.mendRnvWorkerCleanupDirs | quote }}
+            {{- end }}
             {{- if .Values.renovateWorker.mendRnvWorkerNodeArgs }}
             - name: RENOVATE_NODE_ARGS
               value: {{ .Values.renovateWorker.mendRnvWorkerNodeArgs | quote }}

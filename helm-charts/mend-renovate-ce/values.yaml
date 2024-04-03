@@ -128,6 +128,10 @@ renovate:
   # optional: valid values are 'off', 'always', a cron (example: '0 0 * * *' daily at midnight)
   mendRnvWorkerCleanup: off
 
+  # defaults to: '/opt/containerbase, /tmp/renovate/cache, /tmp/renovate/repos, /home/ubuntu'
+  # Note: setting this value will override the default value
+  mendRnvWorkerCleanupDirs:
+
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
 
