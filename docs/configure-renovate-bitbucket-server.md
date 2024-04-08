@@ -250,7 +250,7 @@ If there are repos with Renovate Bot installed, watch the logs to see it run. Op
 - Call the task queue			- GET /api/task/queue
 - Call the job queue			- GET /api/job/queue
 - Force an app sync			- POST /api/sync
-- Force a Renovate job on a repo	- POST /api/job/add   { “repositories”: ”org/repo” }
+- Force a Renovate job on a repo	- POST /api/job/add   { "repository": ”PROJECT/repo” }
 
 <a id="stg_3"></a>
 # Install Renovate Bot and Webhooks on BitBucket project or repository
