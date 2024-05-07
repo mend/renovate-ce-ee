@@ -216,7 +216,10 @@ ingress:
   #    hosts:
   #      - mend-renovate.local
 
-serviceAccount: 
+serviceAccount:
+  create: false
+  existingName:
+  annotations: {}
 
 resources: {}
 

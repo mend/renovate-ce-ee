@@ -74,3 +74,25 @@ Expand the name of the npmrc secret
 {{- include "mend-renovate.name" . }}-npmrc
 {{- end -}}
 {{- end -}}
+
+{{/*
+Expand the name of the server service account
+*/}}
+{{- define "mend-renovate.server-service-account-name" -}}
+{{- if .Values.renovateServer.serviceAccount.create -}}
+{{- include "mend-renovate.name" . }}-server-sa
+{{- else -}}
+{{- .Values.renovateServer.serviceAccount.existingName -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the worker service account
+*/}}
+{{- define "mend-renovate.worker-service-account-name" -}}
+{{- if .Values.renovateWorker.serviceAccount.create -}}
+{{- include "mend-renovate.name" . }}-worker-sa
+{{- else -}}
+{{- .Values.renovateWorker.serviceAccount.existingName -}}
+{{- end -}}
+{{- end -}}

@@ -32,8 +32,8 @@ spec:
       {{- with .Values.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.serviceAccount }}
-      serviceAccountName: {{ .Values.serviceAccount }}
+      {{- if or (eq "string" (printf "%T" .Values.serviceAccount)) .Values.serviceAccount.create .Values.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.service-account-name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:

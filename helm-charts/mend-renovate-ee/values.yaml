@@ -202,6 +202,10 @@ renovateServer:
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
+  serviceAccount:
+    create: false
+    existingName:
+    annotations: {}
 
 renovateWorker:
   image:
@@ -315,6 +319,11 @@ renovateWorker:
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
+
+  serviceAccount:
+    create: false
+    existingName:
+    annotations: {}
 
 ## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
