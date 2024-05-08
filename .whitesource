@@ -3,6 +3,6 @@
     "workflowRules": {
       "enabled": false
     },
-    "enableRenovate": false
+    "enabled": false
   }
 }
