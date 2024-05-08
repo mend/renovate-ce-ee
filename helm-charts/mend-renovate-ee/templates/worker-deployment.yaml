@@ -33,6 +33,9 @@ spec:
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.renovateWorker.terminationGracePeriodSeconds }}
+      {{- if or .Values.renovateWorker.serviceAccount.create .Values.renovateWorker.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.worker-service-account-name" . }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
