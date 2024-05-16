@@ -32,8 +32,8 @@ spec:
       {{- with .Values.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.serviceAccount }}
-      serviceAccountName: {{ .Values.serviceAccount }}
+      {{- if or (eq "string" (printf "%T" .Values.serviceAccount)) .Values.serviceAccount.create .Values.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.service-account-name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
@@ -167,6 +167,22 @@ spec:
             - name: MEND_RNV_CRON_APP_SYNC
               value: {{ .Values.renovate.mendRnvCronAppSync | quote }}
             {{- end }}
+            {{- if .Values.renovate.mendRnvSyncOnStartup }}
+            - name: MEND_RNV_SYNC_ON_STARTUP
+              value: {{ .Values.renovate.mendRnvSyncOnStartup | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvSyncMode }}
+            - name: MEND_RNV_SYNC_MODE
+              value: {{ .Values.renovate.mendRnvSyncMode | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvReportingEnabled }}
+            - name: MEND_RNV_REPORTING_ENABLED
+              value: {{ .Values.renovate.mendRnvReportingEnabled | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvLogHistoryS3 }}
+            - name: MEND_RNV_LOG_HISTORY_S3
+              value: {{ .Values.renovate.mendRnvLogHistoryS3 | quote }}
+            {{- end }}
             {{- if .Values.renovate.mendRnvAutoDiscoverFilter }}
             - name: MEND_RNV_AUTODISCOVER_FILTER
               value: {{ .Values.renovate.mendRnvAutoDiscoverFilter | quote }}
@@ -230,6 +246,18 @@ spec:
             {{- if .Values.renovate.mendRnvWorkerExecutionTimeout }}
             - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
               value: {{ .Values.renovate.mendRnvWorkerExecutionTimeout | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvWorkerCleanup }}
+            - name: MEND_RNV_WORKER_CLEANUP
+              value: {{ .Values.renovate.mendRnvWorkerCleanup | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvWorkerCleanupDirs }}
+            - name: MEND_RNV_WORKER_CLEANUP_DIRS
+              value: {{ .Values.renovate.mendRnvWorkerCleanupDirs | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvWorkerNodeArgs }}
+            - name: RENOVATE_NODE_ARGS
+              value: {{ .Values.renovate.mendRnvWorkerNodeArgs | quote }}
             {{- end }}
           ports:
             - name: http

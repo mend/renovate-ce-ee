@@ -33,6 +33,9 @@ spec:
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.renovateWorker.terminationGracePeriodSeconds }}
+      {{- if or .Values.renovateWorker.serviceAccount.create .Values.renovateWorker.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.worker-service-account-name" . }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
@@ -65,6 +68,19 @@ spec:
                   name: {{ include "mend-renovate.license-secret-name" . }}
                   key: mendRnvLicenseKey
             {{- end }}
+            {{- if .Values.renovateWorker.mendRnvWorkerCleanup }}
+            - name: MEND_RNV_WORKER_CLEANUP
+              value: {{ .Values.renovateWorker.mendRnvWorkerCleanup | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.mendRnvWorkerCleanupDirs }}
+            - name: MEND_RNV_WORKER_CLEANUP_DIRS
+              value: {{ .Values.renovateWorker.mendRnvWorkerCleanupDirs | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.mendRnvWorkerNodeArgs }}
+            - name: RENOVATE_NODE_ARGS
+              value: {{ .Values.renovateWorker.mendRnvWorkerNodeArgs | quote }}
+            {{- end }}
+
             {{- if or .Values.renovateWorker.githubComToken .Values.renovateWorker.existingSecret }}
             - name: GITHUB_COM_TOKEN
               valueFrom:

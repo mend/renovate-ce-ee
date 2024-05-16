@@ -52,3 +52,16 @@ Expand the name of the npmrc secret
 {{- include "mend-renovate.name" . }}-npmrc
 {{- end -}}
 {{- end -}}
+
+{{/*
+Expand the name of the service account
+*/}}
+{{- define "mend-renovate.service-account-name" -}}
+{{- if eq "string" (printf "%T" .Values.serviceAccount) -}}
+{{- .Values.serviceAccount -}}
+{{- else if .Values.serviceAccount.create -}}
+{{- include "mend-renovate.name" . }}-sa
+{{- else -}}
+{{- .Values.serviceAccount.existingName -}}
+{{- end -}}
+{{- end -}}
