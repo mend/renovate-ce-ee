@@ -93,7 +93,7 @@ API: [GET] /api/repos/{org}/{repo}/-/jobs/<latest|{jobId}>
 Options:
 - "latest" - returns the most recent job logs for the given repo
 - {jobId} - returns the job logs for the specified jobId
-  - Note: this variation returns the same as [Get job log by JobID](#get-job-log-by-jobid)
+  - Note: this variation returns the same as [Get Job Logs by JobID](#get-job-log-by-jobid)
 
 **Example 1:** Fetch latest job logs for repo `my-org/my-repo`
 
@@ -121,9 +121,9 @@ Options:
 
 API: [GET] /api/job/logs/{jobId}
 
-**Description:** Get the contents of a specific Job Log
+**Description:** Returns the job logs for the specified JobID
 
-Note: This returns the same as [Get Job Log by Repo](#get-job-logs-by-repo) with JobID variation, but conveniently does not require the {org}/{repo} in the API endpoint.
+Note: This returns the same as [Get Job Logg by Repo](#get-job-logs-by-repo) with JobID variation, but conveniently does not require the {org}/{repo} in the API endpoint.
 
 **Example:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1`
 
