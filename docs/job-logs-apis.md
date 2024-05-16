@@ -14,20 +14,19 @@ These APIs are available only on Mend Renovate instances running with a Postgres
 
 The list below describes the available Job Logs APIs. Follow the links on the API names for full details.
 
-- [List jobs for a Repo](#list-jobs-for-a-repo) ← Lists all known Job Logs for a given repo
-- [Get latest Job Log](#get-latest-job-log) ← Get the contents of the latest Job Log for a given repo
-- [Get Repo Job Log by JobID](#get-repo-job-log-by-jobid) ← Get the contents of a specific Job Log from a given repo
-- [Get Job Log by JobID](#get-job-log-by-jobid) ← Get the contents of a specific Job Log
+- [List Jobs by Repo](#list-jobs-by-repo) ← Lists all jobs for a given repo
+- [Get Job Logs by Repo](#get-job-logs-by-repo) ← Fetch job logs for a given repo (latest, or by JobID)
+- [Get Job Logs by JobID](#get-job-logs-by-jobid) ← Fetch job logs by Job ID
 
 ## Enable Job Logs APIs
 
 Job Logs APIs are enabled with Renovate Admin APIs, which is off by default.
 
-The API can be enabled by setting the `MEND_RNV_ADMIN_API_ENABLED` environment variable to `true`.
+The APIs can be enabled by setting the `MEND_RNV_ADMIN_API_ENABLED` environment variable to `true`.
 You must also configure an API secret by setting the `MEND_RNV_SERVER_API_SECRET` variable.
 
 Authentication is done via HTTP Auth, using the API secret as the password.
-For example if the secret is `renovateapi` then you would authenticate with:
+For example if the secret is `renovateapi` then you would authenticate by adding the following request header:
 
 ```
   Authorization: renovateapi
@@ -37,16 +36,15 @@ For example if the secret is `renovateapi` then you would authenticate with:
 
 See the table below for a list of Job Logs API URL formats.
 
-| API                                                     | URL format                                  | Query parameters                                                                   |
-|---------------------------------------------------------|---------------------------------------------|------------------------------------------------------------------------------------|
-| [List jobs for a Repo](#list-jobs-for-a-repo)           | [GET] /api/repos/{org}/{repo}/-/jobs        | limit (default=100, max=10,000)                                                                                   |
-| [Get latest Job Log](#get-latest-job-log)               | [GET] /api/repos/{org}/{repo}/-/jobs/latest |                                                                                    |
-| [Get Repo Job Log by JobID](#get-repo-job-log-by-jobid) | [GET] /api/repos/{org}/{repo}/-/jobs/{jobId} |                                                                                    |
-| [Get Job Log by JobID](#get-job-log-by-jobid)           | [GET] /api/job/logs/{jobId}                 |                                                                                    |
+| API                                             | URL format                                             | Query parameters                |
+|-------------------------------------------------|--------------------------------------------------------|---------------------------------|
+| [List Jobs by Repo](#list-jobs-by-repo)         | [GET] /api/repos/{org}/{repo}/-/jobs                   | limit (default=100, max=10,000) |
+| [Get Job Logs by Repo](#get-job-logs-by-repo)   | [GET] /api/repos/{org}/{repo}/-/jobs/<latest\|{jobId}> |                                 |                                                                                    |
+| [Get Job Logs by JobID](#get-job-logs-by-jobid) | [GET] /api/job/logs/{jobId}                            |                                 |
 
 ## Details of Job Logs APIs
 
-### List jobs for a Repo
+### List Jobs by Repo
 
 API: [GET] /api/repos/{org}/{repo}/-/jobs
 
@@ -86,38 +84,27 @@ Pagination is not supported. Results are sorted with most recent job first.
 ]
 ```
 
-### Get latest Job Log
+### Get Job Logs by Repo
 
-API: [GET] /api/repos/{org}/{repo}/-/jobs/latest
+API: [GET] /api/repos/{org}/{repo}/-/jobs/<latest|{jobId}>
 
-**Description:** Get the contents of the latest Job Log for a given repo
+**Description:** Get the contents of a single job log for a given repo
 
-**Example:** Fetch latest job logs for repo `my-org/my-repo`
+Options:
+- "latest" - returns the most recent job logs for the given repo
+- {jobId} - returns the job logs for the specified jobId
+  - Note: this variation returns the same as [Get job log by JobID](#get-job-log-by-jobid)
+
+**Example 1:** Fetch latest job logs for repo `my-org/my-repo`
 
 [GET] http://my.renovate.server.com/api/repos/my-org/my-repo/-/jobs/latest
 
-```json
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"File config","time":"2024-05-13T12:41:58.139Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"CLI config","time":"2024-05-13T12:41:58.143Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"Env config","time":"2024-05-13T12:41:58.152Z","v":0}
-{"......many rows removed......"}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","repository":"my-org/my-repo","hosts":[],"msg":"dns cache","time":"2024-05-13T12:42:29.346Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":30,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","repository":"my-org/my-repo","cloned":false,"durationMs":29063,"msg":"Repository finished","time":"2024-05-13T12:42:29.348Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","msg":"Checking file package cache for expired items","time":"2024-05-13T12:42:29.351Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","msg":"Verifying and cleaning cache: /tmp/renovate/cache/renovate/renovate-cache-v1","time":"2024-05-13T12:42:29.521Z","v":0}
-{"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","msg":"Deleted 0 of 29 file cached entries in 840ms","time":"2024-05-13T12:42:30.193Z","v":0}
-```
-
-### Get Repo Job Log by JobID
-
-API: [GET] /api/repos/{org}/{repo}/-/jobs/{jobId}
-
-**Description:** Get the contents of a specific Job Log for a given repo
-
-**Example:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1` in repo `my-org/my-repo`
+**Example 2:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1` in repo `my-org/my-repo`
 
 [GET] http://my.renovate.server.com/api/repos/my-org/my-repo/-/jobs/5a3572bf-49fe-42bb-a066-ff1146fe83d1
 
+**Sample output:**
+
 ```json
 {"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"File config","time":"2024-05-13T12:41:58.139Z","v":0}
 {"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"CLI config","time":"2024-05-13T12:41:58.143Z","v":0}
@@ -130,11 +117,13 @@ API: [GET] /api/repos/{org}/{repo}/-/jobs/{jobId}
 {"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","msg":"Deleted 0 of 29 file cached entries in 840ms","time":"2024-05-13T12:42:30.193Z","v":0}
 ```
 
-### Get Job Log by JobID
+### Get Job Logs by JobID
 
 API: [GET] /api/job/logs/{jobId}
 
 **Description:** Get the contents of a specific Job Log
+
+Note: This returns the same as [Get Job Log by Repo](#get-job-logs-by-repo) with JobID variation, but conveniently does not require the {org}/{repo} in the API endpoint.
 
 **Example:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1`
 
