@@ -14,6 +14,7 @@ These APIs are available only on Mend Renovate Enterprise Edition instances runn
 
 The list below describes the available reporting APIs. Follow the links on the API names for full details.
 
+- [Org list](#org-list) ← List of orgs using Renovate
 - [Org info](#org-info) ← Stats for a single org
 - [Repo list](#repo-list) ← List of repos for a single org
 - [Repo info](#repo-info) ← Stats for a single repo
@@ -40,15 +41,56 @@ To enable data collection for the `Repo pull requests` API:
 
 See the table below for a list of reporting API URL formats.
 
-| API                                       | URL format                                | Query parameters                                                                   |
-|-------------------------------------------|-------------------------------------------|------------------------------------------------------------------------------------|
-| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                                                    |
-| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed)                              |
-| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/{repo}           |                                                                                    |
-| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                    |
-| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000) |
+| API                                       | URL format                                | Query parameters                                                                                                              |
+|-------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [Org list](#org-list)                     | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
+| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                                                                                               |
+| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
+| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
+| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
+| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
 
 ## Details of Reporting APIs
+
+### Org list
+
+API: [GET] /api/orgs
+
+query parameters:
+- state
+  - Options = active, suspended, installed(active+suspended), uninstalled, all
+  - Default = installed
+- limit
+  - Max = 10,000
+  - Default = 100
+
+**Description:** List of orgs using Renovate
+
+States:
+- Active = Enabled, Not Suspended
+- Suspended = Enabled, Suspended
+- Installed = Active or Suspended
+- Uninstalled = Not Enabled
+
+**Example 1:** Fetch a list of all currently installed orgs
+
+[GET] http://my.renovate.server.com/api/orgs
+
+**Example 2:** Fetch a list of all installed orgs that have turned off Renovate (ie. enabled,suspended)
+
+[GET] http://my.renovate.server.com/api/orgs?state=suspended
+
+```json
+[
+    {
+        "id": "97cabe6b-a757-52e6-ba28-c8173b571efd",
+        "name": "my-org",
+        "enabled": true,
+        "suspended": true,
+        "installedAt": "2024-05-19 16:29:51.531136"
+    },
+]
+```
 
 ### Org info
 
@@ -101,6 +143,9 @@ query parameters:
 - state
     - Options = installed, uninstalled, all
     - Default = installed
+- limit
+  - Max = 10,000
+  - Default = 100
 
 **Description:** List of repos for a single org
 
