@@ -39,7 +39,7 @@ See the table below for a list of Job Logs API URL formats.
 | API                                             | URL format                                             | Query parameters                |
 |-------------------------------------------------|--------------------------------------------------------|---------------------------------|
 | [List Jobs by Repo](#list-jobs-by-repo)         | [GET] /api/repos/{org}/{repo}/-/jobs                   | limit (default=100, max=10,000) |
-| [Get Job Logs by Repo](#get-job-logs-by-repo)   | [GET] /api/repos/{org}/{repo}/-/jobs/<latest\|{jobId}> |                                 |                                                                                    |
+| [Get Job Logs by Repo](#get-job-logs-by-repo)   | [GET] /api/repos/{org}/{repo}/-/jobs/<latest\|{jobId}> |                                 |
 | [Get Job Logs by JobID](#get-job-logs-by-jobid) | [GET] /api/job/logs/{jobId}                            |                                 |
 
 ## Details of Job Logs APIs
