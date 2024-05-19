@@ -123,7 +123,7 @@ API: [GET] /api/job/logs/{jobId}
 
 **Description:** Returns the job logs for the specified JobID
 
-Note: This returns the same as [Get Job Logg by Repo](#get-job-logs-by-repo) with JobID variation, but conveniently does not require the {org}/{repo} in the API endpoint.
+Note: This returns the same as [Get Job Logs by Repo](#get-job-logs-by-repo) with JobID variation, but conveniently does not require the {org}/{repo} in the API endpoint.
 
 **Example:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1`
 
