@@ -29,6 +29,8 @@ Authentication is done via HTTP Auth, using the API secret as the password.
 For example if the secret is `renovateapi` then you would authenticate by adding the following request header:
 
 ```
+  Authorization: Bearer renovateapi
+  or
   Authorization: renovateapi
 ```
 
