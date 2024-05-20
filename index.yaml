@@ -16,6 +16,19 @@ entries:
     version: 4.1.0
   mend-renovate-ce:
   - apiVersion: v1
+    appVersion: 7.2.0
+    created: "2024-05-20T05:35:04.075460202Z"
+    description: Mend Renovate Community Edition
+    digest: 93aab91e7c82fe2a21de9d1cd34e8eb8f44231d5dcd89dada245db5a9ecd0f27
+    home: https://github.com/mend/renovate-ce-ee
+    icon: https://app.renovatebot.com/images/logo.png
+    name: mend-renovate-ce
+    sources:
+    - https://github.com/renovatebot/renovate
+    urls:
+    - https://github.com/mend/renovate-ce-ee/releases/download/mend-renovate-ce-7.2.1/mend-renovate-ce-7.2.1.tgz
+    version: 7.2.1
+  - apiVersion: v1
     appVersion: 7.1.0
     created: "2024-05-09T15:22:55.676701007Z"
     description: Mend Renovate Community Edition
@@ -224,6 +237,19 @@ entries:
     - https://github.com/mend/renovate-ce-ee/releases/download/mend-renovate-ce-6.1.0/mend-renovate-ce-6.1.0.tgz
     version: 6.1.0
   mend-renovate-enterprise-edition:
+  - apiVersion: v1
+    appVersion: 7.2.0
+    created: "2024-05-20T05:35:04.236890091Z"
+    description: Mend Renovate Enterprise Edition
+    digest: 041c0adfa9d795417075dd800b028612592a7a6e9830f3eb967c57812baea54b
+    home: https://github.com/mend/renovate-ce-ee
+    icon: https://app.renovatebot.com/images/logo.png
+    name: mend-renovate-enterprise-edition
+    sources:
+    - https://github.com/renovatebot/renovate
+    urls:
+    - https://github.com/mend/renovate-ce-ee/releases/download/mend-renovate-enterprise-edition-1.2.1/mend-renovate-enterprise-edition-1.2.1.tgz
+    version: 1.2.1
   - apiVersion: v1
     appVersion: 7.1.0
     created: "2024-05-09T15:22:55.780853785Z"
@@ -446,4 +472,4 @@ entries:
     urls:
     - https://github.com/mend/renovate-on-prem/releases/download/whitesource-renovate-3.1.2/whitesource-renovate-3.1.2.tgz
     version: 3.1.2
-generated: "2024-05-09T15:22:55.781015107Z"
+generated: "2024-05-20T05:35:04.237073023Z"
