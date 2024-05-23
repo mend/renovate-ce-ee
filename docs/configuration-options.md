@@ -94,7 +94,9 @@ values:
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
 
-**`MEND_RNV_LOG_HISTORY_DIR`**: Optional: Specify a directory path to save Renovate job log files, recommended to be an external volume to preserve history between multiple workers. Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`.
+**`MEND_RNV_LOG_HISTORY_DIR`**: Optional. Specify a directory path to save Renovate job log files. Defaults to `/tmp/renovate`.
+
+Log files will be saved in a `./ORG_NAME/REPO_NAME/` hierarchy under the specified folder. Log file name structure is as follows: `(<timestamp>_<log_context>.log)`
 
 Where:
 - `<timestamp>`: timestamp in the format `YYYYMMDD_HHmmss` local time
@@ -109,6 +111,10 @@ The corresponding Renovate job log file will be saved as:
 ```
 /home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
 ```
+
+Note: 
+- Recommended to be an external volume to preserve history between multiple workers
+- For disk cleanup use `MEND_RNV_LOG_HISTORY_TTL_DAYS` and `MEND_RNV_LOG_HISTORY_CLEANUP_CRON`
 
 **`MEND_RNV_LOG_HISTORY_S3`**: Optional. Format: `s3://bucket/dir1/dir2`. Defines S3 storage location for saving job logs. Supports connection to AWS or MinIO S3 storage.
 Uses standard AWS environment variables to establish connection. (Also see `MEND_RNV_S3_FORCE_PATH_STYLE`.)
