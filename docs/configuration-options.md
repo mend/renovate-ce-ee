@@ -1,17 +1,17 @@
 # Mend Renovate Configuration Options
 
-## Configure Mend Renovate
-
 Mend Renovate Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
 See below for a list of environment variables that relate to each.
 
-### Environment variables for Community Edition and Enterprise Server
+Separately, you can provide configuration for the Renovate Core. See the end of this doc for details. 
+
+## Environment variables for Community Edition and Enterprise Server
 
 The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.
 Environment variables for the **Mend Renovate Enterprise Worker** are in the next section.
 
-#### Mend licensing config
+### Mend licensing config
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -19,7 +19,7 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 
 **`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto' (default), or provide the value of a merge confidence API token.
 
-#### Source code management (SCM) connection details
+### Source code management (SCM) connection details
 
 This section contains configuration variables for connecting to your source code repository.
 Use the appropriate settings to define connection details to your specific SCM.
@@ -38,7 +38,7 @@ Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
-#### Optional Mend Renovate configuration
+### Optional Mend Renovate configuration
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance).
 This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
@@ -92,9 +92,7 @@ values:
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
 
-#### Renovate Job Scheduling
-
-**Job Scheduling Options**
+### Job Scheduling Options
 
 > [!IMPORTANT]  
 > Job scheduling options are different between Community Edition and Enterprise Edition.
@@ -134,7 +132,7 @@ Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
   * Runs repos: ALL enabled repos (including repos that fall into HOT, COLD, and CAPPED statuses)
   * Does not run on repos that are `disabled`
 
-#### Logging Configuration Options
+### Logging Configuration Options
 
 **`MEND_RNV_LOG_HISTORY_DIR`**: Optional. Specify a directory path to save Renovate job log files. Defaults to `/tmp/renovate`.
 
@@ -170,7 +168,7 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
-#### Other Server Config Options
+### Other Server Config Options
 
 **`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
 
@@ -205,7 +203,7 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
-#### Postgres DB Configuration
+### Postgres DB Configuration
 
 To configure Mend Renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
 
@@ -219,7 +217,7 @@ For more information, see the [Postgres DB Configuration](configure-postgres-db.
 * **`PGHOST`**: Host name of the PostgreSQL instance
 * **`PGPORT`**: Host Port for the PostgreSQL instance
 
-### Environment variables for Enterprise Worker
+## Environment variables for Enterprise Worker
 
 The Worker container needs to define only the following variables:
 
