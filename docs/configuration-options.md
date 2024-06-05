@@ -87,14 +87,14 @@ values:
 > [!IMPORTANT]  
 > Job scheduling options are different between Community Edition and Enterprise Edition.
 > 
-> <u>Renovate Enterprise Edition</u> allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
+> **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
 > The Enterprise job schedulers are:
 > - MEND_RNV_CRON_JOB_SCHEDULER_HOT (Default Hourly - Active repos)
 > - MEND_RNV_CRON_JOB_SCHEDULER_COLD (Default Daily - Stale repos)
 > - MEND_RNV_CRON_JOB_SCHEDULER_CAPPED (Default Weekly - Resource-limited/Timeout)
 > - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Monthly - All repos)
 > 
-> <u>Renovate Community Edition</u> has a single job scheduler that runs against all repos, regardless of their repo state.
+> **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
 > - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Hourly - All repos)
 > 
 > See below for details
@@ -106,7 +106,7 @@ values:
 **`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
   * Runs repos: new, activated
  
-Note: An `activated` repository is one that has onboarded and also <u>accepted at least one Renovate PR</u>.
+Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
 
 Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
 
