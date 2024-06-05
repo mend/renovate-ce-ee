@@ -1,4 +1,4 @@
-# Renovate EE Reporting APIs
+# Renovate Reporting APIs
 
 Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate.
 
