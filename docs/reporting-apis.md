@@ -1,25 +1,23 @@
-# Renovate EE Reporting APIs
+# Renovate CE/EE Reporting APIs
 
 Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate.
-These APIs are available only on Mend Renovate Enterprise Edition instances running with a Postgres DB.
-
-**Version**: This documentation reflects APIs available in Mend Renovate Enterprise v7.0.0
 
 > [!IMPORTANT]  
-> Reporting APIs are only supported for the following configuration:
-> - Mend Renovate Enterprise Edition
-> - Using PostgresDB for Renovate database
+> - Reporting APIs are only supported for configurations with PostgresDB
+> - Some API data is restricted to Mend Renovate Enterprise Edition
 
 ## Available Reporting APIs
 
 The list below describes the available reporting APIs. Follow the links on the API names for full details.
 
+**Note**: Some API data is <u>available only in the Enterprise Edition</u>. See each API for details.
+
 - [Org list](#org-list) ← List of orgs using Renovate
-- [Org info](#org-info) ← Stats for a single org
+- [Org info](#org-info) ← Stats for a single org - [Some data Enterprise only]
 - [Repo list](#repo-list) ← List of repos for a single org
-- [Repo info](#repo-info) ← Stats for a single repo
-- [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information
-- [Repo pull requests](#repo-pull-requests) [GitHub only] ← List of pull requests for a single repo
+- [Repo info](#repo-info) ← Stats for a single repo [Some data Enterprise only]
+- [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information [Enterprise only]
+- [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo [Enterprise only / GitHub only]
 
 ## Enable Reporting APIs
 
@@ -41,14 +39,14 @@ To enable data collection for the `Repo pull requests` API:
 
 See the table below for a list of reporting API URL formats.
 
-| API                                       | URL format                                | Query parameters                                                                                                              |
-|-------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [Org list](#org-list)                     | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
-| [Org info](#org-info)                     | [GET] /api/orgs/{org}                     |                                                                                                                               |
-| [Repo list](#repo-list)                   | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
-| [Repo info](#repo-info)                   | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
-| [Repo dashboard](#repo-dashboard)         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
-| [Repo pull requests](#repo-pull-requests) | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
+| API                                                             | URL format                                | Query parameters                                                                                                              |
+|-----------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [Org list](#org-list)                                           | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
+| [Org info](#org-info)<br/>[Some data Enterprise only]                                           | [GET] /api/orgs/{org}                     |                                                                                                                               |
+| [Repo list](#repo-list)                                         | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
+| [Repo info](#repo-info)<br/>[Some data Enterprise only]         | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
+| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
+| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only] | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
 
 ## Details of Reporting APIs
 
@@ -98,6 +96,8 @@ API: [GET] /api/orgs/{org}
 
 **Description:** Stats for a single org
 
+Note: Summaries for `renovateStatuses` and `pullRequests` are available only with Enterprise Edition
+
 **Example:** Fetch info and stats for org `my-org`
 
 [GET] http://my.renovate.server.com/api/orgs/my-org   (Note: no trailing slash!)
@@ -115,7 +115,7 @@ API: [GET] /api/orgs/{org}
     "uninstalled": 2,
     "total": 4
   },
-  "renovateStatuses": {
+  "renovateStatuses": {    <-- Enterprise Edition only
     "activated": 1,
     "disabled": 0,
     "onboarded": 1,
@@ -126,7 +126,7 @@ API: [GET] /api/orgs/{org}
     "timeout": 0,
     "total": 2
   },
-  "pullRequests": {
+  "pullRequests": {    <-- Enterprise Edition only
     "merged": 2,
     "open": 4,
     "ignored": 2,
@@ -234,6 +234,8 @@ API: [GET] /api/repos/{org}/{repo}
 
 **Description:** Stats for a single repo
 
+Note: The `status` field and `pullRequestStats` summaries are available only with Enterprise Edition
+
 **Example:** Fetch info and stats for repo `my-org/demo-repo-2`
 
 [GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2
@@ -244,9 +246,9 @@ API: [GET] /api/repos/{org}/{repo}
     "name": "demo-repo-2",
     "fullName": "my-org/demo-repo-2",
     "state": "installed",
-    "status": "activated",
+    "status": "activated",    <-- Enterprise Edition only
     "installedAt": "2024-03-07 10:56:50.55661",
-    "pullRequestStats": {
+    "pullRequestStats": {    <-- Enterprise Edition only
         "merged": 2,
         "open": 3,
         "ignored": 2,
@@ -264,6 +266,8 @@ Includes:
 - Notes/Warnings
 - Detected Dependencies (‘deps’)
 - Renovate Updates (‘updates’)
+
+Note: Available only with Enterprise Edition. Returns no data when returned from Community Edition.
 
 **Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
@@ -498,6 +502,8 @@ Includes:
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
 
 API: [GET] /api/repos/{org}/{repo}/-/pulls
+
+Note: Available only with Enterprise Edition. Returns no data when returned from Community Edition.
 
 query parameters:
 - state
