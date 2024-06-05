@@ -104,7 +104,7 @@ values:
 > - `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (Default Hourly - Active repos: new, activated)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Inactive repos: onboarded, onboarding, failed)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_CAPPED` (Default Weekly - Blocked repos: resource-limit, timeout)
-> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All repos)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All enabled repos: not disabled)
 > 
 > **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
 > - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Hourly - All repos)
@@ -130,8 +130,9 @@ Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
 **`MEND_RNV_CRON_JOB_SCHEDULER_CAPPED`**: [Enterprise Only] Runs all repositories that are blocked. Defaults to weekly (20 0 * * 0)
 * Runs repos with status: `resource-limit`, `timeout`
 
-**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs ALL jobs. Defaults to monthly (30 0 1 * *)
-  * Runs repos: ALL (including repos that fall into HOT, COLD, and CAPPED statuses)
+**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs all enabled repositories jobs. Defaults to monthly (30 0 1 * *)
+  * Runs repos: ALL enabled repos (including repos that fall into HOT, COLD, and CAPPED statuses)
+  * Does not run on repos that are `disabled`
 
 #### Logging Configuration Options
 
