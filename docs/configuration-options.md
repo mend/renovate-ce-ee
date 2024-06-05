@@ -89,9 +89,9 @@ values:
 > 
 > **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
 > The Enterprise job schedulers are:
-> - MEND_RNV_CRON_JOB_SCHEDULER_HOT (Default Hourly - Active repos)
-> - MEND_RNV_CRON_JOB_SCHEDULER_COLD (Default Daily - Stale repos)
-> - MEND_RNV_CRON_JOB_SCHEDULER_CAPPED (Default Weekly - Resource-limited/Timeout)
+> - MEND_RNV_CRON_JOB_SCHEDULER_HOT (Default Hourly - Active repos: new, activated)
+> - MEND_RNV_CRON_JOB_SCHEDULER_COLD (Default Daily - Inactive repos: onboarded, onboarding, failed)
+> - MEND_RNV_CRON_JOB_SCHEDULER_CAPPED (Default Weekly - Blocked repos: resource-limit, timeout)
 > - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Monthly - All repos)
 > 
 > **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
@@ -104,17 +104,17 @@ values:
 > - For Renovate EE: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
-  * Runs repos: new, activated
+  * Runs repos with status: `new`, `activated`
  
 Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
 
 Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_COLD`**: [Enterprise Only] Runs all inactive repositories. Defaults to daily (10 0 * * *)
-  * Runs repos: onboarded, onboarding, failed
+* Runs repos with status: `onboarded`, `onboarding`, `failed`
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_CAPPED`**: [Enterprise Only] Runs all repositories that are blocked. Defaults to weekly (20 0 * * 0)
-  * Runs repos: resource-limit, timeout
+* Runs repos with status: `resource-limit`, `timeout`
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs ALL jobs. Defaults to monthly (30 0 1 * *)
   * Runs repos: ALL (including repos that fall into HOT, COLD, and CAPPED statuses)
