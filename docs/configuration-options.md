@@ -100,7 +100,7 @@ values:
 > **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
 > The Enterprise job schedulers are:
 > - `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (Default Hourly - Active repos: new, activated)
-> - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Inactive repos: onboarded, onboarding, failed)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Semi-active repos: onboarded, onboarding, failed)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_CAPPED` (Default Weekly - Blocked repos: resource-limit, timeout)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All enabled repos: not disabled)
 > 
