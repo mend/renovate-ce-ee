@@ -80,6 +80,18 @@ values:
 - `bulk` (default) - will process all repos in one operation
 - `batch` - will process repos in smaller batches
 
+**`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
+
+**`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
+
+> [!WARNING]  
+> The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
+
+**`MEND_RNV_ENQUEUE_JOBS_ON_STARTUP`**: The job enqueue behavior on start (or restart). Defaults to `discovered`. (Note that the behavior can be different if the database is persisted or not)
+- `enabled`: enqueue a job for all available repositories
+- `discovered`: enqueue a job only for newly discovered repositories
+- `disabled`: No jobs are enqueued
+
 #### Renovate Job Scheduling
 
 **Job Scheduling Options**
@@ -89,19 +101,21 @@ values:
 > 
 > **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
 > The Enterprise job schedulers are:
-> - MEND_RNV_CRON_JOB_SCHEDULER_HOT (Default Hourly - Active repos: new, activated)
-> - MEND_RNV_CRON_JOB_SCHEDULER_COLD (Default Daily - Inactive repos: onboarded, onboarding, failed)
-> - MEND_RNV_CRON_JOB_SCHEDULER_CAPPED (Default Weekly - Blocked repos: resource-limit, timeout)
-> - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Monthly - All repos)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (Default Hourly - Active repos: new, activated)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Inactive repos: onboarded, onboarding, failed)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_CAPPED` (Default Weekly - Blocked repos: resource-limit, timeout)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All repos)
 > 
 > **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
-> - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Hourly - All repos)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Hourly - All repos)
 > 
 > See below for details
 
-> Note: `MEND_RNV_CRON_JOB_SCHEDULER` is deprecated from v7.3.0.
-> - For Renovate CE: use `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (see below)
-> - For Renovate EE: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
+> [!Note]
+> 
+> `MEND_RNV_CRON_JOB_SCHEDULER` is deprecated from v7.3.0.
+> - For Renovate Community Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (see below)
+> - For Renovate Enterprise Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
   * Runs repos with status: `new`, `activated`
@@ -118,18 +132,6 @@ Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs ALL jobs. Defaults to monthly (30 0 1 * *)
   * Runs repos: ALL (including repos that fall into HOT, COLD, and CAPPED statuses)
-
-**`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
-
-**`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
-
-> [!WARNING]  
-> The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
-
-**`MEND_RNV_ENQUEUE_JOBS_ON_STARTUP`**: The job enqueue behavior on start (or restart). Defaults to `discovered`. (Note that the behavior can be different if the database is persisted or not)
-- `enabled`: enqueue a job for all available repositories
-- `discovered`: enqueue a job only for newly discovered repositories
-- `disabled`: No jobs are enqueued
 
 #### Logging Configuration Options
 
