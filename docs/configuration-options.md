@@ -80,7 +80,44 @@ values:
 - `bulk` (default) - will process all repos in one operation
 - `batch` - will process repos in smaller batches
 
-**`MEND_RNV_CRON_JOB_SCHEDULER`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 * * * *` (i.e. once per hour exactly on the hour). This cron job triggers the Renovate bot against the projects in the SQLite database. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
+#### Renovate Job Scheduling
+
+**Job Scheduling Options**
+
+> [!IMPORTANT]  
+> Job scheduling options are different between Community Edition and Enterprise Edition.
+> 
+> <u>Renovate Enterprise Edition</u> allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
+> The Enterprise job schedulers are:
+> - MEND_RNV_CRON_JOB_SCHEDULER_HOT (Default Hourly - Active repos)
+> - MEND_RNV_CRON_JOB_SCHEDULER_COLD (Default Daily - Stale repos)
+> - MEND_RNV_CRON_JOB_SCHEDULER_CAPPED (Default Weekly - Resource-limited/Timeout)
+> - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Monthly - All repos)
+> 
+> <u>Renovate Community Edition</u> has a single job scheduler that runs against all repos, regardless of their repo state.
+> - MEND_RNV_CRON_JOB_SCHEDULER_ALL (Default Hourly - All repos)
+> 
+> See below for details
+
+> Note: `MEND_RNV_CRON_JOB_SCHEDULER` is deprecated from v7.3.0.
+> - For Renovate CE: use `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (see below)
+> - For Renovate EE: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
+  * Runs repos: new, activated
+ 
+Note: An `activated` repository is one that has onboarded and also <u>accepted at least one Renovate PR</u>.
+
+Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_COLD`**: [Enterprise Only] Runs all inactive repositories. Defaults to daily (10 0 * * *)
+  * Runs repos: onboarded, onboarding, failed
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_CAPPED`**: [Enterprise Only] Runs all repositories that are blocked. Defaults to weekly (20 0 * * 0)
+  * Runs repos: resource-limit, timeout
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs ALL jobs. Defaults to monthly (30 0 1 * *)
+  * Runs repos: ALL (including repos that fall into HOT, COLD, and CAPPED statuses)
 
 **`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
 
@@ -93,6 +130,8 @@ values:
 - `enabled`: enqueue a job for all available repositories
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
+
+#### Logging Configuration Options
 
 **`MEND_RNV_LOG_HISTORY_DIR`**: Optional. Specify a directory path to save Renovate job log files. Defaults to `/tmp/renovate`.
 
@@ -127,6 +166,8 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
+
+#### Other Server Config Options
 
 **`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
 
