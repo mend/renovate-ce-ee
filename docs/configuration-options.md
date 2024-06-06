@@ -1,17 +1,17 @@
 # Mend Renovate Configuration Options
 
-## Configure Mend Renovate
-
 Mend Renovate Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
 See below for a list of environment variables that relate to each.
 
-### Environment variables for Community Edition and Enterprise Server
+Separately, you can provide configuration for the Renovate Core. See the end of this doc for details. 
+
+## Environment variables for Community Edition and Enterprise Server
 
 The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.
 Environment variables for the **Mend Renovate Enterprise Worker** are in the next section.
 
-#### Mend licensing config
+### Mend licensing config
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -19,7 +19,7 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 
 **`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto' (default), or provide the value of a merge confidence API token.
 
-#### Source code management (SCM) connection details
+### Source code management (SCM) connection details
 
 This section contains configuration variables for connecting to your source code repository.
 Use the appropriate settings to define connection details to your specific SCM.
@@ -38,7 +38,7 @@ Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
-#### Optional Mend Renovate configuration
+### Optional Mend Renovate configuration
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance).
 This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
@@ -80,8 +80,6 @@ values:
 - `bulk` (default) - will process all repos in one operation
 - `batch` - will process repos in smaller batches
 
-**`MEND_RNV_CRON_JOB_SCHEDULER`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 * * * *` (i.e. once per hour exactly on the hour). This cron job triggers the Renovate bot against the projects in the SQLite database. If decreasing the interval then be careful that you do not exhaust the available hourly rate limit of the app on GitHub server or cause too much load.
-
 **`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
 
 **`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
@@ -93,6 +91,50 @@ values:
 - `enabled`: enqueue a job for all available repositories
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
+
+### Job Scheduling Options
+
+> [!IMPORTANT]  
+> Job scheduling options are different between Community Edition and Enterprise Edition.
+> 
+> **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
+> The Enterprise job schedulers are:
+> - `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (Default Hourly - Active repos: new, activated)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Semi-active repos: onboarded, onboarding, failed)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_CAPPED` (Default Weekly - Blocked repos: resource-limit, timeout)
+> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All enabled repos: not disabled)
+> 
+> **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
+> - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Hourly - All repos)
+> 
+> See below for details
+
+> [!Note]
+> 
+> `MEND_RNV_CRON_JOB_SCHEDULER` is deprecated from v7.3.0.
+> - For Renovate Community Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (see below)
+> - For Renovate Enterprise Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
+  * Runs repos with status: `new`, `activated`
+ 
+Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
+
+Note: This option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_COLD`**: [Enterprise Only] Runs all semi-active repositories. Defaults to daily (10 0 * * *)
+* Runs repos with status: `onboarded`, `onboarding`, `failed`
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_CAPPED`**: [Enterprise Only] Runs all repositories that are blocked. Defaults to weekly (20 0 * * 0)
+* Runs repos with status: `resource-limit`, `timeout`
+
+**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs all enabled repositories jobs. Defaults to monthly (30 0 1 * *)
+  * Runs repos: ALL enabled repos (including repos that fall into HOT, COLD, and CAPPED statuses)
+  * Does not run on repos that are `disabled`
+
+Note: For CE this option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
+
+### Logging Configuration Options
 
 **`MEND_RNV_LOG_HISTORY_DIR`**: Optional. Specify a directory path to save Renovate job log files. Defaults to `/tmp/renovate`.
 
@@ -128,6 +170,8 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
+### Other Server Config Options
+
 **`MEND_RNV_WORKER_CLEANUP`**: [from v7.0.0] Optional. Defines how often to perform file cleanup on Worker containers. Defaults to "off".
 
 Values:
@@ -161,7 +205,7 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
-#### Postgres DB Configuration
+### Postgres DB Configuration
 
 To configure Mend Renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
 
@@ -175,7 +219,7 @@ For more information, see the [Postgres DB Configuration](configure-postgres-db.
 * **`PGHOST`**: Host name of the PostgreSQL instance
 * **`PGPORT`**: Host Port for the PostgreSQL instance
 
-### Environment variables for Enterprise Worker
+## Environment variables for Enterprise Worker
 
 The Worker container needs to define only the following variables:
 
