@@ -120,7 +120,7 @@ values:
  
 Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
 
-Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
+Note: This option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_COLD`**: [Enterprise Only] Runs all semi-active repositories. Defaults to daily (10 0 * * *)
 * Runs repos with status: `onboarded`, `onboarding`, `failed`
