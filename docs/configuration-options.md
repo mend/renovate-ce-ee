@@ -120,7 +120,7 @@ values:
  
 Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
 
-Note: This option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
+Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_COLD`**: [Enterprise Only] Runs all semi-active repositories. Defaults to daily (10 0 * * *)
 * Runs repos with status: `onboarded`, `onboarding`, `failed`
@@ -128,9 +128,10 @@ Note: This option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
 **`MEND_RNV_CRON_JOB_SCHEDULER_CAPPED`**: [Enterprise Only] Runs all repositories that are blocked. Defaults to weekly (20 0 * * 0)
 * Runs repos with status: `resource-limit`, `timeout`
 
-**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs all enabled repositories jobs. Defaults to monthly (30 0 1 * *)
+**`MEND_RNV_CRON_JOB_SCHEDULER_ALL`**: Runs jobs for all enabled repositories.
   * Runs repos: ALL enabled repos (including repos that fall into HOT, COLD, and CAPPED statuses)
   * Does not run on repos that are `disabled`
+  * Defaults to hourly (0 * * * *) for Community Edition and monthly (30 0 1 * *) for Enterprise Edition
 
 Note: For CE this option overrides the deprecated `MEND_RNV_CRON_JOB_SCHEDULER` flag.
 
