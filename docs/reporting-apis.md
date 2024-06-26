@@ -3,7 +3,6 @@
 Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate.
 
 > [!IMPORTANT]  
-> - Reporting APIs are only supported for configurations with PostgresDB
 > - Some API data is restricted to Mend Renovate Enterprise Edition
 
 ## Available Reporting APIs
