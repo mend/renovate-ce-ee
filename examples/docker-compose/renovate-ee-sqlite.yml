@@ -1,0 +1,93 @@
+version: "3.4"
+
+## Title: Renovate Enterprise with SQLite DB
+## Description: This example Docker Compose file starts containers for Mend Renovate Enterprise Edition.
+## Details: Creates 1 x Server, 2 x Workers. Uses internal SQLite DB.
+
+## Shared variables - used in both Server and Worker
+x-shared-variables: &shared-variables
+  MEND_RNV_SERVER_HOSTNAME: http://rnv-ee-server:8080
+
+  ## Mend-Renovate essential variables (Use mend-renovate.env)
+  # MEND_RNV_LICENSE_KEY: # Enterprise licence key. Get License key from Mend.io
+  # MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
+  # MEND_RNV_SERVER_API_SECRET: abc123 # Required on Server and Worker for internal communication
+
+## Server variables
+x-server-variables: &server-variables
+  # Renovate App connection details (Use github.env, gitlab.env, bitbucket.env)
+  # MEND_RNV_PLATFORM: # Options: [github],gitlab,bitbucket-server
+  # See Renovate-CE-EE documentation for connection details for all platforms.
+
+  # Mend Renovate Application settings
+  ## APIs
+  MEND_RNV_ADMIN_API_ENABLED: true # Enable incoming API calls. Defaults to false
+  MEND_RNV_REPORTING_ENABLED: true # Defaults to false. Note: Enable RENOVATE_REPOSITORY_CACHE on Worker to activate /pulls API.
+  ## Database
+  MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ee.sqlite  # Persist database to file. Enable volume mount! (Defaults to '/tmp/database.sqlite')
+  ## Job Logs
+  MEND_RNV_LOG_HISTORY_DIR: /logs  # Persist Renovate job logs to filesystem - organized by org/rep/timestamp. Enable volume mount!
+  # MEND_RNV_LOG_HISTORY_S3: s3://job-logs # Enable if using S3 for Job Log storage. Format: s3://<bucket>/dir1/dir2
+
+  ## System behavior (Sync, Scheduling, Clean-up)
+  # App Sync
+  # MEND_RNV_SYNC_ON_STARTUP: false # Defaults to true. Defines if App Sync will be performed when the server starts.
+  # MEND_RNV_APP_SYNC_MODE: batch # Options: [bulk],batch. Set to "batch" to process one org at a time. Defaults to "bulk".
+  # MEND_RNV_CRON_APP_SYNC: # Defaults to every 4 hours. Increase frequency when system hooks not available (ie. GitLab and Bitbucket Cloud)
+  # Job Scheduling
+  # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: enabled,disabled,[discovered]
+  # MEND_RNV_CRON_JOB_SCHEDULER: off # Defaults to hourly. Options: off,always,{cron} ('0 * * * *')
+  # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+  # System Clean-up
+  # MEND_RNV_WORKER_CLEANUP: always # Defines how often to perform file cleanup on Worker containers. Defaults to "off". Options: off,always,{cron}
+  # MEND_RNV_WORKER_CLEANUP_DIRS: # Replace the cleanup dirs. Defaults to "/opt/containerbase,/tmp/renovate/cache,/tmp/renovate/repos,/home/ubuntu"
+
+## Worker variables
+x-worker-variables: &worker-variables
+  # Core Renovate settings
+  # GITHUB_COM_TOKEN: # Personal Access Token for github.com (used for retrieving changelogs)
+  RENOVATE_REPOSITORY_CACHE: enabled  # Enable Repo cache to use the /repos/:org(*)/-/:repo/pulls API. Only supported for GitHub.
+
+services:
+
+  ## Renovate Server
+  # Note: Server instances can not scale unless using a network database (eg. Postgres)
+  rnv-ee-server:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
+    image: ghcr.io/mend/renovate-ee-server:<latest-version>
+    ports:
+      # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
+      - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
+    env_file:
+      - ../env/mend-renovate.env  # Reference Mend Renovate Application settings file (includes product license keys)
+      - ../env/github.env  # Reference SCM env settings file (ie. github.env, gitlab.env, bitbucket.env)
+      # - ../env/minio.env   # [Optional] Reference S3 log storage env settings. If used, must be on Server and Worker
+    environment:
+      <<: [*shared-variables, *server-variables]
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
+    volumes:
+      # - /tmp/renovate/job-logs:/logs   # Unix version
+      - C:\tmp\renovate\job-logs:/logs  # Windows version
+      - C:\tmp\renovate\db:/db
+
+  ## Renovate Worker
+  # To scale Worker instances post deployment, run the following command (replace values as appropriate):
+  # $ docker-compose -f <this-file-name>.yml up --scale rnv-ee-worker=4 -d --no-recreate
+  rnv-ee-worker:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
+    image: ghcr.io/mend/renovate-ee-worker:<latest-version>
+    deploy:
+      replicas: 2
+    depends_on:
+      - rnv-ee-server
+    env_file:
+      - ../env/mend-renovate.env  # Reference Mend Renovate Application settings file (includes product license keys)
+      # - ../env/minio.env   # [Optional] Reference S3 log storage env settings. If used, must be on Server and Worker
+    environment:
+      <<: [*shared-variables, *worker-variables]
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'
+    volumes:
+      # - /tmp/renovate/job-logs:/logs   # Unix version
+      - C:\tmp\renovate\job-logs:/logs  # Windows version
