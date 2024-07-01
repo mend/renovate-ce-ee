@@ -161,8 +161,11 @@ spec:
           {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.dataPersistence.existingClaim | default (printf "%s-data" (include "mend-renovate.fullname" .)) }}
+          {{- else if .Values.dataInMemory.enabled }}
+          emptyDir:
+            medium: Memory
           {{- else }}
-          emptyDir: { }
+          emptyDir: {}
           {{- end }}
       {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
         {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}
