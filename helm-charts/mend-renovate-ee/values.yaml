@@ -346,6 +346,7 @@ dataPersistence:
 
 ## Cache in Memory
 ## ref: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+## cachePersistence.enabled takes precedence, make sure its disabled
 ##
 dataInMemory:
   ## Place the cache/data in memory (tmpfs)
