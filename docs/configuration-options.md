@@ -206,6 +206,26 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
+
+**`MEND_RENOVATE_FORKS_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
+
+- `disabled`: sets Renovate `forkProcessing=disabled` for all jobs
+- `enabled`: sets Renovate `forkProcessing=enabled` for all jobs
+- unset: `forkProcessing` will not be set by the server (Renovate CLI defaults to forkProcessing=auto)  *default value*
+- `managed`: value per platform
+  - for GitHub the value will be decided based on repository selection value for each installation
+    - `forkProcessing=enabled` if "Selected repositories"
+    - `forkProcessing=disabled` if "All repositories"
+  - others platforms: `forkProcessing=disabled`
+
+
+**`MEND_RNV_MERGE_CONFIDENCE_ENDPOINT`**: [Enterprise only] defines the endpoint used to retrieve Merge Confidence data by querying this API. 
+this config option only need to be defined in the server, and it will be passed to the worker automatically. 
+defaults to https://developer.mend.io/.
+
+Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag. 
+
+
 ### Postgres DB Configuration
 
 To configure Mend Renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
