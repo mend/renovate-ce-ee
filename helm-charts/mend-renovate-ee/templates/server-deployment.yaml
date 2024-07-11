@@ -232,7 +232,7 @@ spec:
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.renovateServer.livenessProbe }}
+          {{- with .Values.renovateServer.readinessProbe }}
           readinessProbe:
           {{- toYaml . | nindent 12 }}
           {{- end }}
