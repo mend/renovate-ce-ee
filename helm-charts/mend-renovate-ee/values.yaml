@@ -344,6 +344,14 @@ dataPersistence:
   ## The name of an existing PVC to use for persistence
   existingClaim: ""
 
+## Cache in Memory
+## ref: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+## cachePersistence.enabled takes precedence, make sure its disabled
+##
+dataInMemory:
+  ## Place the cache/data in memory (tmpfs)
+  enabled: false
+
 service:
   type: ClusterIP
   port: 80
