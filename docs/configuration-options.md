@@ -72,7 +72,20 @@ job_queue   migrations  org         repo        task_queue
 sqlite> 
 ```
 
-**`MEND_RNV_SYNC_ON_STARTUP`**: Defines if App Sync will be performed when the server starts. Defaults to true.
+### Startup and Sync behavior
+
+> [!IMPORTANT]
+> 
+> When running Renovate Enterprise with multiple Server instances, unpredictable behavior can occur when more than one server attempts to sync repos or enqueue jobs.
+> Therefore, it is recommended NOT to run App Sync or to enqueue jobs when the server starts, and instead to rely on the primary server to perform these tasks when the related cron jobs are triggered.
+> 
+> **Recommended settings when running with multiple Server instances:**
+> - Set `MEND_RNV_SYNC_ON_STARTUP` = false
+> - Set `MEND_RNV_ENQUEUE_JOBS_ON_STARTUP` = disabled
+
+**`MEND_RNV_SYNC_ON_STARTUP`**: Defines if App Sync will be performed when the server starts. Defaults to `true`.
+
+Note: This should be set to `false` when running multiple Server instances.
 
 **`MEND_RNV_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
 
@@ -82,15 +95,17 @@ values:
 
 **`MEND_RNV_CRON_APP_SYNC`**: Optional: Accepts a 5-part cron schedule. Defaults to `0 0,4,8,12,16,20 * * *` (every 4 hours, on the hour). This cron job performs autodiscovery against the platform and fills the SQLite database with projects.
 
-**`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
-
-> [!WARNING]  
-> The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
-
 **`MEND_RNV_ENQUEUE_JOBS_ON_STARTUP`**: The job enqueue behavior on start (or restart). Defaults to `discovered`. (Note that the behavior can be different if the database is persisted or not)
 - `enabled`: enqueue a job for all available repositories
 - `discovered`: enqueue a job only for newly discovered repositories
 - `disabled`: No jobs are enqueued
+
+Note: This should be set to `disabled` when running multiple Server instances.
+
+**`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
+
+> [!WARNING]  
+> The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
 
 ### Job Scheduling Options
 

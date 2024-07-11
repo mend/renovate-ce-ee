@@ -15,22 +15,35 @@ x-shared-variables: &shared_variables
 
 ## Server variables
 x-server-variables: &server_variables
-  # Enable Merge Confidence package rules
+  ## Enable Merge Confidence package rules
   MEND_RNV_MC_TOKEN: auto # Provide token or set to 'auto'
 
-  # Renovate App connection details (eg. GitHub, GitLab, Bitbucket)
-  # GitHub configuration variables provided below for convenience.
-  # See Renovate-CE-EE documentation for connection details for all platforms.
+  ## Renovate App connection details (eg. GitHub, GitLab, Bitbucket)
+  ## GitHub configuration variables provided below for convenience.
+  ## See Renovate-CE-EE documentation for connection details for all platforms.
   # MEND_RNV_PLATFORM: github
   # MEND_RNV_GITHUB_APP_ID: # App ID
   # MEND_RNV_GITHUB_APP_KEY: # Private key
   # MEND_RNV_WEBHOOK_SECRET: # Webhook secret (Defaults to 'renovate')
 
-  ## Mend Renovate Application settings
-  MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls
-  MEND_RNV_LOG_HISTORY_DIR: /logs  # Write Renovate job logs to file. Enable volume mount on Server and Worker!
-  MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+  ## Mend Renovate Application settings (Optional)
+  ## Sync and Job scheduling
+  MEND_RNV_SYNC_ON_STARTUP: false # Set to `false` when running multiple Server instances
+  MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Set to `disabled` when running multiple Server instances
   # MEND_RNV_AUTODISCOVER_FILTER: org1/*, org2/test* # Renovate will only run on these repos
+  ## APIs
+  MEND_RNV_ADMIN_API_ENABLED: true  # Enable incoming API calls. Must set MEND_RNV_SERVER_API_SECRET.
+  MEND_RNV_SERVER_API_SECRET: abc123 # Required to enable APIs
+  MEND_RNV_REPORTING_ENABLED: true # Defaults to false. Note: Enable RENOVATE_REPOSITORY_CACHE on Worker to activate /pulls API.
+  ## Job Logs
+  MEND_RNV_LOG_HISTORY_DIR: /logs  # Persist Renovate job logs - organized by org/rep/timestamp. Enable volume mount!
+  # MEND_RNV_LOG_HISTORY_S3: s3://job-logs # Define the S3 bucket/folder configuration. Format: s3://<bucket>/dir1/dir2
+
+## Worker variables
+x-worker-variables: &worker-variables
+  ## Core Renovate settings
+  # GITHUB_COM_TOKEN: # Personal Access Token for github.com (used for retrieving changelogs)
+  RENOVATE_REPOSITORY_CACHE: enabled  # Enable Repo cache to use the /repos/:org(*)/-/:repo/pulls API. Only supported for GitHub.
 
 services:
 
@@ -73,7 +86,7 @@ services:
     depends_on:
       - rnv-ee-server
     environment:
-      <<: *shared_variables
+      <<: [*shared-variables, *worker-variables]
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'
     volumes:
