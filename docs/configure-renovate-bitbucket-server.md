@@ -1,8 +1,5 @@
 # Configuration - Mend Renovate CE/EE for Bitbucket Server
 
-> [!WARNING]
-> Beta Disclaimer!  
-> Please be aware that BitBucket-Server support is in beta phase
 
 # Table of Content
 * [Available Renovate CE/EE Configurations](#available_config)
