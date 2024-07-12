@@ -257,6 +257,9 @@ spec:
           {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.dataPersistence.existingClaim | default (printf "%s-data" (include "mend-renovate.fullname" .)) }}
+          {{- else if .Values.dataInMemory.enabled }}
+          emptyDir:
+            medium: Memory
           {{- else }}
           emptyDir: {}
           {{- end }}
