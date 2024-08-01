@@ -12,12 +12,12 @@ The App requires the following permissions:
 - Repository permissions
   - Administration: Read-only
   - Checks: Read & write
+  - Commit statuses: Read & write
   - Contents: Read & write
+  - Dependabot alerts: Read-only (optional)
   - Issues: Read & write
   - Metadata: Read-only
   - Pull Requests: Read & write
-  - Commit statuses: Read & write
-  - Dependabot alerts: Read-only (optional)
   - Workflows: Read & write
 - Organization permissions
   - Members: Read-only
