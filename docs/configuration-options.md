@@ -35,7 +35,7 @@ Use the appropriate settings to define connection details to your specific SCM.
 **`RNV_GITHUB_PEM_FILE_PATH`**: [GitHub only] The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
 
 **`MEND_RNV_GITHUB_BOT_USER_ID`**: [GitHub only] Optional: the bot user ID that will be used in `gitAuthor` (e.g. `myBotName[bot] <123456+myBotName[bot]@users.noreply.github.com`), the value can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key (replace the `{appName}` with the actual app name).
-Note: By default Renovate server will attemp to call this endpoint once during startup (both CE and EE server) and it does not require authentication. if you wish to skip this call for any reason you will need to provide the value in `MEND_RNV_GITHUB_BOT_USER_ID=<id-number>`
+Note: By default Renovate server will attempt to call this endpoint once during startup (both CE and EE server) and it does not require authentication. if you wish to skip this call for any reason you will need to provide the value in `MEND_RNV_GITHUB_BOT_USER_ID=<id-number>`
 
 **`MEND_RNV_GITLAB_PAT`**: [GitLab only] Personal Access Token for the GitLab bot account.
 
