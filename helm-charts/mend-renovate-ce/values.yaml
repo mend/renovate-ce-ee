@@ -33,6 +33,10 @@ renovate:
   # The GitHub App ID provided when you provisioned the Mend Renovate app. Force string format by quoting value.
   mendRnvGithubAppId:
 
+  # Optional: The GitHub bot user ID that can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key.
+  #  Force string format by quoting value.
+  mendRnvGithubBotUserId:
+
   # A string representation of the private key provided by GitHub Enterprise when you provisioned Mend Renovate
   mendRnvGithubAppKey:
 
