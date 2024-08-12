@@ -28,7 +28,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    tag: 7.6.1
+    tag: 8.0.0
     pullPolicy: IfNotPresent
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -214,7 +214,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    tag: 7.6.1-full
+    tag: 8.0.0-full
     pullPolicy: IfNotPresent
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
