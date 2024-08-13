@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 8.0.0-beta-full
+  tag: 8.0.0-full
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -88,7 +88,7 @@ renovate:
   existingSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
-  mendRnvCronJobScheduler:
+  mendRnvCronJobSchedulerAll:
 
   # Optional, defaults to '0 0,4,8,12,16,20 * * *' (every 4 hours)
   mendRnvCronAppSync:
@@ -125,6 +125,9 @@ renovate:
   # This cron job cleans up log history in the directory defined by `mendRnvLogHistoryDir`.
   # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
   mendRnvLogHistoryCleanupCron:
+
+  # Optional. valid values: 'disabled', 'enabled', 'managed' and default to unset (see documentation)
+  mendRnvForksProcessing:
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
