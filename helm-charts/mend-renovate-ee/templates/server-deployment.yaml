@@ -157,9 +157,21 @@ spec:
                   key: mendRnvWebhookSecret
                   optional: true
             {{- end }}
-            {{- if .Values.renovateServer.mendRnvCronJobScheduler }}
-            - name: MEND_RNV_CRON_JOB_SCHEDULER
-              value: {{ .Values.renovateServer.mendRnvCronJobScheduler | quote }}
+            {{- if .Values.renovateServer.mendRnvCronJobSchedulerHot }}
+            - name: MEND_RNV_CRON_JOB_SCHEDULER_HOT
+              value: {{ .Values.renovateServer.mendRnvCronJobSchedulerHot | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvCronJobSchedulerCold }}
+            - name: MEND_RNV_CRON_JOB_SCHEDULER_COLD
+              value: {{ .Values.renovateServer.mendRnvCronJobSchedulerCold | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvCronJobSchedulerCapped }}
+            - name: MEND_RNV_CRON_JOB_SCHEDULER_CAPPED
+              value: {{ .Values.renovateServer.mendRnvCronJobSchedulerCapped | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvCronJobSchedulerAll }}
+            - name: MEND_RNV_CRON_JOB_SCHEDULER_ALL
+              value: {{ .Values.renovateServer.mendRnvCronJobSchedulerAll | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvCronAppSync }}
             - name: MEND_RNV_CRON_APP_SYNC
@@ -176,6 +188,10 @@ spec:
             {{- if .Values.renovateServer.mendRnvMergeConfidenceToken }}
             - name: MEND_RNV_MC_TOKEN
               value: {{ .Values.renovateServer.mendRnvMergeConfidenceToken | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvMergeConfidenceEndpoint }}
+            - name: MEND_RNV_MERGE_CONFIDENCE_ENDPOINT
+              value: {{ .Values.renovateServer.mendRnvMergeConfidenceEndpoint | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvReportingEnabled }}
             - name: MEND_RNV_REPORTING_ENABLED
@@ -208,6 +224,10 @@ spec:
             {{- if .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
             - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
               value: {{ .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvForksProcessing }}
+            - name: MEND_RENOVATE_FORKS_PROCESSING
+              value: {{ .Values.renovateServer.mendRnvForksProcessing }}
             {{- end }}
             {{- if .Values.renovateServer.logLevel }}
             - name: LOG_LEVEL
