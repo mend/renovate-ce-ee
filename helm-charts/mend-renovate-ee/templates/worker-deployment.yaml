@@ -129,11 +129,11 @@ spec:
             - name: ee-worker
               containerPort: 8080
               protocol: TCP
-          {{- with .Values.renovateServer.livenessProbe }}
+          {{- with .Values.renovateWorker.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.renovateServer.readinessProbe }}
+          {{- with .Values.renovateWorker.readinessProbe }}
           readinessProbe:
           {{- toYaml . | nindent 12 }}
           {{- end }}

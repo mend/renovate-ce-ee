@@ -184,7 +184,7 @@ renovateServer:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
     runAsUser: 1000
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     capabilities:
       drop:
         - ALL
@@ -195,20 +195,21 @@ renovateServer:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
-  livenessProbe:
-    initialDelaySeconds: 2
-    httpGet:
-      path: /health
-      port: ee-server
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-
   readinessProbe:
     httpGet:
       path: /health
       port: ee-server
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: ee-server
+    initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
@@ -329,7 +330,7 @@ renovateWorker:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
     runAsUser: 1000
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     capabilities:
       drop:
         - ALL
@@ -340,20 +341,21 @@ renovateWorker:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
-  livenessProbe:
-    initialDelaySeconds: 2
-    httpGet:
-      path: /health
-      port: ee-worker
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-
   readinessProbe:
     httpGet:
       path: /health
       port: ee-worker
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: ee-worker
+    initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
