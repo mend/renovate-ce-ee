@@ -159,10 +159,10 @@ renovateServer:
   resources:
     limits:
       memory: "4096Mi"
-      cpu: "2.0"
+      cpu: "2000m"
     requests:
-      memory: "2048Mi"
-      cpu: "0.5"
+      memory: "512Mi"
+      cpu: "10m"
 
   annotations: { }
 
@@ -303,10 +303,10 @@ renovateWorker:
   resources:
     limits:
       memory: "4096Mi"
-      cpu: "2.0"
+      cpu: "2000m"
     requests:
-      memory: "2048Mi"
-      cpu: "0.5"
+      memory: "512Mi"
+      cpu: "10m"
 
   annotations: { }
 
