@@ -17,13 +17,13 @@ license:
   existingSecret:
 
 postgresql:
-    # if to use PostgreSQL, if set to 'false' SQLite will be used instead
-    enabled: false
-    host:
-    port:
-    database:
-    user:
-    password:
+  # if to use PostgreSQL, if set to 'false' SQLite will be used instead
+  enabled: false
+  host:
+  port:
+  database:
+  user:
+  password:
 
 renovateServer:
   image:
@@ -35,7 +35,7 @@ renovateServer:
   replicas: 1
 
   # Additional server env vars
-  extraEnvVars: []
+  extraEnvVars: [ ]
 
   # Which platform Mend Renovate will connect to.
   # valid values: "bitbucket-server", "github" or "gitlab"
@@ -156,30 +156,38 @@ renovateServer:
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
   logFormat: json
 
-  resources: {}
+  resources:
+    limits:
+      memory: "4096Mi"
+      cpu: "2000m"
+    requests:
+      memory: "512Mi"
+      cpu: "10m"
 
-  annotations: {}
+  annotations: { }
 
   labels:
-    pods: {}
+    pods: { }
 
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
-  podSecurityContext: {}
-  #   runAsNonRoot: true
-  #   seccompProfile:
-  #     type: RuntimeDefault
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
 
-  containerSecurityContext: {}
-  #   allowPrivilegeEscalation: false
-  #   readOnlyRootFilesystem: true
-  #   capabilities:
-  #     drop:
-  #       - ALL
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -187,44 +195,45 @@ renovateServer:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
-  livenessProbe:
-    initialDelaySeconds: 2
-    httpGet:
-      path: /health
-      port: ee-server
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-
   readinessProbe:
     httpGet:
       path: /health
       port: ee-server
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: ee-server
+    initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
     successThreshold: 1
 
   extraVolumes:
-    []
+    [ ]
     # - name: secrets-store-inline
     #   csi:
     #     driver: secrets-store.csi.k8s.io
     #     readOnly: true
     #     volumeAttributes:
-    #       secretProviderClass: "some-secret-store"
+  #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
-    []
-    # - name: secrets-store-inline
+    [ ]
+  # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
   serviceAccount:
     create: false
     existingName:
-    annotations: {}
+    annotations: { }
 
 renovateWorker:
   image:
@@ -246,7 +255,7 @@ renovateWorker:
   mendRnvWorkerNodeArgs:
 
   # Additional worker env vars
-  extraEnvVars: []
+  extraEnvVars: [ ]
 
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
@@ -292,31 +301,39 @@ renovateWorker:
   # defaults to https://github.com/renovatebot/renovate
   renovateUserAgent:
 
-  resources: {}
+  resources:
+    limits:
+      memory: "4096Mi"
+      cpu: "2000m"
+    requests:
+      memory: "512Mi"
+      cpu: "10m"
 
-  annotations: {}
+  annotations: { }
 
   labels:
-    pods: {}
+    pods: { }
 
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
-  
-  podSecurityContext: {}
-  #   runAsNonRoot: true
-  #   seccompProfile:
-  #     type: RuntimeDefault
 
-  containerSecurityContext: {}
-  #   allowPrivilegeEscalation: false
-  #   readOnlyRootFilesystem: true
-  #   capabilities:
-  #     drop:
-  #       - ALL
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -324,17 +341,37 @@ renovateWorker:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: ee-worker
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: ee-worker
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
   extraVolumes:
-    []
+    [ ]
     # - name: secrets-store-inline
-    #   csi:
-    #     driver: secrets-store.csi.k8s.io
-    #     readOnly: true
-    #     volumeAttributes:
-    #       secretProviderClass: "some-secret-store"
+  #   csi:
+  #     driver: secrets-store.csi.k8s.io
+  #     readOnly: true
+  #     volumeAttributes:
+  #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
-    []
+    [ ]
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
@@ -342,7 +379,7 @@ renovateWorker:
   serviceAccount:
     create: false
     existingName:
-    annotations: {}
+    annotations: { }
 
 ## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -375,7 +412,7 @@ service:
   type: ClusterIP
   port: 80
   annotations:
-    {}
+    { }
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -386,11 +423,11 @@ ingress:
   # ingressClassName: nginx
 
   annotations:
-    {}
+    { }
   # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local
-  tls: []
+  tls: [ ]
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local

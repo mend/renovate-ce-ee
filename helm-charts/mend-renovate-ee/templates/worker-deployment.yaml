@@ -32,6 +32,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      automountServiceAccountToken: false
       {{- with .Values.renovateWorker.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -43,7 +44,7 @@ spec:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
-          {{- with .Values.renovateServer.containerSecurityContext }}
+          {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
@@ -124,18 +125,33 @@ spec:
             - name: LOG_FORMAT
               value: {{ .Values.renovateWorker.logFormat | quote }}
             {{- end }}
+          ports:
+            - name: ee-worker
+              containerPort: 8080
+              protocol: TCP
+          {{- with .Values.renovateWorker.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateWorker.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.renovateWorker.resources | nindent 12 }}
           volumeMounts:
             - name: {{ .Release.Name }}-config-js-volume
+              readOnly: true
               mountPath: /usr/src/app/config.js
               subPath: config.js
             {{- if .Values.renovateWorker.npmrc }}
             - name: {{ .Release.Name }}-npmrc-volume
+              readOnly: true
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
+              readOnly: false
               mountPath: /tmp/renovate
           {{- if ne (len .Values.renovateWorker.extraVolumeMounts) 0 }}
             {{ toYaml .Values.renovateWorker.extraVolumeMounts | nindent 12 | trim }}
@@ -146,7 +162,7 @@ spec:
       {{- end }}
       {{- if .Values.renovateWorker.imagePullSecrets }}
       imagePullSecrets:
-        - name: .Values.renovateWorker.imagePullSecrets
+        - name: {{ .Values.renovateWorker.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
@@ -165,7 +181,7 @@ spec:
           emptyDir:
             medium: Memory
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
       {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
         {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}

@@ -31,6 +31,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      automountServiceAccountToken: false
       {{- with .Values.renovateServer.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -88,7 +89,7 @@ spec:
             {{- end }}
             {{- if or .Values.renovateServer.mendRnvGithubBotUserId }}
             - name: MEND_RNV_GITHUB_BOT_USER_ID
-              value:  {{ .Values.renovateServer.mendRnvGithubBotUserId | quote }}
+              value: {{ .Values.renovateServer.mendRnvGithubBotUserId | quote }}
             {{- end }}
             {{- if or .Values.renovateServer.mendRnvGithubAppKey .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_KEY
@@ -274,7 +275,7 @@ spec:
       {{- end }}
       {{- if .Values.renovateServer.imagePullSecrets }}
       imagePullSecrets:
-        - name: .Values.renovateServer.imagePullSecrets
+        - name:  {{ .Values.renovateServer.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-database-volume
@@ -285,7 +286,7 @@ spec:
           emptyDir:
             medium: Memory
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
       {{- if ne (len .Values.renovateServer.extraVolumes) 0 }}
         {{ toYaml .Values.renovateServer.extraVolumes | nindent 8 | trim }}
