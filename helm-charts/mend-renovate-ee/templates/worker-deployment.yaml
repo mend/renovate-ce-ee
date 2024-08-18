@@ -162,7 +162,7 @@ spec:
       {{- end }}
       {{- if .Values.renovateWorker.imagePullSecrets }}
       imagePullSecrets:
-        - name: .Values.renovateWorker.imagePullSecrets
+        - name: {{ .Values.renovateWorker.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
