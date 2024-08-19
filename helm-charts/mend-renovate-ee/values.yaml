@@ -217,11 +217,11 @@ renovateServer:
 
   extraVolumes:
     [ ]
-    # - name: secrets-store-inline
-    #   csi:
-    #     driver: secrets-store.csi.k8s.io
-    #     readOnly: true
-  #     volumeAttributes:
+  #   - name: secrets-store-inline
+  #     csi:
+  #       driver: secrets-store.csi.k8s.io
+  #       readOnly: true
+  #       volumeAttributes:
   #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
@@ -282,7 +282,7 @@ renovateWorker:
       // Enter self-hosted configuration options here.
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
-    
+
   # Npmrc file. Will be mounted as a secret
   # npmrc: |
     # //registry.npmjs.org/:_authToken=xxxxxx
@@ -372,7 +372,7 @@ renovateWorker:
 
   extraVolumeMounts:
     [ ]
-    # - name: secrets-store-inline
+  # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
