@@ -41,7 +41,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-server
-          image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.tag }}"
+          image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.version }}"
           imagePullPolicy: {{ .Values.renovateServer.image.pullPolicy }}
           {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}

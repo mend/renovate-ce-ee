@@ -28,8 +28,8 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    tag: 8.0.0
-    pullPolicy: IfNotPresent
+    version: 8.0.0@sha256:594365b7080e4d24e25ac26dd05eebd64d33b8b752ead4bb3d8e7bdcb4d2aaed
+    pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
   replicas: 1
@@ -221,7 +221,7 @@ renovateServer:
     #   csi:
     #     driver: secrets-store.csi.k8s.io
     #     readOnly: true
-    #     volumeAttributes:
+  #     volumeAttributes:
   #       secretProviderClass: "some-secret-store"
 
   extraVolumeMounts:
@@ -238,8 +238,8 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    tag: 8.0.0-full
-    pullPolicy: IfNotPresent
+    version: 8.0.0-full@sha256:9eb144e8f29b08a25bcc1a7361accb25ea6fe3b8292ce2cdfc3a152c4a5da1df
+    pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
@@ -282,7 +282,7 @@ renovateWorker:
       // Enter self-hosted configuration options here.
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
-
+    
   # Npmrc file. Will be mounted as a secret
   # npmrc: |
     # //registry.npmjs.org/:_authToken=xxxxxx
@@ -363,7 +363,7 @@ renovateWorker:
 
   extraVolumes:
     [ ]
-    # - name: secrets-store-inline
+  # - name: secrets-store-inline
   #   csi:
   #     driver: secrets-store.csi.k8s.io
   #     readOnly: true
@@ -372,7 +372,7 @@ renovateWorker:
 
   extraVolumeMounts:
     [ ]
-  # - name: secrets-store-inline
+    # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 

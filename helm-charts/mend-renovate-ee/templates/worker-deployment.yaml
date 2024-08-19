@@ -42,7 +42,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
-          image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.tag }}"
+          image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.version }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
           {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
