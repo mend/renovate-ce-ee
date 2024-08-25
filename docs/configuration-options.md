@@ -39,6 +39,10 @@ Note: By default Renovate server will attempt to call this endpoint once during 
 
 **`MEND_RNV_GITLAB_PAT`**: [GitLab only] Personal Access Token for the GitLab bot account.
 
+**`MEND_RNV_BITBUCKET_USER`**: [Bitbucket only] Renovate Bot user account (“Bitbucket User” access only)
+
+**`MEND_RNV_BITBUCKET_PAT`**: [Bitbucket only] BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`
+
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
 ### Optional Mend Renovate configuration
