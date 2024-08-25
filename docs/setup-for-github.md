@@ -66,7 +66,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
-**`MEND_RNV_LICENSE_KEY`**: Register for a free Community Edition license key at [https://www.mend.io/renovate-community/]. For an Enterprise License key, contact Mend at [http://mend.io].
+**`MEND_RNV_LICENSE_KEY`**: Register for a free Community Edition license key at https://www.mend.io/renovate-community/. For an Enterprise License key, contact Mend at http://mend.io.
 
 **`MEND_RNV_PLATFORM`**: Set this to `github`.
 
@@ -74,7 +74,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 
 **`MEND_RNV_GITHUB_APP_KEY`**: The private key of the Renovate app on GitHub. Alternatively, use `MEND_RNV_GITHUB_PEM_FILE_PATH`.
 
-**`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key PEM file. Defaults to `/usr/src/app/renovate.private-key.pem`. Alternatively, use `MEND_RNV_GITHUB_PEM_FILE_PATH`.
+**`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for a GitHub app key PEM file. Defaults to `/usr/src/app/renovate.private-key.pem`. Alternatively, use `MEND_RNV_GITHUB_APP_KEY`.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
@@ -82,7 +82,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 
 **`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
 
-**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitHub webhooks. Defaults to `renovate`.
+**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitHub webhooks. Defaults to 'renovate'.
 
 **`MEND_RNV_ENDPOINT`**: [GitHub Enterprise Server only] This is the API endpoint for your GitHub Enterprise installation. Include the trailing slash.
 
@@ -94,7 +94,7 @@ For further details and a list of all available options, see the [Configuration 
 
 ### Renovate CLI Configuration
 
-Renovate CLI functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` mounted inside the Mend Renovate container to `/usr/src/app/config.js`.
+Renovate CLI functionality can be configured using environment variables (e.g. `RENOVATE_XXXXXX`) or via a `config.js` file mounted to `/usr/src/app/config.js` inside the Mend Renovate container.
 
 **npm Registry**
 
