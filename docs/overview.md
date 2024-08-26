@@ -61,8 +61,16 @@ As with Renovate CLI, it can also be configured to interact with an external Red
 
 ## Downloading
 
-The Mend Renovate CE image is available via GitHub Container Registry (ghcr.io) using the namespace [mend/renovate-ce](https://ghcr.io/mend/renovate-ce).
-Use of the image is in accordance with the [Mend Terms of Service](https://www.mend.io/terms-of-service/).
+The Docker images for Mend Renovate Self-hosted are available via GitHub Container Registry (ghcr.io)
+
+Use of the images are in accordance with the [Mend Terms of Service](https://www.mend.io/terms-of-service/).
+
+- Community Edition: [mend/renovate-ce](https://ghcr.io/mend/renovate-ce).
+
+- Enterprise Edition:
+Enterprise Edition uses two separate Docker images: The Server image, and the Worker image.
+  - Server image: [mend/renovate-ee-server](https://ghcr.io/mend/renovate-ee-server)
+  - Worker image: [mend/renovate-ee-worker](https://ghcr.io/mend/renovate-ee-worker)
 
 ## Versioning
 
