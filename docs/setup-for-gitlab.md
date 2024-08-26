@@ -86,7 +86,7 @@ You can run Mend Renovate Self-hosted from a Docker command line prompt, or by u
 
 **`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
 
-**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitHub webhooks. Defaults to 'renovate'.
+**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitLab webhooks. Defaults to 'renovate'.
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com
 
