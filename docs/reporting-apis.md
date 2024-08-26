@@ -33,6 +33,7 @@ To enable data collection for the `Repo pull requests` API:
 
 > [!NOTE]  
 > The `Repo pull request` API only works with GitHub repositories.
+> The `Repo pull request` API will work with S3 repository cache only if you set `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` on the Renovate EE Worker containers.
 
 ## Reporting API URLs
 
