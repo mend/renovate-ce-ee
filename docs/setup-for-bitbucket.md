@@ -319,7 +319,7 @@ You can run Mend Renovate Self-hosted from a Docker command line prompt, or by u
 
 **`MEND_RNV_LICENSE_KEY`**: Register for a free Community Edition license key at https://www.mend.io/renovate-community/. For an Enterprise License key, contact Mend at http://mend.io.
 
-**`MEND_RNV_PLATFORM`**: Set this to `gitlab`.
+**`MEND_RNV_PLATFORM`**: Set this to `bitbucket-server`.
 
 **`MEND_RNV_ENDPOINT`**: This is the API endpoint for your BitBucket Server installation. Include the trailing slash.
 
@@ -329,15 +329,15 @@ You can run Mend Renovate Self-hosted from a Docker command line prompt, or by u
 
 **`MEND_RNV_BITBUCKET_PAT`**: BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`
 
-**`MEND_RNV_WEBHOOK_URL`**: Optional: The URL of the Renovate Server plus `/webhook`. Must be accessible to receive incoming calls from the BitBucket server.
+**`MEND_RNV_WEBHOOK_URL`**: Optional: The URL of the Renovate Server plus '/webhook'. Must be accessible to receive incoming calls from the BitBucket server.
 
-**`MEND_RNV_ADMIN_TOKEN`**: Optional: A token used for searching/add/removing repository webhooks. required if `MEND_RNV_WEBHOOK_URL` is set.
+**`MEND_RNV_ADMIN_TOKEN`**: Optional: A token used for searching/add/removing repository webhooks. Required if `MEND_RNV_WEBHOOK_URL` is set.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
 
-**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitLab webhooks. Defaults to 'renovate'.
+**`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the Bitbucket webhooks. Defaults to 'renovate'.
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com
 
