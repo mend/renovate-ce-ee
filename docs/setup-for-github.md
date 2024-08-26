@@ -1,4 +1,4 @@
-# Configuration - Mend Renovate Community Edition for GitHub
+# Set up Mend Renovate Self-hosted for GitHub
 
 ## Create and Configure the GitHub App (bot)
 
@@ -45,14 +45,14 @@ If you don't care about the value, then enter 'renovate' as that is the default 
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
-## Run Mend Renovate
+## Run Mend Renovate Self-hosted
 
-You can run Mend Renovate from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
+You can run Mend Renovate Self-hosted from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
 
 **Example Docker Compose files:**
 
-- [Mend Renovate Community Edition (GitHub)](../examples/docker-compose/renovate-ce.yml)
-- [Mend Renovate Enterprise Edition (GitHub)](../examples/docker-compose/renovate-ee.yml)
+- [Mend Renovate Community Edition](../examples/docker-compose/renovate-ce.yml)
+- [Mend Renovate Enterprise Edition](../examples/docker-compose/renovate-ee.yml)
 
 > [!NOTE]
 > 
@@ -62,7 +62,7 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 
 ## Configure Environment Variables
 
-### Essential Configuration for Mend Renovate
+### Essential Configuration for Mend Renovate Server
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -70,15 +70,15 @@ You can run Mend Renovate from a Docker command line prompt, or by using a Docke
 
 **`MEND_RNV_PLATFORM`**: Set this to `github`.
 
+**`MEND_RNV_ENDPOINT`**: [GitHub Enterprise Server only] This is the API endpoint for your GitHub Enterprise installation. Include the trailing slash.
+
+**`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
+
 **`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
 **`MEND_RNV_GITHUB_APP_KEY`**: The private key of the Renovate app on GitHub. Alternatively, use `MEND_RNV_GITHUB_PEM_FILE_PATH`.
 
 **`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for a GitHub app key PEM file. Defaults to `/usr/src/app/renovate.private-key.pem`. Alternatively, use `MEND_RNV_GITHUB_APP_KEY`.
-
-**`MEND_RNV_ENDPOINT`**: [GitHub Enterprise Server only] This is the API endpoint for your GitHub Enterprise installation. Include the trailing slash.
-
-**`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
