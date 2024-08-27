@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 8.0.0-full
+  tag: 8.1.0-full
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -138,6 +138,13 @@ renovate:
   # defaults to: '/opt/containerbase, /tmp/renovate/cache, /tmp/renovate/repos, /home/ubuntu'
   # Note: setting this value will override the default value
   mendRnvWorkerCleanupDirs:
+
+  # optional: A numeric percentage threshold for disk storage warnings. The default to 70
+  # note: setting the value to zero "0" will turn off this feature
+  mendRnvDiskUsageWarnThreshold:
+
+  # optional: A comma-separated list of regex or glob patterns for matching device paths. Default is /dev/**
+  mendRnvDiskUsageFilter:
 
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
