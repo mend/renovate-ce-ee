@@ -80,6 +80,18 @@ spec:
             - name: MEND_RNV_WORKER_CLEANUP_DIRS
               value: {{ .Values.renovateWorker.mendRnvWorkerCleanupDirs | quote }}
             {{- end }}
+            {{- if .Values.renovateWorker.mendRnvDiskUsageWarnThreshold }}
+            - name: MEND_RNV_DISK_USAGE_WARN_THRESHOLD
+              value: {{ .Values.renovateWorker.mendRnvDiskUsageWarnThreshold | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.mendRnvDiskUsageFilter }}
+            - name: MEND_RNV_DISK_USAGE_FILTER
+              value: {{ .Values.renovateWorker.mendRnvDiskUsageFilter | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.mendRnvExitInactiveCount }}
+            - name: MEND_RNV_EXIT_INACTIVE_COUNT
+              value: {{ .Values.renovateWorker.mendRnvExitInactiveCount | quote }}
+            {{- end }}
             {{- if .Values.renovateWorker.mendRnvWorkerNodeArgs }}
             - name: RENOVATE_NODE_ARGS
               value: {{ .Values.renovateWorker.mendRnvWorkerNodeArgs | quote }}
