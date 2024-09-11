@@ -211,12 +211,6 @@ By default, all files within these folders that were created _after_ the worker/
 
 Note: Setting this variable will **_replace_** the default list of directories. To add a directory to the existing default list, you must include all the default folders in the new value.
 
-**`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
-
-**`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
-
-**`MEND_RNV_EXIT_INACTIVE_COUNT`**: [Enterprise only] A worker config for the number of `204 - No Content` responses (indicating an empty queue) received when the worker requests a new job from the server before the worker terminates. Default is 0 (off).
-
 **`MEND_RNV_VERSION_CHECK_INTERVAL`**: [Enterprise only] Escalation period (minutes) for mismatching Server/Worker versions. Defaults to 60.
 
 When an API call is received by the Server, it compares the version of the Worker that sent the request. If the Server and Worker have different versions, a message will be logged to the Server console.
@@ -266,13 +260,21 @@ For more information, see the [Postgres DB Configuration](configure-postgres-db.
 
 ## Environment variables for Enterprise Worker
 
-The Worker container needs to define only the following variables:
+The following variables apply to Worker containers (Renovate Enterprise only):
+
+### Mandatory Worker config
 
 * **`MEND_RNV_SERVER_HOSTNAME`**: The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)
 * **`MEND_RNV_SERVER_API_SECRET`**: Set to same as Server
 * **`MEND_RNV_ACCEPT_TOS`**: Set to same as Server
 * **`MEND_RNV_LICENSE_KEY`**: Set to same as Server
-* **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+
+### Optional Worker config
+
+* **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+* **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
+* **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
+* **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
 
 ## Configure Renovate Core
 
