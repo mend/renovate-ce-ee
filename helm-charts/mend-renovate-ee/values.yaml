@@ -28,7 +28,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 8.0.0@sha256:594365b7080e4d24e25ac26dd05eebd64d33b8b752ead4bb3d8e7bdcb4d2aaed
+    version: 8.1.1@sha256:52027ad5ebf5361a4eb56bc36ff54c0b563691e8e9a8a35accfd97da2ba581db
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -238,7 +238,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 8.0.0-full@sha256:9eb144e8f29b08a25bcc1a7361accb25ea6fe3b8292ce2cdfc3a152c4a5da1df
+    version: 8.1.1-full@sha256:0fbe050bc9772eed6f785a713fa8bf4240fe848318c7e375c5ffd46b69d5687d
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
@@ -250,6 +250,16 @@ renovateWorker:
   # defaults to: '/opt/containerbase, /tmp/renovate/cache, /tmp/renovate/repos, /home/ubuntu'
   # Note: setting this value will override the default value
   mendRnvWorkerCleanupDirs:
+
+  # optional: A numeric percentage threshold for disk storage warnings. The default to 70
+  # note: setting the value to zero "0" will turn off this feature
+  mendRnvDiskUsageWarnThreshold:
+
+  # optional: A comma-separated list of regex or glob patterns for matching device paths. Default is "/dev/**"
+  mendRnvDiskUsageFilter:
+
+  # optional: Default is "0" (off)
+  mendRnvExitInactiveCount:
 
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
