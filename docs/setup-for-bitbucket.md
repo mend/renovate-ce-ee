@@ -90,7 +90,7 @@ Example files available here:
 - Helm charts (Renovate CE / Renovate EE)
 
 Edit the docker files / helm chart values to provide the required environment variables.
-Refer to [Available Configurations section](#available_config) for a full list of Renovate CE/EE server variables.
+Refer to [Configurations Options](configuration-options.md) for a full list of Renovate CE/EE server variables.
 
 #### Bitbucket Server Connection details
 
