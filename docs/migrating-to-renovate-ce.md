@@ -10,7 +10,7 @@ If you are using a "health check" of the Renovate container then you should poin
 
 Some existing environment variables have been renamed, and some new ones have been added.
 
-See the specific configuration instructions ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ee-gitlab.md)) to learn more about the variables mentioned below.
+See the specific configuration instructions ([GitHub](setup-for-github.md), [GitLab](setup-for-gitlab.md), [Bitbucket](setup-for-bitbucket.md)) to learn more about the variables mentioned below.
 
 ### Environment Variable Key Migration
 

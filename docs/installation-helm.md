@@ -28,5 +28,5 @@ helm repo update
 helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' mend-renovate-cc-ee/mend-renovate-ce
 ```
 
-See the available [values](../helm-charts/mend-renovate-ce/values.yaml) for full configuration and review configuration guides for [GitHub](./configure-renovate-ce-github.md) and/or [GitLab](./configure-renovate-ce-gitlab.md).
+See the available [values](../helm-charts/mend-renovate-ce/values.yaml) for full configuration and review configuration guides for [GitHub](setup-for-github.md), [GitLab](setup-for-gitlab.md) or [Bitbucket](setup-for-bitbucket.md).
 

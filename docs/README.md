@@ -16,10 +16,14 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 
 1. [Overview](./overview.md)
 1. Installation ([Helm](./installation-helm.md))
+1. Getting Started
+   - [Setup guide for GitHub](setup-for-github.md)
+   - [Setup guide for GitLab](setup-for-gitlab.md)
+   - [Setup guide for Bitbucket Data Center](setup-for-bitbucket.md)
 1. Configuration
-   - Renovate Community Edition - ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ce-gitlab.md))
-   - Renovate Enterprise Edition - ([GitHub](./configure-renovate-ee-github.md), [GitLab](./configure-renovate-ee-gitlab.md))
-   - Configuration - [Environment variables](configuration-options.md)
+   - [Self-hosted configuration options](configuration-options.md)
+   - [Configure PostgreSQL DB](configure-postgres-db.md)
+   - [Configure High Server Availability](high-server-availability.md)
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
 1. API Documentation
    - [Admin APIs](./api.md)

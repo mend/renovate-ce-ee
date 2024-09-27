@@ -102,9 +102,21 @@ Naturally, it is recommended that you use Renovate itself for detecting and upda
 
 ## Running Mend Renovate Self-hosted
 
-Examples using Docker Compose can be found at the bottom of the configuration documentation for each product.
-- Configuration - Renovate Community Edition - ([GitHub](./configure-renovate-ce-github.md), [GitLab](./configure-renovate-ce-gitlab.md))
-- Configuration - Renovate Enterprise Edition - ([GitHub](./configure-renovate-ee-github.md), [GitLab](./configure-renovate-ee-gitlab.md))
+See the Setup Guides to get started with Mend Renovate Self-hosted
+- [Setup guide for GitHub](setup-for-github.md)
+- [Setup guide for GitLab](setup-for-gitlab.md)
+- [Setup guide for Bitbucket Data Center](setup-for-bitbucket.md)
 
-Request `/status` on your IP address hosting the deployment to check if it is running correctly.
-It is recommended not to expose that endpoint to the internet as it could leak information about private repository names.
+Examples using Docker Compose can be found at in the [examples directory](../examples).
+
+## Testing Mend Renovate Self-hosted
+
+Request `/health` on your IP address hosting the deployment to check if it is running correctly.
+
+For further testing, use the [Admin APIs](./api.md) to:
+- check the status of the server
+- see the contents of the Job and Task queues
+- perform an App sync
+- run a job
+
+It is recommended not to expose the API endpoint to the internet as it could leak information about private repository names.
