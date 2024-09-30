@@ -15,9 +15,9 @@ renovate:
   # Set this value to 'y' to consent.
   mendRnvAcceptTos:
 
-  # Set this to the key you received by email.
-  # You can request a license key by submitting the form at https://www.mend.io/renovate-community/.
-  # Please allow up to 24 hours to receive your license key by email.
+  # Provide a valid license key for Renovate Community Edition.
+  # Use this key for up to 10 repos: eyJsaW1pdCI6IjEwIn0=.30440220457941b71ea8eb345c729031718b692169f0ce2cf020095fd328812f4d7d5bc1022022648d1a29e71d486f89f27bdc8754dfd6df0ddda64a23155000a61a105da2a1
+  # For a free unrestricted repo Community Edition license key register at https://www.mend.io/renovate-community/
   mendRnvLicenseKey:
 
   # Which platform Mend Renovate will connect to.
