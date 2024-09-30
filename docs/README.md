@@ -1,6 +1,6 @@
-# Mend Renovate Self-hosted Documentation
+# Mend Renovate Self-hosted App Documentation
 
-This repository provides documentation specific to Mend Renovate Self-hosted - Community Edition (Renovate CE) and Enterprise Edition (Renovate EE), and does not duplicate anything that is relevant and can be found in the [Renovate OSS repository](https://github.com/renovatebot/renovate).
+This repository provides documentation specific to the Mend Renovate Self-hosted Apps - Community Edition (Renovate CE) and Enterprise Edition (Renovate EE), and does not duplicate anything that is relevant and can be found in the [Renovate OSS repository](https://github.com/renovatebot/renovate).
 
 Mend Renovate Community Edition was formerly known as "Mend Renovate On-Premises".
 
@@ -10,7 +10,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 - GitHub.com
 - GitHub Enterprise Server
 - GitLab Enterprise Edition
-- Bitbucket Server/Datacenter (in beta)
+- Bitbucket Data Center (in beta)
 
 ## Documentation contents
 
@@ -19,7 +19,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 1. Getting Started
    - [Setup guide for GitHub](setup-for-github.md)
    - [Setup guide for GitLab](setup-for-gitlab.md)
-   - [Setup guide for Bitbucket Data Center](setup-for-bitbucket.md)
+   - [Setup guide for Bitbucket Data Center](setup-for-bitbucket-data-center.md)
 1. Configuration
    - [Self-hosted configuration options](configuration-options.md)
    - [Configure PostgreSQL DB](configure-postgres-db.md)

@@ -64,7 +64,7 @@ renovateServer:
   mendRnvBitbucketPat:
 
   # Optional: The URL of the Renovate Server plus '/webhook' suffix.
-  # Must be accessible to receive incoming calls from the BitBucket server.
+  # Must be accessible to receive incoming calls from BitBucket Data Center.
   mendRnvWebhookURL:
 
   # Optional: A token used for searching/adding/removing repository webhooks.

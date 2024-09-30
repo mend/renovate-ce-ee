@@ -1,12 +1,12 @@
-# Set up Mend Renovate Self-hosted for Bitbucket
+# Set up Mend Renovate Self-hosted App for Bitbucket Data Center
 
-## Configure Renovate Bot Account on Bitbucket
+## Configure Renovate Bot Account on Bitbucket Data Center
 
 ### 1.a. Configure Renovate Bot User Account
 
-The following configuration instructions are to be performed on Bitbucket Server by a user account with “Admin” or “System admin” global permissions on the Bitbucket Server.
+The following configuration instructions are to be performed on Bitbucket Data Center by a user account with “Admin” or “System admin” global permissions on Bitbucket Data Center.
 
-- Log in to Bitbucket Server with admin user (eg. http://localhost:7990)<br>
+- Log in to Bitbucket Data Center with admin user (eg. http://localhost:7990)<br>
 Note: Bitbucket Admin user permissions - Must be at least “Admin” to create a new user account.<br>
 Also, only repo admins can add the Renovate Bot user and webhooks.
 
@@ -92,7 +92,7 @@ Example files available here:
 Edit the docker files / helm chart values to provide the required environment variables.
 Refer to [Configurations Options](configuration-options.md) for a full list of Renovate CE/EE server variables.
 
-#### Bitbucket Server Connection details
+#### Bitbucket Data Center Connection details
 
 # Install Renovate Bot and Webhooks on BitBucket project or repository
 
@@ -112,7 +112,7 @@ Note: Any Bitbucket user with global permissions of Admin or System admin has fu
 
 ### Note:
 - Adding the Renovate Bot user to a **project** will install Renovate on **all repositories** in the project (current and future).
-- Giving the Renovate Bot user `global Admin` user access will install Renovate on **all repositories** on the Bitbucket server.
+- Giving the Renovate Bot user `global Admin` user access will install Renovate on **all repositories** on Bitbucket Data Center.
 
 ### How to add Renovate Bot to a Repository
 
@@ -216,7 +216,7 @@ To create a webhook using the Bitbucket APIs, the APIs must pass an HTTP access 
 
 ![bb-admin-token.png](images/bb-admin-token.png)
 
-- Press “Create token” to create the Bearer token required for calling the Bitbucket Server webhook APIs.
+- Press “Create token” to create the Bearer token required for calling Bitbucket Data Center webhook APIs.
 
 Note:
 - To create **project** webhooks, the HTTP access token must have `Project Admin` permissions.<br>
@@ -283,7 +283,7 @@ Body: (raw - JSON)
 **Provide the following values:**
 - name: Can be anything. Duplicate names are allowed.
 - url: The URL and port of the Renovate Server.
-  - Note: Ensure ports are open to receiving incoming calls from the Bitbucket server.
+  - Note: Ensure ports are open to receiving incoming calls from Bitbucket Data Center.
 - secret: The Webhook secret defined in the MEND_RNV_WEBHOOK_SECRET environment variable on the Renovate Server.
 
 ### Allow Renovate CE/EE to create Repository webhooks via Bitbucket API
@@ -296,9 +296,9 @@ Notes: `MEND_RNV_ADMIN_TOKEN`
 1. Recommended to use a different token than the token for Renovate bot user
 2. This admin token is only used for searching/adding and removing of webhooks on repository level
 
-## Run Mend Renovate Self-hosted
+## Run Mend Renovate Self-hosted App
 
-You can run Mend Renovate Self-hosted from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
+You can run Mend Renovate Self-hosted App from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
 
 **Example Docker Compose files:**
 
@@ -321,7 +321,7 @@ You can run Mend Renovate Self-hosted from a Docker command line prompt, or by u
 
 **`MEND_RNV_PLATFORM`**: Set this to `bitbucket-server`.
 
-**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your BitBucket Server installation. Include the trailing slash.
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your BitBucket Data Center installation. Include the trailing slash.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
@@ -329,7 +329,7 @@ You can run Mend Renovate Self-hosted from a Docker command line prompt, or by u
 
 **`MEND_RNV_BITBUCKET_PAT`**: BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`
 
-**`MEND_RNV_WEBHOOK_URL`**: Optional: The URL of the Renovate Server plus '/webhook'. Must be accessible to receive incoming calls from the BitBucket server.
+**`MEND_RNV_WEBHOOK_URL`**: Optional: The URL of the Renovate Server plus '/webhook'. Must be accessible to receive incoming calls from the BitBucket Data Center.
 
 **`MEND_RNV_ADMIN_TOKEN`**: Optional: A token used for searching/add/removing repository webhooks. Required if `MEND_RNV_WEBHOOK_URL` is set.
 

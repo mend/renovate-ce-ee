@@ -1,4 +1,4 @@
-# Mend Renovate Self-hosted Configuration Options
+# Mend Renovate Self-hosted App Configuration Options
 
 Mend Renovate Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
