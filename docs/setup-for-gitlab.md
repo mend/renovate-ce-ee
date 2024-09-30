@@ -72,7 +72,17 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
-**`MEND_RNV_LICENSE_KEY`**: Register for a free Community Edition license key at https://www.mend.io/renovate-community/. For an Enterprise License key, contact Mend at http://mend.io.
+**`MEND_RNV_LICENSE_KEY`**: Provide a valid license key for Renovate Community Edition or Enterprise Edition
+
+> [!Note]
+>
+> To run Renovate Community Edition with **up to 10 repositories**, you can use this unregistered license key:
+>
+> `eyJsaW1pdCI6IjEwIn0=.30440220457941b71ea8eb345c729031718b692169f0ce2cf020095fd328812f4d7d5bc1022022648d1a29e71d486f89f27bdc8754dfd6df0ddda64a23155000a61a105da2a1`
+>
+> For a free license key for an **unrestricted number of repositories** on Renovate Community Edition, register with the form on the [Renovate Community Edition web page](https://www.mend.io/mend-renovate-community/).
+>
+> For an Enterprise license key, contact Mend at http://mend.io.
 
 **`MEND_RNV_PLATFORM`**: Set this to `gitlab`.
 
