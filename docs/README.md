@@ -21,7 +21,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - [Setup guide for GitLab](setup-for-gitlab.md)
    - [Setup guide for Bitbucket Data Center](setup-for-bitbucket-data-center.md)
 1. Configuration
-   - [Self-hosted configuration options](configuration-options.md)
+   - [Self-hosted App configuration options](configuration-options.md)
    - [Configure PostgreSQL DB](configure-postgres-db.md)
    - [Configure High Server Availability](high-server-availability.md)
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
