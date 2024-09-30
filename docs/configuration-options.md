@@ -38,7 +38,7 @@ Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_ENDPOINT`**: This is the API endpoint for your SCM. Not required for GitHub.com. Include the trailing slash.
 
-**GitHub connection variables**
+#### GitHub connection variables
 
 **`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
@@ -49,11 +49,11 @@ Use the appropriate settings to define connection details to your specific SCM.
 **`MEND_RNV_GITHUB_BOT_USER_ID`**: Optional: The bot user ID that will be used in `gitAuthor` (example author `myBotName[bot] <123456+myBotName[bot]@users.noreply.github.com` and the user id is `123456`). The value can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key (replace the `{appName}` with the actual app name).
 Note: By default Renovate server will attempt to call this endpoint once during startup (both CE and EE server) and it does not require authentication. If you wish to skip this call for any reason you will need to provide the value in `MEND_RNV_GITHUB_BOT_USER_ID=<id-number>`
 
-**GitLab connection variables**
+#### GitLab connection variables
 
 **`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account.
 
-**Bitbucket connection variables**
+#### Bitbucket connection variables
 
 **`MEND_RNV_BITBUCKET_USER`**: Renovate Bot user account (“Bitbucket User” access only)
 
@@ -244,7 +244,6 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
-
 **`MEND_RENOVATE_FORKS_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
 
 - `disabled`: sets Renovate `forkProcessing=disabled` for all jobs
@@ -256,13 +255,11 @@ Note: You can inspect the `Renovate-EE-Version` in the response header of any Re
     - `forkProcessing=disabled` if "All repositories"
   - others platforms: `forkProcessing=disabled`
 
-
 **`MEND_RNV_MERGE_CONFIDENCE_ENDPOINT`**: [Enterprise only] defines the endpoint used to retrieve Merge Confidence data by querying this API. 
 this config option only need to be defined in the server, and it will be passed to the worker automatically. 
 defaults to https://developer.mend.io/.
 
 Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag. 
-
 
 ### Postgres DB Configuration
 
