@@ -1,8 +1,8 @@
-# Mend Renovate Self-hosted - Community Edition and Enterprise Edition
+# Mend Renovate Self-hosted Apps - Community Edition and Enterprise Edition
 
 ## Overview
 
-Mend Renovate Self-hosted (Community Edition and Enterprise Edition) are commercial offerings of Renovate for self-hosted users, such as those running on GitHub, GitLab or Bitbucket Server/Data Center.
+Mend Renovate Self-hosted Apps (Community Edition and Enterprise Edition) are commercial offerings of Renovate for self-hosted users, such as those running on GitHub, GitLab or Bitbucket Data Center.
 
 Essentially, it is an alternative to running the `renovate` CLI tool, with the following additions:
 
@@ -11,16 +11,16 @@ Essentially, it is an alternative to running the `renovate` CLI tool, with the f
 - Webhook listener to enable dynamic reactions to repository events
 - Administration APIs for probing the system state or triggering jobs
 
-## Mend Renovate Self-hosted features
+## Features of Mend Renovate Self-hosted App
 
 #### Job scheduler
 
-The Docker containers for Mend Renovate Self-hosted contain a built-in job scheduler that defaults to enqueing all repositories once per hour.
+The Docker containers for Mend Renovate Self-hosted App contain a built-in job scheduler that defaults to enqueing all repositories once per hour.
 This saves the need for configuring and monitoring any external `cron` process.
 
 #### Webhook handler
 
-Mend Renovate Self-hosted also supports a webserver to listen for system webhooks received from the SCM (GitHub, GitLab, Bitbucket).
+Mend Renovate Self-hosted App also supports a webserver to listen for system webhooks received from the SCM (GitHub, GitLab, Bitbucket).
 
 In particular, it checks webhooks for:
 
@@ -61,7 +61,7 @@ As with Renovate CLI, it can also be configured to interact with an external Red
 
 ## Downloading
 
-The Docker images for Mend Renovate Self-hosted are available via GitHub Container Registry (ghcr.io)
+The Docker images for Mend Renovate Self-hosted App are available via GitHub Container Registry (ghcr.io)
 
 Use of the images are in accordance with the [Mend Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -74,11 +74,11 @@ Enterprise Edition uses two separate Docker images: The Server image, and the Wo
 
 ## Versioning
 
-Mend Renovate Self-hosted products have their own versioning and release schedule, independent of Renovate CLI versioning.
+Mend Renovate Self-hosted Apps have their own versioning and release schedule, independent of Renovate CLI versioning.
 
-Additionally, it is intended that Mend Renovate will have a slower release cadence than Renovate CLI in order to provide greater stability for Enterprise use.
+Additionally, it is intended that Mend Renovate Self-hosted Apps will have a slower release cadence than Renovate CLI in order to provide greater stability for Enterprise use.
 
-Specifically, use of SemVer for Mend Renovate Self-hosted:
+Specifically, use of SemVer for Mend Renovate Self-hosted Apps:
 
 **Major**: Used only for breaking changes
 
@@ -100,16 +100,16 @@ When a new version of Mend Renovate is pushed to GHCR, Release Notes will be add
 
 Naturally, it is recommended that you use Renovate itself for detecting and updating Mend Renovate versions if you are using a Docker Compose file internally for running Mend Renovate.
 
-## Running Mend Renovate Self-hosted
+## Running Mend Renovate Self-hosted App
 
-See the Setup Guides to get started with Mend Renovate Self-hosted
+See the Setup Guides to get started with Mend Renovate Self-hosted App
 - [Setup guide for GitHub](setup-for-github.md)
 - [Setup guide for GitLab](setup-for-gitlab.md)
-- [Setup guide for Bitbucket Data Center](setup-for-bitbucket.md)
+- [Setup guide for Bitbucket Data Center](setup-for-bitbucket-data-center.md)
 
 Examples using Docker Compose can be found at in the [examples directory](../examples).
 
-## Testing Mend Renovate Self-hosted
+## Testing Mend Renovate Self-hosted App
 
 Request `/health` on your IP address hosting the deployment to check if it is running correctly.
 

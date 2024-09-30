@@ -1,4 +1,4 @@
-# Set up Mend Renovate Self-hosted for GitHub
+# Set up Mend Renovate Self-hosted App for GitHub
 
 ## Create and Configure the GitHub App (bot)
 
@@ -45,9 +45,9 @@ If you don't care about the value, then enter 'renovate' as that is the default 
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
-## Run Mend Renovate Self-hosted
+## Run Mend Renovate Self-hosted App
 
-You can run Mend Renovate Self-hosted from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
+You can run Mend Renovate Self-hosted App from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
 
 **Example Docker Compose files:**
 

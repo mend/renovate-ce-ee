@@ -1,4 +1,4 @@
-# Set up Mend Renovate Self-hosted for GitLab
+# Set up Mend Renovate Self-hosted App for GitLab
 
 ## Configure Renovate Bot Account on GitLab
 
@@ -51,9 +51,9 @@ In the Repository settings, create a Webhook with the following settings:
 This will need to be repeated for every repository that is onboarded to the Renovate Bot account.
 It is usually easiest to create the repo webhook while adding the Renovate Bot account to a repo.
 
-## Run Mend Renovate Self-hosted
+## Run Mend Renovate Self-hosted App
 
-You can run Mend Renovate Self-hosted from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
+You can run Mend Renovate Self-hosted App from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
 
 **Example Docker Compose files:**
 
