@@ -2,7 +2,7 @@
 
 ## Overview
 
-Mend Renovate Self-hosted (Community Edition and Enterprise Edition) are commercial offerings of Renovate for self-hosted users, such as those running on GitHub, GitLab or Bitbucket.
+Mend Renovate Self-hosted (Community Edition and Enterprise Edition) are commercial offerings of Renovate for self-hosted users, such as those running on GitHub, GitLab or Bitbucket Server/Data Center.
 
 Essentially, it is an alternative to running the `renovate` CLI tool, with the following additions:
 
