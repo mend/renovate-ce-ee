@@ -91,11 +91,13 @@ You can add **Repo webhooks** to each individual repo that you want webhooks ena
 - This might be suitable if you are only installing Renovate on a small number of repos or don't have access to Group webhooks.
 - A good option if you want fine-grained control over which repos trigger webhooks to your Renovate server.
 
-> [!CAUTION]
+> [!WARNING]
 > 
 > Avoid using **Server hooks** because there they will not trigger `Issues events`, such as using checkboxes in the Dependency Dashboard issue.
 
 **Set webhook properties as shown below:**
+
+![GitLab webhook details](images/gitlab_webhook_details.png)
 
 ##### URL
 - Set the webhook URL to point to the Renovate server url followed by `/webhook`. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
@@ -116,13 +118,11 @@ You can add **Repo webhooks** to each individual repo that you want webhooks ena
    * `Issues events`
    * `Merge request events`
 
+![GitLab webhook triggers](images/gitlab_webhook_triggers.png)
+
 ##### SSL Verification
 
 - Diasble SSL verification unless required by your server
-
-![GitLab webhook details](images/gitlab_webhook_details.png)
-
-![GitLab webhook triggers](images/gitlab_webhook_triggers.png)
 
 ## Run Mend Renovate Self-hosted App
 
