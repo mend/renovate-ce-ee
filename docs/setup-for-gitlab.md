@@ -171,11 +171,11 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitLab webhooks. Defaults to 'renovate'.
 
-**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com
-
 **`MEND_RNV_WEBHOOK_URL`**: [Optional] Set to the URL of your webhook handler to enable automatic webhook creation. (eg. `http://renovate.yourcompany.com:8080/webhook`)
 
 **`MEND_RNV_ADMIN_TOKEN`**: [Optional] Used when automatically adding webhooks. Provide a PAT for a user with `Maintainer` access to repos.
+
+**`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com
 
 **Additional Configuration options**
 
