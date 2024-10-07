@@ -83,7 +83,7 @@ Set `MEND_RNV_ADMIN_TOKEN`: [Optional]
 
 #### Option: Manually add webhooks
 
-Add a **Group webhook** to each GitLab Group that you want webhooks installed triggered on.
+Add a **Group webhook** to each GitLab Group that you want webhooks triggered on.
 - This is an easy way to cover webhooks for all repos in the group.
 - Webhooks coming from Repositories that haven't enabled Renovate will be ignored.
 
@@ -163,7 +163,7 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
-**`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account.
+**`MEND_RNV_GITLAB_PAT`**: Personal Access Token (PAT) for the GitLab bot account.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
@@ -172,6 +172,10 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 **`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitLab webhooks. Defaults to 'renovate'.
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com
+
+**`MEND_RNV_WEBHOOK_URL`**: [Optional] Set to the URL of your webhook handler to enable automatic webhook creation. (eg. `http://renovate.yourcompany.com:8080/webhook`)
+
+**`MEND_RNV_ADMIN_TOKEN`**: [Optional] Used when automatically adding webhooks. Provide a PAT for a user with `Maintainer` access to repos.
 
 **Additional Configuration options**
 
