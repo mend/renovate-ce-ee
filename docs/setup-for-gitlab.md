@@ -15,7 +15,7 @@ Jobs triggered by webhooks jump the queue, and are scheduled to run as soon as p
 
 ### Step 1a: Renovate Bot user Account
 
-In GitLab, the "Renovate Bot" is not an App or Plugin; it's a GitLab user account that's been given the right permissions and System Hooks.
+In GitLab, the "Renovate Bot" is not an App or Plugin; it's a GitLab user account that's been given the right permissions on the repository.
 
 Create a GitLab user account to act as the "Renovate Bot".
 
@@ -79,31 +79,31 @@ Set `MEND_RNV_WEBHOOK_URL`:
 Set `MEND_RNV_ADMIN_TOKEN`: [Optional]
 - Could be repo owner account, or special high-privilege account.
 - Defaults to the primary Renovate user PAT when not provided. 
-- Webhooks will be only installed on repos that the account has at least `Maintainer` access to.
+- Important: Webhooks will be only installed on repos that the account has at least `Maintainer` access to.
 
 #### Option: Manually add webhooks
 
-Add a **Group webhook** to each GitLab Group that you want enabled.
+Add a **Group webhook** to each GitLab Group that you want webhooks installed triggered on.
 - This is an easy way to cover webhooks for all repos in the group.
 - Webhooks coming from Repositories that haven't enabled Renovate will be ignored.
 
 You can add **Repo webhooks** to each individual repo that you want webhooks enabled for.
 - This might be suitable if you are only installing Renovate on a small number of repos or don't have access to Group webhooks.
-- A good option is you want fine-grained control over which repos trigger webhooks to your Renovate server.
+- A good option if you want fine-grained control over which repos trigger webhooks to your Renovate server.
 
-> [!WARNING]
+> [!CAUTION]
 > 
-> Avoid using **Server hooks** because there they will not trigger `Issue` events, such as using checkboxes in the Dependency Dashboard issue.
+> Avoid using **Server hooks** because there they will not trigger `Issues events`, such as using checkboxes in the Dependency Dashboard issue.
 
-Set webhook properties as shown below:
+**Set webhook properties as shown below:**
 
-Updated##### URL
+##### URL
 - Set the webhook URL to point to the Renovate server url followed by `/webhook`. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
 
 ##### Name (Optional)
 - You can set a name for the webhook: ie. "renovate"
 
-> [!INFORMATION]
+> [!TIP]
 > 
 > Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
