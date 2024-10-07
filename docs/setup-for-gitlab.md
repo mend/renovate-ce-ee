@@ -97,25 +97,32 @@ You can add **Repo webhooks** to each individual repo that you want webhooks ena
 
 Set webhook properties as shown below:
 
-##### Webhook Name
-- (Optional) Provide a name for the webhook: ie. "renovate"
-
-##### Webhook URL
+Updated##### URL
 - Set the webhook URL to point to the Renovate server url followed by `/webhook`. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
+
+##### Name (Optional)
+- You can set a name for the webhook: ie. "renovate"
 
 > [!INFORMATION]
 > 
 > Renovate's webhook listener binds to port 8080 inside its container, but you can map it (using Docker) to whatever external port you require, including port 80.
 
-##### Webhook Secret
+##### Secret token
 - Set the webhook secret to the same value configured for `MEND_RNV_WEBHOOK_SECRET` (defaults to `renovate`)
 
-##### Event Triggers
-- Set Hook triggers for:
-   * `Push events`
+##### Trigger
+- Set event triggers for:
+   * `Push events` (All branches)
+   * `Issues events`
    * `Merge request events`
-   * `Issue events`
 
+##### SSL Verification
+
+- Diasble SSL verification unless required by your server
+
+![GitLab webhook details](images/gitlab_webhook_details.png)
+
+![GitLab webhook triggers](images/gitlab_webhook_triggers.png)
 
 ## Run Mend Renovate Self-hosted App
 
