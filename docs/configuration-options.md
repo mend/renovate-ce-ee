@@ -1,4 +1,4 @@
-# Mend Renovate Configuration Options
+# Mend Renovate Self-hosted App Configuration Options
 
 Mend Renovate Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
@@ -11,7 +11,7 @@ Separately, you can provide configuration for the Renovate Core. See the end of 
 The following environment variables apply to **Mend Renovate Community Edition** and the **Mend Renovate Enterprise Edition Server**.
 Environment variables for the **Mend Renovate Enterprise Worker** are in the next section.
 
-### Mend licensing config
+### Mend Licensing Config
 
 **`MEND_RNV_ACCEPT_TOS`**: Set this environment variable to `y` to consent to [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 
@@ -29,33 +29,43 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 
 **`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto' (default), or provide the value of a merge confidence API token.
 
-### Source code management (SCM) connection details
+### Connection to the Source Code Management (SCM)
 
 This section contains configuration variables for connecting to your source code repository.
 Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_PLATFORM`**: The type of SCM. Options: `github`, `gitlab`, `bitbucket-server`.
 
-**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your SCM. Required for self-hosted SCMs; not for GitHub.com. Include the trailing slash.
+**`MEND_RNV_ENDPOINT`**: This is the API endpoint for your SCM. Not required for GitHub.com. Include the trailing slash.
 
-**`MEND_RNV_GITHUB_APP_ID`**: [GitHub only] The GitHub App ID of the provisioned Renovate app on GitHub.
+#### GitHub connection variables
 
-**`MEND_RNV_GITHUB_APP_KEY`**: [GitHub only] A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
+**`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
-**`RNV_GITHUB_PEM_FILE_PATH`**: [GitHub only] The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
+**`MEND_RNV_GITHUB_APP_KEY`**: A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
 
-**`MEND_RNV_GITHUB_BOT_USER_ID`**: [GitHub only] Optional: The bot user ID that will be used in `gitAuthor` (example author `myBotName[bot] <123456+myBotName[bot]@users.noreply.github.com` and the user id is `123456`). The value can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key (replace the `{appName}` with the actual app name).
+**`RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
+
+**`MEND_RNV_GITHUB_BOT_USER_ID`**: Optional: The bot user ID that will be used in `gitAuthor` (example author `myBotName[bot] <123456+myBotName[bot]@users.noreply.github.com` and the user id is `123456`). The value can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key (replace the `{appName}` with the actual app name).
 Note: By default Renovate server will attempt to call this endpoint once during startup (both CE and EE server) and it does not require authentication. If you wish to skip this call for any reason you will need to provide the value in `MEND_RNV_GITHUB_BOT_USER_ID=<id-number>`
 
-**`MEND_RNV_GITLAB_PAT`**: [GitLab only] Personal Access Token for the GitLab bot account.
+#### GitLab connection variables
 
-**`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
+**`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account.
 
-### Optional Mend Renovate configuration
+#### Bitbucket connection variables
+
+**`MEND_RNV_BITBUCKET_USER`**: Renovate Bot user account (“Bitbucket User” access only)
+
+**`MEND_RNV_BITBUCKET_PAT`**: BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`
+
+### Server Config Options
 
 **`GITHUB_COM_TOKEN`**: A Personal Access Token for a user account on github.com (i.e. _not_ an account on your GitHub Enterprise instance).
 This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
 It needs only read-only access privileges. Not required if SCM is GitHub.com.
+
+**`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
 **`MEND_RNV_SERVER_API_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
 
@@ -234,7 +244,6 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
-
 **`MEND_RENOVATE_FORKS_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
 
 - `disabled`: sets Renovate `forkProcessing=disabled` for all jobs
@@ -246,13 +255,11 @@ Note: You can inspect the `Renovate-EE-Version` in the response header of any Re
     - `forkProcessing=disabled` if "All repositories"
   - others platforms: `forkProcessing=disabled`
 
-
 **`MEND_RNV_MERGE_CONFIDENCE_ENDPOINT`**: [Enterprise only] defines the endpoint used to retrieve Merge Confidence data by querying this API. 
 this config option only need to be defined in the server, and it will be passed to the worker automatically. 
 defaults to https://developer.mend.io/.
 
 Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag. 
-
 
 ### Postgres DB Configuration
 

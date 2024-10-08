@@ -17,8 +17,7 @@ services:
       # LOG_FORMAT: json  # Defaults to 'pretty'. Useful when importing logs to reporting tool (eg. Splunk).
 
       # Provide a license key and accept the Terms of Service
-      MEND_RNV_LICENSE_KEY: # For a free unrestricted repo Community Edition license key register at https://www.mend.io/renovate-community/
-      # Use this key for 10 repos: eyJsaW1pdCI6IjEwIn0=.30440220457941b71ea8eb345c729031718b692169f0ce2cf020095fd328812f4d7d5bc1022022648d1a29e71d486f89f27bdc8754dfd6df0ddda64a23155000a61a105da2a1
+      MEND_RNV_LICENSE_KEY: # Get Community Edition license key from https://www.mend.io/renovate-community/
       MEND_RNV_ACCEPT_TOS: # Set to 'Y' to accept Terms of Service
       # Provide connection details for the GitHub App
       # Available at: https://github.com/settings/apps/<your-renovate-app>
