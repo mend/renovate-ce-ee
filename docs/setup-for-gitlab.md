@@ -42,7 +42,7 @@ Assign the following permissions:
   * `read_user`
   * `write_repository`
 
-Keep the PAT handy for the Configuration of the Renovate Self-Hosted App.
+Keep the PAT handy for the Configuration of the Renovate Self-Hosted App to set `MEND_RNV_GITLAB_PAT`.
 
 ### Step 2: Add Webhooks
 
