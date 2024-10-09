@@ -67,6 +67,15 @@ It needs only read-only access privileges. Not required if SCM is GitHub.com.
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
+**`MEND_RNV_WEBHOOK_URL`**: [GitLab, Bitbucket Data Center only] Optional.
+When set, webhooks will be installed on repos when Renovate is enabled.
+The URL of the Renovate Server plus '/webhook'. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
+Must be accessible to receive incoming calls from the BitBucket Data Center.
+
+**`MEND_RNV_ADMIN_TOKEN`**: [GitLab, Bitbucket Data Center only] Optional: A token used for searching/add/removing repository webhooks.
+Defaults to the primary Renovate user PAT when not provided in GitLab config.
+Important: Webhooks will be only installed on repos that the account has at least `Maintainer` access to.
+
 **`MEND_RNV_SERVER_API_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
