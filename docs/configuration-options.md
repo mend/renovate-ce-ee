@@ -253,7 +253,7 @@ Escalation is reset when no mismatching versions are found during the version ch
 
 Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
 
-**`MEND_RENOVATE_FORKS_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
+**`MEND_RNV_FORK_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
 
 - `disabled`: sets Renovate `forkProcessing=disabled` for all jobs
 - `enabled`: sets Renovate `forkProcessing=enabled` for all jobs
