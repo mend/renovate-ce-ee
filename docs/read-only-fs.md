@@ -9,7 +9,7 @@ To test it, follow these steps:
 The custom images https://hub.docker.com/repository/docker/mend/renovate-ee-server and https://hub.docker.com/repository/docker/mend/renovate-ee-worker have been built to support read-only FS.
 Use whatever is the latest `9.0.0-pre.x` tag available.
 
-The `-full` worker image is now yet supported.
+The `-full` worker image is not yet supported.
 
 ## Run the images in read-only mode
 
@@ -23,7 +23,7 @@ Ensure that the EE Worker has read-write `/tmp` and `/opt/containerbase` volumes
 
 ## Other volumes
 
-The main "risk" of a read-only FS for Renovate is that there are dozens of package managers which can be called, and those package managers can choose to write files into unexpected locations.
+The main "risk" of a read-only FS for Renovate is that there are dozens of package managers that can be called, and those package managers can choose to write files into unexpected locations.
 
 When such cases are found, the best scenario is that the Renovate CLI can be enhanced to "coerce" managers into writing to `/tmp/renovate`, e.g. through the configuration of environment variables.
 However, it may also be feasible to selectively map files or folders as a stopgap solution (e.g. `/home/ubuntu/.some-manager`).
