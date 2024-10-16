@@ -9,6 +9,8 @@ To test it, follow these steps:
 The custom images https://hub.docker.com/repository/docker/mend/renovate-ee-server and https://hub.docker.com/repository/docker/mend/renovate-ee-worker have been built to support read-only FS.
 Use whatever is the latest `9.0.0-pre.x` tag available.
 
+The `-full` worker image is now yet supported.
+
 ## Run the images in read-only mode
 
 Set both the Server and Worker images to run with read-only file systems (e.g. `readOnlyRootFilesystem ` in Kubernetes).
