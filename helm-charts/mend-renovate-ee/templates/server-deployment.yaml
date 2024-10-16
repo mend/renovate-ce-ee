@@ -54,7 +54,7 @@ spec:
             - name: MEND_RNV_ACCEPT_TOS
               value: {{ .Values.license.mendRnvAcceptTos | quote }}
             {{- end }}
-            {{- if or .Values.license.mendRnvLicenseKey .Values.renovateServer.existingSecret }}
+            {{- if or .Values.license.mendRnvLicenseKey .Values.license.existingSecret }}
             - name: MEND_RNV_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
