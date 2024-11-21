@@ -98,7 +98,7 @@ spec:
                   optional: true
             {{- end }}
             # BitBucket
-            {{- if or .Values.renovate.mendRnvBitbucketUser }}
+            {{- if .Values.renovate.mendRnvBitbucketUser }}
             - name: MEND_RNV_BITBUCKET_USER
               value: {{ .Values.renovate.mendRnvBitbucketUser | quote }}
             {{- end }}
