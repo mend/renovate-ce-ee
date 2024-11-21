@@ -85,7 +85,7 @@ spec:
                   key: mendRnvGithubAppId
                   optional: true
             {{- end }}
-            {{- if or .Values.renovate.mendRnvGithubBotUserId .Values.renovate.existingSecret }}
+            {{- if .Values.renovate.mendRnvGithubBotUserId }}
             - name: MEND_RNV_GITHUB_BOT_USER_ID
               value:  {{ .Values.renovate.mendRnvGithubBotUserId | quote }}
             {{- end }}
