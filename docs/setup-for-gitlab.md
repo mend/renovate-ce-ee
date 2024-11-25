@@ -66,8 +66,8 @@ Webhook installation requires an admin user account that has `Maintainer` access
 
 > [!WARNING]
 > 
-> Automatic webhook creation works for GitLab v17.4 and higher.
-> Using the automatic webhook creation on versions lower than v17.4 can cause unexpected results, including the creation of multiple identical webhooks.
+> Automatic webhook creation works for GitLab v17.1 and higher.
+> Using the automatic webhook creation on versions lower than v17.1 can cause unexpected results, including the creation of multiple identical webhooks.
 
 > [!NOTE]
 >
@@ -78,7 +78,7 @@ Webhook installation requires an admin user account that has `Maintainer` access
 To enable automatic webhook creation:
 
 Set `MEND_RNV_WEBHOOK_URL`:
-- DO NOT use this feature on GitLab versions lower than v17.4!
+- DO NOT use this feature on GitLab versions lower than v17.1!
 - When set, webhooks will be installed on repos when Renovate is enabled.
 - Set the webhook URL to point to the Renovate server url followed by `/webhook`. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
 
@@ -128,7 +128,7 @@ You can add **Repo webhooks** to each individual repo that you want webhooks ena
 
 ##### SSL Verification
 
-- Diasble SSL verification unless required by your server
+- Disable SSL verification unless required by your server
 
 ## Run Mend Renovate Self-hosted App
 
