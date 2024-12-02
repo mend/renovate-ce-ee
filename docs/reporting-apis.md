@@ -31,6 +31,10 @@ To enable reporting APIs:
 To enable data collection for the `Repo pull requests` API:
 * Set `RENOVATE_REPOSITORY_CACHE=enabled` on the Renovate EE Worker containers.
 
+> [!NOTE]  
+> The `Repo pull request` API only works with GitHub repositories.
+> The `Repo pull request` API will work with S3 repository cache only if you set `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` on the Renovate EE Worker containers.
+
 ## Reporting API URLs
 
 See the table below for a list of reporting API URL formats.
@@ -496,7 +500,7 @@ Note: Available only with Enterprise Edition. Returns no data when returned from
 > [!IMPORTANT]  
 > 1. The `Repo pull request` API only works with GitHub repositories.
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
-> 3. Requires `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` set on Worker containers.
+> 3. If using S3 repo cache, the `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` must be set on Worker containers.
 
 API: [GET] /api/repos/{org}/{repo}/-/pulls
 
