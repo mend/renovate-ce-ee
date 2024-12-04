@@ -1,19 +1,18 @@
 # Read-only File Systems
 
-Support for read-only file systems is currently in testing.
+Support for read-only file systems is available from version 9.0.0
 
 To test it, follow these steps:
 
 ## Use pre-release EE images
 
-The custom images https://hub.docker.com/repository/docker/mend/renovate-ee-server and https://hub.docker.com/repository/docker/mend/renovate-ee-worker have been built to support read-only FS.
-Use whatever is the latest `9.0.0-pre.x` tag available.
-
-The `-full` worker image is not yet supported.
+The official release images:
+* Community: `ghcr.io/mend/renovate-ce:9.0.0`
+* Enterprise: `ghcr.io/mend/renovate-ee-server:9.0.0` and `ghcr.io/mend/renovate-ee-worker:9.0.0`
 
 ## Run the images in read-only mode
 
-Set both the Server and Worker images to run with read-only file systems (e.g. `readOnlyRootFilesystem ` in Kubernetes).
+Set both the Server and Worker images to run with read-only file systems (e.g. `readOnlyRootFilesystem` in Kubernetes).
 
 ## Map read-write volumes
 
@@ -31,4 +30,3 @@ However, it may also be feasible to selectively map files or folders as a stopga
 ## Testing and release
 
 The measure of success is that all packager managers succeed (e.g. at updating lock files) using the read-write volumes only.
-Once more testing has been done and confidence raised that each manager works, then we will release this as GA.
