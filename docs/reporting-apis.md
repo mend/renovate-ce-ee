@@ -498,8 +498,9 @@ Note: Available only with Enterprise Edition. Returns no data when returned from
 ### Repo pull requests
 
 > [!IMPORTANT]  
-> 1. This API is available for GitHub repositories only.
+> 1. The `Repo pull request` API only works with GitHub repositories.
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
+> 3. If using S3 repo cache, the `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` must be set on Worker containers.
 
 API: [GET] /api/repos/{org}/{repo}/-/pulls
 
