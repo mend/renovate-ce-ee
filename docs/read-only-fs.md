@@ -4,9 +4,7 @@ Support for read-only file systems is available from version 9.0.0
 
 To test it, follow these steps:
 
-## Use pre-release EE images
-
-The official release images:
+## Use the official release images:
 * Community: `ghcr.io/mend/renovate-ce:9.0.0`
 * Enterprise: `ghcr.io/mend/renovate-ee-server:9.0.0` and `ghcr.io/mend/renovate-ee-worker:9.0.0`
 
