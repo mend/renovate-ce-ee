@@ -87,7 +87,10 @@ Important: Webhooks will be only installed on repos that the account has at leas
 **`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
 
 > [!IMPORTANT]  
-> The container running the Renovate EE server service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. Additionally, the process inside the container executes with uid=1000 (node) and gid=1000 (node).
+> The container running either the Renovate EE server service or the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. Additionally, the process inside the container executes with `uid=12021` (node) and `gid=12021` (node).
+
+> [!NOTE]
+> Prior to `v9`, the process executed with `uid=1000` and `gid=1000`.
 
 The [sqlite3](https://sqlite.org/cli.html) CLI tool is preinstalled in the Renovate CE/EE(server) images, allowing direct interaction with the underlying SQLite database.
 
