@@ -1,4 +1,4 @@
-FROM dpage/pgadmin4:8.12
+FROM dpage/pgadmin4:8.13
 
 # pgadmin server user attributes
 ARG P_USER=pgadmin
