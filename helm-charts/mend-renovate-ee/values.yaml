@@ -183,7 +183,7 @@ renovateServer:
   containerSecurityContext:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
-    runAsUser: 1000
+    runAsUser: 12021
     readOnlyRootFilesystem: false
     capabilities:
       drop:
@@ -339,7 +339,7 @@ renovateWorker:
   containerSecurityContext:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
-    runAsUser: 1000
+    runAsUser: 12021
     readOnlyRootFilesystem: false
     capabilities:
       drop:
