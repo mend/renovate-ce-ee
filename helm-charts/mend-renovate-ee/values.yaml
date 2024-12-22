@@ -28,7 +28,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 9.1.0@sha256:847d6f86ca4ecebfa2808878d60a7c4a868ccc0cb2fac1930ae2e38baba05f46
+    version: 9.1.1@sha256:364ac6b81220a3cd08f5e26857de2bcd54f178b5a51056a2e0b1baaad21fc555
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -238,7 +238,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 9.1.0-full@sha256:f4238aa97a7a6d1ac4513cc78129836144a83dff17ba860fe6d37f15ede490da
+    version: 9.1.1-full@sha256:2783c78af047155b27e6b5ba4d265ec1998e50dd72e5bfa3d613b0c8e25589c3
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
