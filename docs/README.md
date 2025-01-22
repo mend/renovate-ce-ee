@@ -9,6 +9,7 @@ Mend Renovate Community Edition was formerly known as "Mend Renovate On-Premises
 The following platforms are supported by Mend Renovate Community Edition and Enterprise Edition:
 - GitHub.com
 - GitHub Enterprise Server
+- GitLab Cloud
 - GitLab Enterprise Edition
 - Bitbucket Data Center (in beta)
 
