@@ -278,7 +278,7 @@ spec:
             {{- end }}
             {{- if .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
-              value: {{ .Values.renovate.mndRnvPrometheusMetricsEnabled | quote }}
+              value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
           ports:
             - name: http

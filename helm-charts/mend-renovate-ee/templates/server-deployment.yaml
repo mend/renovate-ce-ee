@@ -251,7 +251,7 @@ spec:
             {{- end }}
             {{- if .Values.renovateServer.mendRnvPrometheusMetricsEnabled | quote }}
             - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
-              value: {{ .Values.renovateServer.mndRnvPrometheusMetricsEnabled | quote }}
+              value: {{ .Values.renovateServer.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
           ports:
             - name: ee-server

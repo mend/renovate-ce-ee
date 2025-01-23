@@ -152,7 +152,7 @@ renovateServer:
   mendRnvForksProcessing:
 
   # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
-  mndRnvPrometheusMetricsEnabled:
+  mendRnvPrometheusMetricsEnabled:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info

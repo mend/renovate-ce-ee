@@ -150,7 +150,7 @@ renovate:
   mendRnvWorkerNodeArgs:
 
   # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
-  mndRnvPrometheusMetricsEnabled:
+  mendRnvPrometheusMetricsEnabled:
 
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
