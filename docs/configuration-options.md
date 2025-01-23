@@ -80,6 +80,8 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
+**`MEND_RNV_PROMETHEUS_METRICS_ENABLED`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
+
 **`MEND_RNV_REPORTING_ENABLED`**: [Enterprise Only. From v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
