@@ -249,7 +249,7 @@ spec:
                   name: {{ include "mend-renovate.server-secret-name" . }}
                   key: mendRnvServerApiSecret
             {{- end }}
-            {{- if .Values.renovateServer.mendRnvPrometheusMetricsEnabled | quote }}
+            {{- if .Values.renovateServer.mendRnvPrometheusMetricsEnabled }}
             - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
               value: {{ .Values.renovateServer.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
