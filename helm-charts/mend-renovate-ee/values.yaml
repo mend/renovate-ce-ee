@@ -154,6 +154,14 @@ renovateServer:
   # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
   mendRnvPrometheusMetricsEnabled:
 
+  # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
+  #  similar config available in the worker
+  mendRnvDisableGlobalAgent:
+
+  # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
+  #  similar config available in the worker
+  mendRnvEnableHttp2:
+
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
@@ -266,6 +274,14 @@ renovateWorker:
 
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
+
+  # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
+  #  similar config available in the server
+  mendRnvDisableGlobalAgent:
+
+  # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
+  #  similar config available in the server
+  mendRnvEnableHttp2:
 
   # Additional worker env vars
   extraEnvVars: [ ]

@@ -253,6 +253,14 @@ spec:
             - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
               value: {{ .Values.renovateServer.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
+            {{- if .Values.renovateServer.mendRnvDisableGlobalAgent }}
+            - name: MEND_RNV_DISABLE_GLOBAL_AGENT
+              value: {{ .Values.renovateServer.mendRnvDisableGlobalAgent | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvEnableHttp2 }}
+            - name: MEND_RNV_ENABLE_HTTP2
+              value: {{ .Values.renovateServer.mendRnvEnableHttp2 | quote }}
+            {{- end }}
           ports:
             - name: ee-server
               containerPort: 8080

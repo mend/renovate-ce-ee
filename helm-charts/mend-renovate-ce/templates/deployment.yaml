@@ -280,6 +280,14 @@ spec:
             - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
               value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
+            {{- if .Values.renovate.mendRnvDisableGlobalAgent }}
+            - name: MEND_RNV_DISABLE_GLOBAL_AGENT
+              value: {{ .Values.renovate.mendRnvDisableGlobalAgent | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvEnableHttp2 }}
+            - name: MEND_RNV_ENABLE_HTTP2
+              value: {{ .Values.renovate.mendRnvEnableHttp2 | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080

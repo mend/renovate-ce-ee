@@ -117,6 +117,14 @@ spec:
             - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
               value: {{ .Values.renovateWorker.mendRnvWorkerExecutionTimeout | quote }}
             {{- end }}
+            {{- if .Values.renovateWorker.mendRnvDisableGlobalAgent }}
+            - name: MEND_RNV_DISABLE_GLOBAL_AGENT
+              value: {{ .Values.renovateWorker.mendRnvDisableGlobalAgent | quote }}
+            {{- end }}
+            {{- if .Values.renovateWorker.mendRnvEnableHttp2 }}
+            - name: MEND_RNV_ENABLE_HTTP2
+              value: {{ .Values.renovateWorker.mendRnvEnableHttp2 | quote }}
+            {{- end }}
             {{- if .Values.renovateWorker.noNodeTlsVerify }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               value: '0'
