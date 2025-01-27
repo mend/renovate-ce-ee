@@ -152,6 +152,12 @@ renovate:
   # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
   mendRnvPrometheusMetricsEnabled:
 
+  # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
+  mendRnvDisableGlobalAgent:
+
+  # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
+  mendRnvEnableHttp2:
+
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
