@@ -274,7 +274,12 @@ Note: You can inspect the `Renovate-EE-Version` in the response header of any Re
 this config option only need to be defined in the server, and it will be passed to the worker automatically. 
 defaults to https://developer.mend.io/.
 
-Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag. 
+Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag.
+
+**`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
+
+**`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
+
 
 ### Postgres DB Configuration
 
@@ -307,6 +312,8 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
+* **`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
+* **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
 
 ## Configure Renovate Core
 
