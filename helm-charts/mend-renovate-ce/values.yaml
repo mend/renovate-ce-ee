@@ -149,6 +149,9 @@ renovate:
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
 
+  # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
+  mendRnvPrometheusMetricsEnabled:
+
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {

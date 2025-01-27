@@ -13,8 +13,6 @@ Renovate On-Premises (v5 and earlier) was built with a "full" image only, so if 
 
 ## Installation using Helm
 
-[!WARNING] Helm charts for Renovate CE still need updating and are not currently available.
-
 ### Add Helm repository
 
 ```shell

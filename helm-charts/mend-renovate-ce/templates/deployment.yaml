@@ -272,10 +272,13 @@ spec:
             - name: MEND_RNV_DISK_USAGE_FILTER
               value: {{ .Values.renovate.mendRnvDiskUsageFilter | quote }}
             {{- end }}
-
             {{- if .Values.renovate.mendRnvWorkerNodeArgs }}
             - name: RENOVATE_NODE_ARGS
               value: {{ .Values.renovate.mendRnvWorkerNodeArgs | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvPrometheusMetricsEnabled }}
+            - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
+              value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
           ports:
             - name: http
