@@ -73,7 +73,15 @@ Pagination is not supported. Results are sorted with most recent job first.
     "startedAt": "2024-05-13 09:01:25.735557",
     "completedAt": "2024-05-13 09:03:22.818254",
     "logLocation": "S3://job-logs/my-org/my-repo/fccefbdc-de1e-49b7-bd9a-bfe530ee7547.log.gz",
-    "status": "success"
+    "status": "success",
+    "artifactErrors": {
+      "renovate/husky-8.x": [
+        {
+          "stderr": "npm ERR! code ETARGET\nnpm ERR! notarget No matching version found for nanoid@3.31.4.\nnpm ERR! notarget In most cases you or one of your dependencies are requesting\nnpm ERR! notarget a package version that doesn't exist.\n\nnpm ERR! A complete log of this ru<truncated>",
+          "lockFile": "package-lock.json"
+        }
+      ]
+    }
   }
 ]
 ```
