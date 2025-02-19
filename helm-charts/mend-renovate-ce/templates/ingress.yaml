@@ -33,16 +33,14 @@ spec:
     - host: {{ $host | quote }}
       http:
         paths:
-          {{- range $path := $paths }}
-          {{- range $path }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          {{- range $p := $paths.paths }}
+          - path: {{ $p.path }}
+            pathType: {{ $p.pathType }}
             backend:
               service:
                 name: {{ $fullName }}
                 port:
                   name: http
-          {{- end -}}
           {{- end -}}
   {{- end }}
 {{- end }}
