@@ -28,7 +28,7 @@ postgresql:
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 9.4.0@sha256:038e646e7de7c266a43a1077d8b2e8a01781174e97bd3ba49069ea406c568937
+    version: 9.5.0@sha256:f4fcb52804720fef2a673386f6062ec8177ec53330aa3bdf3abf08b844be6ab1
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
