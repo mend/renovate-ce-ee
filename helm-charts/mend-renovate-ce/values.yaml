@@ -242,10 +242,11 @@ ingress:
     {}
     # kubernetes.io/tls-acme: "true"
   hosts:
-    mend-renovate.local:
-      paths:
-        - path: "/"
-          pathType: ImplementationSpecific
+    {}
+    # mend-renovate.local:
+    #   paths:
+    #     - path: "/"
+    #       pathType: ImplementationSpecific
   tls: []
   #  - secretName: mend-renovate-tls
   #    hosts:
