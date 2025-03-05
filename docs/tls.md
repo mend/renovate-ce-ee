@@ -3,17 +3,15 @@
 **Table of Contents**
 
 <!-- TOC -->
-
-- [HTTPS Configuration](#https-configuration)
-  - [HTTPS Server Configuration](#https-server-configuration)
-    - [Example 1](#example-1)
-    - [Example 2](#example-2)
-    - [Example 3](#example-3)
-    - [Example 4](#example-4)
-  - [HTTP/S Client Configuration](#https-client-configuration)
-    - [Example](#example)
-- [Node.js runtime configuration](#nodejs-runtime-configuration)
-
+* [HTTPS Configuration](#https-configuration)
+  * [HTTPS Server Configuration](#https-server-configuration)
+    * [Example 1](#example-1)
+    * [Example 2](#example-2)
+    * [Example 3](#example-3)
+    * [Example 4](#example-4)
+  * [HTTP/S Client Configuration](#https-client-configuration)
+    * [Example](#example)
+* [Node.js runtime configuration](#nodejs-runtime-configuration)
 <!-- TOC -->
 
 ## HTTPS Server Configuration
