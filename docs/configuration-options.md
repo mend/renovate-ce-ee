@@ -111,7 +111,7 @@ Note: For more information about TLS configuration, see separate docs for [TLS c
 > [!NOTE]
 > In versions before `v9`, the process executed with `uid=1000` (node) and `gid=1000`.
 
-The [sqlite3](https://sqlite.org/cli.html) CLI tool is preinstalled in the Renovate CE/EE(server) [config.json](../../../Users/JustinClareburt/.docker/config.json)images, allowing direct interaction with the underlying SQLite database.
+The [sqlite3](https://sqlite.org/cli.html) CLI tool is preinstalled in the Renovate CE/EE(server) images, allowing direct interaction with the underlying SQLite database.
 
 For example, Let `MEND_RNV_SQLITE_FILE_PATH=/db/renovate-ce.sqlite`:
 ```shell
