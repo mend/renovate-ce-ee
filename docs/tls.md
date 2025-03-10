@@ -200,7 +200,7 @@ File based configuration, base64 encoded secrets, `SNI` disabled:
 {
   "baseConfig": {
     "key": "base64://<BASE64_ENCODED_KEY>",
-    "cert": "base64://<BASE64_ENCODED_CERT",
+    "cert": "base64://<BASE64_ENCODED_CERT>",
     "maxVersion": "TLSv1.3",
     "minVersion": "TLSv1.2"
   }
@@ -211,7 +211,7 @@ File based configuration, base64 encoded secrets, `SNI` disabled:
 
 String based configuration equivalent to Example 3:
 
-`MEND_RNV_SERVER_HTTPS_CONFIG={"baseConfig":{"key":"base64://<BASE64_ENCODED_KEY>","cert":"base64://<BASE64_ENCODED_CERT","maxVersion":"TLSv1.3","minVersion":"TLSv1.2"}}`
+`MEND_RNV_SERVER_HTTPS_CONFIG={"baseConfig":{"key":"base64://<BASE64_ENCODED_KEY>","cert":"base64://<BASE64_ENCODED_CERT>","maxVersion":"TLSv1.3","minVersion":"TLSv1.2"}}`
 
 ## 'ClientHttpsOptions' details
 
