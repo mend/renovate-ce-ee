@@ -1,49 +1,107 @@
 # HTTPS Configuration
 
-**Table of Contents**
-
 <!-- TOC -->
 * [HTTPS Configuration](#https-configuration)
+  * [Environment variables for configuring TLS communication](#environment-variables-for-configuring-tls-communication)
+  * [Configuring Server-Worker TLS communication](#configuring-server-worker-tls-communication)
+    * [Server Configuration](#server-configuration)
+    * [Worker Configuration](#worker-configuration)
   * [HTTPS Server Configuration](#https-server-configuration)
-    * [Example 1](#example-1)
-    * [Example 2](#example-2)
-    * [Example 3](#example-3)
-    * [Example 4](#example-4)
-  * [HTTP/S Client Configuration](#https-client-configuration)
-    * [Example](#example)
+  * [HTTPS Client Configuration](#https-client-configuration)
+  * ['ServerHttpsOptions' details and examples](#serverhttpsoptions-details-and-examples)
+  * ['ClientHttpsOptions' details](#clienthttpsoptions-details)
 * [Node.js runtime configuration](#nodejs-runtime-configuration)
 <!-- TOC -->
+
+## Environment variables for configuring TLS communication
+
+The following is a list of configuration variables for using TLS communication.
+
+| Configuration variable                  | Brief description                                                                                                                                   |
+|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`MEND_RNV_SERVER_HOSTNAME`**          | Define the URL for accessing the Server with HTTPS protocol.                                                                                        |
+| **`MEND_RNV_SERVER_HTTPS_PORT`**        | Required for secure communication. Defaults to 8443. Note: Ensure `MEND_RNV_SERVER_HOSTNAME` is updated in Worker (eg. https://rnv-ee-server:8443). |
+| **`MEND_RNV_HTTP_SERVER_DISABLED`**     | Set to 'true' to ensure that non-secure requests are rejected.                                                                                      |
+| **`MEND_RNV_SERVER_HTTPS_CONFIG`**      | TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`.                                                         |
+| **`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`** | File for defining TLS server config. Note: Ensure volume is defined.                                                                                |
+| **`MEND_RNV_CLIENT_HTTPS_CONFIG`**      | TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.                                                         |
+| **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`** | File for defining TLS client config. Note: Ensure volume is defined.                                                                                |
+
+See below for detailed descriptions and examples. 
+
+## Configuring Server-Worker TLS communication
+
+To configure Renovate Enterprise Worker to use TLS communication with the Renovate Enterprise Server, set the following configuration variables as show below.
+
+> [!NOTE] Ensure that any files referenced in the configuration have the volumes correctly mapped in the container.
+
+### Server Configuration
+
+  - `MEND_RNV_SERVER_HTTPS_PORT` - [Optional] Defaults to 8443
+  - `MEND_RNV_HTTP_SERVER_DISABLED` - [Optional] Set to 'true' to disable non-secure (HTTP) connections 
+  - `MEND_RNV_SERVER_HTTPS_CONFIG` - Define the TLS server configuration (JSON format)
+  - `MEND_RNV_SERVER_HTTPS_CONFIG_PATH` - Path to TLS server configuration file
+
+Note: `MEND_RNV_SERVER_HTTPS_CONFIG` takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`
+
+### Worker Configuration
+
+  - `MEND_RNV_SERVER_HOSTNAME` - Ensure hostname is configured to use "https" protocol and the HTTPS port defined in the Server by `MEND_RNV_SERVER_HTTPS_PORT` (eg. https://rnv-ee-server:8443)
+  - `MEND_RNV_CLIENT_HTTPS_CONFIG` - Define the TLS client configuration (JSON format)
+  - `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - Path to TLS server configuration file
+
+Note: `MEND_RNV_CLIENT_HTTPS_CONFIG` takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`
 
 ## HTTPS Server Configuration
 
 All `Renovate CE/EE` services can be configured to create an `HTTPS` server for secure inbound traffic.
-
-By default, an `HTTP` server is created and listens on port `8080` (configurable via `MEND_RNV_SERVER_PORT`).
-
-`Renovate CE/EE services`:
-
-- `Renovate Enterprise Server`
-- `Renovate Enterprise Worker` (health server)
-- `Renovate CE`
-
-> [!TIP]
-> The HTTP server can be completely disabled by setting the environment variable`MEND_RNV_HTTP_SERVER_DISABLED=true`.
 
 The `HTTPS` server is configured through a `JSON` configuration passed via the environment.
 This configuration is resolved and applied when creating the `Node.js` `HTTPS` server.
 
 Available configurations:
 
-**`MEND_RNV_SERVER_HTTPS_PORT`**: Optional – Defaults to `'8443'`.
+- **`MEND_RNV_SERVER_HTTPS_PORT`**: [Optional] Defaults to `'8443'`.
 
-**`MEND_RNV_SERVER_HTTPS_CONFIG`**: An `JSON` string of type `ServerHttpsConfig`.
+- **`MEND_RNV_HTTP_SERVER_DISABLED`**: [Optional] Set to `true` to ensure that non-secure (`HTTP`) requests are rejected.
 
-**`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: A path to a `JSON` file containing `ServerHttpsConfig`.
+- **`MEND_RNV_SERVER_HTTPS_CONFIG`**: A `JSON` string of type `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
+
+- **`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: A path to a `JSON` file containing `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
 
 > [!IMPORTANT]
 > To enable `HTTPS`, at least one of `MEND_RNV_SERVER_HTTPS_CONFIG` or `MEND_RNV_SERVER_HTTPS_CONFIG_PATH` must be
 > defined.
 > If both are provided, the configuration from `MEND_RNV_SERVER_HTTPS_CONFIG` takes precedence.
+
+## HTTPS Client Configuration
+
+All `Renovate CE/EE` services can have their `HTTPS` client configured. The client is used when making secure outbound calls.
+
+To configure the HTTPS Client, provide one of the following:
+
+- `MEND_RNV_CLIENT_HTTPS_CONFIG`: An `JSON` string of type `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+
+- `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`: A path to a `JSON` file containing `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+
+In most cases, the Renovate Enterprise Worker's client needs to be configured only if the Renovate Enterprise Server is using self-signed certificates.
+In this case, the Worker's client will require the corresponding `'ca'` to authenticate the server. For example: `MEND_RNV_CLIENT_HTTPS_CONFIG={"ca":"file:///path/to/self/signed/ca.pem"}`
+
+> [!NOTE]
+> The `Node.js` runtime uses
+> a [hardcoded, statically compiled](https://github.com/nodejs/node/blob/v22.x/src/node_root_certs.h)
+> list of default trusted Certificate Authorities.
+
+> [!CAUTION]
+> Setting the Certificate Authority (`ca`) will override the default Certificate
+> Authorities ([from Mozilla](https://wiki.mozilla.org/CA/Included_Certificates)) used by the `Node.js` runtime. which
+> may cause issues with secure connections or certificate validation for public servers.
+
+## 'ServerHttpsOptions' details and examples
+
+The `ServerHttpsOptions` Object accepts configuration options that can be passed via `JSON`, as defined
+in [tls.createServer()](https://nodejs.org/docs/latest-v22.x/api/tls.html#tlscreateserveroptions-secureconnectionlistener), [tls.createSecureContext()](https://nodejs.org/docs/latest-v22.x/api/tls.html#tlscreatesecurecontextoptions)
+and [http.createServer()](https://nodejs.org/docs/latest-v22.x/api/http.html#httpcreateserveroptions-requestlistener).
 
 ```typescript
 type ServerHttpsConfig = {
@@ -51,11 +109,6 @@ type ServerHttpsConfig = {
   baseConfig?: ServerHttpsOptions;
 };
 ```
-
-The `ServerHttpsOptions` Object accepts configuration options that can be passed via `JSON`, as defined
-in [tls.createServer()](https://nodejs.org/docs/latest-v22.x/api/tls.html#tlscreateserveroptions-secureconnectionlistener), [tls.createSecureContext()](https://nodejs.org/docs/latest-v22.x/api/tls.html#tlscreatesecurecontextoptions)
-and [http.createServer()](https://nodejs.org/docs/latest-v22.x/api/http.html#httpcreateserveroptions-requestlistener).
-
 - **`SNIConfig`** (optional) – A `JSON` object mapping server names to their specific `HTTPS` configurations, enabling
   `Server Name Indication (SNI)`.
 
@@ -64,7 +117,8 @@ and [http.createServer()](https://nodejs.org/docs/latest-v22.x/api/http.html#htt
 
   - The `SNICallback` handles requests that match a server name specified in the `SNIConfig`, using the corresponding
     `ServerHttpsOptions` for that server name.
-  - A request that doesnt match any server name will be rejected.
+  - A request that doesn't match any server name will be rejected.
+
 
 - **`baseConfig`** (optional) – A `JSON` object containing the default `HTTPS` configuration applied when no `SNI` is
   configured
@@ -159,31 +213,7 @@ String based configuration equivalent to Example 3:
 
 `MEND_RNV_SERVER_HTTPS_CONFIG={"baseConfig":{"key":"base64://<BASE64_ENCODED_KEY>","cert":"base64://<BASE64_ENCODED_CERT","maxVersion":"TLSv1.3","minVersion":"TLSv1.2"}}`
 
-## HTTP/S Client Configuration
-
-All `Renovate CE/EE` services can have their `HTTP/S` client configured.
-
-`Renovate CE/EE services`:
-
-- `Renovate Enterprise Server`: The client is used to communicated with external services, such as `scm`s.
-- `Renovate Enterprise Worker`: The client is used to communicated with the `Renovate Enterprise Server` only.
-- `Renovate CE`: The client is used to communicated with external services such as `scm`s.
-
-To configure the corresponding Client, provide one of the following:
-
-`MEND_RNV_CLIENT_HTTPS_CONFIG`: An `JSON` string of type `ClientHttpsOptions`
-
-`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`: A path to a `JSON` file containing `ClientHttpsOptions`
-
-> [!NOTE]
-> The `Node.js` runtime uses
-> a [hardcoded, statically compiled](https://github.com/nodejs/node/blob/v22.x/src/node_root_certs.h)
-> list of default trusted Certificate Authorities.
-
-> [!CAUTION]
-> Setting the Certificate Authority (`ca`) will override the default Certificate
-> Authorities ([from Mozilla](https://wiki.mozilla.org/CA/Included_Certificates)) used by the `Node.js` runtime. which
-> may cause issues with secure connections or certificate validation for public servers.
+## 'ClientHttpsOptions' details
 
 ```typescript
 type ClientHttpsOptions = {
@@ -232,16 +262,6 @@ type ClientHttpsOptions = {
 > The `key` + `cert` or `pfx` are required for the client only if the server is configured with`rejectUnauthorized=true`
 > and
 > `requestCert=true` (Mutual TLS authentication/mTLS).
-
-In most cases, only the `Renovate Enterprise worker's` client needs to be configured only if the corresponding
-`Renovate Enterprise Server` is using self-signed certificates. In this case, the worker's client will require the
-corresponding `'ca'` to authenticate the server.
-
-### Example
-
-Client configured with a self-signed `'ca'`:
-
-`MEND_RNV_CLIENT_HTTPS_CONFIG={"ca":"file:///path/to/self/signed/ca.pem"}`
 
 # Node.js runtime configuration
 
