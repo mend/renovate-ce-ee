@@ -33,7 +33,8 @@ See below for detailed descriptions and examples.
 
 To configure Renovate Enterprise Worker to use TLS communication with the Renovate Enterprise Server, set the following configuration variables as show below.
 
-> [!NOTE] Ensure that any files referenced in the configuration have the volumes correctly mapped in the container.
+> [!NOTE]
+> Ensure that any files referenced in the configuration have the volumes correctly mapped in the container.
 
 ### Server Configuration
 
@@ -88,8 +89,7 @@ In most cases, the Renovate Enterprise Worker's client needs to be configured on
 In this case, the Worker's client will require the corresponding `'ca'` to authenticate the server. For example: `MEND_RNV_CLIENT_HTTPS_CONFIG={"ca":"file:///path/to/self/signed/ca.pem"}`
 
 > [!NOTE]
-> The `Node.js` runtime uses
-> a [hardcoded, statically compiled](https://github.com/nodejs/node/blob/v22.x/src/node_root_certs.h)
+> The `Node.js` runtime uses a [hardcoded, statically compiled](https://github.com/nodejs/node/blob/v22.x/src/node_root_certs.h)
 > list of default trusted Certificate Authorities.
 
 > [!CAUTION]
@@ -260,8 +260,7 @@ type ClientHttpsOptions = {
 
 > [!NOTE]
 > The `key` + `cert` or `pfx` are required for the client only if the server is configured with`rejectUnauthorized=true`
-> and
-> `requestCert=true` (Mutual TLS authentication/mTLS).
+> and `requestCert=true` (Mutual TLS authentication/mTLS).
 
 # Node.js runtime configuration
 
