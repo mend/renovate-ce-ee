@@ -86,7 +86,25 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
-**`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+### SSL/TLS Communication (Secure HTTPS)
+
+Note: For more information about TLS configuration, see separate docs for [TLS communication](tls.md).
+
+**`MEND_RNV_SERVER_HTTPS_PORT`**: Required for secure communication. Defaults to 8443. Note: Ensure `MEND_RNV_SERVER_HOSTNAME` is updated in Worker (eg. https://rnv-ee-server:8443).
+
+**`MEND_RNV_HTTP_SERVER_DISABLED`**: Set to 'true' to ensure that non-secure requests are rejected.
+
+**`MEND_RNV_SERVER_HTTPS_CONFIG`**: TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`. 
+
+**`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: File for defining TLS server config. Note: Ensure volume is defined.
+
+**`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
+
+**`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.
+
+### Local Database Configuration
+
+**`MEND_RNV_SQLITE_FILE_PATH`**: Defaults to '/tmp/database.sqlite'. Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
 
 > [!IMPORTANT]  
 > The container running either the Renovate EE server service or the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. 
@@ -314,6 +332,11 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
 * **`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
 * **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
+
+* **`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
+* **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.
+
+* **`MEND_RNV_NODE_OPTIONS`**: Defines `NODE_OPTIONS` for the `Node.js` runtime
 
 ## Configure Renovate Core
 
