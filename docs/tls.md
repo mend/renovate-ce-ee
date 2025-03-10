@@ -49,7 +49,7 @@ Note: `MEND_RNV_SERVER_HTTPS_CONFIG` takes precedence over `MEND_RNV_SERVER_HTTP
 
   - `MEND_RNV_SERVER_HOSTNAME` - Ensure hostname is configured to use "https" protocol and the HTTPS port defined in the Server by `MEND_RNV_SERVER_HTTPS_PORT` (eg. https://rnv-ee-server:8443)
   - `MEND_RNV_CLIENT_HTTPS_CONFIG` - Define the TLS client configuration (JSON format)
-  - `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - Path to TLS server configuration file
+  - `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - Path to TLS client configuration file
 
 Note: `MEND_RNV_CLIENT_HTTPS_CONFIG` takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`
 
