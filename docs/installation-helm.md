@@ -13,8 +13,6 @@ Renovate On-Premises (v5 and earlier) was built with a "full" image only, so if 
 
 ## Installation using Helm
 
-[!WARNING] Helm charts for Renovate CE still need updating and are not currently available.
-
 ### Add Helm repository
 
 ```shell
@@ -25,7 +23,7 @@ helm repo update
 ### Install Renovate chart
 
 ```shell
-helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' mend-renovate-cc-ee/mend-renovate-ce
+helm install --generate-name --set renovate.config='\{\"token\":\"...\"\}' mend-renovate-ce-ee/mend-renovate-ce
 ```
 
 See the available [values](../helm-charts/mend-renovate-ce/values.yaml) for full configuration and review configuration guides for [GitHub](setup-for-github.md), [GitLab](setup-for-gitlab.md) or [Bitbucket](setup-for-bitbucket.md).

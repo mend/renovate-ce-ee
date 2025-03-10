@@ -80,6 +80,8 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
+**`MEND_RNV_PROMETHEUS_METRICS_ENABLED`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
+
 **`MEND_RNV_REPORTING_ENABLED`**: [Enterprise Only. From v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
@@ -290,7 +292,12 @@ Note: You can inspect the `Renovate-EE-Version` in the response header of any Re
 this config option only need to be defined in the server, and it will be passed to the worker automatically. 
 defaults to https://developer.mend.io/.
 
-Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag. 
+Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag.
+
+**`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
+
+**`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
+
 
 ### Postgres DB Configuration
 
@@ -323,6 +330,8 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
+* **`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
+* **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
 
 * **`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
 * **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.

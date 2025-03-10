@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.useFull | ternary (printf "%s-full" .Values.image.tag) .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
@@ -272,10 +272,21 @@ spec:
             - name: MEND_RNV_DISK_USAGE_FILTER
               value: {{ .Values.renovate.mendRnvDiskUsageFilter | quote }}
             {{- end }}
-
             {{- if .Values.renovate.mendRnvWorkerNodeArgs }}
             - name: RENOVATE_NODE_ARGS
               value: {{ .Values.renovate.mendRnvWorkerNodeArgs | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvPrometheusMetricsEnabled }}
+            - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
+              value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvDisableGlobalAgent }}
+            - name: MEND_RNV_DISABLE_GLOBAL_AGENT
+              value: {{ .Values.renovate.mendRnvDisableGlobalAgent | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvEnableHttp2 }}
+            - name: MEND_RNV_ENABLE_HTTP2
+              value: {{ .Values.renovate.mendRnvEnableHttp2 | quote }}
             {{- end }}
           ports:
             - name: http

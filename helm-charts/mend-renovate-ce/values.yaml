@@ -1,6 +1,7 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 9.2.0-full
+  tag: 9.5.0
+  useFull: true
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -149,6 +150,15 @@ renovate:
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
 
+  # Optional. Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
+  mendRnvPrometheusMetricsEnabled:
+
+  # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
+  mendRnvDisableGlobalAgent:
+
+  # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
+  mendRnvEnableHttp2:
+
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
@@ -232,7 +242,10 @@ ingress:
     {}
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - mend-renovate.local
+    mend-renovate.local:
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: mend-renovate-tls
   #    hosts:
