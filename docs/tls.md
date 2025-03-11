@@ -17,15 +17,15 @@
 
 The following is a list of configuration variables for using TLS communication.
 
-| Configuration variable                  | Brief description                                                                                                                                   |
-|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`MEND_RNV_SERVER_HOSTNAME`**          | Define the URL for accessing the Server with HTTPS protocol.                                                                                        |
-| **`MEND_RNV_SERVER_HTTPS_PORT`**        | Required for secure communication. Defaults to 8443. Note: Ensure `MEND_RNV_SERVER_HOSTNAME` is updated in Worker (eg. https://rnv-ee-server:8443). |
-| **`MEND_RNV_HTTP_SERVER_DISABLED`**     | Set to 'true' to ensure that non-secure requests are rejected.                                                                                      |
-| **`MEND_RNV_SERVER_HTTPS_CONFIG`**      | TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`.                                                         |
-| **`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`** | File for defining TLS server config. Note: Ensure volume is defined.                                                                                |
-| **`MEND_RNV_CLIENT_HTTPS_CONFIG`**      | TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.                                                         |
-| **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`** | File for defining TLS client config. Note: Ensure volume is defined.                                                                                |
+| Configuration variable              | Brief description                                                                                                                                   |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `MEND_RNV_SERVER_HOSTNAME`          | Define the URL for accessing the Server with HTTPS protocol.                                                                                        |
+| `MEND_RNV_SERVER_HTTPS_PORT`        | Required for secure communication. Defaults to 8443. Note: Ensure `MEND_RNV_SERVER_HOSTNAME` is updated in Worker (eg. https://rnv-ee-server:8443). |
+| `MEND_RNV_HTTP_SERVER_DISABLED`     | Set to 'true' to ensure that non-secure requests are rejected.                                                                                      |
+| `MEND_RNV_SERVER_HTTPS_CONFIG`      | TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`.                                                         |
+| `MEND_RNV_SERVER_HTTPS_CONFIG_PATH` | File for defining TLS server config. Note: Ensure volume is defined.                                                                                |
+| `MEND_RNV_CLIENT_HTTPS_CONFIG`      | TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.                                                         |
+| `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` | File for defining TLS client config. Note: Ensure volume is defined.                                                                                |
 
 See below for detailed descriptions and examples. 
 
@@ -62,13 +62,13 @@ This configuration is resolved and applied when creating the `Node.js` `HTTPS` s
 
 Available configurations:
 
-- **`MEND_RNV_SERVER_HTTPS_PORT`**: [Optional] Defaults to `'8443'`.
+- `MEND_RNV_SERVER_HTTPS_PORT` - [Optional] Defaults to `'8443'`.
 
-- **`MEND_RNV_HTTP_SERVER_DISABLED`**: [Optional] Set to `true` to ensure that non-secure (`HTTP`) requests are rejected.
+- `MEND_RNV_HTTP_SERVER_DISABLED` - [Optional] Set to `true` to ensure that non-secure (`HTTP`) requests are rejected.
 
-- **`MEND_RNV_SERVER_HTTPS_CONFIG`**: A `JSON` string of type `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
+- `MEND_RNV_SERVER_HTTPS_CONFIG` - A `JSON` string of type `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
 
-- **`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: A path to a `JSON` file containing `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
+- `MEND_RNV_SERVER_HTTPS_CONFIG_PATH` - A path to a `JSON` file containing `ServerHttpsOptions` ([See details and examples](#serverhttpsoptions-details-and-examples))
 
 > [!IMPORTANT]
 > To enable `HTTPS`, at least one of `MEND_RNV_SERVER_HTTPS_CONFIG` or `MEND_RNV_SERVER_HTTPS_CONFIG_PATH` must be
@@ -81,9 +81,9 @@ All `Renovate CE/EE` services can have their `HTTPS` client configured. The clie
 
 To configure the HTTPS Client, provide one of the following:
 
-- `MEND_RNV_CLIENT_HTTPS_CONFIG`: An `JSON` string of type `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+- `MEND_RNV_CLIENT_HTTPS_CONFIG` - An `JSON` string of type `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
 
-- `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`: A path to a `JSON` file containing `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+- `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - A path to a `JSON` file containing `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
 
 In most cases, the Renovate Enterprise Worker's client needs to be configured only if the Renovate Enterprise Server is using self-signed certificates.
 In this case, the Worker's client will require the corresponding `'ca'` to authenticate the server. For example: `MEND_RNV_CLIENT_HTTPS_CONFIG={"ca":"file:///path/to/self/signed/ca.pem"}`
@@ -267,11 +267,11 @@ type ClientHttpsOptions = {
 The `Node.js` runtime can be configured either individually for the wrapper or globally for both the wrapper and the
 wrapped `Node.js` application via the following environment variables:
 
-`NODE_OPTIONS`: Globally define the `NODE_OPTIONS` for both the wrapper `Renovate Enterprise worker/Renovate CE` and the
+`NODE_OPTIONS` - Globally define the `NODE_OPTIONS` for both the wrapper `Renovate Enterprise worker/Renovate CE` and the
 wrapped `Renovate CLI`.
 
-`MEND_RNV_NODE_OPTIONS`: Define `NODE_OPTIONS` only for the `Renovate Enterprise worker` or `Renovate CE` wrappers.
+`MEND_RNV_NODE_OPTIONS` - Define `NODE_OPTIONS` only for the `Renovate Enterprise worker` or `Renovate CE` wrappers.
 
-`RENOVATE_NODE_OPTIONS`: Define `NODE_OPTIONS` individually for the `Renovate CLI`.
+`RENOVATE_NODE_OPTIONS` - Define `NODE_OPTIONS` individually for the `Renovate CLI`.
 
 [^1]: https://nodejs.org/docs/latest-v22.x/api/tls.html#tlscreateserveroptions-secureconnectionlistener
