@@ -82,7 +82,7 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_REQUEST_LOGGER_ENABLED`**: Optional: Set to 'true' to output the details of all incoming API requests to DEBUG logger. Defaults to 'false'.
 
-**`MEND_RNV_DEBUG_MODE`**: Optional: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. [WARNING!] Will display secrets in plain text.
+**`MEND_RNV_DEBUG_MODE`**: Optional: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
 
 **`MEND_RNV_PROMETHEUS_METRICS_ENABLED`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
 
@@ -330,7 +330,7 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 
 ### Optional Worker config
 
-* **`MEND_RNV_DEBUG_MODE`**: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. [WARNING!] Will display secrets in plain text.
+* **`MEND_RNV_DEBUG_MODE`**: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
 * **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
