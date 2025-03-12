@@ -16,7 +16,6 @@ Mend Renovate CE/EE is distributed via GitHub's Container Registry under the [`m
 
 Use of Mend Renovate CE/EE is bound by [Mend's Terms of Service](https://www.mend.io/terms-of-service/).
 You can request a license key by submitting the form at [https://www.mend.io/renovate-community/](https://www.mend.io/renovate-community/).
-License requests are processed semi-manually so please allow up to three working days to get your license key by email.
 
 The documentation and examples in this repository are MIT-licensed.
 
