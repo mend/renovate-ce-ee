@@ -3,4 +3,4 @@
 *.iml
 
 .env*
-local_*
+local*
