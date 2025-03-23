@@ -1,17 +1,27 @@
 ## Title: Renovate Enterprise with SQLite DB
 ## Description: This example Docker Compose file starts containers for Mend Renovate Enterprise Edition.
-## Details: Creates 1 x Server, 2 x Workers. Uses internal SQLite DB. Includes a service for ngrok container.
+
+## Scaling Server and Worker instances after initial deployment
+# Note: Server instances can not scale unless using a network database (eg. Postgres) and a load balancer (eg. nginx)
+# To increase or decrease Server or Worker instances, run the following command (replace values as appropriate):
+# $ docker-compose -f <this-file-name>.yml up --scale rnv-ee-server=3 --scale rnv-ee-worker=4 -d --no-recreate
+# Note: Always specify both Server and Worker scaling. Whichever is unspecified will be re-scaled to its original value.
+## Receiving Webhooks
+# To receive webhooks, create a publicly accessible endpoint for the Renovate Server (eg. ngrok http 80)
+# If using multiple servers, point have the ngrok server forward traffic to the load balancer port (eg. ngrok http 4000)
 
 services:
 
   ## Renovate Server
-  # Note: Server instances can not scale unless using a network database (eg. Postgres)
-  # To receive webhooks, create a publicly accessible endpoint for the Renovate Server (eg. ngrok http 80)
   rnv-ee-server:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
     image: ghcr.io/mend/renovate-ee-server:<latest-version>
+    deploy:
+      replicas: 1 # Define the number of Server containers to run
+      # Note: For multiple Server instances, use a network database (eg. Postgres) and a load balancer (eg. nginx)
+      # Do not assign an external port if using multiple servers (eg. ports: "8080")
     ports:
-      # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
+      # Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
       - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
     env_file:
       # Import required settings for Mend Renovate Self-hosted
@@ -50,8 +60,6 @@ services:
     image: ghcr.io/mend/renovate-ee-worker:<latest-version>
     deploy:
       replicas: 2 # Define the number of Worker containers to run
-      # To scale Worker instances post deployment, run the following command (replace values as appropriate):
-      # $ docker-compose -f <this-file-name>.yml up --scale rnv-ee-worker=4 -d --no-recreate
     depends_on:
       - rnv-ee-server
     env_file:
@@ -65,11 +73,13 @@ services:
       # - ../env/renovate-worker-config.env # Set 'MEND_RNV_SERVER_HOSTNAME' to match server container (ie. http://rnv-ee-server:8080)
       # - ../env/renovate-core.env # Set Renovate CLI configuration options. (ie. `RENOVATE_REPOSITORY_CACHE=enabled`)
       # MinIO S3 storage
-      - ../env/minio.env # Ensure the configuration is also in the Server containers
+      # - ../env/minio.env # Ensure the configuration is also in the Server containers
     environment:
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
-      MEND_RNV_SERVER_HOSTNAME: http://rnv-ee-server:8080 # The hostname of the Renovate Enterprise `server` container
+      # Server hostname and port
+      # Note: If using multiple servers, use the URL of load balancer (ie. http://nginx:4000). Also check ngrok config.
+      MEND_RNV_SERVER_HOSTNAME: http://rnv-ee-server:8080 # The hostname of the Renovate Enterprise Server container
       RENOVATE_REPOSITORY_CACHE: enabled # Enable Repo cache to use the /repos/:org(*)/-/:repo/pulls API. Only supported for GitHub.
       # If persisting Job logs, set the following environment variable and enable volume mounts for /logs
       MEND_RNV_LOG_HISTORY_DIR: /logs # Persist Renovate job logs. Enable volume mount for /logs

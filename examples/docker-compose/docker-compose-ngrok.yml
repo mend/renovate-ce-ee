@@ -11,7 +11,7 @@ services:
     container_name: ngrok
     command:
       - "http"
-      - "http://host.docker.internal:80"
+      - "http://host.docker.internal:80" # If using multiple servers, use the port assigned to the load balancer (eg. 4000)
       # - "--url=your-domain.ngrok.io" # Provide your personal ngrok domain, if you have one.
     environment:
       LOG_LEVEL: debug
