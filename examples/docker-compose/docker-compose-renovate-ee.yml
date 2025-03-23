@@ -14,12 +14,10 @@ services:
       # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
       - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
     env_file:
-      - ../env/.env.mend-rnv
-      - ../env/.env.github
       # Import required settings for Mend Renovate Self-hosted
-      # - ../env/mend-renovate.env # Provide a license key and accept the Terms of Service
+      - ../env/mend-renovate.env # Provide a license key and accept the Terms of Service
       # Choose an env file that matches your Git repository
-      # - ../env/github.env
+      - ../env/github.env
       # - ../env/gitlab.env
       # - ../env/bitbucket-server.env
       # Import optional settings for Renovate Server
@@ -53,12 +51,10 @@ services:
     depends_on:
       - rnv-ee-server
     env_file:
-      - ../env/.env.mend-rnv
-      - ../env/.env.github
       # Import required settings for Mend Renovate Self-hosted
-      # - ../env/mend-renovate.env
+      - ../env/mend-renovate.env
       # Choose an env file that matches your Git repository
-      # - ../env/github.env
+      - ../env/github.env
       # - ../env/gitlab.env
       # - ../env/bitbucket-server.env
       # Import optional settings for Renovate Worker
