@@ -24,6 +24,8 @@ services:
       # - ../env/renovate-server-config.env
       # Postgres DB config
       # - ../env/postgres-db.env # Import Postgres config if using PostgreSQL DB
+      # MinIO S3 storage
+      # - ../env/minio.env # Ensure the configuration is also in the Worker containers
     environment:
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
@@ -62,6 +64,8 @@ services:
       # Import optional settings for Renovate Worker
       # - ../env/renovate-worker-config.env # Set 'MEND_RNV_SERVER_HOSTNAME' to match server container (ie. http://rnv-ee-server:8080)
       # - ../env/renovate-core.env # Set Renovate CLI configuration options. (ie. `RENOVATE_REPOSITORY_CACHE=enabled`)
+      # MinIO S3 storage
+      - ../env/minio.env # Ensure the configuration is also in the Server containers
     environment:
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).

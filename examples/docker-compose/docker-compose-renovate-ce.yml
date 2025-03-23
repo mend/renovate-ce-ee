@@ -23,6 +23,8 @@ services:
       # - ../env/renovate-core.env # Set Renovate CLI configuration options. (ie. `RENOVATE_REPOSITORY_CACHE=enabled`)
       # Postgres DB config
       # - ../env/postgres-db.env # Import Postgres config if using PostgreSQL DB
+      # MinIO S3 storage
+      # - ../env/minio.env
     environment:
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
