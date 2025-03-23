@@ -1,0 +1,76 @@
+## Title: Renovate Enterprise with SQLite DB
+## Description: This example Docker Compose file starts containers for Mend Renovate Enterprise Edition.
+## Details: Creates 1 x Server, 2 x Workers. Uses internal SQLite DB. Includes a service for ngrok container.
+
+services:
+
+  ## Renovate Server
+  # Note: Server instances can not scale unless using a network database (eg. Postgres)
+  # To receive webhooks, create a publicly accessible endpoint for the Renovate Server (eg. ngrok http 80)
+  rnv-ee-server:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
+    image: ghcr.io/mend/renovate-ee-server:<latest-version>
+    ports:
+      # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
+      - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
+    env_file:
+      - ../env/.env.mend-rnv
+      - ../env/.env.github
+      # Import required settings for Mend Renovate Self-hosted
+      # - ../env/mend-renovate.env # Provide a license key and accept the Terms of Service
+      # Choose an env file that matches your Git repository
+      # - ../env/github.env
+      # - ../env/gitlab.env
+      # - ../env/bitbucket-server.env
+      # Import optional settings for Renovate Server
+      # - ../env/renovate-server-config.env
+    environment:
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
+      MEND_RNV_REQUEST_LOGGER_ENABLED: true # Set to 'true' to log all incoming API requests to DEBUG logger. Defaults to 'false'.
+      # API settings
+      MEND_RNV_ADMIN_API_ENABLED: true # Enable incoming API calls. Must set `MEND_RNV_SERVER_API_SECRET` (Hint: check the mend-renovate.env file).
+      MEND_RNV_REPORTING_ENABLED: true # Set to 'true' to enable Reporting APIs. (Set `RENOVATE_REPOSITORY_CACHE` on Worker for PR data)
+      # If persisting Job logs or DB, set the following environment variables and enable volume mounts for /logs and /db
+      MEND_RNV_LOG_HISTORY_DIR: /logs # Persist Renovate job logs. Enable volume mount for /logs
+      MEND_RNV_SQLITE_FILE_PATH: /db/renovate-ee.sqlite # Persist database to file. Enable volume mount for /db.
+    volumes:
+      # Enable volumes if persisting the application database or Renovate job logs. Also mount /logs volume on the Worker.
+      # Tip: Create folders in advance to avoid permission issues (ie. when Renovate CLI tries to write logs)
+      - /tmp/renovate/job-logs:/logs   # Unix version
+      - /tmp/renovate/db:/db
+      # - C:\tmp\renovate\job-logs:/logs  # Windows version
+      # - C:\tmp\renovate\db:/db
+
+  ## Renovate Worker
+  rnv-ee-worker:
+    # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
+    image: ghcr.io/mend/renovate-ee-worker:<latest-version>
+    deploy:
+      replicas: 2 # Define the number of Worker containers to run
+      # To scale Worker instances post deployment, run the following command (replace values as appropriate):
+      # $ docker-compose -f <this-file-name>.yml up --scale rnv-ee-worker=4 -d --no-recreate
+    depends_on:
+      - rnv-ee-server
+    env_file:
+      - ../env/.env.mend-rnv
+      - ../env/.env.github
+      # Import required settings for Mend Renovate Self-hosted
+      # - ../env/mend-renovate.env
+      # Choose an env file that matches your Git repository
+      # - ../env/github.env
+      # - ../env/gitlab.env
+      # - ../env/bitbucket-server.env
+      # Import optional settings for Renovate Worker
+      # - ../env/renovate-worker-config.env # Set 'MEND_RNV_SERVER_HOSTNAME' to match server container (ie. http://rnv-ee-server:8080)
+      # - ../env/renovate-core.env # Set Renovate CLI configuration options. (ie. `RENOVATE_REPOSITORY_CACHE=enabled`)
+    environment:
+      LOG_LEVEL: debug  # Defaults to 'info'
+      # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
+      MEND_RNV_SERVER_HOSTNAME: http://rnv-ee-server:8080 # The hostname of the Renovate Enterprise `server` container
+      RENOVATE_REPOSITORY_CACHE: enabled # Enable Repo cache to use the /repos/:org(*)/-/:repo/pulls API. Only supported for GitHub.
+      # If persisting Job logs, set the following environment variable and enable volume mounts for /logs
+      MEND_RNV_LOG_HISTORY_DIR: /logs # Persist Renovate job logs. Enable volume mount for /logs
+    volumes:
+      - /tmp/renovate/job-logs:/logs   # Unix version
+      # - C:\tmp\renovate\job-logs:/logs  # Windows version
