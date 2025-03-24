@@ -1,0 +1,21 @@
+# Run ngrok to provide a publicly accessible endpoint for the Renovate Server to receive webhooks from the repo.
+# Configure webhooks with url: https://<ngrok.url>/webhook
+# For instructions, see: https://ngrok.com/docs/using-ngrok-with/docker/
+# Use the ngrok service below, or run the following command (replace values as appropriate):
+# $ docker run --net=host -it -e NGROK_AUTHTOKEN=xyz ngrok/ngrok:latest http 80
+# View ngrok requests at http://localhost:4040/inspect/http
+
+services:
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    command:
+      - "http"
+      - "http://host.docker.internal:80" # If using multiple servers, use the port assigned to the load balancer (eg. 4000)
+      # - "--url=your-domain.ngrok.io" # Provide your personal ngrok domain, if you have one.
+    environment:
+      LOG_LEVEL: debug
+      # Get your ngrok authtoken from https://dashboard.ngrok.com/get-started/your-authtoken
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    ports:
+      - "4040:4040"

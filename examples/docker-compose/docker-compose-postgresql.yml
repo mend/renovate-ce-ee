@@ -1,0 +1,31 @@
+## Docker Compose file to run an instance of PostgreSQL
+## Creates a PostgeSQL DB container and a container for PGAdmin
+
+services:
+
+  ## Postgres Database
+  postgres-database:
+    restart: always
+    image: postgres:16.1-alpine3.17
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  ## [Optional] Postgres Web Frontend (pgAdmin)
+  ## View the database contents via URL: http://localhost:5050/ with user/pwd as defined below
+  ## Note! pgAdmin requires 'Dockerfile' file (available in 'dockerfiles/pgadmin' directory).
+  pgadmin:
+    restart: unless-stopped
+    container_name: pgadmin
+    build:
+      context: ../dockerfiles/pgadmin
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-database
+    ports:
+      - "5050:5050"
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
