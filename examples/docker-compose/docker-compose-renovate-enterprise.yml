@@ -15,7 +15,7 @@ services:
   ## Renovate Server
   rnv-ee-server:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
-    image: ghcr.io/mend/renovate-ee-server:X.Y.Z  # Replace X.Y.Z with a specific version number
+    image: ghcr.io/mend/renovate-ee-server:<X.Y.Z>  # Replace <X.Y.Z> with a specific version number
     deploy:
       replicas: 1 # Define the number of Server containers to run
       # Note: For multiple Server instances, use a network database (eg. Postgres) and a load balancer (eg. nginx)
@@ -33,9 +33,9 @@ services:
       # Import optional settings for Renovate Server
       # - ../env/renovate-server-config.env
       # Postgres DB config
-      # - ../env/postgres-db.env # Import Postgres config if using PostgreSQL DB
+      - ../env/postgres-db.env # Import Postgres config if using PostgreSQL DB
       # MinIO S3 storage
-      # - ../env/minio.env # Ensure the configuration is also in the Worker containers
+      - ../env/minio.env # Ensure the configuration is also in the Worker containers
     environment:
       LOG_LEVEL: debug  # Defaults to 'info'
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
@@ -57,7 +57,7 @@ services:
   ## Renovate Worker
   rnv-ee-worker:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
-    image: ghcr.io/mend/renovate-ee-worker:X.Y.Z  # Replace X.Y.Z with a specific version number
+    image: ghcr.io/mend/renovate-ee-worker:<X.Y.Z>  # Replace <X.Y.Z> with a specific version number
     deploy:
       replicas: 2 # Define the number of Worker containers to run
     depends_on:
@@ -80,9 +80,10 @@ services:
       # Server hostname and port
       # Note: If using multiple servers, use the URL of load balancer (ie. http://nginx:4000). Also check ngrok config.
       MEND_RNV_SERVER_HOSTNAME: http://rnv-ee-server:8080 # The hostname of the Renovate Enterprise Server container
-      RENOVATE_REPOSITORY_CACHE: enabled # Enable Repo cache to use the /repos/:org(*)/-/:repo/pulls API. Only supported for GitHub.
       # If persisting Job logs, set the following environment variable and enable volume mounts for /logs
       MEND_RNV_LOG_HISTORY_DIR: /logs # Persist Renovate job logs. Enable volume mount for /logs
+      # Renovate CLI configuration options
+      RENOVATE_REPOSITORY_CACHE: enabled # Repo cache is required for using some Enterprise reporting APIs.
     volumes:
       - /tmp/renovate/job-logs:/logs   # Unix version
       # - C:\tmp\renovate\job-logs:/logs  # Windows version
