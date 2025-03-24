@@ -51,8 +51,8 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **Example Docker Compose files:**
 
-- [Mend Renovate Community Edition](../examples/docker-compose/renovate-ce-github.yml)
-- [Mend Renovate Enterprise Edition](../examples/docker-compose/renovate-ee-simple.yml)
+- [Mend Renovate Community Edition](../examples/docker-compose/docker-compose-renovate-ce.yml)
+- [Mend Renovate Enterprise Edition](../examples/docker-compose/docker-compose-renovate-ee.yml)
 
 > [!NOTE]
 > 
