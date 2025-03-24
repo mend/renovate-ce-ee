@@ -26,10 +26,10 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - [Example Renovate CE Docker Compose](../examples/docker-compose/docker-compose-renovate-ce.yml)
    - [Example Renovate EE Docker Compose](../examples/docker-compose/docker-compose-renovate-ee.yml)
    - [Configure PostgreSQL DB](configure-postgres-db.md)
+   - [Configure TLS Communication](./tls.md)
 1. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
 1. API Documentation
    - [Admin APIs](./api.md)
    - [Job Logs APIs](./job-logs-apis.md)
    - [Reporting APIs](./reporting-apis.md)
-   - [TLS Communication](./tls.md)
 1. [Advanced topics](./advanced.md)
