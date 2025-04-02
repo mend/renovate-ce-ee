@@ -4,7 +4,30 @@ Mend Renovate Enterprise Edition runs with one or more **_Server_** containers a
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
 See below for a list of environment variables that relate to each.
 
-Separately, you can provide configuration for the Renovate Core. See the end of this doc for details. 
+Separately, you can provide configuration for the Renovate Core. See the end of this doc for details.
+
+## Contents
+
+<!-- TOC -->
+* [Environment variables for Community Edition and Enterprise Server](#environment-variables-for-community-edition-and-enterprise-server)
+  * [Mend Licensing Config](#mend-licensing-config)
+  * [Connection to the Source Code Management (SCM)](#connection-to-the-source-code-management-scm)
+    * [GitHub connection variables](#github-connection-variables)
+    * [GitLab connection variables](#gitlab-connection-variables)
+    * [Bitbucket connection variables](#bitbucket-connection-variables)
+  * [Server Config Options](#server-config-options)
+  * [SSL/TLS Communication (Secure HTTPS)](#ssltls-communication-secure-https)
+  * [Local Database Configuration](#local-database-configuration)
+  * [Startup and Sync behavior](#startup-and-sync-behavior)
+  * [Job Scheduling Options](#job-scheduling-options)
+  * [Logging Configuration Options](#logging-configuration-options)
+  * [Other Server Config Options](#other-server-config-options)
+  * [Postgres DB Configuration](#postgres-db-configuration)
+* [Environment variables for Enterprise Worker](#environment-variables-for-enterprise-worker)
+  * [Mandatory Worker config](#mandatory-worker-config)
+  * [Optional Worker config](#optional-worker-config)
+* [Configure Renovate Core](#configure-renovate-core)
+<!-- TOC -->
 
 ## Environment variables for Community Edition and Enterprise Server
 
