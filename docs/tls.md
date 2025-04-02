@@ -9,7 +9,7 @@
   * [HTTPS Server Configuration](#https-server-configuration)
   * [HTTPS Client Configuration](#https-client-configuration)
   * ['ServerHttpsOptions' details and examples](#serverhttpsoptions-details-and-examples)
-  * ['ClientHttpsOptions' details](#clienthttpsoptions-details)
+  * ['ClientHttpsOptions' details and examples](#clienthttpsoptions-details-and-examples)
 * [Node.js runtime configuration](#nodejs-runtime-configuration)
 <!-- TOC -->
 
@@ -27,7 +27,9 @@ The following is a list of configuration variables for using TLS communication.
 | `MEND_RNV_CLIENT_HTTPS_CONFIG`      | TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.                                                         |
 | `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` | File for defining TLS client config. Note: Ensure volume is defined.                                                                                |
 
-See below for detailed descriptions and examples. 
+See below for detailed descriptions and examples.
+
+Also, refer to the [TLS examples](../examples/tls) directory for examples of Server and Worker config and instructions to create local keys and certificates.
 
 ## Configuring Server-Worker TLS communication
 
@@ -81,9 +83,9 @@ All `Renovate CE/EE` services can have their `HTTPS` client configured. The clie
 
 To configure the HTTPS Client, provide one of the following:
 
-- `MEND_RNV_CLIENT_HTTPS_CONFIG` - An `JSON` string of type `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+- `MEND_RNV_CLIENT_HTTPS_CONFIG` - An `JSON` string of type `ClientHttpsOptions` ([See details and examples](#clienthttpsoptions-details-and-examples))
 
-- `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - A path to a `JSON` file containing `ClientHttpsOptions` ([See details](#clienthttpsoptions-details))
+- `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH` - A path to a `JSON` file containing `ClientHttpsOptions` ([See details and examples](#clienthttpsoptions-details-and-examples))
 
 In most cases, the Renovate Enterprise Worker's client needs to be configured only if the Renovate Enterprise Server is using self-signed certificates.
 In this case, the Worker's client will require the corresponding `'ca'` to authenticate the server. For example: `MEND_RNV_CLIENT_HTTPS_CONFIG={"ca":"file:///path/to/self/signed/ca.pem"}`
@@ -137,7 +139,7 @@ type ServerHttpsConfig = {
 > [!WARNING]
 > Inline secrets must be escaped properly, e.g., newlines.
 
-### Example 1
+### Example Server Config 1
 
 File based configuration, file based secrets, `SNI` only:
 
@@ -164,7 +166,7 @@ File based configuration, file based secrets, `SNI` only:
 }
 ```
 
-### Example 2
+### Example Server Config 2
 
 File based configuration, file based secrets, `SNI` support with fallback:
 
@@ -189,7 +191,7 @@ File based configuration, file based secrets, `SNI` support with fallback:
 }
 ```
 
-### Example 3
+### Example Server Config 3
 
 File based configuration, base64 encoded secrets, `SNI` disabled:
 `MEND_RNV_SERVER_HTTPS_CONFIG_PATH=/path/to/config.json`
@@ -207,13 +209,13 @@ File based configuration, base64 encoded secrets, `SNI` disabled:
 }
 ```
 
-### Example 4
+### Example Server Config 4
 
 String based configuration equivalent to Example 3:
 
 `MEND_RNV_SERVER_HTTPS_CONFIG={"baseConfig":{"key":"base64://<BASE64_ENCODED_KEY>","cert":"base64://<BASE64_ENCODED_CERT>","maxVersion":"TLSv1.3","minVersion":"TLSv1.2"}}`
 
-## 'ClientHttpsOptions' details
+## 'ClientHttpsOptions' details and examples
 
 ```typescript
 type ClientHttpsOptions = {
@@ -261,6 +263,27 @@ type ClientHttpsOptions = {
 > [!NOTE]
 > The `key` + `cert` or `pfx` are required for the client only if the server is configured with`rejectUnauthorized=true`
 > and `requestCert=true` (Mutual TLS authentication/mTLS).
+
+### Example Client Config 1
+
+File based configuration:
+
+`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH=/path/to/config.json`
+
+`/path/to/config.json`:
+
+```json
+{
+  "ca": "file:///path/to/cert_auth.pem"
+}
+```
+
+### Example Client Config 2
+
+String based configuration equivalent to Example 1:
+
+`MEND_RNV_CLIENT_HTTPS_CONFIG={"ca": "file:///path/to/cert_auth.pem"}`
+
 
 # Node.js runtime configuration
 
