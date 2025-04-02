@@ -4,7 +4,30 @@ Mend Renovate Enterprise Edition runs with one or more **_Server_** containers a
 Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
 See below for a list of environment variables that relate to each.
 
-Separately, you can provide configuration for the Renovate Core. See the end of this doc for details. 
+Separately, you can provide configuration for the Renovate Core. See the end of this doc for details.
+
+## Contents
+
+<!-- TOC -->
+* [Environment variables for Community Edition and Enterprise Server](#environment-variables-for-community-edition-and-enterprise-server)
+  * [Mend Licensing Config](#mend-licensing-config)
+  * [Connection to the Source Code Management (SCM)](#connection-to-the-source-code-management-scm)
+    * [GitHub connection variables](#github-connection-variables)
+    * [GitLab connection variables](#gitlab-connection-variables)
+    * [Bitbucket connection variables](#bitbucket-connection-variables)
+  * [Server Config Options](#server-config-options)
+  * [SSL/TLS Communication (Secure HTTPS)](#ssltls-communication-secure-https)
+  * [Local Database Configuration](#local-database-configuration)
+  * [Startup and Sync behavior](#startup-and-sync-behavior)
+  * [Job Scheduling Options](#job-scheduling-options)
+  * [Logging Configuration Options](#logging-configuration-options)
+  * [Other Server Config Options](#other-server-config-options)
+  * [Postgres DB Configuration](#postgres-db-configuration)
+* [Environment variables for Enterprise Worker](#environment-variables-for-enterprise-worker)
+  * [Mandatory Worker config](#mandatory-worker-config)
+  * [Optional Worker config](#optional-worker-config)
+* [Configure Renovate Core](#configure-renovate-core)
+<!-- TOC -->
 
 ## Environment variables for Community Edition and Enterprise Server
 
@@ -80,13 +103,35 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
+**`MEND_RNV_REQUEST_LOGGER_ENABLED`**: Optional: Set to 'true' to output the details of all incoming API requests to DEBUG logger. Defaults to 'false'.
+
+**`MEND_RNV_DEBUG_MODE`**: Optional: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
+
 **`MEND_RNV_PROMETHEUS_METRICS_ENABLED`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
 
 **`MEND_RNV_REPORTING_ENABLED`**: [Enterprise Only. From v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_PORT`**: The port on which the server listens for webhooks and api requests. Defaults to 8080.
 
-**`MEND_RNV_SQLITE_FILE_PATH`**: Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
+### SSL/TLS Communication (Secure HTTPS)
+
+Note: For more information about TLS configuration, see separate docs for [TLS communication](tls.md).
+
+**`MEND_RNV_SERVER_HTTPS_PORT`**: Required for secure communication. Defaults to 8443. Note: Ensure `MEND_RNV_SERVER_HOSTNAME` is updated in Worker (eg. https://rnv-ee-server:8443).
+
+**`MEND_RNV_HTTP_SERVER_DISABLED`**: Set to 'true' to ensure that non-secure requests are rejected.
+
+**`MEND_RNV_SERVER_HTTPS_CONFIG`**: TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`. 
+
+**`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: File for defining TLS server config. Note: Ensure volume is defined.
+
+**`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
+
+**`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.
+
+### Local Database Configuration
+
+**`MEND_RNV_SQLITE_FILE_PATH`**: Defaults to '/tmp/database.sqlite'. Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
 
 > [!IMPORTANT]  
 > The container running either the Renovate EE server service or the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. 
@@ -308,12 +353,16 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 
 ### Optional Worker config
 
+* **`MEND_RNV_DEBUG_MODE`**: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
 * **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
 * **`MEND_RNV_DISABLE_GLOBAL_AGENT`**: Disable the use of GlobalProxyAgent. Defaults to `false`.
 * **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
+* **`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
+* **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.
+* **`MEND_RNV_NODE_OPTIONS`**: Defines `NODE_OPTIONS` for the `Node.js` runtime
 
 ## Configure Renovate Core
 

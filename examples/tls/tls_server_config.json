@@ -1,0 +1,8 @@
+{
+  "baseConfig": {
+    "key": "file:///tls/local_server.key",
+    "cert": "file:///tls/local_server.pem",
+    "maxVersion": "TLSv1.3",
+    "minVersion": "TLSv1.2"
+  }
+}

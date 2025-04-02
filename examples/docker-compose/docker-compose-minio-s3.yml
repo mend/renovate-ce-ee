@@ -1,0 +1,21 @@
+## Docker Compose file to run an instance of MinIO S3
+# To start a MinIO S3 container from the command line, run the following 'docker run' command:
+# docker run -p 9000:9000 -p 9001:9001 --name minio-s3 -v C:\tmp\minio\data:/data -e "MINIO_ROOT_USER=minioadmin" -e "MINIO_ROOT_PASSWORD=minioadmin" quay.io/minio/minio server /data --console-address ":9001"
+
+services:
+
+  ## MinIO S3 - used for job log storage
+  minio:
+    # restart: always
+    image: quay.io/minio/minio
+    container_name: minio-s3
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - /tmp/minio/data:/data # Unix version
+      # - C:\tmp\minio\data:/data # Windows version
+    command: server /data --console-address ":9001"
