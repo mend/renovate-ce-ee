@@ -3,7 +3,7 @@
 Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate.
 
 > [!NOTE]  
-> - Some API data is restricted to Mend Renovate Enterprise Edition
+> Some API data is restricted to Mend Renovate Enterprise Edition
 
 ## Available Reporting APIs
 
@@ -27,11 +27,11 @@ When Reporting APIs are enabled, relevant data will be collected after every Ren
 
 The `Repo pull requests` API is available for GitHub only. To enable it, see configuration table below.
 
-| Container      | Configuration variable              | Description                                                                                                                                  |
-|----------------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| EE-WORKER      | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
-| EE-WORKER      | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
-| EE-WORKER      | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
+| Container | Configuration variable              | Description                                                                                                                                  |
+|-----------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Worker    | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
+| Worker    | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
+| Worker    | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
 
 ## Reporting API URLs
 
