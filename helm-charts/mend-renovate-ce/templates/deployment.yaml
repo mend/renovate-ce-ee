@@ -37,6 +37,9 @@ spec:
       serviceAccountName: {{ include "mend-renovate.service-account-name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- with .Values.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.useFull | ternary (printf "%s-full" .Values.image.tag) .Values.image.tag }}"
