@@ -47,6 +47,13 @@ spec:
           {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+          {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
           env:
             {{- with .Values.renovateWorker.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
@@ -173,8 +180,11 @@ spec:
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
-          {{- if ne (len .Values.renovateWorker.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.renovateWorker.extraVolumeMounts | nindent 12 | trim }}
+          {{- with .Values.renovateWorker.extraConfigMapVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateWorker.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
@@ -203,8 +213,11 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
-        {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}
+      {{- with .Values.renovateWorker.extraConfigMapVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.renovateWorker.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.renovateWorker.affinity }}
       affinity:

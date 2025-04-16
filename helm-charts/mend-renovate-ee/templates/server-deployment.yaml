@@ -46,6 +46,13 @@ spec:
           {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+          {{- with .Values.renovateServer.extraEnvFromConfigMaps }}
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
           env:
             {{- with .Values.renovateServer.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
@@ -278,8 +285,11 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-database-volume
               mountPath: /database
-          {{- if ne (len .Values.renovateServer.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.renovateServer.extraVolumeMounts | nindent 12 | trim }}
+          {{- with .Values.renovateServer.extraConfigMapVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateServer.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.renovateServer.nodeSelector }}
       nodeSelector:
@@ -287,7 +297,7 @@ spec:
       {{- end }}
       {{- if .Values.renovateServer.imagePullSecrets }}
       imagePullSecrets:
-        - name:  {{ .Values.renovateServer.imagePullSecrets }}
+        - name: {{ .Values.renovateServer.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-database-volume
@@ -300,8 +310,11 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.renovateServer.extraVolumes) 0 }}
-        {{ toYaml .Values.renovateServer.extraVolumes | nindent 8 | trim }}
+      {{- with .Values.renovateServer.extraConfigMapVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.renovateServer.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.renovateServer.affinity }}
       affinity:

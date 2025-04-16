@@ -9,7 +9,7 @@ fullnameOverride: ""
 
 renovate:
   # Additional env vars
-  extraEnvVars: []
+  extraEnvVars: [ ]
 
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
@@ -166,9 +166,9 @@ renovate:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Npmrc file. Will be mounted as a secret
-  # npmrc: |
-    # //registry.npmjs.org/:_authToken=xxxxxx
+#  # Npmrc file. Will be mounted as a secret
+#  npmrc: |
+#    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -228,8 +228,8 @@ service:
   type: ClusterIP
   port: 80
   annotations:
-    {}
-    # cloud.google.com/load-balancer-type: "Internal"
+    { }
+  # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
   enabled: false
@@ -239,14 +239,14 @@ ingress:
   # ingressClassName: nginx
 
   annotations:
-    {}
-    # kubernetes.io/tls-acme: "true"
+    { }
+  # kubernetes.io/tls-acme: "true"
   hosts:
     mend-renovate.local:
       paths:
         - path: "/"
           pathType: ImplementationSpecific
-  tls: []
+  tls: [ ]
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
@@ -254,27 +254,27 @@ ingress:
 serviceAccount:
   create: false
   existingName:
-  annotations: {}
+  annotations: { }
 
-resources: {}
+resources: { }
 
-annotations: {}
+annotations: { }
 
 labels:
-  pods: {}
+  pods: { }
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-podSecurityContext: {}
+podSecurityContext: { }
 #   runAsNonRoot: true
 #   seccompProfile:
 #     type: RuntimeDefault
 
-containerSecurityContext: {}
+containerSecurityContext: { }
 #   allowPrivilegeEscalation: false
 #   readOnlyRootFilesystem: true
 #   capabilities:
@@ -307,16 +307,45 @@ readinessProbe:
   successThreshold: 1
 
 extraVolumes:
-  []
+  [ ]
   # - name: secrets-store-inline
   #   csi:
   #     driver: secrets-store.csi.k8s.io
   #     readOnly: true
   #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+#       secretProviderClass: "some-secret-store"
 
 extraVolumeMounts:
-  []
+  [ ]
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
+#   readOnly: true
+
+
+# Extra ConfigMaps to be created by the chart
+# These are full Kubernetes ConfigMap definitions
+extraConfigMaps: [ ]
+#  - apiVersion: v1
+#    kind: ConfigMap
+#    metadata:
+#      name: my-extra-config
+#    data:
+#      MY_ENV_VAR: "my-value"
+#      ANOTHER_VAR: "123"
+
+# List of ConfigMaps to be loaded as environment variables
+# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
+extraEnvFromConfigMaps: [ ]
+#  - name: my-extra-config
+
+# Declare volumes that consume ConfigMaps.
+# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod
+extraConfigMapVolumes: [ ]
+#  - name: my-extra-config-volume
+#    configMap:
+#      name: my-extra-config
+
+# Define where to mount the ConfigMap volumes.
+extraConfigMapVolumeMounts: [ ]
+#  - name: my-extra-config-volume
+#    mountPath: /path

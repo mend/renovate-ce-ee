@@ -1,0 +1,3 @@
+{{- with .Values.renovateWorker.extraConfigMaps }}
+{{- toYaml . | nindent 0 }}
+{{- end }}

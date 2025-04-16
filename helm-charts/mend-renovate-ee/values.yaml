@@ -241,6 +241,34 @@ renovateServer:
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
+
+  # List of ConfigMaps to be loaded as environment variables
+  # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config
+
+  # Declare volumes that consume ConfigMaps.
+  # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod
+  extraConfigMapVolumes: [ ]
+  #  - name: my-extra-config-volume
+  #    configMap:
+  #      name: my-extra-config
+
+  # Define where to mount the ConfigMap volumes.
+  extraConfigMapVolumeMounts: [ ]
+  #  - name: my-extra-config-volume
+  #    mountPath: /path
+
   serviceAccount:
     create: false
     existingName:
@@ -312,9 +340,9 @@ renovateWorker:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Npmrc file. Will be mounted as a secret
-  # npmrc: |
-    # //registry.npmjs.org/:_authToken=xxxxxx
+#  # Npmrc file. Will be mounted as a secret
+#  npmrc: |
+#    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -405,6 +433,34 @@ renovateWorker:
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
+
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
+
+  # List of ConfigMaps to be loaded as environment variables
+  # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config
+
+  # Declare volumes that consume ConfigMaps.
+  # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod
+  extraConfigMapVolumes: [ ]
+  #  - name: my-extra-config-volume
+  #    configMap:
+  #      name: my-extra-config
+
+  # Define where to mount the ConfigMap volumes.
+  extraConfigMapVolumeMounts: [ ]
+  #  - name: my-extra-config-volume
+  #    mountPath: /path
   serviceAccount:
     create: false
     existingName:

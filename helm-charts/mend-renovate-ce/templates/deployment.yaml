@@ -44,6 +44,13 @@ spec:
           {{- with .Values.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+          {{- with .Values.extraEnvFromConfigMaps }}
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
           env:
             {{- with .Values.renovate.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
@@ -87,7 +94,7 @@ spec:
             {{- end }}
             {{- if .Values.renovate.mendRnvGithubBotUserId }}
             - name: MEND_RNV_GITHUB_BOT_USER_ID
-              value:  {{ .Values.renovate.mendRnvGithubBotUserId | quote }}
+              value: {{ .Values.renovate.mendRnvGithubBotUserId | quote }}
             {{- end }}
             {{- if or .Values.renovate.mendRnvGithubAppKey .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_KEY
@@ -313,8 +320,11 @@ spec:
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp/renovate
-          {{- if ne (len .Values.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.extraVolumeMounts | nindent 12 | trim }}
+          {{- with .Values.extraConfigMapVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -341,10 +351,13 @@ spec:
           emptyDir:
             medium: Memory
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.extraVolumes) 0 }}
-        {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
+      {{- with .Values.extraConfigMapVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
     {{- with .Values.affinity }}
       affinity:
