@@ -252,25 +252,23 @@ renovateServer:
   extraEnvFromConfigMaps: [ ]
   #  - name: my-extra-config-map
 
-  extraVolumes:
-    [ ]
-  #   - name: secrets-store-inline
-  #     csi:
-  #       driver: secrets-store.csi.k8s.io
-  #       readOnly: true
-  #       volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
-  #  - name: my-extra-config-map-volume
-  #    configMap:
-  #      name: my-extra-config
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #        secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
 
-  extraVolumeMounts:
-    [ ]
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
-  # - name: my-extra-config-map-volume
-  #   mountPath: /path
+  extraVolumeMounts: [ ]
+  #   - name: secrets-store-inline
+  #     mountPath: "/mnt/secrets-store"
+  #     readOnly: true
+  #   - name: my-extra-config-map-volume
+  #     mountPath: /path
 
   serviceAccount:
     create: false
@@ -489,8 +487,7 @@ dataInMemory:
 service:
   type: ClusterIP
   port: 80
-  annotations:
-    { }
+  annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -500,8 +497,7 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations:
-    { }
+  annotations: { }
   # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local
