@@ -29,7 +29,7 @@ spec:
       annotations:
         checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
-        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/server-extra-configmaps.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/worker-extra-configmaps.yaml") . | sha256sum }}
         {{- with .Values.renovateWorker.annotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

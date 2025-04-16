@@ -1,3 +1,4 @@
-{{- with .Values.renovateWorker.extraConfigMaps }}
+{{- range .Values.renovateWorker.extraConfigMaps }}
+---
 {{- toYaml . | nindent 0 }}
 {{- end }}

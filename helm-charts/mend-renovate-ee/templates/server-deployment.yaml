@@ -28,7 +28,7 @@ spec:
         {{- end }}
       annotations:
         checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
-        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/worker-extra-configmaps.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/server-extra-configmaps.yaml") . | sha256sum }}
      {{- with .Values.renovateServer.annotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
