@@ -46,8 +46,8 @@ spec:
           {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
-          envFrom:
           {{- with .Values.renovateServer.extraEnvFromConfigMaps }}
+          envFrom:
             {{- range . }}
             - configMapRef:
                 name: {{ .name }}
@@ -285,9 +285,6 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-database-volume
               mountPath: /database
-          {{- with .Values.renovateServer.extraConfigMapVolumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           {{- with .Values.renovateServer.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -310,9 +307,6 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- with .Values.renovateServer.extraConfigMapVolumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.renovateServer.extraVolumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

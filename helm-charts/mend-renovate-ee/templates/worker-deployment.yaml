@@ -47,8 +47,8 @@ spec:
           {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
-          envFrom:
           {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
+          envFrom:
             {{- range . }}
             - configMapRef:
                 name: {{ .name }}
@@ -180,9 +180,6 @@ spec:
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
-          {{- with .Values.renovateWorker.extraConfigMapVolumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           {{- with .Values.renovateWorker.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -213,9 +210,6 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- with .Values.renovateWorker.extraConfigMapVolumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.renovateWorker.extraVolumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

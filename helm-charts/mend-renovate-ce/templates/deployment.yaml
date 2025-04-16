@@ -44,8 +44,8 @@ spec:
           {{- with .Values.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
-          envFrom:
           {{- with .Values.extraEnvFromConfigMaps }}
+          envFrom:
             {{- range . }}
             - configMapRef:
                 name: {{ .name }}
@@ -320,9 +320,6 @@ spec:
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp/renovate
-          {{- with .Values.extraConfigMapVolumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -353,9 +350,6 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- with .Values.extraConfigMapVolumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

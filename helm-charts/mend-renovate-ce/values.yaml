@@ -166,9 +166,9 @@ renovate:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-#  # Npmrc file. Will be mounted as a secret
-#  npmrc: |
-#    //registry.npmjs.org/:_authToken=xxxxxx
+  #  # Npmrc file. Will be mounted as a secret
+  #  npmrc: |
+  #    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -227,8 +227,7 @@ cacheInMemory:
 service:
   type: ClusterIP
   port: 80
-  annotations:
-    { }
+  annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -238,8 +237,7 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations:
-    { }
+  annotations: { }
   # kubernetes.io/tls-acme: "true"
   hosts:
     mend-renovate.local:
@@ -306,29 +304,13 @@ readinessProbe:
   failureThreshold: 3
   successThreshold: 1
 
-extraVolumes:
-  [ ]
-  # - name: secrets-store-inline
-  #   csi:
-  #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-#       secretProviderClass: "some-secret-store"
-
-extraVolumeMounts:
-  [ ]
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-#   readOnly: true
-
-
 # Extra ConfigMaps to be created by the chart
 # These are full Kubernetes ConfigMap definitions
 extraConfigMaps: [ ]
 #  - apiVersion: v1
 #    kind: ConfigMap
 #    metadata:
-#      name: my-extra-config
+#      name: my-extra-config-map
 #    data:
 #      MY_ENV_VAR: "my-value"
 #      ANOTHER_VAR: "123"
@@ -338,14 +320,20 @@ extraConfigMaps: [ ]
 extraEnvFromConfigMaps: [ ]
 #  - name: my-extra-config
 
-# Declare volumes that consume ConfigMaps.
-# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod
-extraConfigMapVolumes: [ ]
-#  - name: my-extra-config-volume
+extraVolumes: [ ]
+#  - name: secrets-store-inline
+#    csi:
+#      driver: secrets-store.csi.k8s.io
+#      readOnly: true
+#      volumeAttributes:
+#      secretProviderClass: "some-secret-store"
+#  - name: my-extra-config-map-volume
 #    configMap:
 #      name: my-extra-config
 
-# Define where to mount the ConfigMap volumes.
-extraConfigMapVolumeMounts: [ ]
-#  - name: my-extra-config-volume
+extraVolumeMounts: [ ]
+#  - name: secrets-store-inline
+#    mountPath: "/mnt/secrets-store"
+#    readOnly: true
+#  - name: my-extra-config-map-volume
 #    mountPath: /path
