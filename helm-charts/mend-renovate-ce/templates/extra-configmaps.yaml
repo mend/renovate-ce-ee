@@ -1,0 +1,3 @@
+{{- with .Values.extraConfigMaps }}
+{{- toYaml . | nindent 0 }}
+{{- end }}
