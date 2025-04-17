@@ -200,6 +200,8 @@ renovateServer:
       drop:
         - ALL
 
+  initContainers: []
+
   # name of the image pull secret
   imagePullSecrets: ""
 
@@ -363,6 +365,8 @@ renovateWorker:
     capabilities:
       drop:
         - ALL
+
+  initContainers: []
 
   # name of the image pull secret
   imagePullSecrets: ""

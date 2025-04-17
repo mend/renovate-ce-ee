@@ -39,6 +39,9 @@ spec:
       {{- if or .Values.renovateServer.serviceAccount.create .Values.renovateServer.serviceAccount.existingName }}
       serviceAccountName: {{ include "mend-renovate.server-service-account-name" . }}
       {{- end }}
+      {{- with .Values.renovateServer.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-server
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.version }}"
