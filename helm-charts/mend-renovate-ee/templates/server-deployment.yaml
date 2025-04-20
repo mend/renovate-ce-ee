@@ -24,14 +24,14 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app: {{ include "mend-renovate.name" . }}-server
         {{- with .Values.renovateServer.labels.pods }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
         checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
         checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/server-extra-configmaps.yaml") . | sha256sum }}
-     {{- with .Values.renovateServer.annotations }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- with .Values.renovateServer.annotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.renovateServer.podSecurityContext }}
@@ -287,9 +287,9 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-database-volume
               mountPath: /database
-          {{- with .Values.renovateServer.extraVolumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- with .Values.renovateServer.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
       {{- with .Values.renovateServer.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -309,9 +309,9 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- with .Values.renovateServer.extraVolumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- with .Values.renovateServer.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.renovateServer.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}

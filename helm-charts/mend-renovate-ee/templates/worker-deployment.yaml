@@ -182,9 +182,9 @@ spec:
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
-          {{- with .Values.renovateWorker.extraVolumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- with .Values.renovateWorker.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
