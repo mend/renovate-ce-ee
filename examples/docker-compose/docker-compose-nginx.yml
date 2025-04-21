@@ -3,7 +3,7 @@
 ## Note! Requires 'nginx.conf' file (available in 'conf' directory).
 services:
   nginx:
-    image: nginx:1.27.4
+    image: nginx:1.27.5
     restart: always
     volumes:
       - ../conf/nginx.conf:/etc/nginx/nginx.conf:ro
