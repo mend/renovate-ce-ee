@@ -333,16 +333,19 @@ spec:
           secret:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
+        {{- if .Values.renovateCache.enabled }}
+        {{- $cache := .Values.renovateCache }}
         - name: {{ .Release.Name }}-cache-volume
-          {{- if .Values.cachePersistence.enabled }}
+          {{- if $cache.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.cachePersistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
-          {{- else if .Values.cacheInMemory.enabled }}
+            claimName: {{ $cache.persistence.existingClaim | default (printf "%s-cache" (include "mend-renovate.fullname" .)) }}
+          {{- else if $cache.inMemory.enabled }}
           emptyDir:
             medium: Memory
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
+        {{- end }}
       {{- if ne (len .Values.extraVolumes) 0 }}
         {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
       {{- end }}

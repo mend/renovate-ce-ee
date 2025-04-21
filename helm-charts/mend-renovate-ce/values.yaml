@@ -196,33 +196,35 @@ postgresql:
   user:
   password:
 
+renovateCache:
+  enabled: true
 
-## Cache Persistence Parameters
-## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
-##
-cachePersistence:
-  ## Enable persistence using Persistent Volume Claims
-  enabled: false
-  ## Persistent Volume storage class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
-  storageClass: ""
-  ## @param Persistent Volume access modes
-  accessModes:
-    - ReadWriteOnce
-  ## Persistent Volume size
-  size: 1Gi
-  ## The name of an existing PVC to use for persistence
-  existingClaim: ""
+  ## Cache Persistence Parameters
+  ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    ## Enable persistence using Persistent Volume Claims
+    enabled: false
+    ## Persistent Volume storage class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
+    storageClass: ""
+    ## @param Persistent Volume access modes
+    accessModes:
+      - ReadWriteOnce
+    ## Persistent Volume size
+    size: 1Gi
+    ## The name of an existing PVC to use for persistence
+    existingClaim: ""
 
-## Cache in Memory
-## ref: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
-## cachePersistence.enabled takes precedence, make sure its disabled
-##
-cacheInMemory:
-  ## Place the cache in memory (tmpfs)
-  enabled: false
+  ## Cache in Memory
+  ## ref: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+  ## renovateCache.persistence.enabled takes precedence, make sure its disabled
+  ##
+  inMemory:
+    ## Place the cache in memory (tmpfs)
+    enabled: false
 
 service:
   type: ClusterIP
