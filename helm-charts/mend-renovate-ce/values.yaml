@@ -197,6 +197,8 @@ postgresql:
   password:
 
 
+disableCacheVolume: false
+
 ## Cache Persistence Parameters
 ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
 ##

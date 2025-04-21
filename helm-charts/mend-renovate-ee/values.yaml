@@ -343,6 +343,8 @@ renovateWorker:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
+  disableCacheVolume: false
+
 #  # Npmrc file. Will be mounted as a secret
 #  npmrc: |
 #    //registry.npmjs.org/:_authToken=xxxxxx
