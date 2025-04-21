@@ -25,6 +25,17 @@ postgresql:
   user:
   password:
 
+# Extra ConfigMaps to be created by the chart
+# These are full Kubernetes ConfigMap definitions
+extraConfigMaps: [ ]
+#  - apiVersion: v1
+#    kind: ConfigMap
+#    metadata:
+#      name: my-shared-extra-config-map
+#    data:
+#      MY_ENV_VAR: "my-value"
+#      ANOTHER_VAR: "123"
+
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
@@ -228,20 +239,38 @@ renovateServer:
     failureThreshold: 3
     successThreshold: 1
 
-  extraVolumes:
-    [ ]
-  #   - name: secrets-store-inline
-  #     csi:
-  #       driver: secrets-store.csi.k8s.io
-  #       readOnly: true
-  #       volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
 
-  extraVolumeMounts:
-    [ ]
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #        secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
+  #   - name: secrets-store-inline
+  #     mountPath: "/mnt/secrets-store"
+  #     readOnly: true
+  #   - name: my-extra-config-map-volume
+  #     mountPath: /path
 
   serviceAccount:
     create: false
@@ -314,9 +343,9 @@ renovateWorker:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Npmrc file. Will be mounted as a secret
-  # npmrc: |
-    # //registry.npmjs.org/:_authToken=xxxxxx
+#  # Npmrc file. Will be mounted as a secret
+#  npmrc: |
+#    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -394,20 +423,38 @@ renovateWorker:
     failureThreshold: 3
     successThreshold: 1
 
-  extraVolumes:
-    [ ]
-  # - name: secrets-store-inline
-  #   csi:
-  #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
 
-  extraVolumeMounts:
-    [ ]
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #          secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
+  # - name: my-extra-config-map-volume
+  #   mountPath: /path
 
   serviceAccount:
     create: false
@@ -444,8 +491,7 @@ dataInMemory:
 service:
   type: ClusterIP
   port: 80
-  annotations:
-    { }
+  annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -455,8 +501,7 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations:
-    { }
+  annotations: { }
   # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local

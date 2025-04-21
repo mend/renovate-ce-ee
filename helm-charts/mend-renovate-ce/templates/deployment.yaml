@@ -25,7 +25,8 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        mend.io/configChecksum: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
         {{- with .Values.annotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -46,6 +47,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.extraEnvFromConfigMaps }}
+          envFrom:
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
           {{- end }}
           env:
             {{- with .Values.renovate.extraEnvVars }}
@@ -90,7 +98,7 @@ spec:
             {{- end }}
             {{- if .Values.renovate.mendRnvGithubBotUserId }}
             - name: MEND_RNV_GITHUB_BOT_USER_ID
-              value:  {{ .Values.renovate.mendRnvGithubBotUserId | quote }}
+              value: {{ .Values.renovate.mendRnvGithubBotUserId | quote }}
             {{- end }}
             {{- if or .Values.renovate.mendRnvGithubAppKey .Values.renovate.existingSecret }}
             - name: MEND_RNV_GITHUB_APP_KEY
@@ -316,9 +324,9 @@ spec:
             {{- end }}
             - name: {{ .Release.Name }}-cache-volume
               mountPath: /tmp/renovate
-          {{- if ne (len .Values.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.extraVolumeMounts | nindent 12 | trim }}
-          {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -344,11 +352,11 @@ spec:
           emptyDir:
             medium: Memory
           {{- else }}
-          emptyDir: {}
+          emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.extraVolumes) 0 }}
-        {{ toYaml .Values.extraVolumes | nindent 8 | trim }}
-      {{- end }}
+        {{- with .Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
