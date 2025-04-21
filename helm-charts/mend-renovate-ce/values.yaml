@@ -281,6 +281,8 @@ containerSecurityContext: {}
 #     drop:
 #       - ALL
 
+initContainers: []
+
 # name of the image pull secret
 imagePullSecrets: ""
 

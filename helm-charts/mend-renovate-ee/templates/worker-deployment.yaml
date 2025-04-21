@@ -40,6 +40,9 @@ spec:
       {{- if or .Values.renovateWorker.serviceAccount.create .Values.renovateWorker.serviceAccount.existingName }}
       serviceAccountName: {{ include "mend-renovate.worker-service-account-name" . }}
       {{- end }}
+      {{- with .Values.renovateWorker.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.version }}"
