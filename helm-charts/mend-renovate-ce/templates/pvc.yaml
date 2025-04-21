@@ -1,4 +1,4 @@
-{{- if and .Values.enableCacheVolume .Values.cachePersistence.enabled (not .Values.cachePersistence.existingClaim) }}
+{{- if and .Values.cachePersistence.enabled (not .Values.cachePersistence.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
