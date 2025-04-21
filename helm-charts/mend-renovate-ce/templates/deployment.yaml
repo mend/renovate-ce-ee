@@ -311,7 +311,7 @@ spec:
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             {{- end }}
-            {{- if .Values.enableCacheVolume }}
+            {{- if not .Values.disableCacheVolume }}
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
@@ -336,7 +336,7 @@ spec:
           secret:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
-        {{- if .Values.enableCacheVolume }}
+        {{- if not .Values.disableCacheVolume }}
         - name: {{ .Release.Name }}-cache-volume
           {{- if .Values.cachePersistence.enabled }}
           persistentVolumeClaim:

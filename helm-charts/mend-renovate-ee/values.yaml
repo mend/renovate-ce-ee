@@ -312,9 +312,7 @@ renovateWorker:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Mount a volume for Renovate's cache.
-  # Controls storage, not app-level caching.
-  enableCacheVolume: true
+  disableCacheVolume: false
 
   # Npmrc file. Will be mounted as a secret
   # npmrc: |
