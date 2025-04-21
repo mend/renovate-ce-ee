@@ -170,9 +170,11 @@ spec:
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             {{- end }}
+            {{- if .Values.renovateWorker.enableCacheVolume }}
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
+            {{- end }}
           {{- if ne (len .Values.renovateWorker.extraVolumeMounts) 0 }}
             {{ toYaml .Values.renovateWorker.extraVolumeMounts | nindent 12 | trim }}
           {{- end }}
@@ -193,6 +195,7 @@ spec:
           secret:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
+        {{- if .Values.renovateWorker.enableCacheVolume }}
         - name: {{ .Release.Name }}-cache-volume
           {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
@@ -203,6 +206,7 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        {{- end }}
       {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
         {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}
       {{- end }}
