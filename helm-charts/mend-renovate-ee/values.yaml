@@ -342,7 +342,7 @@ renovateWorker:
   mendRnvClientHttpsConfig:
   #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
 
-  # Path to the TLS server config. Note: must be mounted.
+  # Path to the TLS server config.
   mendRnvClientHttpsConfigPath:
 
   # Additional worker env vars
