@@ -242,6 +242,18 @@ spec:
             - name: MEND_RENOVATE_FORKS_PROCESSING
               value: {{ .Values.renovateServer.mendRnvForksProcessing }}
             {{- end }}
+            {{- if .Values.renovateServer.mendRnvHttpServerDisabled }}
+            - name: MEND_RNV_HTTP_SERVER_DISABLED
+              value: {{ .Values.renovateServer.mendRnvHttpServerDisabled | quote}}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvServerHttpsConfig }}
+            - name: MEND_RNV_SERVER_HTTPS_CONFIG
+              value: {{ toJson .Values.renovateServer.mendRnvServerHttpsConfig | quote}}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvServerHttpsConfigPath }}
+            - name: MEND_RNV_SERVER_HTTPS_CONFIG_PATH
+              value: {{ .Values.renovateServer.mendRnvServerHttpsConfigPath | quote}}
+            {{- end }}
             {{- if .Values.renovateServer.logLevel }}
             - name: LOG_LEVEL
               value: {{ .Values.renovateServer.logLevel | quote }}

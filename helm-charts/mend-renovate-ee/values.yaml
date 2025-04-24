@@ -166,12 +166,33 @@ renovateServer:
   mendRnvPrometheusMetricsEnabled:
 
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
-  #  similar config available in the worker
+  # similar config available in the worker
   mendRnvDisableGlobalAgent:
 
   # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
-  #  similar config available in the worker
+  # similar config available in the worker
   mendRnvEnableHttp2:
+
+  # Optional. Set to 'true' to ensure that non-secure requests are rejected.
+  mendRnvHttpServerDisabled:
+
+  # TLS server config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvServerHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#https-server-configuration
+  mendRnvServerHttpsConfig:
+  #    SNIConfig:
+  #      domain1.com:
+  #        key: "file:///path/to/key.pem"      # or "base64://..." or plain string
+  #        cert: "file:///path/to/cert.pem"    # or "base64://..." or plain string
+  #    baseConfig:
+  #      key: "file:///default/key.pem"
+  #      cert: "file:///default/cert.pem"
+  #      maxVersion: "TLSv1.3",
+  #      minVersion: "TLSv1.2"
+
+  # Path to the TLS server config.
+  mendRnvServerHttpsConfigPath:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
@@ -313,6 +334,16 @@ renovateWorker:
   # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
   #  similar config available in the server
   mendRnvEnableHttp2:
+
+  # TLS client config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvClientHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#clienthttpsoptions-details-and-examples
+  mendRnvClientHttpsConfig:
+  #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
+
+  # Path to the TLS server config. Note: must be mounted.
+  mendRnvClientHttpsConfigPath:
 
   # Additional worker env vars
   extraEnvVars: [ ]
