@@ -211,7 +211,7 @@ renovateServer:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -397,7 +397,7 @@ renovateWorker:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -491,9 +491,11 @@ dataInMemory:
   enabled: false
 
 service:
-  type: ClusterIP
-  port: 80
   annotations: { }
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:

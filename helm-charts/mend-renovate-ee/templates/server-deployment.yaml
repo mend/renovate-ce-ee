@@ -277,6 +277,9 @@ spec:
             - name: ee-server
               containerPort: 8080
               protocol: TCP
+            - name: ee-server-https
+              containerPort: 8443
+              protocol: TCP
           {{- with .Values.renovateServer.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
