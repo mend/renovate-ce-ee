@@ -159,6 +159,27 @@ renovate:
   # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
   mendRnvEnableHttp2:
 
+  # Optional. Set to 'true' to ensure that non-secure requests are rejected.
+  mendRnvHttpServerDisabled:
+
+  # TLS server config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvServerHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#https-server-configuration
+  mendRnvServerHttpsConfig:
+  #    SNIConfig:
+  #      domain1.com:
+  #        key: "file:///path/to/key.pem"      # or "base64://..." or plain string
+  #        cert: "file:///path/to/cert.pem"    # or "base64://..." or plain string
+  #    baseConfig:
+  #      key: "file:///default/key.pem"
+  #      cert: "file:///default/cert.pem"
+  #      maxVersion: "TLSv1.3",
+  #      minVersion: "TLSv1.2"
+
+  # Path to the TLS server config.
+  mendRnvServerHttpsConfigPath:
+
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
@@ -186,6 +207,9 @@ renovate:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+
+  # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
+  logFormat: json
 
 postgresql:
   # if to use PostgreSQL, if set to 'false' SQLite will be used instead
@@ -228,7 +252,9 @@ cacheInMemory:
 
 service:
   type: ClusterIP
-  port: 80
+  ports:
+    http: 80
+    https: 443
   annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
 
@@ -281,7 +307,7 @@ containerSecurityContext: { }
 #     drop:
 #       - ALL
 
-initContainers: []
+initContainers: [ ]
 
 # name of the image pull secret
 imagePullSecrets: ""

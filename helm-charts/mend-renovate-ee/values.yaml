@@ -364,6 +364,7 @@ renovateWorker:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
   logFormat: json
 

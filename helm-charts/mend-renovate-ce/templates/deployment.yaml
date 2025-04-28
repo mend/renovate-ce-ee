@@ -235,6 +235,10 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.renovate.logLevel | quote }}
             {{- end }}
+            {{- if .Values.renovate.logFormat }}
+            - name: LOG_FORMAT
+              value: {{ .Values.renovate.logFormat | quote }}
+            {{- end }}
             {{- if .Values.renovate.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_ADMIN_API_ENABLED
               value: {{ .Values.renovate.mendRnvAdminApiEnabled | quote }}
@@ -299,9 +303,24 @@ spec:
             - name: MEND_RNV_ENABLE_HTTP2
               value: {{ .Values.renovate.mendRnvEnableHttp2 | quote }}
             {{- end }}
+            {{- if .Values.renovate.mendRnvHttpServerDisabled }}
+            - name: MEND_RNV_HTTP_SERVER_DISABLED
+              value: {{ .Values.renovate.mendRnvHttpServerDisabled | quote}}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvServerHttpsConfig }}
+            - name: MEND_RNV_SERVER_HTTPS_CONFIG
+              value: {{ toJson .Values.renovate.mendRnvServerHttpsConfig | quote}}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvServerHttpsConfigPath }}
+            - name: MEND_RNV_SERVER_HTTPS_CONFIG_PATH
+              value: {{ .Values.renovate.mendRnvServerHttpsConfigPath | quote}}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
+              protocol: TCP
+            - name: https
+              containerPort: 8443
               protocol: TCP
           {{- with .Values.livenessProbe }}
           livenessProbe:
