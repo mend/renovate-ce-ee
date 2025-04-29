@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 9.7.0
+  tag: 9.9.2
   useFull: true
   pullPolicy: IfNotPresent
 
@@ -9,7 +9,7 @@ fullnameOverride: ""
 
 renovate:
   # Additional env vars
-  extraEnvVars: []
+  extraEnvVars: [ ]
 
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
@@ -166,9 +166,9 @@ renovate:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Npmrc file. Will be mounted as a secret
-  # npmrc: |
-    # //registry.npmjs.org/:_authToken=xxxxxx
+  #  # Npmrc file. Will be mounted as a secret
+  #  npmrc: |
+  #    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -196,6 +196,8 @@ postgresql:
   user:
   password:
 
+
+disableCacheVolume: false
 
 ## Cache Persistence Parameters
 ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -227,9 +229,8 @@ cacheInMemory:
 service:
   type: ClusterIP
   port: 80
-  annotations:
-    {}
-    # cloud.google.com/load-balancer-type: "Internal"
+  annotations: { }
+  # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
   enabled: false
@@ -238,16 +239,15 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations:
-    {}
-    # kubernetes.io/tls-acme: "true"
+  annotations: { }
+  # kubernetes.io/tls-acme: "true"
   hosts:
     {}
     # mend-renovate.local:
     #   paths:
     #     - path: "/"
     #       pathType: ImplementationSpecific
-  tls: []
+  tls: [ ]
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
@@ -255,32 +255,34 @@ ingress:
 serviceAccount:
   create: false
   existingName:
-  annotations: {}
+  annotations: { }
 
-resources: {}
+resources: { }
 
-annotations: {}
+annotations: { }
 
 labels:
-  pods: {}
+  pods: { }
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-podSecurityContext: {}
+podSecurityContext: { }
 #   runAsNonRoot: true
 #   seccompProfile:
 #     type: RuntimeDefault
 
-containerSecurityContext: {}
+containerSecurityContext: { }
 #   allowPrivilegeEscalation: false
 #   readOnlyRootFilesystem: true
 #   capabilities:
 #     drop:
 #       - ALL
+
+initContainers: []
 
 # name of the image pull secret
 imagePullSecrets: ""
@@ -307,17 +309,36 @@ readinessProbe:
   failureThreshold: 3
   successThreshold: 1
 
-extraVolumes:
-  []
-  # - name: secrets-store-inline
-  #   csi:
-  #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+# Extra ConfigMaps to be created by the chart
+# These are full Kubernetes ConfigMap definitions
+extraConfigMaps: [ ]
+#  - apiVersion: v1
+#    kind: ConfigMap
+#    metadata:
+#      name: my-extra-config-map
+#    data:
+#      MY_ENV_VAR: "my-value"
+#      ANOTHER_VAR: "123"
 
-extraVolumeMounts:
-  []
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
+# List of ConfigMaps to be loaded as environment variables
+# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
+extraEnvFromConfigMaps: [ ]
+#  - name: my-extra-config
+
+extraVolumes: [ ]
+#  - name: secrets-store-inline
+#    csi:
+#      driver: secrets-store.csi.k8s.io
+#      readOnly: true
+#      volumeAttributes:
+#      secretProviderClass: "some-secret-store"
+#  - name: my-extra-config-map-volume
+#    configMap:
+#      name: my-extra-config
+
+extraVolumeMounts: [ ]
+#  - name: secrets-store-inline
+#    mountPath: "/mnt/secrets-store"
+#    readOnly: true
+#  - name: my-extra-config-map-volume
+#    mountPath: /path

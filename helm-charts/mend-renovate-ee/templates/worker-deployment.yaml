@@ -27,7 +27,9 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        mend.io/configChecksum: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/worker-extra-configmaps.yaml") . | sha256sum }}
         {{- with .Values.renovateWorker.annotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -40,12 +42,22 @@ spec:
       {{- if or .Values.renovateWorker.serviceAccount.create .Values.renovateWorker.serviceAccount.existingName }}
       serviceAccountName: {{ include "mend-renovate.worker-service-account-name" . }}
       {{- end }}
+      {{- with .Values.renovateWorker.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.version }}"
           imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
           {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
+          envFrom:
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
           {{- end }}
           env:
             {{- with .Values.renovateWorker.extraEnvVars }}
@@ -170,12 +182,14 @@ spec:
               mountPath: /home/ubuntu/.npmrc
               subPath: .npmrc
             {{- end }}
+            {{- if not .Values.renovateWorker.disableCacheVolume }}
             - name: {{ .Release.Name }}-cache-volume
               readOnly: false
               mountPath: /tmp/renovate
-          {{- if ne (len .Values.renovateWorker.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.renovateWorker.extraVolumeMounts | nindent 12 | trim }}
-          {{- end }}
+            {{- end }}
+            {{- with .Values.renovateWorker.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
       {{- with .Values.renovateWorker.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -193,6 +207,7 @@ spec:
           secret:
             secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
         {{- end }}
+        {{- if not .Values.renovateWorker.disableCacheVolume }}
         - name: {{ .Release.Name }}-cache-volume
           {{- if .Values.dataPersistence.enabled }}
           persistentVolumeClaim:
@@ -203,8 +218,9 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.renovateWorker.extraVolumes) 0 }}
-        {{ toYaml .Values.renovateWorker.extraVolumes | nindent 8 | trim }}
+        {{- end }}
+      {{- with .Values.renovateWorker.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.renovateWorker.affinity }}
       affinity:

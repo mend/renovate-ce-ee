@@ -24,12 +24,14 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app: {{ include "mend-renovate.name" . }}-server
         {{- with .Values.renovateServer.labels.pods }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- with .Values.renovateServer.annotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/server-extra-configmaps.yaml") . | sha256sum }}
+        {{- with .Values.renovateServer.annotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- with .Values.renovateServer.podSecurityContext }}
@@ -39,12 +41,22 @@ spec:
       {{- if or .Values.renovateServer.serviceAccount.create .Values.renovateServer.serviceAccount.existingName }}
       serviceAccountName: {{ include "mend-renovate.server-service-account-name" . }}
       {{- end }}
+      {{- with .Values.renovateServer.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-server
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.version }}"
           imagePullPolicy: {{ .Values.renovateServer.image.pullPolicy }}
           {{- with .Values.renovateServer.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateServer.extraEnvFromConfigMaps }}
+          envFrom:
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
           {{- end }}
           env:
             {{- with .Values.renovateServer.extraEnvVars }}
@@ -278,16 +290,16 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-database-volume
               mountPath: /database
-          {{- if ne (len .Values.renovateServer.extraVolumeMounts) 0 }}
-            {{ toYaml .Values.renovateServer.extraVolumeMounts | nindent 12 | trim }}
-          {{- end }}
+            {{- with .Values.renovateServer.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
       {{- with .Values.renovateServer.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if .Values.renovateServer.imagePullSecrets }}
       imagePullSecrets:
-        - name:  {{ .Values.renovateServer.imagePullSecrets }}
+        - name: {{ .Values.renovateServer.imagePullSecrets }}
       {{- end }}
       volumes:
         - name: {{ .Release.Name }}-database-volume
@@ -300,9 +312,9 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-      {{- if ne (len .Values.renovateServer.extraVolumes) 0 }}
-        {{ toYaml .Values.renovateServer.extraVolumes | nindent 8 | trim }}
-      {{- end }}
+        {{- with .Values.renovateServer.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.renovateServer.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}

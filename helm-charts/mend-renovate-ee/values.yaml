@@ -25,10 +25,21 @@ postgresql:
   user:
   password:
 
+# Extra ConfigMaps to be created by the chart
+# These are full Kubernetes ConfigMap definitions
+extraConfigMaps: [ ]
+#  - apiVersion: v1
+#    kind: ConfigMap
+#    metadata:
+#      name: my-shared-extra-config-map
+#    data:
+#      MY_ENV_VAR: "my-value"
+#      ANOTHER_VAR: "123"
+
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 9.7.0@sha256:1d54bbfa70bc465c54665135915232f7e7868227b2af5809dcab9a0e3c07c334
+    version: 9.9.2@sha256:1525266297be99b5670c91307e870ac2bf341c97ecd614ab62f84242bad4c77d
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -200,6 +211,8 @@ renovateServer:
       drop:
         - ALL
 
+  initContainers: []
+
   # name of the image pull secret
   imagePullSecrets: ""
 
@@ -226,20 +239,38 @@ renovateServer:
     failureThreshold: 3
     successThreshold: 1
 
-  extraVolumes:
-    [ ]
-  #   - name: secrets-store-inline
-  #     csi:
-  #       driver: secrets-store.csi.k8s.io
-  #       readOnly: true
-  #       volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
 
-  extraVolumeMounts:
-    [ ]
-  # - name: secrets-store-inline
-  #   mountPath: "/mnt/secrets-store"
-  #   readOnly: true
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #        secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
+  #   - name: secrets-store-inline
+  #     mountPath: "/mnt/secrets-store"
+  #     readOnly: true
+  #   - name: my-extra-config-map-volume
+  #     mountPath: /path
 
   serviceAccount:
     create: false
@@ -249,7 +280,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 9.7.0-full@sha256:75c510bfd0ba42af8dee8db41cddca63fede4450cf6fc889149159ddcce74fb3
+    version: 9.9.2-full@sha256:104d18ef83cbcb725f6baa0484a6fb2a6e5b2ced4445b2c98a2930cc0424d77c
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
@@ -312,9 +343,11 @@ renovateWorker:
       // https://docs.renovatebot.com/self-hosted-configuration/
     }
 
-  # Npmrc file. Will be mounted as a secret
-  # npmrc: |
-    # //registry.npmjs.org/:_authToken=xxxxxx
+  disableCacheVolume: false
+
+#  # Npmrc file. Will be mounted as a secret
+#  npmrc: |
+#    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -364,6 +397,8 @@ renovateWorker:
       drop:
         - ALL
 
+  initContainers: []
+
   # name of the image pull secret
   imagePullSecrets: ""
 
@@ -390,20 +425,38 @@ renovateWorker:
     failureThreshold: 3
     successThreshold: 1
 
-  extraVolumes:
-    [ ]
-  # - name: secrets-store-inline
-  #   csi:
-  #     driver: secrets-store.csi.k8s.io
-  #     readOnly: true
-  #     volumeAttributes:
-  #       secretProviderClass: "some-secret-store"
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
 
-  extraVolumeMounts:
-    [ ]
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #          secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
+  # - name: my-extra-config-map-volume
+  #   mountPath: /path
 
   serviceAccount:
     create: false
@@ -440,8 +493,7 @@ dataInMemory:
 service:
   type: ClusterIP
   port: 80
-  annotations:
-    { }
+  annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
@@ -451,8 +503,7 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations:
-    { }
+  annotations: { }
   # kubernetes.io/tls-acme: "true"
   hosts:
     - mend-renovate.local

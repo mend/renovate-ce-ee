@@ -2,8 +2,8 @@
 
 Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate.
 
-> [!IMPORTANT]  
-> - Some API data is restricted to Mend Renovate Enterprise Edition
+> [!NOTE]  
+> Some API data is restricted to Mend Renovate Enterprise Edition
 
 ## Available Reporting APIs
 
@@ -20,33 +20,31 @@ The list below describes the available reporting APIs. Follow the links on the A
 
 ## Enable Reporting APIs
 
-Reporting APIs are disabled by default. When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
+To enable reporting APIs, set `MEND_RNV_REPORTING_ENABLED=true` on the CE/EE Server container.
+Reporting APIs are disabled by default.
 
-To enable reporting APIs:
-* Set `MEND_RNV_REPORTING_ENABLED=true` on the Renovate EE Server containers.
+When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
 
-> [!IMPORTANT]  
-> Data will not be available for the `Repo pull requests` API unless Renovate is run with Repository Cache enabled.
+The `Repo pull requests` API is available for GitHub only. To enable it, see configuration table below.
 
-To enable data collection for the `Repo pull requests` API:
-* Set `RENOVATE_REPOSITORY_CACHE=enabled` on the Renovate EE Worker containers.
-
-> [!NOTE]  
-> The `Repo pull request` API only works with GitHub repositories.
-> The `Repo pull request` API will work with S3 repository cache only if you set `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` on the Renovate EE Worker containers.
+| Container | Configuration variable              | Description                                                                                                                                  |
+|-----------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Worker    | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
+| Worker    | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
+| Worker    | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
 
 ## Reporting API URLs
 
 See the table below for a list of reporting API URL formats.
 
-| API                                                             | URL format                                | Query parameters                                                                                                              |
-|-----------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [Org list](#org-list)                                           | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
-| [Org info](#org-info)<br/>[Some data Enterprise only]                                           | [GET] /api/orgs/{org}                     |                                                                                                                               |
-| [Repo list](#repo-list)                                         | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
-| [Repo info](#repo-info)<br/>[Some data Enterprise only]         | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
-| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]         | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
-| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only] | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
+| API                                                                               | URL format                                | Query parameters                                                                                                              |
+|-----------------------------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [Org list](#org-list)                                                             | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
+| [Org info](#org-info)<br/>[Some data Enterprise only]                             | [GET] /api/orgs/{org}                     |                                                                                                                               |
+| [Repo list](#repo-list)                                                           | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
+| [Repo info](#repo-info)<br/>[Some data Enterprise only]                           | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
+| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]                           | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
+| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]<br/>[GitHub only] | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
 
 ## Details of Reporting APIs
 
