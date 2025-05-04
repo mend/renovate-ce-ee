@@ -242,7 +242,7 @@ ingress:
   annotations: { }
   # kubernetes.io/tls-acme: "true"
   hosts:
-    {}
+    { }
     # mend-renovate.local:
     #   paths:
     #     - path: "/"
@@ -282,7 +282,7 @@ containerSecurityContext: { }
 #     drop:
 #       - ALL
 
-initContainers: []
+initContainers: [ ]
 
 # name of the image pull secret
 imagePullSecrets: ""

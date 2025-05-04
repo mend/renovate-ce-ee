@@ -211,7 +211,7 @@ renovateServer:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -397,7 +397,7 @@ renovateWorker:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -505,8 +505,14 @@ ingress:
 
   annotations: { }
   # kubernetes.io/tls-acme: "true"
+
   hosts:
-    - mend-renovate.local
+    { }
+  # mend-renovate.local:
+  #   paths:
+  #     - path: "/"
+  #       pathType: ImplementationSpecific
+
   tls: [ ]
   #  - secretName: mend-renovate-tls
   #    hosts:
