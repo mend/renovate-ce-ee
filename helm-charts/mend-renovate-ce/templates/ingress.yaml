@@ -26,7 +26,7 @@ spec:
         - {{ . | quote }}
       {{- end }}
       {{- if .secretName }}
-      secretName: {{ .secretName }}
+      secretName: {{ .secretName | quote }}
       {{- end }}
   {{- end }}
 {{- end }}
@@ -43,7 +43,7 @@ spec:
                 name: {{ $fullName }}
                 port:
                   {{- if $p.port }}
-                  {{ toYaml $p.port | indent 8 }}
+                  {{ toYaml $p.port | nindent 18 }}
                   {{- else }}
                   name: http
                   {{- end }}
