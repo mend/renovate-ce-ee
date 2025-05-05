@@ -166,12 +166,33 @@ renovateServer:
   mendRnvPrometheusMetricsEnabled:
 
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
-  #  similar config available in the worker
+  # similar config available in the worker
   mendRnvDisableGlobalAgent:
 
   # Optional. Set to 'true' to enable HTTP/2 support. Defaults to 'false'.
-  #  similar config available in the worker
+  # similar config available in the worker
   mendRnvEnableHttp2:
+
+  # Optional. Set to 'true' to ensure that non-secure requests are rejected.
+  mendRnvHttpServerDisabled:
+
+  # TLS server config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvServerHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#https-server-configuration
+  mendRnvServerHttpsConfig:
+  #    SNIConfig:
+  #      domain1.com:
+  #        key: "file:///path/to/key.pem"      # or "base64://..." or plain string
+  #        cert: "file:///path/to/cert.pem"    # or "base64://..." or plain string
+  #    baseConfig:
+  #      key: "file:///default/key.pem"
+  #      cert: "file:///default/cert.pem"
+  #      maxVersion: "TLSv1.3",
+  #      minVersion: "TLSv1.2"
+
+  # Path to the TLS server config.
+  mendRnvServerHttpsConfigPath:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
@@ -211,7 +232,7 @@ renovateServer:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -314,6 +335,16 @@ renovateWorker:
   #  similar config available in the server
   mendRnvEnableHttp2:
 
+  # TLS client config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvClientHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#clienthttpsoptions-details-and-examples
+  mendRnvClientHttpsConfig:
+  #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
+
+  # Path to the TLS server config.
+  mendRnvClientHttpsConfigPath:
+
   # Additional worker env vars
   extraEnvVars: [ ]
 
@@ -333,6 +364,7 @@ renovateWorker:
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
   logLevel: info
+
   # Set log format, defaults to pretty format. Allowed values: undefined or 'json'
   logFormat: json
 
@@ -397,7 +429,7 @@ renovateWorker:
       drop:
         - ALL
 
-  initContainers: []
+  initContainers: [ ]
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -491,9 +523,11 @@ dataInMemory:
   enabled: false
 
 service:
-  type: ClusterIP
-  port: 80
   annotations: { }
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
   # cloud.google.com/load-balancer-type: "Internal"
 
 ingress:
