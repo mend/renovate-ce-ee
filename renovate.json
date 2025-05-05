@@ -5,7 +5,7 @@
   ],
   "packageRules": [{
     "groupName": "Update Mend Renovate docker images",
-    "packageNames": [
+    "matchPackageNames": [
       "ghcr.io/mend/renovate-ce",
       "ghcr.io/mend/renovate-ee-server",
       "ghcr.io/mend/renovate-ee-worker"
