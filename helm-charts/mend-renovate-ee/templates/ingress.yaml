@@ -29,16 +29,18 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ . | quote }}
+  {{- range $host, $paths := .Values.ingress.hosts }}
+    - host: {{ $host | quote }}
       http:
         paths:
-          - path: /
-            pathType: ImplementationSpecific
+          {{- range $p := $paths.paths }}
+          - path: {{ $p.path }}
+            pathType: {{ $p.pathType }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ $fullName }}-svc-server
                 port:
                   name: http
+          {{- end -}}
   {{- end }}
 {{- end }}
