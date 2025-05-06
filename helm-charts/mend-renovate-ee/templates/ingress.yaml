@@ -25,7 +25,9 @@ spec:
       {{- range .hosts }}
         - {{ . | quote }}
       {{- end }}
-      secretName: {{ .secretName }}
+      {{- if .secretName }}
+      secretName: {{ .secretName | quote }}
+      {{- end }}
   {{- end }}
 {{- end }}
   rules:
@@ -40,7 +42,11 @@ spec:
               service:
                 name: {{ $fullName }}-svc-server
                 port:
+                  {{- if $p.port }}
+                  {{ toYaml $p.port | nindent 18 }}
+                  {{- else }}
                   name: http
+                  {{- end }}
           {{- end -}}
   {{- end }}
 {{- end }}
