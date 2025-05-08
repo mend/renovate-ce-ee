@@ -185,10 +185,13 @@ values:
 
 Note: This should be set to `disabled` when running multiple Server instances.
 
-**`MEND_RNV_AUTODISCOVER_FILTER`**: a string of a comma separated values (e.g. `org1/*, org2/test*, org2/test*`). Same behavior as Renovate [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter)
+**`MEND_RNV_AUTODISCOVER_FILTER`**: Accepts a comma-separated string of minimatch-compatible globs or RE2-compatible regular expressions, following the same input format as Renovate’s `autodiscoverFilter`. For examples and full documentation, see the [Renovate autodiscoverFilter docs](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 
 > [!WARNING]  
 > The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
+
+> [!IMPORTANT]
+> Do not use commas inside individual filters, commas are treated as delimiters between filters.
 
 ### Job Scheduling Options
 
