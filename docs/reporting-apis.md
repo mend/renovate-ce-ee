@@ -35,7 +35,7 @@ The `Repo pull requests` API is available for GitHub only. To enable it, see con
 | Worker    | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
 | Worker    | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
 | Worker    | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
-| Server    | `MEND_RNV_CRON_LIBYEARS_MV_REFRESH` | Defines the cron schedule for updating the org-level libyears data. Defaults to "0 * * * *" (every hour at 20 minutes past the hour)         |
+| Server    | `MEND_RNV_CRON_LIBYEARS_MV_REFRESH` | Defines the cron schedule for updating the org-level libyears data. Defaults to "20 * * * *" (every hour at 20 minutes past the hour)        |
 
 ## Reporting API URLs
 
