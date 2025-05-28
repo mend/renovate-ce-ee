@@ -17,6 +17,9 @@ The list below describes the available reporting APIs. Follow the links on the A
 - [Repo info](#repo-info) ← Stats for a single repo [Some data Enterprise only]
 - [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information [Enterprise only]
 - [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo [Enterprise only / GitHub only]
+- [LibYears - System](#libyears---system) ← Libyears data for the whole system [Enterprise only]
+- [LibYears - Org](#libyears---org) ← Libyears data for a single org [Enterprise only]
+- [LibYears - Repo](#libyears---repo) ← Libyears data for a single repo [Enterprise only]
 
 ## Enable Reporting APIs
 
@@ -32,6 +35,7 @@ The `Repo pull requests` API is available for GitHub only. To enable it, see con
 | Worker    | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
 | Worker    | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
 | Worker    | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
+| Server    | `MEND_RNV_CRON_LIBYEARS_MV_REFRESH` | Defines the cron schedule for updating the org-level libyears data. Defaults to "0 * * * *" (every hour at 20 minutes past the hour)         |
 
 ## Reporting API URLs
 
@@ -45,6 +49,9 @@ See the table below for a list of reporting API URL formats.
 | [Repo info](#repo-info)<br/>[Some data Enterprise only]                           | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
 | [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]                           | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
 | [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]<br/>[GitHub only] | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
+| [LibYears - System](#libyears---system)<br/>[Enterprise only]                     | [GET] /api/orgs/-/libyears                | state=[installed,suspended,active] (default=installed) <br> details (default=false) <br> limit (default=100, max=10,000)      |
+| [LibYears - Org](#libyears---org)<br/>[Enterprise only]                           | [GET] /api/orgs/{org}/-/libyears          | details (default=false) <br> limit (default=100, max=10,000)                                                                  |
+| [LibYears - Repo](#libyears---repo)<br/>[Enterprise only]                         | [GET] /api/repos/{org}/{repo}/-/libyears  |                                                                                                                               |
 
 ## Details of Reporting APIs
 
@@ -558,4 +565,187 @@ Pagination is not supported. Results are sorted with most recently updated first
         "link": "https://github.com/my-org/demo-repo-2/pull/2"
     }
 ]
+```
+
+### LibYears - System
+
+API: [GET] /api/orgs/-/libyears
+
+**Description:** Returns system-wide libyears statistics across all organizations
+
+Optional query parameters:
+
+- state ("installed" | "suspended" | "active")
+  - Filters the results based on the state of the organizations
+  - Default: "installed"
+
+- details (boolean)
+  - When true, includes individual org level libyears
+  - Default: false
+
+- limit (integer)
+  - Limits the number of orgs returned in details
+  - Max = 10,000
+  - Default = 100
+
+**Example:** Fetch libyears data for all orgs in the system and include details for each org.
+
+[GET] http://my.renovate.server.com/api/orgs/-/libyears?details=true
+
+```json
+{
+    "id": "389943",
+    "name": "myrenovateapp",
+    "type": "system",
+    "libYears": {
+        "managers": {
+            "npm": 61.8861429979274,
+            "nuget": 8.04675623100584
+        },
+        "total": 69.93289922893324
+    },
+    "dependencyStatus": {
+        "outdated": 34,
+        "total": 39
+    },
+    "updatedAt": "2025-05-26 15:10:42",
+    "details": [
+        {
+            "id": "97cabe6b-a757-52e6-ba28-c8173b571efd",
+            "name": "my-org-1",
+            "type": "org",
+            "suspended": false,
+            "updatedAt": "2025-05-26 15:10:42",
+            "libYears": {
+                "managers": {
+                    "npm": 61.8861429979274,
+                    "nuget": 8.04675623100584
+                },
+                "total": 69.93289922893318
+            },
+            "dependencyStatus": {
+                "outdated": 34,
+                "total": 39
+            }
+        }
+    ]
+}
+```
+
+### LibYears - Org
+
+API: [GET] /api/orgs/{org}/-/libyears
+
+**Description:** Returns libyears for a specific organization
+
+Path parameters:
+
+- :org:
+  - The organization identifier. Supports nested org paths (e.g., org/sub-org).
+
+Optional query parameters:
+
+- details (boolean)
+  - When true, includes per repository libyears data within the organization
+  - Default: false
+
+- limit (integer)
+  - Limits the number of repositories returned in details
+  - Max = 10,000
+  - Default = 100
+
+**Example:** Fetch libyears data for my-org-1 and include details for each repository.
+
+[GET] http://my.renovate.server.com/api/orgs/my-org-1/-/libyears?details=true
+
+```json
+{
+  "id": "97cabe6b-a757-52e6-ba28-c8173b571efd",
+  "name": "my-org-1",
+  "type": "org",
+  "suspended": false,
+  "updatedAt": "2025-05-26 15:10:42",
+  "libYears": {
+    "managers": {
+      "npm": 61.8861429979274,
+      "nuget": 8.04675623100584
+    },
+    "total": 69.93289922893318
+  },
+  "dependencyStatus": {
+    "outdated": 34,
+    "total": 39
+  },
+  "details": [
+    {
+      "id": "a71578dc-87de-5caf-84cb-b7f67907d85e",
+      "type": "repo",
+      "name": "my-org-1/my-repo-1",
+      "installed": true,
+      "libYears": {
+        "total": 61.88614299792735,
+        "managers": {
+          "npm": 61.88614299792735
+        }
+      },
+      "dependencyStatus": {
+        "outdated": 31,
+        "total": 36
+      },
+      "updatedAt": "2025-05-26 15:10:13"
+    },
+    {
+      "id": "ea26988f-7e8b-56b4-9fe3-68903d349251",
+      "type": "repo",
+      "name": "my-org-1/my-repo-2",
+      "installed": true,
+      "libYears": {
+        "total": 8.046756231005835,
+        "managers": {
+          "nuget": 8.046756231005835
+        }
+      },
+      "dependencyStatus": {
+        "outdated": 3,
+        "total": 3
+      },
+      "updatedAt": "2025-05-26 15:10:42"
+    }
+  ]
+}
+```
+
+### LibYears - Repo
+
+API: [GET] /api/repos/{org}/{repo}/-/libyears
+
+**Description:** Returns libyears statistics for a specific repository
+
+Path parameters:
+
+- :org/repo:
+  - The full repository path in the form org/repo. Supports nested paths (e.g., org/sub/repo).
+
+**Example:** Fetch libyears data for repository "my-repo-1" in org "my-org-1"
+
+[GET] http://my.renovate.server.com/api/repos/my-org-1/my-repo-1/-/libyears
+
+```json
+{
+  "id": "ea26988f-7e8b-56b4-9fe3-68903d349251",
+  "type": "repo",
+  "name": "my-org-1/my-repo-1",
+  "installed": true,
+  "libYears": {
+    "total": 8.046756231005835,
+    "managers": {
+      "nuget": 8.046756231005835
+    }
+  },
+  "dependencyStatus": {
+    "outdated": 3,
+    "total": 3
+  },
+  "updatedAt": "2025-05-26 15:10:42"
+}
 ```
