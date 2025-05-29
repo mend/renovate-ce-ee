@@ -238,6 +238,10 @@ spec:
             - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
               value: {{ .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
             {{- end }}
+            {{- if .Values.renovateServer.mendRnvLibYearsMVRefreshCron }}
+            - name: MEND_RNV_CRON_LIBYEARS_MV_REFRESH
+              value: {{ .Values.renovateServer.mendRnvLibYearsMVRefreshCron | quote }}
+            {{- end }}
             {{- if .Values.renovateServer.mendRnvForksProcessing }}
             - name: MEND_RENOVATE_FORKS_PROCESSING
               value: {{ .Values.renovateServer.mendRnvForksProcessing }}
