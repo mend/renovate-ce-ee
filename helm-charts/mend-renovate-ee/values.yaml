@@ -159,7 +159,7 @@ renovateServer:
   # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
   mendRnvLogHistoryCleanupCron:
 
-  # Optional, libyears materialized view refresh schedule. defaults to '20 * * * 0'
+  # Optional, libyears materialized view refresh schedule. defaults to '50 * * * *'
   mendRnvLibYearsMVRefreshCron:
 
   # Optional. valid values: 'disabled', 'enabled', 'managed' and default to unset (see documentation)
