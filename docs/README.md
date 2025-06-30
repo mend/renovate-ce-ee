@@ -31,6 +31,6 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 5. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
 6. API Documentation
    - [Admin APIs](./api.md)
-   - [Job Logs APIs](./job-logs-apis.md)
+   - [Job APIs](./job-apis)
    - [Reporting APIs](./reporting-apis.md)
 7. [Advanced topics](./advanced.md)
