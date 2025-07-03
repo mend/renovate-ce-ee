@@ -65,9 +65,9 @@ Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
-**`MEND_RNV_GITHUB_APP_KEY`**: A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
+**`MEND_RNV_GITHUB_APP_KEY`**: A string representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `MEND_RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
 
-**`RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
+**`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
 
 **`MEND_RNV_GITHUB_BOT_USER_ID`**: Optional: The bot user ID that will be used in `gitAuthor` (example author `myBotName[bot] <123456+myBotName[bot]@users.noreply.github.com` and the user id is `123456`). The value can be found by calling `https://api.github.com/users/{appName}[bot]` under the `id` key (replace the `{appName}` with the actual app name).
 Note: By default Renovate server will attempt to call this endpoint once during startup (both CE and EE server) and it does not require authentication. If you wish to skip this call for any reason you will need to provide the value in `MEND_RNV_GITHUB_BOT_USER_ID=<id-number>`
