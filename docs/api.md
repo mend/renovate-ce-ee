@@ -4,61 +4,88 @@ Renovate CE/EE exposes a REST API that you can use to interact programmatically 
 
 ## Enabling and Authentication
 
-The API can be enabled by setting the `MEND_RNV_ADMIN_API_ENABLED` environment variable to `true`.
-You must also configure an API secret by setting the `MEND_RNV_SERVER_API_SECRET` variable.
+The APIs can be enabled by setting the `MEND_RNV_API_ENABLED: true` (renamed from `MEND_RNV_ADMIN_API_ENABLED`).
+You must also configure an API secret by setting the `MEND_RNV_API_SERVER_SECRET` (renamed from `MEND_RNV_SERVER_API_SECRET`) variable.
 
 Authentication is done via HTTP Auth, using the API secret as the password.
 For example if the secret is `renovateapi` then you would authenticate with:
 
 ```
+  Authorization: Bearer renovateapi
+  or
   Authorization: renovateapi
 ```
 
 ## Endpoints
 
+Endpoints are divided into different sections
+
 ### Health
 
-`GET /health`
+* `GET /health`
 
 Returns 200 if API is healthy.
 
-### Queue status
+### Prometheus Metrics
 
-`GET /api/job/queue`
+* `GET /metrics`
 
-Returns the current status of the job queue, including number of pending jobs.
+This endpoint exposes Prometheus-compatible metrics.
 
-`GET /api/task/queue`
+Controlled by `MEND_RNV_API_ENABLE_PROMETHEUS_METRICS` (backward compatible with `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
 
-Returns the current status of the task queue, including number of pending tasks.
-Generally speaking, tasks are internal implementation details, such as syncing.
-As end-user you usually do not need to worry about tasks.
-This API is exposed primarily to help you troubleshoot if something is going wrong.
+### System API Routes
 
-### Sync and jobs
-
-`POST /api/sync`
-
-Triggers an immediate repository sync against the platform/server.
-Normally you don't need this endpoint.
-But it can be useful if you think Renovate's internal state has become out of sync: for example when a new repository is missing.
-
-`POST /api/job/add`
-
-This endpoint allows adding a new job to the queue.
-The request body must contain a single repository:
-
-```json
-{ "repository": "some-org/some-repo" }
+```
+GET  /system/v1/status
+GET  /system/v1/tasks/queue
+GET  /system/v1/jobs/queue
+GET  /system/v1/jobs/logs/:jobId
+POST /system/v1/jobs/add
+POST /system/v1/sync
 ```
 
-### Status
-
-`GET /api/status`
-
-Return the current status of the service since boot time. This information includes job history, job queue size, in-progress jobs, scheduler status, webhook status, Renovate version, and more. All timestamps in the response body are in UTC.
+Controlled by both:
+* `MEND_RNV_API_ENABLED: true`  (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
+* `MEND_RNV_API_ENABLE_SYSTEM: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
 
 
-## Reporting APIs (Enterprise Only)
+See separate [System APIs documentation](api-system.md) for information about the Jobs APIs.
 
-See separate ([Reporting APIs documentation](./reporting-apis.md)) for information about the Reporting APIs.
+### Jobs API Routes
+
+```
+POST /api/v1/repos/{org}/{repo}/-/jobs/run
+GET  /api/v1/repos/{org}/{repo}/-/jobs/:jobId
+GET  /api/v1/repos/{org}/{repo}/-/jobs
+```
+
+Controlled by both:
+* `MEND_RNV_API_ENABLED: true`  (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
+* `MEND_RNV_API_ENABLE_JOBS: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
+
+
+See separate [Job APIs documentation](api-jobs.md) for information about the Jobs APIs.
+
+
+### Reporting APIs
+
+```
+GET /api/v1/orgs
+GET /api/v1/orgs/{org}
+GET /api/v1/orgs/{org}/-/repos
+
+GET /api/v1/repos/{org}/{repo}
+GET /api/v1/repos/{org}/{repo}/-/pulls
+GET /api/v1/repos/{org}/{repo}/-/dashboard
+
+GET /api/v1/orgs/-/libyears
+GET /api/v1/orgs/{org}/-/libyears
+GET /api/v1/repos/{org}/{repo}/-/libyears
+```
+
+Controlled by both:
+* `MEND_RNV_API_ENABLED: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
+* `MEND_RNV_API_ENABLE_REPORTING: true` (backward compatible with `MEND_RNV_REPORTING_ENABLED`)
+
+See separate [Reporting APIs documentation](api-reporting.md) for information about the Reporting APIs.
