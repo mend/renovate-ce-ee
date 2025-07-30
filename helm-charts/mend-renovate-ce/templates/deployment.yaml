@@ -175,6 +175,10 @@ spec:
                   key: mendRnvWebhookSecret
                   optional: true
             {{- end }}
+            {{- if .Values.renovate.mendRnvWebhookSkipDisabledRepoJobs }}
+            - name: MEND_RNV_WEBHOOK_DISABLED_REPOS_HANDLING
+              value: {{ .Values.renovate.mendRnvWebhookSkipDisabledRepoJobs | quote }}
+            {{- end }}
             {{- if .Values.renovate.mendRnvCronJobSchedulerAll }}
             - name: MEND_RNV_CRON_JOB_SCHEDULER_ALL
               value: {{ .Values.renovate.mendRnvCronJobSchedulerAll | quote }}
@@ -239,9 +243,9 @@ spec:
             - name: LOG_FORMAT
               value: {{ .Values.renovate.logFormat | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvAdminApiEnabled }}
-            - name: MEND_RNV_ADMIN_API_ENABLED
-              value: {{ .Values.renovate.mendRnvAdminApiEnabled | quote }}
+            {{- if .Values.renovate.mendRnvPrometheusMetricsEnabled }}
+            - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
+              value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
             {{- if or .Values.renovate.mendRnvServerApiSecret .Values.renovate.existingSecret }}
             - name: MEND_RNV_SERVER_API_SECRET
@@ -250,6 +254,22 @@ spec:
                   name: {{ include "mend-renovate.secret-name" . }}
                   key: mendRnvServerApiSecret
                   optional: true
+            {{- end }}
+            {{- if or .Values.renovate.mendRnvApiEnabled .Values.renovate.mendRnvAdminApiEnabled }}
+            - name: MEND_RNV_API_ENABLED
+              value: {{ (coalesce .Values.renovate.mendRnvApiEnabled .Values.renovate.mendRnvAdminApiEnabled) | quote }}
+            {{- end }}
+            {{- if or .Values.renovate.mendRnvReportingApiEnabled .Values.renovate.mendRnvReportingEnabled }}
+            - name: MEND_RNV_API_ENABLE_REPORTING
+              value: {{ (coalesce .Values.renovate.mendRnvReportingApiEnabled .Values.renovate.mendRnvReportingEnabled) | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvSystemApiEnabled }}
+            - name: MEND_RNV_API_ENABLE_SYSTEM
+              value: {{ .Values.renovate.mendRnvSystemApiEnabled | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvJobsApiEnabled }}
+            - name: MEND_RNV_API_ENABLE_JOBS
+              value: {{ .Values.renovate.mendRnvJobsApiEnabled | quote }}
             {{- end }}
             {{- if .Values.renovate.mendRnvLogHistoryDir }}
             - name: MEND_RNV_LOG_HISTORY_DIR
@@ -290,10 +310,6 @@ spec:
             {{- if .Values.renovate.mendRnvWorkerNodeArgs }}
             - name: RENOVATE_NODE_ARGS
               value: {{ .Values.renovate.mendRnvWorkerNodeArgs | quote }}
-            {{- end }}
-            {{- if .Values.renovate.mendRnvPrometheusMetricsEnabled }}
-            - name: MEND_RNV_PROMETHEUS_METRICS_ENABLED
-              value: {{ .Values.renovate.mendRnvPrometheusMetricsEnabled | quote }}
             {{- end }}
             {{- if .Values.renovate.mendRnvDisableGlobalAgent }}
             - name: MEND_RNV_DISABLE_GLOBAL_AGENT

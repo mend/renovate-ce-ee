@@ -404,9 +404,9 @@ renovateWorker:
 
   disableCacheVolume: false
 
-  #  # Npmrc file. Will be mounted as a secret
-  #  npmrc: |
-  #    //registry.npmjs.org/:_authToken=xxxxxx
+#  # Npmrc file. Will be mounted as a secret
+#  npmrc: |
+#    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
