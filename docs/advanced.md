@@ -47,6 +47,7 @@ Here is an except showing the relative priority of job types:
   "manual-pr-close": 20,
   "automerge": 30,
   "main-commit": 40,
+  "renovate-config-commit": 40,
   "installed": 50,
   "repositories-added": 60,
   "manual-pr-merge": 70,

@@ -23,7 +23,7 @@ The list below describes the available reporting APIs. Follow the links on the A
 
 ## Enable Reporting APIs
 
-To enable reporting APIs, set `MEND_RNV_REPORTING_ENABLED=true` on the CE/EE Server container.
+To enable reporting APIs, set both `MEND_RNV_API_ENABLED: true` and `MEND_RNV_API_ENABLE_REPORTING: true` (backward compatible with `MEND_RNV_REPORTING_ENABLED: true`) on the CE/EE Server container.
 Reporting APIs are disabled by default.
 
 When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
@@ -41,23 +41,23 @@ The `Repo pull requests` API is available for GitHub only. To enable it, see con
 
 See the table below for a list of reporting API URL formats.
 
-| API                                                                               | URL format                                | Query parameters                                                                                                              |
-|-----------------------------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [Org list](#org-list)                                                             | [GET] /api/orgs                           | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
-| [Org info](#org-info)<br/>[Some data Enterprise only]                             | [GET] /api/orgs/{org}                     |                                                                                                                               |
-| [Repo list](#repo-list)                                                           | [GET] /api/orgs/{org}/-/repos             | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
-| [Repo info](#repo-info)<br/>[Some data Enterprise only]                           | [GET] /api/repos/{org}/{repo}             |                                                                                                                               |
-| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]                           | [GET] /api/repos/{org}/{repo}/-/dashboard |                                                                                                                               |
-| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]<br/>[GitHub only] | [GET] /api/repos/{org}/{repo}/-/pulls     | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
-| [LibYears - System](#libyears---system)<br/>[Enterprise only]                     | [GET] /api/orgs/-/libyears                | state=[installed,suspended,active] (default=installed) <br> details (default=false) <br> limit (default=100, max=10,000)      |
-| [LibYears - Org](#libyears---org)<br/>[Enterprise only]                           | [GET] /api/orgs/{org}/-/libyears          | details (default=false) <br> limit (default=100, max=10,000)                                                                  |
-| [LibYears - Repo](#libyears---repo)<br/>[Enterprise only]                         | [GET] /api/repos/{org}/{repo}/-/libyears  |                                                                                                                               |
+| API                                                               | URL format                                    | Query parameters                                                                                                              |
+|-----------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [Org list](#org-list)                                             | [GET] /api/v1/orgs                            | state=[active,suspended,installed(active+suspended),uninstalled,all] (default=installed) <br> limit (default=100, max=10,000) |
+| [Org info](#org-info)<br/>[Some data Enterprise only]             | [GET] /api/v1/orgs/{org}                      |                                                                                                                               |
+| [Repo list](#repo-list)                                           | [GET] /api/v1/orgs/{org}/-/repos              | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
+| [Repo info](#repo-info)<br/>[Some data Enterprise only]           | [GET] /api/v1/repos/{org}/{repo}              |                                                                                                                               |
+| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]                       | [GET] /api/v1/repos/{org}/{repo}/-/dashboard  |                                                                                                                               |
+| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]<br/>[GitHub only] | [GET] /api/v1/repos/{org}/{repo}/-/pulls      | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
+| [LibYears - System](#libyears---system)<br/>[Enterprise only]                    | [GET] /api/v1/orgs/-/libyears                 | state=[installed,suspended,active] (default=installed) <br> details (default=false) <br> limit (default=100, max=10,000)      |
+| [LibYears - Org](#libyears---org)<br/>[Enterprise only]                       | [GET] /api/v1/orgs/{org}/-/libyears           | details (default=false) <br> limit (default=100, max=10,000)                                                                  |
+| [LibYears - Repo](#libyears---repo)<br/>[Enterprise only]                      | [GET] /api/v1/repos/{org}/{repo}/-/libyears   |                                                                                                                               |
 
 ## Details of Reporting APIs
 
 ### Org list
 
-API: [GET] /api/orgs
+API: [GET] /api/v1/orgs
 
 query parameters:
 - state
@@ -77,11 +77,11 @@ States:
 
 **Example 1:** Fetch a list of all currently installed orgs
 
-[GET] http://my.renovate.server.com/api/orgs
+[GET] http://my.renovate.server.com/api/v1/orgs
 
 **Example 2:** Fetch a list of all installed orgs that have turned off Renovate (ie. enabled,suspended)
 
-[GET] http://my.renovate.server.com/api/orgs?state=suspended
+[GET] http://my.renovate.server.com/api/v1/orgs?state=suspended
 
 ```json
 [
@@ -97,7 +97,7 @@ States:
 
 ### Org info
 
-API: [GET] /api/orgs/{org}
+API: [GET] /api/v1/orgs/{org}
 
 **Description:** Stats for a single org
 
@@ -105,7 +105,7 @@ Note: Summaries for `renovateStatuses` and `pullRequests` are available only wit
 
 **Example:** Fetch info and stats for org `my-org`
 
-[GET] http://my.renovate.server.com/api/orgs/my-org   (Note: no trailing slash!)
+[GET] http://my.renovate.server.com/api/v1/orgs/my-org (Note: no trailing slash!)
 
 ```json
 {
@@ -142,7 +142,7 @@ Note: Summaries for `renovateStatuses` and `pullRequests` are available only wit
 
 ### Repo list
 
-API: [GET] /api/orgs/{org}/-/repos
+API: [GET] /api/v1/orgs/{org}/-/repos
 
 query parameters:
 - state
@@ -156,7 +156,7 @@ query parameters:
 
 **Example:** Fetch a list of all currently installed repos on org `my-org`
 
-[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos
+[GET] http://my.renovate.server.com/api/v1/orgs/my-org/-/repos
 
 ```json
 [
@@ -177,7 +177,7 @@ query parameters:
 
 **Example:** Fetch a list of all repos (installed and uninstalled)
 
-[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos?state=all
+[GET] http://my.renovate.server.com/api/v1/orgs/my-org/-/repos?state=all
 
 ```json
 [
@@ -212,7 +212,7 @@ query parameters:
 
 **Example:** Fetch a list of uninstalled repos for org `my-org`
 
-[GET] http://my.renovate.server.com/api/orgs/my-org/-/repos?state=uninstalled
+[GET] http://my.renovate.server.com/api/v1/orgs/my-org/-/repos?state=uninstalled
 
 ```json
 [
@@ -235,7 +235,7 @@ query parameters:
 
 ### Repo info
 
-API: [GET] /api/repos/{org}/{repo}
+API: [GET] /api/v1/repos/{org}/{repo}
 
 **Description:** Stats for a single repo
 
@@ -243,7 +243,7 @@ Note: The `status` field and `pullRequestStats` summaries are available only wit
 
 **Example:** Fetch info and stats for repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2
+[GET] http://my.renovate.server.com/api/v1/repos/my-org/demo-repo-2
 
 ```json
 {
@@ -264,7 +264,7 @@ Note: The `status` field and `pullRequestStats` summaries are available only wit
 
 ### Repo dashboard
 
-API: [GET] /api/repos/{org}/{repo}/-/dashboard
+API: [GET] /api/v1/repos/{org}/{repo}/-/dashboard
 
 **Description:** Replicates the Dependency Dashboard Issue contents.
 Includes:
@@ -276,7 +276,7 @@ Note: Available only with Enterprise Edition. Returns no data when returned from
 
 **Example:** Fetch all Dependency Dashboard information for repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2/-/dashboard
+[GET] http://my.renovate.server.com/api/v1/repos/my-org/demo-repo-2/-/dashboard
 
 ```json
 {
@@ -507,7 +507,7 @@ Note: Available only with Enterprise Edition. Returns no data when returned from
 > 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
 > 3. If using S3 repo cache, the `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` must be set on Worker containers.
 
-API: [GET] /api/repos/{org}/{repo}/-/pulls
+API: [GET] /api/v1/repos/{org}/{repo}/-/pulls
 
 Note: Available only with Enterprise Edition. Returns no data when returned from Community Edition.
 
@@ -527,7 +527,7 @@ Pagination is not supported. Results are sorted with most recently updated first
 
 **Example:** Fetch a list of all open pull requests created by Renovate on repo `my-org/demo-repo-2`
 
-[GET] http://my.renovate.server.com/api/repos/my-org/demo-repo-2/-/pulls
+[GET] http://my.renovate.server.com/api/v1/repos/my-org/demo-repo-2/-/pulls
 
 ```json
 [
@@ -569,7 +569,7 @@ Pagination is not supported. Results are sorted with most recently updated first
 
 ### LibYears - System
 
-API: [GET] /api/orgs/-/libyears
+API: [GET] /api/v1/orgs/-/libyears
 
 **Description:** Returns system-wide libyears statistics across all organizations
 
@@ -590,7 +590,7 @@ Optional query parameters:
 
 **Example:** Fetch libyears data for all orgs in the system and include details for each org.
 
-[GET] http://my.renovate.server.com/api/orgs/-/libyears?details=true
+[GET] http://my.renovate.server.com/api/v1/orgs/-/libyears?details=true
 
 ```json
 {
@@ -634,7 +634,7 @@ Optional query parameters:
 
 ### LibYears - Org
 
-API: [GET] /api/orgs/{org}/-/libyears
+API: [GET] /api/v1/orgs/{org}/-/libyears
 
 **Description:** Returns libyears for a specific organization
 
@@ -656,7 +656,7 @@ Optional query parameters:
 
 **Example:** Fetch libyears data for my-org-1 and include details for each repository.
 
-[GET] http://my.renovate.server.com/api/orgs/my-org-1/-/libyears?details=true
+[GET] http://my.renovate.server.com/api/v1/orgs/my-org-1/-/libyears?details=true
 
 ```json
 {
@@ -717,7 +717,7 @@ Optional query parameters:
 
 ### LibYears - Repo
 
-API: [GET] /api/repos/{org}/{repo}/-/libyears
+API: [GET] /api/v1/repos/{org}/{repo}/-/libyears
 
 **Description:** Returns libyears statistics for a specific repository
 
@@ -728,7 +728,7 @@ Path parameters:
 
 **Example:** Fetch libyears data for repository "my-repo-1" in org "my-org-1"
 
-[GET] http://my.renovate.server.com/api/repos/my-org-1/my-repo-1/-/libyears
+[GET] http://my.renovate.server.com/api/v1/repos/my-org-1/my-repo-1/-/libyears
 
 ```json
 {

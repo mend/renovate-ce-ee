@@ -29,8 +29,8 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - [Configure TLS Communication](./tls.md)
    - [Configure Event Notifications](./events.md)
 5. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))
-6. API Documentation
-   - [Admin APIs](./api.md)
-   - [Job APIs](./job-apis.md)
-   - [Reporting APIs](./reporting-apis.md)
+6. [APIs Documentation](./api.md)
+   - [System APIs](api-system.md)
+   - [Jobs APIs](api-jobs.md)
+   - [Reporting APIs](api-reporting.md)
 7. [Advanced topics](./advanced.md)

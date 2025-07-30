@@ -95,19 +95,51 @@ When set, webhooks will be installed on repos when Renovate is enabled.
 The URL of the Renovate Server plus '/webhook'. (e.g. `http://renovate.yourcompany.com:8080/webhook` or `https://1.2.3.4/webhook`)
 Must be accessible to receive incoming calls from the BitBucket Data Center.
 
+** `MEND_RNV_WEBHOOK_BASE_BRANCHES`: Optional: Set to add values to the default base branches list that are considered for webhook evens (default list: `['master', 'main', 'develop']`)
+
+** `MEND_RNV_WEBHOOK_BRANCH_PREFIXES`: Optional: Set to add values to the default Renovate branches list that are considered for webhook evens (default list: `['renovate/']`)
+
+** `MEND_RNV_WEBHOOK_DISABLED_REPOS_HANDLING`: allows reduced number of jobs from incoming webhook events by skipping jobs for `disabled` repositories 
+
+values:
+- `minimal` (default) when a repository's last run result is `disabled`, only trigger jobs for push/commit webhook event affecting a base branch and include a Renovate config in the list of changed files  
+- `full`: trigger jobs for any "importatn" webhook even if the repository is `disabled`
+
+Notes: 
+- Bitbucket webhook event does not include the list of changed files. 
+- To trigger a job for a `disabled` repository in case webhook events are not an option:
+  - wait for `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (it adds jobs for all repositories including `disabled` ones)
+  - use `POST /system/v1/jobs/add` to trigger a job
+  - use `POST /api/v1/repos/{org}/{repo}/-/jobs/run` to trigger a job
+  
+
+**`MEND_RNV_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
+
+values:
+- `bulk` (default) - will process all repos in one operation
+- `batch` - will process repos in smaller batches
+
+
+
 **`MEND_RNV_ADMIN_TOKEN`**: [GitLab, Bitbucket Data Center only] Optional: A token used for searching/add/removing repository webhooks.
 Defaults to the primary Renovate user PAT when not provided in GitLab config.
 Important: Webhooks will be only installed on repos that the account has at least `Maintainer` access to.
 
-**`MEND_RNV_SERVER_API_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server.
+** `MEND_RNV_API_ENABLED`: Optional: Set to 'true' to enable System, Jobs, and Reporting [APIs](./api.md). Defaults to 'false'. (renamed from `MEND_RNV_ADMIN_API_ENABLED`)
 
-**`MEND_RNV_ADMIN_API_ENABLED`**: Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+**`MEND_RNV_API_SERVER_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server. (renamed from `MEND_RNV_SERVER_API_SECRET`)
+
+**`MEND_RNV_API_ENABLE_PROMETHEUS_METRICS`**: Optional: Set to 'true' to enable Prometheus `/metrics` endpoint. Defaults to 'false'. (renamed from `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
+
+**`MEND_RNV_API_ENABLE_SYSTEM`**: Optional: Set to 'true' to enable [System APIs](./api-system.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
+
+**`MEND_RNV_API_ENABLE_JOBS`**: Optional: Set to 'true' to enable [Jobs APIs](./api-jobs.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
+
+**`MEND_RNV_API_ENABLE_REPORTING`**: Optional: Set to 'true' to enable [Reporting APIs](./api-reporting.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 
 **`MEND_RNV_REQUEST_LOGGER_ENABLED`**: Optional: Set to 'true' to output the details of all incoming API requests to DEBUG logger. Defaults to 'false'.
 
 **`MEND_RNV_DEBUG_MODE`**: Optional: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
-
-**`MEND_RNV_PROMETHEUS_METRICS_ENABLED`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'.
 
 **`MEND_RNV_REPORTING_ENABLED`**: [Enterprise Only. From v7.0.0] Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
 
