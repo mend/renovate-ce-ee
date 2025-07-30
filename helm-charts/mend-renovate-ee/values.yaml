@@ -90,14 +90,41 @@ renovateServer:
   # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
   mendRnvUserAgent:
 
-  # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
-  mendRnvAdminApiEnabled:
-
   # Required, used for api authentication.
   mendRnvServerApiSecret: abc123
 
-  # Optional, defaults to 'renovate'
+  # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
+  #
+  # deprecated: use mendRnvApiEnabled instead.
+  mendRnvAdminApiEnabled:
+
+  # Optional: Set to 'true' to enable APIs. Defaults to 'false'.
+  mendRnvApiEnabled:
+
+  # Optional: Set to 'true' to enable system APIs. Defaults to 'false'.
+  mendRnvSystemApiEnabled:
+
+  # Optional: Set to 'true' to enable jobs APIs. Defaults to 'false'.
+  mendRnvJobsApiEnabled:
+
+  # Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
+  #
+  # deprecated: use mendRnvReportingApiEnabled instead.
+  mendRnvReportingEnabled:
+
+  # Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
+  mendRnvReportingApiEnabled:
+
+  # Optional: defaults to 'renovate'
   mendRnvWebhookSecret:
+
+  # Optional: Controls whether to enqueue webhook based jobs for disabled repositories.
+  # Accepted values:
+  #   "full":     Always enqueue jobs.
+  #   "minimal":  Don’t enqueue jobs for disabled repositories. Default.
+  #
+  # Note: Scheduled and API based jobs will still be triggered for these repositories.
+  mendRnvWebhookSkipDisabledRepoJobs:
 
   # Existing secret with secret values with the following keys:
   #   mendRnvGitlabPat:
@@ -134,9 +161,6 @@ renovateServer:
 
   # Optional: Set to 'auto' to enable automatic token generation. Defaults to off
   mendRnvMergeConfidenceToken:
-
-  # Optional: Set to 'true' to enable Reporting APIs. Defaults to 'false'.
-  mendRnvReportingEnabled:
 
   # Optional. Format: s3://bucket/dir1/dir2. Defines S3 storage location for saving job logs
   mendRnvLogHistoryS3:
@@ -380,9 +404,9 @@ renovateWorker:
 
   disableCacheVolume: false
 
-#  # Npmrc file. Will be mounted as a secret
-#  npmrc: |
-#    //registry.npmjs.org/:_authToken=xxxxxx
+  #  # Npmrc file. Will be mounted as a secret
+  #  npmrc: |
+  #    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
