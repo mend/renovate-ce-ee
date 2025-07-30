@@ -195,10 +195,6 @@ spec:
             - name: MEND_RNV_SYNC_MODE
               value: {{ .Values.renovate.mendRnvSyncMode | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvReportingEnabled }}
-            - name: MEND_RNV_REPORTING_ENABLED
-              value: {{ .Values.renovate.mendRnvReportingEnabled | quote }}
-            {{- end }}
             {{- if .Values.renovate.mendRnvLogHistoryS3 }}
             - name: MEND_RNV_LOG_HISTORY_S3
               value: {{ .Values.renovate.mendRnvLogHistoryS3 | quote }}
