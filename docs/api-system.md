@@ -51,7 +51,7 @@ Note: This returns the same as [Get Job Logs by Repo](#get-job-logs-by-repo) wit
 
 **Example:** Fetch job logs for JobID `5a3572bf-49fe-42bb-a066-ff1146fe83d1`
 
-[GET] http://my.renovate.server.com/system/v/1/jobs/logs/5a3572bf-49fe-42bb-a066-ff1146fe83d1
+[GET] http://my.renovate.server.com/system/v1/jobs/logs/5a3572bf-49fe-42bb-a066-ff1146fe83d1
 
 ```json
 {"name":"renovate","hostname":"271939e11491","pid":21,"level":20,"logContext":"5a3572bf-49fe-42bb-a066-ff1146fe83d1","config":{},"msg":"File config","time":"2024-05-13T12:41:58.139Z","v":0}

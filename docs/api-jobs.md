@@ -32,11 +32,11 @@ For example if the secret is `renovateapi` then you would authenticate by adding
 
 See the table below for a list of Job Logs API URL formats.
 
-| API                                             | URL format                                                 | Query parameters                |
-|-------------------------------------------------|------------------------------------------------------------|---------------------------------|
-| [List Jobs by Repo](#list-jobs-by-repo)      | [GET] /api/v1/repos/{org}/{repo}/-/jobs                    | limit (default=100, max=10,000) |
-| [Get Job Logs by Repo](#get-job-logs-by-repo)   | [GET] /api//v1/repos/{org}/{repo}/-/jobs/<latest\|{jobId}> |                                 |
-| [Run Job on a Repo](#run-job-on-a-repo)      | [POST] /api/v1/repos/{org}/{repo}/-/jobs/run               |                                 |
+| API                                             | URL format                                                | Query parameters                |
+|-------------------------------------------------|-----------------------------------------------------------|---------------------------------|
+| [List Jobs by Repo](#list-jobs-by-repo)      | [GET] /api/v1/repos/{org}/{repo}/-/jobs                   | limit (default=100, max=10,000) |
+| [Get Job Logs by Repo](#get-job-logs-by-repo)   | [GET] /api/v1/repos/{org}/{repo}/-/jobs/<latest\|{jobId}> |                                 |
+| [Run Job on a Repo](#run-job-on-a-repo)      | [POST] /api/v1/repos/{org}/{repo}/-/jobs/run              |                                 |
 
 ## Details of Job Logs APIs
 

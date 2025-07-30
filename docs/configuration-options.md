@@ -129,7 +129,7 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_API_SERVER_SECRET`**: [Required if APIs enabled. Required on Renovate Enterprise Server] Set an API secret. Must match the Worker instances and Admin APIs for communicating with the Server. (renamed from `MEND_RNV_SERVER_API_SECRET`)
 
-**`MEND_RNV_API_ENABLE_PROMETHEUS_METRICS`**: Optional: Set to 'true' to enable Prometheus /metrics endpoint. Defaults to 'false'. (renamed from `MEND_RNV_ADMIN_API_ENABLED`)
+**`MEND_RNV_API_ENABLE_PROMETHEUS_METRICS`**: Optional: Set to 'true' to enable Prometheus `/metrics` endpoint. Defaults to 'false'. (renamed from `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
 
 **`MEND_RNV_API_ENABLE_SYSTEM`**: Optional: Set to 'true' to enable [System APIs](./api-system.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 

@@ -50,7 +50,7 @@ Controlled by both:
 * `MEND_RNV_API_ENABLE_SYSTEM: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
 
 
-See separate [System APIs documentation](api-system.md) for information about the Jobs APIs.
+See separate [System APIs documentation](api-system.md) for information about the System APIs.
 
 ### Jobs API Routes
 
