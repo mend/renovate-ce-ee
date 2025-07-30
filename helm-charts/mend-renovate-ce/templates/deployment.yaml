@@ -259,13 +259,13 @@ spec:
             - name: MEND_RNV_API_ENABLE_REPORTING
               value: {{ (coalesce .Values.renovate.mendRnvReportingApiEnabled .Values.renovate.mendRnvReportingEnabled) | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvSystemApiEnabled }}
+            {{- if or .Values.renovate.mendRnvSystemApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_API_ENABLE_SYSTEM
-              value: {{ .Values.renovate.mendRnvSystemApiEnabled | quote }}
+              value: {{ (coalesce .Values.renovate.mendRnvSystemApiEnabled .Values.renovate.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
-            {{- if .Values.renovate.mendRnvJobsApiEnabled }}
+            {{- if or .Values.renovate.mendRnvJobsApiEnabled .Values.renovate.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_API_ENABLE_JOBS
-              value: {{ .Values.renovate.mendRnvJobsApiEnabled | quote }}
+              value: {{ (coalesce .Values.renovate.mendRnvJobsApiEnabled .Values.renovate.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
             {{- if .Values.renovate.mendRnvLogHistoryDir }}
             - name: MEND_RNV_LOG_HISTORY_DIR

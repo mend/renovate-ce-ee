@@ -285,13 +285,13 @@ spec:
             - name: MEND_RNV_API_ENABLE_REPORTING
               value: {{ (coalesce .Values.renovateServer.mendRnvReportingApiEnabled .Values.renovateServer.mendRnvReportingEnabled) | quote }}
             {{- end }}
-            {{- if .Values.renovateServer.mendRnvSystemApiEnabled }}
+            {{- if or .Values.renovateServer.mendRnvSystemApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_API_ENABLE_SYSTEM
-              value: {{ .Values.renovateServer.mendRnvSystemApiEnabled | quote }}
+              value: {{ (coalesce .Values.renovateServer.mendRnvSystemApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
-            {{- if .Values.renovateServer.mendRnvJobsApiEnabled }}
+            {{- if or .Values.renovateServer.mendRnvJobsApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) }}
             - name: MEND_RNV_API_ENABLE_JOBS
-              value: {{ .Values.renovateServer.mendRnvJobsApiEnabled | quote }}
+              value: {{ (coalesce .Values.renovateServer.mendRnvJobsApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvDisableGlobalAgent }}
             - name: MEND_RNV_DISABLE_GLOBAL_AGENT
