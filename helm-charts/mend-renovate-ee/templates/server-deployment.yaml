@@ -289,7 +289,7 @@ spec:
             - name: MEND_RNV_API_ENABLE_SYSTEM
               value: {{ (coalesce .Values.renovateServer.mendRnvSystemApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
-            {{- if or .Values.renovateServer.mendRnvJobsApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) }}
+            {{- if or .Values.renovateServer.mendRnvJobsApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_API_ENABLE_JOBS
               value: {{ (coalesce .Values.renovateServer.mendRnvJobsApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
