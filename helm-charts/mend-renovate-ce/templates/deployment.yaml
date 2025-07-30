@@ -259,7 +259,7 @@ spec:
             - name: MEND_RNV_API_ENABLE_REPORTING
               value: {{ (coalesce .Values.renovate.mendRnvReportingApiEnabled .Values.renovate.mendRnvReportingEnabled) | quote }}
             {{- end }}
-            {{- if or .Values.renovate.mendRnvSystemApiEnabled .Values.renovateServer.mendRnvAdminApiEnabled }}
+            {{- if or .Values.renovate.mendRnvSystemApiEnabled .Values.renovate.mendRnvAdminApiEnabled }}
             - name: MEND_RNV_API_ENABLE_SYSTEM
               value: {{ (coalesce .Values.renovate.mendRnvSystemApiEnabled .Values.renovate.mendRnvAdminApiEnabled) | quote }}
             {{- end }}
