@@ -302,6 +302,7 @@ renovateServer:
   #      ANOTHER_VAR: "123"
 
   # List of ConfigMaps to be loaded as environment variables
+# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
   extraEnvFromConfigMaps: [ ]
   #  - name: my-extra-config-map
 
