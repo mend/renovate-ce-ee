@@ -306,6 +306,11 @@ renovateServer:
   extraEnvFromConfigMaps: [ ]
   #  - name: my-extra-config-map
 
+  # List of Secrets to be loaded as environment variables
+# Ref: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables
+  extraEnvFromSecrets: [ ]
+  #  - name: my-extra-secret
+
   extraVolumes: [ ]
   #    - name: secrets-store-inline
   #      csi:
@@ -504,6 +509,10 @@ renovateWorker:
   # List of ConfigMaps to be loaded as environment variables
   extraEnvFromConfigMaps: [ ]
   #  - name: my-extra-config-map
+
+  # List of Secrets to be loaded as environment variables
+  extraEnvFromSecrets: [ ]
+  #  - name: my-extra-secret
 
   extraVolumes: [ ]
   #    - name: secrets-store-inline

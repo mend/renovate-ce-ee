@@ -51,12 +51,20 @@ spec:
           {{- with .Values.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.extraEnvFromConfigMaps }}
+          {{- if or .Values.extraEnvFromConfigMaps .Values.extraEnvFromSecrets }}
           envFrom:
+          {{- with .Values.extraEnvFromConfigMaps }}
             {{- range . }}
             - configMapRef:
                 name: {{ .name }}
             {{- end }}
+          {{- end }}
+          {{- with .Values.extraEnvFromSecrets }}
+            {{- range . }}
+            - secretRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
           {{- end }}
           env:
             {{- with .Values.renovate.extraEnvVars }}
