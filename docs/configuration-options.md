@@ -50,7 +50,7 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 >
 > For an Enterprise license key, contact Mend at http://mend.io.
 
-**`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto' (default), or provide the value of a merge confidence API token.
+**`MEND_RNV_MC_TOKEN`**: [Enterprise only] The authentication token required when using Merge Confidence Workflows. Set this to 'auto', or provide the value of a merge confidence API token. (default is `off`)
 
 ### Connection to the Source Code Management (SCM)
 
