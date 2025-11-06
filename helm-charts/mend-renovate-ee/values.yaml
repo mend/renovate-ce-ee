@@ -245,6 +245,8 @@ renovateServer:
 
   affinity: { }
 
+  automountServiceAccountToken: false
+
   podSecurityContext:
     runAsNonRoot: true
     seccompProfile:
@@ -441,6 +443,7 @@ renovateWorker:
 
   affinity: { }
 
+  automountServiceAccountToken: false
 
   podSecurityContext:
     runAsNonRoot: true
