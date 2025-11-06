@@ -34,9 +34,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- if .Values.renovateWorker.automountServiceAccountToken }}
-      automountServiceAccountToken: {{ .Values.renovateWorker.automountServiceAccountToken }}
-      {{- end }}
+      automountServiceAccountToken: {{ .Values.renovateWorker.automountServiceAccountToken | default false }}
       {{- with .Values.renovateWorker.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
