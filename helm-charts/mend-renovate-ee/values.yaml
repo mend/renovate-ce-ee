@@ -237,6 +237,7 @@ renovateServer:
   annotations: { }
 
   labels:
+    deployment: { }
     pods: { }
 
   nodeSelector: { }
@@ -435,6 +436,7 @@ renovateWorker:
   annotations: { }
 
   labels:
+    deployment: { }
     pods: { }
 
   nodeSelector: { }
