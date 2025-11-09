@@ -312,6 +312,7 @@ resources: { }
 annotations: { }
 
 labels:
+  deployment: { }
   pods: { }
 
 nodeSelector: { }

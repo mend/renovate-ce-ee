@@ -8,6 +8,9 @@ metadata:
     helm.sh/chart: {{ include "mend-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.renovateServer.labels.deployment }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.renovateServer.replicas }}
   selector:
@@ -24,7 +27,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app: {{ include "mend-renovate.name" . }}-server
         {{- with .Values.renovateServer.labels.pods }}
-          {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
         checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
