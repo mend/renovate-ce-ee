@@ -239,7 +239,6 @@ renovateServer:
   labels:
     deployment: { }
     pods: { }
-    service: { }
 
   nodeSelector: { }
 
@@ -562,6 +561,7 @@ service:
     http: 80
     https: 443
   # cloud.google.com/load-balancer-type: "Internal"
+  labels: { }
 
 ingress:
   enabled: false
