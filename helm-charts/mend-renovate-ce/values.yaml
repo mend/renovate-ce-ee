@@ -281,6 +281,7 @@ service:
     https: 443
   annotations: { }
   # cloud.google.com/load-balancer-type: "Internal"
+  labels: { }
 
 ingress:
   enabled: false
