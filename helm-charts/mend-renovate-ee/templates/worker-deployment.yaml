@@ -8,7 +8,7 @@ metadata:
     helm.sh/chart: {{ include "mend-renovate.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    {{- with .Values.renovateWorker.labels.pods }}
+    {{- with .Values.renovateWorker.labels.deployment }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
