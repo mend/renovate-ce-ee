@@ -60,7 +60,13 @@ You can enable webhooks on your GitLab repos manually, or with automation.
 
 #### Option: Automatic webhook creation
 
-When enabled, will automatically install webhooks for all repos that are enabled with Renovate. Attempts are made to remove webhooks when repos are uninstalled.
+When enabled, will automatically install webhooks for all new repos that are enabled with Renovate. Attempts are made to remove webhooks when repos are uninstalled.
+
+> [!NOTE]
+>
+> Currently, if you add the configuration for Webhooks later to an existing setup, webhooks will not be added to repositories already registered in Renovates DB.
+>
+> As a workaround, you can uninstall and reinstall repos that you want to add webhooks to. Alternatively, if you delete the database, all repos will be freshly re-installed and webhooks will be created for them. ([Issue #762](https://github.com/mend/renovate-ce-ee/issues/762))
 
 Webhook installation requires an admin user account that has `Maintainer` access to the repos.
 
