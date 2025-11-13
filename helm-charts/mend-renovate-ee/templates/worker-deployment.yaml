@@ -55,12 +55,20 @@ spec:
           {{- with .Values.renovateWorker.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
+          {{- if or .Values.renovateWorker.extraEnvFromConfigMaps .Values.renovateWorker.extraEnvFromSecrets }}
           envFrom:
+          {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
             {{- range . }}
             - configMapRef:
                 name: {{ .name }}
             {{- end }}
+          {{- end }}
+          {{- with .Values.renovateWorker.extraEnvFromSecrets }}
+            {{- range . }}
+            - secretRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
           {{- end }}
           env:
             {{- with .Values.renovateWorker.extraEnvVars }}
