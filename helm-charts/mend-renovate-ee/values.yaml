@@ -39,7 +39,7 @@ extraConfigMaps: [ ]
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 12.0.0@sha256:a9a8daa35aa02a8a5f078d03d68746ce6dee5676696d7dda37288ce895a08078
+    version: 12.1.0@sha256:29e4c593a0218c97b011bcaec0fd340ae11dc9ce16bea35c90565452eb99ac39
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
