@@ -11,7 +11,31 @@
       "ghcr.io/mend/renovate-ee-worker"
     ],
     "versioning": "docker",
-    "automerge": true
+    "automerge": true,
+    "bumpVersions": [
+      {
+        "description": "Bump the `version` for the Helm charts, in line with the version bump from the Docker image",
+        "filePatterns": [
+          "helm-charts/mend-renovate-ce/Chart.yaml",
+          "helm-charts/mend-renovate-ee/Chart.yaml"
+        ],
+        "matchStrings": [
+          "version:\\s(?<version>[^\\s]+)"
+        ],
+        "bumpType": "{{updateType}}"
+      },
+      {
+        "description": "Bump the `appVersion` for the Helm charts, in line with the version bump from the Docker image",
+        "filePatterns": [
+          "helm-charts/mend-renovate-ce/Chart.yaml",
+          "helm-charts/mend-renovate-ee/Chart.yaml"
+        ],
+        "matchStrings": [
+          "appVersion:\\s(?<version>[^\\s]+)"
+        ],
+        "bumpType": "{{updateType}}"
+      }
+    ]
   }],
   "ignorePaths": []
 }
