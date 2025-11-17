@@ -226,7 +226,7 @@ spec:
       volumes:
         - name: {{ .Release.Name }}-config-js-volume
           configMap:
-            name: {{ .Release.Name }}-config-js
+            name: {{ include "mend-renovate.fullname" . }}-config-js
         {{- if or .Values.renovateWorker.npmrc .Values.renovateWorker.npmrcExistingSecret }}
         - name: {{ .Release.Name }}-npmrc-volume
           secret:
