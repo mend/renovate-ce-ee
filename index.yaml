@@ -914,6 +914,19 @@ entries:
     version: 6.1.0
   mend-renovate-enterprise-edition:
   - apiVersion: v1
+    appVersion: 12.1.1
+    created: "2025-11-17T16:18:10.921104283Z"
+    description: Mend Renovate Enterprise Edition
+    digest: 43e3547b49e5196e551e2f9d0b8136a601163818368856da90f53082e6e28be8
+    home: https://github.com/mend/renovate-ce-ee
+    icon: https://app.renovatebot.com/images/logo.png
+    name: mend-renovate-enterprise-edition
+    sources:
+    - https://github.com/renovatebot/renovate
+    urls:
+    - https://github.com/mend/renovate-ce-ee/releases/download/mend-renovate-enterprise-edition-6.1.1/mend-renovate-enterprise-edition-6.1.1.tgz
+    version: 6.1.1
+  - apiVersion: v1
     appVersion: 12.1.0
     created: "2025-11-17T15:45:44.491065754Z"
     description: Mend Renovate Enterprise Edition
@@ -1837,4 +1850,4 @@ entries:
     urls:
     - https://github.com/mend/renovate-on-prem/releases/download/whitesource-renovate-3.1.2/whitesource-renovate-3.1.2.tgz
     version: 3.1.2
-generated: "2025-11-17T15:45:44.491717661Z"
+generated: "2025-11-17T16:18:10.921469346Z"
