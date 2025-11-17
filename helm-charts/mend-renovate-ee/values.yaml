@@ -337,7 +337,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 12.0.0-full@sha256:d0ccc379823f801e8d93fcdb8bc9c0fea432823d650fa270d1c0e14761288dcc
+    version: 12.1.0-full@sha256:96599b6667ca66b698c15498ac12a9f6efdaf78628d5af26cf22d10214a38cc5
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
