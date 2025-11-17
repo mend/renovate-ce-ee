@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 12.1.0
+  tag: 13.0.0-beta1
   useFull: true
   pullPolicy: IfNotPresent
 
