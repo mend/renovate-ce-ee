@@ -10,6 +10,7 @@
       "ghcr.io/mend/renovate-ee-server",
       "ghcr.io/mend/renovate-ee-worker"
     ],
+    "minimumGroupSize": 3,
     "versioning": "docker",
     "automerge": true,
     "bumpVersions": [
