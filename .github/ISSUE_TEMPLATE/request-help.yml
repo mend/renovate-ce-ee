@@ -1,0 +1,66 @@
+# This is adapted from the Mend Renovate CLI template
+# (https://github.com/renovatebot/renovate/blob/195e3084e52eeadc495a33292529a9b899ad5902/.github/DISCUSSION_TEMPLATE/request-help.yml)
+# which is licensed under the AGPL-3.0-only
+name: Request Help
+description: Request support
+body:
+  - type: dropdown
+    id: ce-or-ee
+    attributes:
+      label: Which flavour of the Mend Renovate Server are you running?
+      options:
+        - "Community Server (Community Edition / CE)"
+        - "Enterprise Server (Enterprise Edition / EE)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: self-hosted-platform
+    attributes:
+      label: Which platform are you running Renovate on?
+      options:
+        - "GitHub.com"
+        - "GitHub Enterprise Server"
+        - "GitLab.com"
+        - "GitLab.com Self-Managed"
+        - "Bitbucket Data Center"
+    validations:
+      required: true
+
+  - type: input
+    id: self-hosted-version
+    attributes:
+      label: Which version of Renovate Community / Enterprise Server are you using?
+      description: |
+        Please do not say 'latest' version (as new releases may have shipped since the issue was raised), but instead note the exact version.
+    validations:
+      required: true
+
+  - type: textarea
+    id: the-question
+    attributes:
+      label: Please tell us more about your question or problem
+    validations:
+      required: true
+
+  - type: textarea
+    id: debug-logs
+    attributes:
+      label: Logs (if relevant)
+      description: |
+        Make sure you're running with `LOG_LEVEL=debug` in your environment variables and search for whatever dependency/branch/PR/functionality is causing the problem.
+        Try to paste the *relevant* logs here, not the entire thing and not just a link to the dashboard (others don't have permissions to view them).
+        If you're not sure about the relevant parts of the log, then feel free to post the full log to a [Github Gist](https://gist.github.com/) and link to it.
+        Try to highlight the important logs into the issue itself.
+      value: |
+        <details><summary>Logs</summary>
+
+        ```
+
+        Replace this text with your logs, between the starting and ending triple backticks
+
+        ```
+
+        </details>
+    validations:
+      required: false
