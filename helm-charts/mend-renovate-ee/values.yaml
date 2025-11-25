@@ -159,8 +159,8 @@ renovateServer:
   # Optional: defines the endpoint used to retrieve Merge Confidence data by querying this API.
   mendRnvMergeConfidenceEndpoint:
 
-  # Optional: Set to 'auto' to enable automatic token generation. Defaults to off
-  mendRnvMergeConfidenceToken:
+  # enable automatic token generation. Can also be set to 'off'
+  mendRnvMergeConfidenceToken: 'auto'
 
   # Optional. Format: s3://bucket/dir1/dir2. Defines S3 storage location for saving job logs
   mendRnvLogHistoryS3:
