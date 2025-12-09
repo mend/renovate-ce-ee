@@ -8,7 +8,7 @@ For example, when enabled, this would allow a user to send a GitHub Personal Acc
 
 ## How to enable
 
-To enable RBAC on your Mend Renovate Self-Hosted deployment, you will need to specify `env MEND_RNV_SERVER_RBAC_ENABLED=true`.
+To enable RBAC on your Mend Renovate Self-Hosted deployment, you will need to specify `env MEND_RNV_SERVER_RBAC_ENABLED=true`, or `mendRnvServerRbacEnabled` in the Helm chart.
 
 The RBAC functionality is available for both Community Edition and Enterprise Edition. See the platform support below.
 

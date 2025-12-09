@@ -338,6 +338,10 @@ spec:
             - name: MEND_RNV_SERVER_HTTPS_CONFIG_PATH
               value: {{ .Values.renovate.mendRnvServerHttpsConfigPath | quote}}
             {{- end }}
+            {{- if .Values.renovate.mendRnvServerRbacEnabled }}
+            - name: MEND_RNV_SERVER_RBAC_ENABLED
+              value: {{ .Values.renovate.mendRnvServerRbacEnabled| quote}}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
