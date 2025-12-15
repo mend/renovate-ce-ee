@@ -16,7 +16,7 @@ The list below describes the available reporting APIs. Follow the links on the A
 - [Repo list](#repo-list) ← List of repos for a single org
 - [Repo info](#repo-info) ← Stats for a single repo [Some data Enterprise only]
 - [Repo dashboard](#repo-dashboard) ← Dependency Dashboard information [Enterprise only]
-- [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo [Enterprise only / GitHub only]
+- [Repo pull requests](#repo-pull-requests) ← List of pull requests for a single repo [Enterprise only]
 - [LibYears - System](#libyears---system) ← Libyears data for the whole system [Enterprise only]
 - [LibYears - Org](#libyears---org) ← Libyears data for a single org [Enterprise only]
 - [LibYears - Repo](#libyears---repo) ← Libyears data for a single repo [Enterprise only]
@@ -27,8 +27,6 @@ To enable reporting APIs, set both `MEND_RNV_API_ENABLED: true` and `MEND_RNV_AP
 Reporting APIs are disabled by default.
 
 When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
-
-The `Repo pull requests` API is available for GitHub only. To enable it, see configuration table below.
 
 | Container | Configuration variable              | Description                                                                                                                                  |
 |-----------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -47,11 +45,11 @@ See the table below for a list of reporting API URL formats.
 | [Org info](#org-info)<br/>[Some data Enterprise only]             | [GET] /api/v1/orgs/{org}                      |                                                                                                                               |
 | [Repo list](#repo-list)                                           | [GET] /api/v1/orgs/{org}/-/repos              | state=[installed,uninstalled,all] (default=installed) <br> limit (default=100, max=10,000)                                    |
 | [Repo info](#repo-info)<br/>[Some data Enterprise only]           | [GET] /api/v1/repos/{org}/{repo}              |                                                                                                                               |
-| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]                       | [GET] /api/v1/repos/{org}/{repo}/-/dashboard  |                                                                                                                               |
-| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]<br/>[GitHub only] | [GET] /api/v1/repos/{org}/{repo}/-/pulls      | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
-| [LibYears - System](#libyears---system)<br/>[Enterprise only]                    | [GET] /api/v1/orgs/-/libyears                 | state=[installed,suspended,active] (default=installed) <br> details (default=false) <br> limit (default=100, max=10,000)      |
-| [LibYears - Org](#libyears---org)<br/>[Enterprise only]                       | [GET] /api/v1/orgs/{org}/-/libyears           | details (default=false) <br> limit (default=100, max=10,000)                                                                  |
-| [LibYears - Repo](#libyears---repo)<br/>[Enterprise only]                      | [GET] /api/v1/repos/{org}/{repo}/-/libyears   |                                                                                                                               |
+| [Repo dashboard](#repo-dashboard)<br/>[Enterprise only]           | [GET] /api/v1/repos/{org}/{repo}/-/dashboard  |                                                                                                                               |
+| [Repo pull requests](#repo-pull-requests)<br/>[Enterprise only]   | [GET] /api/v1/repos/{org}/{repo}/-/pulls      | state=[open,merged,closed,all] (default=open) <br> limit (default=100, max=10,000)                                            |
+| [LibYears - System](#libyears---system)<br/>[Enterprise only]     | [GET] /api/v1/orgs/-/libyears                 | state=[installed,suspended,active] (default=installed) <br> details (default=false) <br> limit (default=100, max=10,000)      |
+| [LibYears - Org](#libyears---org)<br/>[Enterprise only]           | [GET] /api/v1/orgs/{org}/-/libyears           | details (default=false) <br> limit (default=100, max=10,000)                                                                  |
+| [LibYears - Repo](#libyears---repo)<br/>[Enterprise only]         | [GET] /api/v1/repos/{org}/{repo}/-/libyears   |                                                                                                                               |
 
 ## Details of Reporting APIs
 
@@ -503,9 +501,8 @@ Note: Available only with Enterprise Edition. Returns no data when returned from
 ### Repo pull requests
 
 > [!IMPORTANT]  
-> 1. The `Repo pull request` API only works with GitHub repositories.
-> 2. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
-> 3. If using S3 repo cache, the `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` must be set on Worker containers.
+> 1. Requires `RENOVATE_REPOSITORY_CACHE=enabled` set on Worker containers.
+> 2. If using S3 repo cache, the `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` must be set on Worker containers.
 
 API: [GET] /api/v1/repos/{org}/{repo}/-/pulls
 
