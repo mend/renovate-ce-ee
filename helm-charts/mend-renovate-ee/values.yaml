@@ -84,7 +84,7 @@ renovateServer:
 
   # Optional: Provide a path to persist the SQLite database
   # eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume
-  # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
+  # If you set dataPersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
   mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
