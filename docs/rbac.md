@@ -53,23 +53,23 @@ It is not posible **??**
 
 Given a user's level of access to the repository and the organisation, we take the **highest** possible permission as **??**.
 
-|  Resource | SCM Access Level | Mend access level |
+|  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Repository | `none` | `none` |
-|  Repository | `pull` (AKA read-only) | `read` |
-|  Repository | `triage` | `read` |
-|  Repository | `push` (AKA write access) | `write` |
-|  Repository | `maintain` | `write` |
-|  Repository | `admin` | `write` |
+|  Repository | `pull` (AKA read-only) | `repo:read` |
+|  Repository | `triage` | `repo:read` |
+|  Repository | `push` (AKA write access) | `repo:write` |
+|  Repository | `maintain` | `repo:write` |
+|  Repository | `admin` | `repo:write` |
 
 Note: We determine repository permissions using [the "Get repository permissions for a user" API](https://docs.github.com/en/rest/collaborators/collaborators?apiVersion=2022-11-28#get-repository-permissions-for-a-user).
 
-|  Resource | Membership role | Mend access level |
+|  Resource | Membership role | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Organization | `none` (AKA not a member) | `none` |
-| Organization | `member` | `read` |
-| Organization | `billing_manager` | `read` |
-|Organization  | `admin` (AKA an Organization Owner  | `write` |
+| Organization | `member` | `org:read` |
+| Organization | `billing_manager` | `org:read` |
+|Organization  | `admin` (AKA an Organization Owner  | `org:write` |
 
 Note: We determine organization permissions using [the "List organization memberships for the authenticated user" API](https://docs.github.com/en/rest/orgs/members?apiVersion=2022-11-28#list-organization-memberships-for-the-authenticated-user).
 
@@ -84,5 +84,6 @@ Note: We determine organization permissions using [the "List organization member
 | Repository | `REPO_READ`  | `read` |
 | Repository | `REPO_WRITE` | `write` |
 | Repository | `REPO_ADMIN` | `write` |
+
 
 **??**Note: We determine repository permissions using **??** https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-repository/#api-api-latest-repos-get
