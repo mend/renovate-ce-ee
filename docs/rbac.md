@@ -13,11 +13,13 @@ To enable RBAC on your Mend Renovate Self-Hosted deployment, you will need to sp
 ### Supported platforms
 
 - GitHub (`env MEND_RNV_PLATFORM=github`)
-- Bitbucket Server (`env MEND_RNV_PLATFORM=bitbucket-server`)
+- Bitbucket Data Center (`env MEND_RNV_PLATFORM=bitbucket-server`)
 
 ## Caching
 
 By default, once a user's permissions are looked up, they are cached for 60 minutes (1 hour).
+
+This can be controlled through `cacheTtlOverridesSeconds.rbac` **??**
 
 ## Supported APIs
 
@@ -29,10 +31,11 @@ Only the following APIs support authenticating with RBAC tokens:
 
 ## GitHub
 
-When running on GitHub (Cloud or Server), **??**
-
+When running on GitHub (Cloud or Server), Mend Renovate Self-Hosted uses a Personal Access Token to authenticate.
 
 ### Personal Access Tokens (Fine-Grained)
+
+The fine-grained **??**
 
 **??**
 
@@ -52,6 +55,8 @@ It is not posible **??**
 ### Permissions matrix
 
 Given a user's level of access to the repository and the organisation, we take the **highest** possible permission as **??**.
+
+Note that this is not based on the token **??** ????
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
@@ -73,17 +78,31 @@ Note: We determine repository permissions using [the "Get repository permissions
 
 Note: We determine organization permissions using [the "List organization memberships for the authenticated user" API](https://docs.github.com/en/rest/orgs/members?apiVersion=2022-11-28#list-organization-memberships-for-the-authenticated-user).
 
-## Bitbucket Server
+## Bitbucket Data Center
+
+When running **??**
 
 ### **??**
 
 ### Permissions matrix
 
-|  Resource | SCM Access Level | Mend access level |
+**??**Bitbucket  **??** permissions are based on the permissions of the _token_ **??**
+
+**TODO**: `Project Read` and `Repository Write`
+
+|  Resource | SCM Access Level | Mend Renovate RBAC access level |
+|  -- | -- | - |
+| Project | `REPO_READ`  | `read` |
+| Project | `REPO_WRITE` | `write` |
+| Project | `REPO_ADMIN` | `write` |
+
+|  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Repository | `REPO_READ`  | `read` |
 | Repository | `REPO_WRITE` | `write` |
 | Repository | `REPO_ADMIN` | `write` |
+
+**TODO**: `Project Read` and `Repository Write`
 
 
 **??**Note: We determine repository permissions using **??** https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-repository/#api-api-latest-repos-get
