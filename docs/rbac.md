@@ -88,19 +88,22 @@ When running **??**
 
 **??**Bitbucket  **??** permissions are based on the permissions of the _token_ **??**
 
-**TODO**: `Project Read` and `Repository Write`
+Needs read-write or write-write or above
 
-|  Resource | SCM Access Level | Mend Renovate RBAC access level |
-|  -- | -- | - |
-| Project | `REPO_READ`  | `read` |
-| Project | `REPO_WRITE` | `write` |
-| Project | `REPO_ADMIN` | `write` |
+
+**TODO**: `Project Read` and `Repository Write`
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Repository | `REPO_READ`  | `read` |
 | Repository | `REPO_WRITE` | `write` |
 | Repository | `REPO_ADMIN` | `write` |
+|  Resource | SCM Access Level | Mend Renovate RBAC access level |
+|  -- | -- | - |
+| Project   | `none` (AKA not a member) | `none` |
+| Project | `REPO_READ`  | `read` |
+| Project | `REPO_WRITE` | `write` |
+| Project | `REPO_ADMIN` | `write` |
 
 **TODO**: `Project Read` and `Repository Write`
 
