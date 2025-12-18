@@ -50,7 +50,7 @@ The fine-grained **??**
 
 ### Other token types
 
-It is not posible **??**
+It might be possible to use other token types (such as OAuth App tokens) but it is not recommended.
 
 ### Permissions matrix
 
@@ -80,7 +80,7 @@ Note: We determine organization permissions using [the "List organization member
 
 ## Bitbucket Data Center
 
-When running **??**
+When running against Bitbucket Data Center, an HTTP Token must be created **??**
 
 ### **??**
 
