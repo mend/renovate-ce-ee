@@ -14,8 +14,8 @@ The RBAC functionality is available for both Community Edition and Enterprise Ed
 
 ### Supported platforms
 
-- GitHub (`env MEND_RNV_PLATFORM=github`) <small>(Since Community Edition 11.0.0 and Enterprise Edition 5.0.0)</small>
-- Bitbucket Data Center (`env MEND_RNV_PLATFORM=bitbucket-server`) <small>(Since Community Edition 12.0.0 and Enterprise Edition 6.0.0)</small>
+- GitHub (`env MEND_RNV_PLATFORM=github`, since Community Edition 11.0.0 and Enterprise Edition 5.0.0)
+- Bitbucket Data Center (`env MEND_RNV_PLATFORM=bitbucket-server`, since Community Edition 12.0.0 and Enterprise Edition 6.0.0)
 
 ## Caching
 
