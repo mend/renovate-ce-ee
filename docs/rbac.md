@@ -2,15 +2,15 @@
 
 Role Based Access Control (RBAC) allows API access using the underlying Source Code Management (SCM) platform's authentication and authorization, instead of the shared "admin token".
 
-Contrary to the use of the `MEND_RNV_API_SERVER_SECRET`, which provides a single "superuser" authentication token that must be shared between many users, this allows for per-user authentication, which can then be scoped to the individual's level of access on the given repositories.
+Contrary to the use of the `MEND_RNV_API_SERVER_SECRET`, which provides a single "superuser" authentication token that many users share, the use of RBAC allows for per-user authentication, which will then base the permissions available to the user based on their level of access on the given repositories.
 
-For example, when enabled, this would allow a user to send a GitHub Personal Access Token (fine-grained or classic) to the API. Mend Renovate Self-Hosted will take that token, confirm the permissions the user has, and restrict access based on those permissions. See the per-platform permissions matrices below for more information.
+For example, when enabled, this would allow a user to send a GitHub Personal Access Token (fine-grained or classic) to the API, instead of the shared admin token. Mend Renovate Self-Hosted will take that token, confirm the permissions the user has, and restrict access based on those permissions. See the per-platform permissions matrices below for more information.
 
 ## How to enable
 
 To enable RBAC on your Mend Renovate Self-Hosted deployment, you will need to specify `env MEND_RNV_SERVER_RBAC_ENABLED=true`, or `mendRnvServerRbacEnabled` in the Helm chart.
 
-The RBAC functionality is available for both Community Edition and Enterprise Edition.
+The RBAC functionality is available for both Community Edition and Enterprise Edition. See the platform support below.
 
 ### Supported platforms
 
@@ -109,6 +109,5 @@ Needs read-write or write-write or above
 | Project | `PROJECT_ADMIN` | `org:write` |
 
 **TODO**: `Project Read` and `Repository Write`
-
 
 **??**Note: We determine repository permissions using **??** https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-repository/#api-api-latest-repos-get
