@@ -10,10 +10,12 @@ For example, when enabled, this would allow a user to send a GitHub Personal Acc
 
 To enable RBAC on your Mend Renovate Self-Hosted deployment, you will need to specify `env MEND_RNV_SERVER_RBAC_ENABLED=true`, or `mendRnvServerRbacEnabled` in the Helm chart.
 
+The RBAC functionality is available for both Community Edition and Enterprise Edition.
+
 ### Supported platforms
 
-- GitHub (`env MEND_RNV_PLATFORM=github`)
-- Bitbucket Data Center (`env MEND_RNV_PLATFORM=bitbucket-server`)
+- GitHub (`env MEND_RNV_PLATFORM=github`) <small>(Since Community Edition 11.0.0 and Enterprise Edition 5.0.0)</small>
+- Bitbucket Data Center (`env MEND_RNV_PLATFORM=bitbucket-server`) <small>(Since Community Edition 12.0.0 and Enterprise Edition 6.0.0)</small>
 
 ## Caching
 
@@ -60,7 +62,7 @@ Note that this is not based on the token **??** ????
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
-| Repository | `none` | `none` |
+| Repository | (no access) | (no scope) |
 |  Repository | `pull` (AKA read-only) | `repo:read` |
 |  Repository | `triage` | `repo:read` |
 |  Repository | `push` (AKA write access) | `repo:write` |
@@ -74,7 +76,7 @@ Note: We determine repository permissions using [the "Get repository permissions
 | Organization | `none` (AKA not a member) | `none` |
 | Organization | `member` | `org:read` |
 | Organization | `billing_manager` | `org:read` |
-|Organization  | `admin` (AKA an Organization Owner  | `org:write` |
+|Organization  | `admin` (AKA an Organization Owner)  | `org:write` |
 
 Note: We determine organization permissions using [the "List organization memberships for the authenticated user" API](https://docs.github.com/en/rest/orgs/members?apiVersion=2022-11-28#list-organization-memberships-for-the-authenticated-user).
 
@@ -95,15 +97,16 @@ Needs read-write or write-write or above
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
-| Repository | `REPO_READ`  | `read` |
-| Repository | `REPO_WRITE` | `write` |
-| Repository | `REPO_ADMIN` | `write` |
+| Repository | (none) | (no scope) |
+| Repository | `REPO_READ`  | `repo:read` |
+| Repository | `REPO_WRITE` | `repo:write` |
+| Repository | `REPO_ADMIN` | `repo:write` |
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
-| Project   | `none` (AKA not a member) | `none` |
-| Project | `REPO_READ`  | `read` |
-| Project | `REPO_WRITE` | `write` |
-| Project | `REPO_ADMIN` | `write` |
+| Project   | `none` (AKA not a member) | (no scope) |
+| Project | `PROJECT_READ`  | `org:read` |
+| Project | `PROJECT_WRITE` | `org:write` |
+| Project | `PROJECT_ADMIN` | `org:write` |
 
 **TODO**: `Project Read` and `Repository Write`
 
