@@ -33,7 +33,7 @@ Only the following APIs support authenticating with RBAC tokens:
 
 ## GitHub
 
-When running on GitHub (Cloud or Enterprise Server), Mend Renovate Self-Hosted uses a Personal Access Token to authenticate.
+When running against GitHub (Cloud or Enterprise Server), Mend Renovate Self-Hosted requires a Personal Access Token to authenticate.
 
 ### Personal Access Tokens (Fine-Grained)
 
@@ -80,13 +80,11 @@ When [creating a new Fine-grained personal access token](https://github.com/sett
 
 ### Other token types
 
-It might be possible to use other token types (such as OAuth App tokens) but it is not tested (and therefore unsupported).
+It might be possible to use other token types (such as OAuth App tokens) but these are not tested and therefore unsupported.
 
 ### Permissions matrix
 
-Given a user's level of access to the repository and the organisation, we take the **highest** possible permission as **??**.
-
-Note that this is not based on the token **??** ????
+Given a user's level of access to the repository and the organisation, we take the **highest** possible permission as the access level for the operation.
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
@@ -110,18 +108,16 @@ Note: We determine organization permissions using [the "List organization member
 
 ## Bitbucket Data Center
 
-When running against Bitbucket Data Center, an HTTP Token must be created **??**
+When running against Bitbucket Data Center, Mend Renovate Self-Hosted requires an HTTP Token to authenticate.
 
-### **??**
+When creating the HTTP Token, you will need to specify the following permissions:
+
+- Project permissions: `Project read`
+- Repository permissions: `Repository Write`
 
 ### Permissions matrix
 
-**??**Bitbucket  **??** permissions are based on the permissions of the _token_ **??**
-
-Needs read-write or write-write or above
-
-
-**TODO**: `Project Read` and `Repository Write`
+Given a user's level of access to the repository and the project, we take the **highest** possible permission as the access level for the operation.
 
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
@@ -137,6 +133,4 @@ Needs read-write or write-write or above
 | Project | `PROJECT_WRITE` | `org:write` |
 | Project | `PROJECT_ADMIN` | `org:write` |
 
-**TODO**: `Project Read` and `Repository Write`
-
-**??**Note: We determine repository permissions using **??** https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-repository/#api-api-latest-repos-get
+Note: we determine the permissions based on the permissions the token itself has.
