@@ -62,16 +62,21 @@ When [creating a new Fine-grained personal access token](https://github.com/sett
 No other permissions are required, and the token used does not require access to the repo's contents.
 
 > [!NOTE]
-> If you are an [Outside Collaborator] on a repository, it is [not currently possible](https://github.com/github/roadmap/issues/601) to create a fine-grained personal access token for access to a repository, and we recommend using a Personal Access Token (Classic).
+> If you are an [Outside Collaborator](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/adding-outside-collaborators-to-repositories-in-your-organization) on a repository, it is [not currently possible](https://github.com/github/roadmap/issues/601) to create a fine-grained personal access token for access to a repository. Until this is supported, we recommend using a Personal Access Token (Classic).
 
 ### Personal Access Tokens (Classic)
 
 > [!WARNING]
-> It is recommended you use a **??**, as it can be more finely scoped **??**.
+> It is strongly recommended you use a fine-grained personal access token, as it can be more finely scoped to the level of access required.
 >
-> However, if you're working across multiple organisations, you would **??**
+> Using a Classic personal access token is **not** minimal in its access, and due to its coarse grained permissions model, the token used will have write access implied, even if Mend Renovate Self-Hosted does not use it.
+>
+> However, if you're working across multiple organisations or are an Outside Collaborator, you cannot use a fine-grained personal access token, so must create a classic personal access token.
 
-**??**
+When [creating a new Fine-grained personal access token](https://github.com/settings/tokens/new?scopes=repo,read:org), you will need to specify the following scopes:
+
+- `repo` scope
+- `read:org` scope
 
 ### Other token types
 
