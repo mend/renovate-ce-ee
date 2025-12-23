@@ -80,7 +80,7 @@ When [creating a new Fine-grained personal access token](https://github.com/sett
 
 ### Other token types
 
-It might be possible to use other token types (such as OAuth App tokens) but it is not recommended.
+It might be possible to use other token types (such as OAuth App tokens) but it is not tested (and therefore unsupported).
 
 ### Permissions matrix
 
@@ -129,6 +129,7 @@ Needs read-write or write-write or above
 | Repository | `REPO_READ`  | `repo:read` |
 | Repository | `REPO_WRITE` | `repo:write` |
 | Repository | `REPO_ADMIN` | `repo:write` |
+
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Project   | `none` (AKA not a member) | (no scope) |
