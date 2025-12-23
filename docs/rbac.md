@@ -133,4 +133,4 @@ Given a user's level of access to the repository and the project, we take the **
 | Project | `PROJECT_WRITE` | `org:write` |
 | Project | `PROJECT_ADMIN` | `org:write` |
 
-Note: we determine the permissions based on the permissions the token itself has.
+Note: we determine the permissions using the [Search for repositories API](https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-repository/#api-api-latest-repos-get) and [Search for projects](https://developer.atlassian.com/server/bitbucket/rest/v1000/api-group-project/#api-api-latest-projects-get) APIs.
