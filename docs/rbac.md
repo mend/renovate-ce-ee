@@ -21,7 +21,7 @@ The RBAC functionality is available for both Community Edition and Enterprise Ed
 
 By default, once a user's permissions are looked up, they are cached for 60 minutes (1 hour).
 
-This can be controlled through `cacheTtlOverridesSeconds.rbac` **??**
+This can be tuned using the `cacheTtlOverridesSeconds.rbac` configuration option.
 
 ## Supported APIs
 
@@ -29,17 +29,40 @@ Only the following APIs support authenticating with RBAC tokens:
 
 - API
 - Reporting APIs
-- Jobs API (subset of APIs)
+- Jobs API (under the `/api` prefix)
 
 ## GitHub
 
-When running on GitHub (Cloud or Server), Mend Renovate Self-Hosted uses a Personal Access Token to authenticate.
+When running on GitHub (Cloud or Enterprise Server), Mend Renovate Self-Hosted uses a Personal Access Token to authenticate.
 
 ### Personal Access Tokens (Fine-Grained)
 
-The fine-grained **??**
+Fine-grained personal access tokens are bound to a "Resource Owner", which is either a User or an Organization.
 
-**??**
+The RBAC API requires a very low privileged personal access tokens by design - it only needs to confirm that the user is a member of the organization, and read metadata about repositories to confirm the user's access rights.
+
+> [!NOTE]
+> Fine-grained personal access tokens can only be created for a single Resource Owner at a time.
+>
+> If you need access to multiple organizations, you will need one fine-grained personal access token per organization.
+>
+> If using an API that requires access to multiple organizations (such as the "System Libyears" API), using a Personal Access Token (Classic) is recommended.
+
+When [creating a new Fine-grained personal access token](https://github.com/settings/personal-access-tokens/new), you will need to:
+
+- Specify the organization you wish to access with this token
+- Specify access to `All repositories` or `Only select repositories`
+  - This can also be "Only select repositories" for a subset of Private/Internal repositories that you would like to interact with
+  - Public repositories are always included
+- Specify the Organization permissions:
+  - `Members`: `Read-only`
+- Specify the Repository permissions:
+  - `Metadata`: `Read-only`
+
+No other permissions are required, and the token used does not require access to the repo's contents.
+
+> [!NOTE]
+> If you are an [Outside Collaborator] on a repository, it is [not currently possible](https://github.com/github/roadmap/issues/601) to create a fine-grained personal access token for access to a repository, and we recommend using a Personal Access Token (Classic).
 
 ### Personal Access Tokens (Classic)
 
@@ -73,7 +96,7 @@ Note: We determine repository permissions using [the "Get repository permissions
 
 |  Resource | Membership role | Mend Renovate RBAC access level |
 |  -- | -- | - |
-| Organization | `none` (AKA not a member) | `none` |
+| Organization | `none` (AKA not a member, or an outside collaborator on repo(s)) | `none` |
 | Organization | `member` | `org:read` |
 | Organization | `billing_manager` | `org:read` |
 |Organization  | `admin` (AKA an Organization Owner)  | `org:write` |
