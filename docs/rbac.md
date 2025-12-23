@@ -33,7 +33,18 @@ Only the following APIs support authenticating with RBAC tokens:
 
 ## GitHub
 
-When running against GitHub (Cloud or Enterprise Server), Mend Renovate Self-Hosted requires a Personal Access Token to authenticate.
+When running against GitHub (Cloud or Enterprise Server), Mend Renovate Self-Hosted requires a Personal Access Token (Fine-Grained or Classic) to authenticate.
+
+Mend recommends using a Fine-Grained personal access token where possible, due to the enhanced security benefits, and extra organization control.
+
+> [!NOTE]
+> Fine-grained personal access tokens can only be created for a single Resource Owner at a time.
+>
+> If you need access to multiple organizations, you will need one fine-grained personal access token per organization.
+>
+> If you're calling APIs that require access to multiple organizations (such as the "System Libyears" API), using a Classic personal access token may be preferred, to avoid multiple API calls with different tokens.
+
+> If you are an [Outside Collaborator](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/adding-outside-collaborators-to-repositories-in-your-organization) on a repository, it is [not currently possible](https://github.com/github/roadmap/issues/601) to create a fine-grained personal access token for access to a repository. Until this is supported, we recommend using a Classic personal access token.
 
 ### Personal Access Tokens (Fine-Grained)
 
@@ -41,16 +52,9 @@ Fine-grained personal access tokens are bound to a "Resource Owner", which is ei
 
 The RBAC API requires a very low privileged personal access tokens by design - it only needs to confirm that the user is a member of the organization, and read metadata about repositories to confirm the user's access rights.
 
-> [!NOTE]
-> Fine-grained personal access tokens can only be created for a single Resource Owner at a time.
->
-> If you need access to multiple organizations, you will need one fine-grained personal access token per organization.
->
-> If using an API that requires access to multiple organizations (such as the "System Libyears" API), using a Personal Access Token (Classic) is recommended.
-
 When [creating a new Fine-grained personal access token](https://github.com/settings/personal-access-tokens/new), you will need to:
 
-- Specify the organization you wish to access with this token
+- Specify the organization or user you wish to access with this token as the "Resource Owner"
 - Specify access to `All repositories` or `Only select repositories`
   - This can also be "Only select repositories" for a subset of Private/Internal repositories that you would like to interact with
   - Public repositories are always included
@@ -61,17 +65,12 @@ When [creating a new Fine-grained personal access token](https://github.com/sett
 
 No other permissions are required, and the token used does not require access to the repo's contents.
 
-> [!NOTE]
-> If you are an [Outside Collaborator](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/adding-outside-collaborators-to-repositories-in-your-organization) on a repository, it is [not currently possible](https://github.com/github/roadmap/issues/601) to create a fine-grained personal access token for access to a repository. Until this is supported, we recommend using a Personal Access Token (Classic).
-
 ### Personal Access Tokens (Classic)
 
 > [!WARNING]
 > It is strongly recommended you use a fine-grained personal access token, as it can be more finely scoped to the level of access required.
 >
 > Using a Classic personal access token is **not** minimal in its access, and due to its coarse grained permissions model, the token used will have write access implied, even if Mend Renovate Self-Hosted does not use it.
->
-> However, if you're working across multiple organisations or are an Outside Collaborator, you cannot use a fine-grained personal access token, so must create a classic personal access token.
 
 When [creating a new Fine-grained personal access token](https://github.com/settings/tokens/new?scopes=repo,read:org), you will need to specify the following scopes:
 
