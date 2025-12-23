@@ -89,11 +89,11 @@ Given a user's level of access to the repository and the organisation, we take t
 |  Resource | SCM Access Level | Mend Renovate RBAC access level |
 |  -- | -- | - |
 | Repository | (no access) | (no scope) |
-|  Repository | `pull` (AKA read-only) | `repo:read` |
-|  Repository | `triage` | `repo:read` |
-|  Repository | `push` (AKA write access) | `repo:write` |
-|  Repository | `maintain` | `repo:write` |
-|  Repository | `admin` | `repo:write` |
+| Repository | `pull` (AKA read-only) | `repo:read` |
+| Repository | `triage` | `repo:read` |
+| Repository | `push` (AKA write access) | `repo:write` |
+| Repository | `maintain` | `repo:write` |
+| Repository | `admin` | `repo:write` |
 
 Note: We determine repository permissions using [the "Get repository permissions for a user" API](https://docs.github.com/en/rest/collaborators/collaborators?apiVersion=2022-11-28#get-repository-permissions-for-a-user).
 
