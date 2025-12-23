@@ -1,6 +1,6 @@
 # Role Based Access Control (RBAC)
 
-Role Based Access Control (RBAC) allows API access using the underlying Source Code Management (SCM) platform's authentication and authorization, instead of the shared "admin token".
+Role Based Access Control (RBAC) allows API access using the underlying Platform's authentication and authorization, instead of the shared "admin token".
 
 Contrary to the use of the `MEND_RNV_API_SERVER_SECRET`, which provides a single "superuser" authentication token that many users share, the use of RBAC allows for per-user authentication, which will then base the permissions available to the user based on their level of access on the given repositories.
 
