@@ -1,0 +1,170 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mend-renovate.fullname" . }}-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.renovateWeb.labels.deployment }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.renovateWeb.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ include "mend-renovate.name" . }}-web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: {{ include "mend-renovate.name" . }}-web
+        {{- with .Values.renovateWeb.labels.pods }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
+        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/web-extra-configmaps.yaml") . | sha256sum }}
+        {{- with .Values.renovateWeb.annotations }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      automountServiceAccountToken: {{ .Values.renovateWeb.automountServiceAccountToken | default false }}
+      {{- with .Values.renovateWeb.podSecurityContext }}
+      securityContext: {{ toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- if or .Values.renovateWeb.serviceAccount.create .Values.renovateWeb.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.web-service-account-name" . }}
+      {{- end }}
+
+      {{- with .Values.renovateWeb.initContainers }}
+      initContainers: {{ toYaml . | nindent 8 }}
+      {{- end }}
+
+      containers:
+        - name: {{ .Chart.Name }}-web
+          image: "{{ .Values.renovateWeb.image.repository }}:{{ .Values.renovateWeb.image.version }}"
+          imagePullPolicy: {{ .Values.renovateWeb.image.pullPolicy }}
+          {{- with .Values.renovateWeb.containerSecurityContext }}
+          securityContext: {{ toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- if or .Values.renovateWeb.extraEnvFromConfigMaps .Values.renovateWeb.extraEnvFromSecrets }}
+          envFrom:
+          {{- with .Values.renovateWeb.extraEnvFromConfigMaps }}
+            {{- range . }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
+          {{- with .Values.renovateWeb.extraEnvFromSecrets }}
+            {{- range . }}
+            - secretRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+
+          env:
+            {{- with .Values.renovateWeb.extraEnvVars }}
+            {{ toYaml . | nindent 12 }}
+            {{- end }}
+
+            ## TODO: was MEND_RNV_SERVER_HOSTNAME
+            - name: MEND_RNV_BACKEND_ADDR
+              {{- $httpsPort:= "" }}
+              {{- $scheme := "http" }}
+              {{- if or .Values.renovateWeb.mendRnvClientHttpsConfig .Values.renovateWeb.mendRnvClientHttpsConfigPath}}
+                {{- $httpsPort = print ":" .Values.service.ports.https }}
+                {{- $scheme = "https" }}
+              {{- end}}
+              value: "{{ $scheme }}://{{ include "mend-renovate.fullname" . }}-svc-server{{ $httpsPort }}"
+
+            {{- if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
+            # TODO: was MEND_RNV_SERVER_API_SECRET
+            - name: MEND_RNV_BACKEND_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: mendRnvServerApiSecret
+            {{- end }}
+
+            {{- if .Values.license.mendRnvAcceptTos }}
+            - name: MEND_RNV_ACCEPT_TOS
+              value: {{ .Values.license.mendRnvAcceptTos | quote }}
+            {{- end }}
+            {{- if or .Values.license.mendRnvLicenseKey .Values.license.existingSecret }}
+            - name: MEND_RNV_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.license-secret-name" . }}
+                  key: mendRnvLicenseKey
+            {{- end }}
+
+
+            {{- if .Values.renovateWeb.mendRnvClientHttpsConfig }}
+            - name: MEND_RNV_CLIENT_HTTPS_CONFIG
+              value: {{ toJson .Values.renovateWeb.mendRnvClientHttpsConfig | quote }}
+            {{- end }}
+            {{- if .Values.renovateWeb.mendRnvClientHttpsConfigPath }}
+            - name: MEND_RNV_CLIENT_HTTPS_CONFIG_PATH
+              value: {{ .Values.renovateWeb.mendRnvClientHttpsConfigPath | quote}}
+            {{- end }}
+
+            {{- if .Values.renovateWeb.logLevel }}
+            - name: LOG_LEVEL
+              value: {{ .Values.renovateWeb.logLevel | quote }}
+            {{- end }}
+          ports:
+            - name: ee-web
+              containerPort: 8080
+              protocol: TCP
+
+# TODO: add /health
+{{/*          {{- with .Values.renovateWeb.livenessProbe }}*/}}
+{{/*          livenessProbe:*/}}
+{{/*            {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- with .Values.renovateWeb.readinessProbe }}*/}}
+{{/*          readinessProbe:*/}}
+{{/*          {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
+
+          resources:
+            {{ toYaml .Values.renovateWeb.resources | nindent 12 }}
+
+          {{- with .Values.renovateWeb.extraVolumeMounts }}
+          volumeMounts:
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
+
+      {{- with .Values.renovateWeb.nodeSelector }}
+      nodeSelector:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.renovateWeb.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.renovateWeb.imagePullSecrets }}
+      {{- end }}
+      {{- with .Values.renovateWeb.extraVolumes }}
+      volumes:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.renovateWeb.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.renovateWeb.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+

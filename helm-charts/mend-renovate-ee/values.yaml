@@ -413,9 +413,9 @@ renovateWorker:
 
   disableCacheVolume: false
 
-#  # Npmrc file. Will be mounted as a secret
-#  npmrc: |
-#    //registry.npmjs.org/:_authToken=xxxxxx
+  #  # Npmrc file. Will be mounted as a secret
+  #  npmrc: |
+  #    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -536,6 +536,141 @@ renovateWorker:
     create: false
     existingName:
     annotations: { }
+
+
+
+renovateWeb:
+  image:
+    repository: ghcr.io/mend/renovate-ee-web
+    version:
+    pullPolicy: Always
+
+  # TLS client config (YAML format, stringified to JSON in template).
+  # Takes precedence over 'mendRnvClientHttpsConfigPath'.
+  #
+  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#clienthttpsoptions-details-and-examples
+  mendRnvClientHttpsConfig:
+  #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
+
+  # Path to the TLS server config.
+  mendRnvClientHttpsConfigPath:
+
+  # Additional worker env vars
+  extraEnvVars: [ ]
+
+  # Number of renovate-ee-workers
+  replicas: 1
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+  resources:
+    limits:
+      memory: "4096Mi"
+      cpu: "2000m"
+    requests:
+      memory: "512Mi"
+      cpu: "10m"
+
+  annotations: { }
+
+  labels:
+    deployment: { }
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  automountServiceAccountToken: false
+
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 12021
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
+
+  initContainers: [ ]
+
+  # name of the image pull secret
+  imagePullSecrets: ""
+
+
+  #    readinessProbe:
+  #      httpGet:
+  #        path: /health
+  #        port: ee-web
+  #      initialDelaySeconds: 20
+  #      periodSeconds: 20
+  #      timeoutSeconds: 1
+  #      failureThreshold: 3
+  #      successThreshold: 1
+  #
+  #    livenessProbe:
+  #      httpGet:
+  #        path: /health
+  #        port: ee-web
+  #      initialDelaySeconds: 60
+  #      periodSeconds: 10
+  #      timeoutSeconds: 1
+  #      failureThreshold: 3
+  #      successThreshold: 1
+
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
+
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  # List of Secrets to be loaded as environment variables
+  extraEnvFromSecrets: [ ]
+  #  - name: my-extra-secret
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #          secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
+  # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+  # - name: my-extra-config-map-volume
+  #   mountPath: /path
+
+  serviceAccount:
+    create: false
+    existingName:
+    annotations: { }
+
+
+
+
 
 ## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
