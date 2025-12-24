@@ -540,6 +540,8 @@ renovateWorker:
 
 
 renovateWeb:
+  enabled: false
+
   image:
     repository: ghcr.io/mend/renovate-ee-web
     version:
