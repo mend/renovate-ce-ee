@@ -19,11 +19,11 @@ metadata:
 spec:
   type: {{ .Values.serviceWeb.type }}
   ports:
-    - port: {{ .Values.service.ports.http }}
+    - port: {{ .Values.serviceWeb.ports.http }}
       targetPort: ee-web
       protocol: TCP
       name: http
-    - port: {{ .Values.service.ports.https }}
+    - port: {{ .Values.serviceWeb.ports.https }}
       targetPort: ee-web-https
       protocol: TCP
       name: https
