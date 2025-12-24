@@ -129,6 +129,9 @@ spec:
             - name: ee-web
               containerPort: 8080
               protocol: TCP
+            - name: ee-web-https
+              containerPort: 8443
+              protocol: TCP
 
 # TODO: add /health
 {{/*          {{- with .Values.renovateWeb.livenessProbe }}*/}}

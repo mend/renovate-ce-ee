@@ -1,0 +1,34 @@
+{{- if .Values.renovateWeb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mend-renovate.fullname" . }}-svc-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    helm.sh/chart: {{ include "mend-renovate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.serviceWeb.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.serviceWeb.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.serviceWeb.type }}
+  ports:
+    - port: {{ .Values.service.ports.http }}
+      targetPort: ee-web
+      protocol: TCP
+      name: http
+    - port: {{ .Values.service.ports.https }}
+      targetPort: ee-web-https
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ include "mend-renovate.name" . }}-web
+  {{ end }}
