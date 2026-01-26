@@ -39,7 +39,7 @@ extraConfigMaps: [ ]
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 13.3.0@sha256:5cadcda7c6ecb7393bb30235e8c3e3dc74b3a30e0e6fedb0f43da39354f34389
+    version: 13.4.0@sha256:93002f6da8f8450b513e40fa1e7a040f5f7c37e71546487013678ae818f51edc
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -337,7 +337,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 13.3.0-full@sha256:c14175b839a7909915540af4afda684b5e5c884c5c7dc4c3941877b0d7901452
+    version: 13.4.0-full@sha256:0dd74dfa5062b15f2342dfebdcb0503142ab4b854f36ea282f0f3fda6d82ce3e
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
