@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mend Renovate Self-Hosted API specifications</title>
+	<script src="https://unpkg.com/@stoplight/elements@9.0.15/web-components.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/@stoplight/elements@9.0.15/styles.min.css">
+	<style>
+		header {
+			margin-left: 20px
+		}
+
+		/* Undo Elements' style for the spec selector */
+		header select {
+			-moz-appearance: auto;
+			-webkit-appearance: auto;
+			padding: revert;
+		}
+
+		header a {
+			color: var(--color-text-primary);
+			text-decoration: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1 class="sl-text-2xl sl-leading-tight sl-font-prose sl-font-semibold sl-text-heading">Mend Renovate Self-Hosted API specifications</h1>
+
+		<p>Mend Renovate Self-Hosted contains APIs that can self-hosted deployment administrators and Renovate users alike can use.</p>
+
+		<p>
+			You can toggle between the Enterprise and Community APIs using:
+			<select id="spec-selector">
+				<option value="enterprise.yaml">Enterprise Self-Hosted</option>
+				<option value="community.yaml">Community Self-Hosted</option>
+			</select>
+		</p>
+
+		<p>The specificiations can also be found <a href="https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/api.md">on GitHub.com</a>.</p>
+	</header>
+
+	<elements-api
+		id="api-viewer"
+		apiDescriptionUrl="enterprise.yaml"
+		router="hash"
+		hideTryIt="true"
+		logo=logo.svg></elements-api>
+	<script>
+		const selector = document.getElementById('spec-selector');
+		const viewer = document.getElementById('api-viewer');
+		selector.addEventListener('change', () => {
+			viewer.apiDescriptionUrl = selector.value;
+		});
+	</script>
+</body>
+
+</html>
