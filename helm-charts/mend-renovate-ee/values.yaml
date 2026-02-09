@@ -544,7 +544,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-ee-web
-    version:
+    version: 
     pullPolicy: Always
 
   # Additional web env vars

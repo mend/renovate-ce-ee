@@ -52,7 +52,7 @@ spec:
 
       containers:
         - name: {{ .Chart.Name }}-web
-          image: "{{ .Values.renovateWeb.image.repository }}:{{ .Values.renovateWeb.image.version }}"
+          image: "{{ .Values.renovateWeb.image.repository }}:{{ required "renovateWeb.image.version must be set when renovateWeb.enabled=true" .Values.renovateWeb.image.version }}"
           imagePullPolicy: {{ .Values.renovateWeb.image.pullPolicy }}
           {{- with .Values.renovateWeb.containerSecurityContext }}
           securityContext: {{ toYaml . | nindent 12 }}
