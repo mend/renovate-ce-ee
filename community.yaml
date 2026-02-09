@@ -38,7 +38,7 @@ paths:
 
         Controlled by `MEND_RNV_API_ENABLE_PROMETHEUS_METRICS` (backward compatible with `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
 
-        There are default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server respondng to the API request, _not_ the worker(s)
+        There are default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server responding to the API request, _not_ the worker(s)
 
         There are also [several custom metrics produced by Mend Renovate Self-Hosted](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/prometheus-metrics.md).
       security: []
@@ -1891,15 +1891,15 @@ components:
         notes:
           $ref: '#/components/schemas/Notes'
           type: object
-          additionalPropeties: false
+          additionalProperties: false
         deps:
           $ref: '#/components/schemas/Deps'
           type: object
-          additionalPropeties: false
+          additionalProperties: false
         updates:
           $ref: '#/components/schemas/BranchUpdates'
           type: object
-          additionalPropeties: false
+          additionalProperties: false
       description: This object contains no data in Community Server.
     PostRunResults:
       type: object

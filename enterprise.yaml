@@ -29,7 +29,7 @@ tags:
     description: |
       APIs associated with [Mend Renovate Self-Hosted Enterprise Edition](https://github.com/mend/renovate-ce-ee/).
 
-      These APis are a superset of the Community Edition and Enterprise Edition - see the separate OpenAPI specification for APIs only available in Mend Renovate Self-Hosted Community Edition.
+      These APIs are a superset of the Community Edition and Enterprise Edition - see the separate OpenAPI specification for APIs only available in Mend Renovate Self-Hosted Community Edition.
   - name: GitHub-Only
     description: |
       Features that are currently only supported when using the GitHub platform, when running in `env MEND_RNV_PLATFORM=github`.
@@ -43,7 +43,7 @@ paths:
 
         Controlled by `MEND_RNV_API_ENABLE_PROMETHEUS_METRICS` (backward compatible with `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
 
-        There are default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server respondng to the API request, _not_ the worker(s)
+        There are default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server responding to the API request, _not_ the worker(s)
 
         There are also [several custom metrics produced by Mend Renovate Self-Hosted](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/prometheus-metrics.md).
       security: []
