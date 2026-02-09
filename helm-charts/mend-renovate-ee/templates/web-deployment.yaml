@@ -31,7 +31,6 @@ spec:
         {{ toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
         checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/web-extra-configmaps.yaml") . | sha256sum }}
         {{- with .Values.renovateWeb.annotations }}
@@ -84,7 +83,7 @@ spec:
             - name: MEND_RNV_BACKEND_ADDR
               {{- $httpsPort:= "" }}
               {{- $scheme := "http" }}
-              {{- if or .Values.renovateWeb.mendRnvClientHttpsConfig .Values.renovateWeb.mendRnvClientHttpsConfigPath}}
+              {{- if or .Values.renovateServer.mendRnvServerHttpsConfig .Values.renovateServer.mendRnvServerHttpsConfigPath}}
                 {{- $httpsPort = print ":" .Values.service.ports.https }}
                 {{- $scheme = "https" }}
               {{- end}}
@@ -109,16 +108,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "mend-renovate.license-secret-name" . }}
                   key: mendRnvLicenseKey
-            {{- end }}
-
-
-            {{- if .Values.renovateWeb.mendRnvClientHttpsConfig }}
-            - name: MEND_RNV_CLIENT_HTTPS_CONFIG
-              value: {{ toJson .Values.renovateWeb.mendRnvClientHttpsConfig | quote }}
-            {{- end }}
-            {{- if .Values.renovateWeb.mendRnvClientHttpsConfigPath }}
-            - name: MEND_RNV_CLIENT_HTTPS_CONFIG_PATH
-              value: {{ .Values.renovateWeb.mendRnvClientHttpsConfigPath | quote}}
             {{- end }}
 
             {{- if .Values.renovateWeb.logLevel }}

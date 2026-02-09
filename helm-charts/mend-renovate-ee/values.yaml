@@ -547,20 +547,10 @@ renovateWeb:
     version:
     pullPolicy: Always
 
-  # TLS client config (YAML format, stringified to JSON in template).
-  # Takes precedence over 'mendRnvClientHttpsConfigPath'.
-  #
-  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#clienthttpsoptions-details-and-examples
-  mendRnvClientHttpsConfig:
-  #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
-
-  # Path to the TLS server config.
-  mendRnvClientHttpsConfigPath:
-
-  # Additional worker env vars
+  # Additional web env vars
   extraEnvVars: [ ]
 
-  # Number of renovate-ee-workers
+  # Number of renovate-ee-web instances
   replicas: 1
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
