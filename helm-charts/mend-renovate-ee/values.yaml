@@ -547,20 +547,77 @@ renovateWeb:
     version:
     pullPolicy: Always
 
-  # TLS client config (YAML format, stringified to JSON in template).
-  # Takes precedence over 'mendRnvClientHttpsConfigPath'.
-  #
-  # https://github.com/mend/renovate-ce-ee/blob/main/docs/tls.md#clienthttpsoptions-details-and-examples
-  mendRnvClientHttpsConfig:
-  #  ca: "file:///path/to/cert_auth.pem"       # or "base64://..." or plain string
+  # Which platform the Web UI connects to. currently supported value: "github"
+  # If unset, the chart derives mendRnvPlatform from the server service.
+  mendRnvPlatform:
 
-  # Path to the TLS server config.
-  mendRnvClientHttpsConfigPath:
+  # Optional endpoint used by the platform client.
+  # Usually only needed for GitHub Enterprise. For github.com, defaults are derived from mendRnvPlatform.
+  # Example: https://ghe.example.com/
+  mendRnvEndpoint:
 
-  # Additional worker env vars
+  # Optional explicit backend URL override.
+  # If unset, the chart derives mendRnvBackendAddr from the server service.
+  mendRnvBackendAddr:
+
+  # Optional backend API secret for websrv.
+  # This must match the server API secret value used by renovateServer.mendRnvServerApiSecret.
+  # If unset, websrv uses renovateServer.mendRnvServerApiSecret.
+  mendRnvBackendSecret:
+
+  # GitHub app client ID.
+  mendRnvGithubClientId:
+
+  # GitHub app client secret.
+  # Used when renovateWeb.existingSecret is not set.
+  mendRnvGithubClientSecret:
+
+  # Optional existing secret with keys used by websrv:
+  #   mendRnvGithubClientSecret:
+  #   mendRnvBackendSecret:
+  existingSecret:
+
+  # Optional GitHub OAuth redirect URI override.
+  mendRnvGithubRedirectURI:
+
+  # HTTPS server configuration for websrv.
+  # mendRnvCertFile and mendRnvKeyFile are file paths inside the web container.
+  # Ensure the files are mounted into the pod (for example via Secret/ConfigMap + extraVolumes/extraVolumeMounts).
+  mendRnvHttpsEnabled: false
+  # Required when mendRnvHttpsEnabled=true.
+  mendRnvCertFile:
+  # Required when mendRnvHttpsEnabled=true.
+  mendRnvKeyFile:
+  
+  mendRnvListenAddr: ":8080"
+
+  # Optional backend TLS CA certificate file path used to verify HTTPS server certificates.
+  # This path must exist inside the web container (typically mounted via extraVolumes/extraVolumeMounts).
+  mendRnvClientCACert:
+
+  # Optional Go duration string. Example: "30m", "24h".
+  mendRnvSessionAgeOverride:
+
+  # UI specific settings.
+  mendRnvPageSize: 20
+  mendRnvUIEnableRunJob: true
+
+  # Optional CSP form-action override.
+  # Default: "'self'"
+  mendRnvCSPFormAction:
+
+  # Optional CSP connect-src override.
+  # Default: "'self'"
+  mendRnvCSPConnectSrc:
+
+  # Optional CSP img-src override.
+  # Default "'self' data: https:"
+  mendRnvCSPImgSrc:
+
+  # Additional web env vars
   extraEnvVars: [ ]
 
-  # Number of renovate-ee-workers
+  # Number of renovate-ee-web instances
   replicas: 1
 
   # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
@@ -607,26 +664,25 @@ renovateWeb:
   # name of the image pull secret
   imagePullSecrets: ""
 
+  readinessProbe:
+    httpGet:
+      path: /readyz
+      port: ee-web
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
 
-  #    readinessProbe:
-  #      httpGet:
-  #        path: /health
-  #        port: ee-web
-  #      initialDelaySeconds: 20
-  #      periodSeconds: 20
-  #      timeoutSeconds: 1
-  #      failureThreshold: 3
-  #      successThreshold: 1
-  #
-  #    livenessProbe:
-  #      httpGet:
-  #        path: /health
-  #        port: ee-web
-  #      initialDelaySeconds: 60
-  #      periodSeconds: 10
-  #      timeoutSeconds: 1
-  #      failureThreshold: 3
-  #      successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /livez
+      port: ee-web
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
 
   # Extra ConfigMaps to be created by the chart
   # These are full Kubernetes ConfigMap definitions

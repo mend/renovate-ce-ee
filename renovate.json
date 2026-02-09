@@ -1,42 +1,38 @@
 {
-  "extends": [
-    "config:recommended",
-    ":pinDigestsDisabled"
+  "extends": ["config:recommended", ":pinDigestsDisabled"],
+  "packageRules": [
+    {
+      "groupName": "Update Mend Renovate docker images",
+      "matchPackageNames": [
+        "ghcr.io/mend/renovate-ce",
+        "ghcr.io/mend/renovate-ee-server",
+        "ghcr.io/mend/renovate-ee-worker",
+        "ghcr.io/mend/renovate-ee-web"
+      ],
+      "minimumGroupSize": 4,
+      "versioning": "docker",
+      "automerge": true,
+      "bumpVersions": [
+        {
+          "description": "Bump the `version` for the Helm charts, in line with the version bump from the Docker image",
+          "filePatterns": [
+            "helm-charts/mend-renovate-ce/Chart.yaml",
+            "helm-charts/mend-renovate-ee/Chart.yaml"
+          ],
+          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+          "bumpType": "{{updateType}}"
+        },
+        {
+          "description": "Bump the `appVersion` for the Helm charts, in line with the version bump from the Docker image",
+          "filePatterns": [
+            "helm-charts/mend-renovate-ce/Chart.yaml",
+            "helm-charts/mend-renovate-ee/Chart.yaml"
+          ],
+          "matchStrings": ["appVersion:\\s(?<version>[^\\s]+)"],
+          "bumpType": "{{updateType}}"
+        }
+      ]
+    }
   ],
-  "packageRules": [{
-    "groupName": "Update Mend Renovate docker images",
-    "matchPackageNames": [
-      "ghcr.io/mend/renovate-ce",
-      "ghcr.io/mend/renovate-ee-server",
-      "ghcr.io/mend/renovate-ee-worker"
-    ],
-    "minimumGroupSize": 3,
-    "versioning": "docker",
-    "automerge": true,
-    "bumpVersions": [
-      {
-        "description": "Bump the `version` for the Helm charts, in line with the version bump from the Docker image",
-        "filePatterns": [
-          "helm-charts/mend-renovate-ce/Chart.yaml",
-          "helm-charts/mend-renovate-ee/Chart.yaml"
-        ],
-        "matchStrings": [
-          "version:\\s(?<version>[^\\s]+)"
-        ],
-        "bumpType": "{{updateType}}"
-      },
-      {
-        "description": "Bump the `appVersion` for the Helm charts, in line with the version bump from the Docker image",
-        "filePatterns": [
-          "helm-charts/mend-renovate-ce/Chart.yaml",
-          "helm-charts/mend-renovate-ee/Chart.yaml"
-        ],
-        "matchStrings": [
-          "appVersion:\\s(?<version>[^\\s]+)"
-        ],
-        "bumpType": "{{updateType}}"
-      }
-    ]
-  }],
   "ignorePaths": []
 }
