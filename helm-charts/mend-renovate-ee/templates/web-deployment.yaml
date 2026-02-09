@@ -121,16 +121,14 @@ spec:
             - name: ee-web-https
               containerPort: 8443
               protocol: TCP
-
-# TODO: add /health
-{{/*          {{- with .Values.renovateWeb.livenessProbe }}*/}}
-{{/*          livenessProbe:*/}}
-{{/*            {{- toYaml . | nindent 12 }}*/}}
-{{/*          {{- end }}*/}}
-{{/*          {{- with .Values.renovateWeb.readinessProbe }}*/}}
-{{/*          readinessProbe:*/}}
-{{/*          {{- toYaml . | nindent 12 }}*/}}
-{{/*          {{- end }}*/}}
+          {{- with .Values.renovateWeb.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.renovateWeb.readinessProbe }}
+          readinessProbe:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
 
           resources:
             {{ toYaml .Values.renovateWeb.resources | nindent 12 }}

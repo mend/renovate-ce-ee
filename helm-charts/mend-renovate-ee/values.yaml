@@ -597,26 +597,25 @@ renovateWeb:
   # name of the image pull secret
   imagePullSecrets: ""
 
+  readinessProbe:
+    httpGet:
+      path: /readyz
+      port: ee-web
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
 
-  #    readinessProbe:
-  #      httpGet:
-  #        path: /health
-  #        port: ee-web
-  #      initialDelaySeconds: 20
-  #      periodSeconds: 20
-  #      timeoutSeconds: 1
-  #      failureThreshold: 3
-  #      successThreshold: 1
-  #
-  #    livenessProbe:
-  #      httpGet:
-  #        path: /health
-  #        port: ee-web
-  #      initialDelaySeconds: 60
-  #      periodSeconds: 10
-  #      timeoutSeconds: 1
-  #      failureThreshold: 3
-  #      successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /livez
+      port: ee-web
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
 
   # Extra ConfigMaps to be created by the chart
   # These are full Kubernetes ConfigMap definitions
