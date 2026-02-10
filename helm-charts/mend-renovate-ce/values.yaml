@@ -204,6 +204,15 @@ renovate:
   # Path to the TLS server config.
   mendRnvServerHttpsConfigPath:
 
+  # Enable Role Based Access Control, to allow users to provide platform-specific authentication (such as Personal Access Tokens) to authenticate to the APIs.
+  #
+  # NOTE: this only supports certain platforms.
+  #
+  # See also: https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/rbac.md
+  #
+  # Optional. Set to 'true' to enable.
+  mendRnvServerRbacEnabled:
+
   # Self-hosted renovate configuration file, will be mounted as a config map
   config: |
     module.exports = {
