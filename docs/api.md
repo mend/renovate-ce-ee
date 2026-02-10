@@ -1,93 +1,35 @@
-# Renovate API
+# Renovate Self-Hosted API
 
-Renovate CE/EE exposes a REST API that you can use to interact programmatically with Renovate.
+Mend Renovate Self-Hosted contains APIs that can self-hosted deployment administrators and Renovate users alike can use.
 
-## Enabling and Authentication
+We document these APIs using the OpenAPI standard:
 
-The APIs can be enabled by setting the `MEND_RNV_API_ENABLED: true` (renamed from `MEND_RNV_ADMIN_API_ENABLED`).
-You must also configure an API secret by setting the `MEND_RNV_API_SERVER_SECRET` (renamed from `MEND_RNV_SERVER_API_SECRET`) variable.
+- [`openapi-enterprise.yaml`](openapi-enterprise.yaml)
+- [`openapi-community.yaml`](openapi-community.yaml)
 
-Authentication is done via HTTP Auth, using the API secret as the password.
-For example if the secret is `renovateapi` then you would authenticate with:
+A subset of APIs are available on the Community Edition, which is why we have split the specifications, so a Community user is able to clearly see which APIs they have available to them.
 
-```
-  Authorization: Bearer renovateapi
-  or
-  Authorization: renovateapi
-```
+## Enabling APIs via environment variables
 
-## Endpoints
+When starting the Renovate Server, the APIs are not enabled by default, and must be enabled through environment variables.
 
-Endpoints are divided into different sections
+Note that some of the API types require more than one environment variable to be set.
 
-### Health
+| API type | OpenAPI tag | Environment variables |
+| -------- | ----------- | --------------------- |
+| Public APIs | `API`  | `env MEND_RNV_API_ENABLED=true` |
+| System APIs | `System` | `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_SYSTEM=true` |
+| Jobs APIs  | `Jobs` |  `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_JOBS=true` |
+| Reporting APIs  | `Reporting` | `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_REPORTING=true` |
 
-* `GET /health`
+All APIs can be enabled alongside each other, by specifying _all_ of the environment variables noted above. There is no current means to enable all APIs in a single environment variable due to security concerns.
 
-Returns 200 if API is healthy.
+## OpenAPI browser
 
-### Prometheus Metrics
+You can see [a rendered copy](https://mend.github.io/renovate-ce-ee/api.html) of the current documentation on `main`.
 
-* `GET /metrics`
+## Breaking changes
 
-This endpoint exposes Prometheus-compatible metrics.
+Mend will only make breaking changes to the APis as part of a major version release, according to [Semantic Versioning (SemVer)](https://semver.org/spec/v2.0.0.html).
 
-Controlled by `MEND_RNV_API_ENABLE_PROMETHEUS_METRICS` (backward compatible with `MEND_RNV_PROMETHEUS_METRICS_ENABLED`)
-
-Full documentation can be found in [prometheus-metrics.md](./prometheus-metrics.md).
-
-### System API Routes
-
-```
-GET  /system/v1/status
-GET  /system/v1/tasks/queue
-GET  /system/v1/jobs/queue
-GET  /system/v1/jobs/logs/:jobId
-POST /system/v1/jobs/add
-POST /system/v1/sync
-```
-
-Controlled by both:
-* `MEND_RNV_API_ENABLED: true`  (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
-* `MEND_RNV_API_ENABLE_SYSTEM: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
-
-
-See separate [System APIs documentation](api-system.md) for information about the System APIs.
-
-### Jobs API Routes
-
-```
-POST /api/v1/repos/{org}/{repo}/-/jobs/run
-GET  /api/v1/repos/{org}/{repo}/-/jobs/:jobId
-GET  /api/v1/repos/{org}/{repo}/-/jobs
-```
-
-Controlled by both:
-* `MEND_RNV_API_ENABLED: true`  (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
-* `MEND_RNV_API_ENABLE_JOBS: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
-
-
-See separate [Job APIs documentation](api-jobs.md) for information about the Jobs APIs.
-
-
-### Reporting APIs
-
-```
-GET /api/v1/orgs
-GET /api/v1/orgs/{org}
-GET /api/v1/orgs/{org}/-/repos
-
-GET /api/v1/repos/{org}/{repo}
-GET /api/v1/repos/{org}/{repo}/-/pulls
-GET /api/v1/repos/{org}/{repo}/-/dashboard
-
-GET /api/v1/orgs/-/libyears
-GET /api/v1/orgs/{org}/-/libyears
-GET /api/v1/repos/{org}/{repo}/-/libyears
-```
-
-Controlled by both:
-* `MEND_RNV_API_ENABLED: true` (backward compatible with `MEND_RNV_ADMIN_API_ENABLED`)
-* `MEND_RNV_API_ENABLE_REPORTING: true` (backward compatible with `MEND_RNV_REPORTING_ENABLED`)
-
-See separate [Reporting APIs documentation](api-reporting.md) for information about the Reporting APIs.
+However, there are some endpoints and fields that do not have a backwards-compatibility guarantee. These endpoints and fields are marked with `x-no-backwards-compatibility-guarantees`.
