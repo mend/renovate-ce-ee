@@ -39,7 +39,7 @@ extraConfigMaps: [ ]
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 13.1.0@sha256:b2d508d47d769f69f44dd4de6dfae6ecb0a9399d406416218d65a9588ab7d39e
+    version: 13.4.0@sha256:93002f6da8f8450b513e40fa1e7a040f5f7c37e71546487013678ae818f51edc
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -84,7 +84,7 @@ renovateServer:
 
   # Optional: Provide a path to persist the SQLite database
   # eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume
-  # If you set databasePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
+  # If you set dataPersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
   mendRnvSqliteFilePath: '/database/renovate-ee.sqlite'
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
@@ -337,7 +337,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 13.1.0-full@sha256:ef4fc2d790bfb29e1cee4b2259e499f8819a0d0544222fbbf3b0410ec91754ac
+    version: 13.4.0-full@sha256:0dd74dfa5062b15f2342dfebdcb0503142ab4b854f36ea282f0f3fda6d82ce3e
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
