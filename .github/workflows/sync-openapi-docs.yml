@@ -1,0 +1,49 @@
+name: Sync OpenAPI to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/openapi-community.yaml'
+      - 'docs/openapi-enterprise.yaml'
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+      - name: Copy OpenAPI files from main
+        run: |
+          git checkout main -- docs/openapi-community.yaml
+          git checkout main -- docs/openapi-enterprise.yaml
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Commit and push changes
+        run: |
+          git add docs/openapi-community.yaml docs/openapi-enterprise.yaml
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync OpenAPI files from main
+
+            Co-authored-by: $GITHUB_ACTOR <$GITHUB_ACTOR@users.noreply.github.com>"
+            git push origin gh-pages
+          fi
