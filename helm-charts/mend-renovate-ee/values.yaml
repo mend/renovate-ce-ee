@@ -553,7 +553,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-web-server
-    version: 13.6.0
+    version: 13.6.0@sha256:8ec9ce82083c8ff812f319b190e449278a1ae31fbaeefdb9a085089fc308dfd4
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"
