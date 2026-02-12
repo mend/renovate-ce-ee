@@ -45,6 +45,17 @@ If you don't care about the value, then enter 'renovate' as that is the default 
 
 You can use the [Renovate icon](https://docs.renovatebot.com/assets/images/logo.png) for the app/bot if you desire.
 
+### Configuration for the Web UI
+
+If you are an Enterprise user and are using [the web UI](web-ui.md), you will a few other details to set that up:
+
+- `MEND_RNV_GITHUB_CLIENT_ID`: corresponds to the App's "Client ID"
+  - **NOTE**: this is not the "App ID". Although GitHub Apps can authenticate with either, when the web UI is operating as an OAuth2 App, it needs to use the Client ID
+- `MEND_RNV_GITHUB_CLIENT_SECRET`: Click the "Generate a new client secret"
+- `MEND_RNV_GITHUB_REDIRECT_URI`: Add under the "Add Callback URL" (AKA redirect URI)
+  - This will be the URL for the web UI, with the path `/oauth/github/callback`
+  - Multiple redirect URIs can be used when registering the App, to aid in local development, or if multiple URLs are needed. Note that only one redirect URI can be used when running the web UI
+
 ## Run Mend Renovate Self-hosted App
 
 You can run Mend Renovate Self-hosted App from a Docker command line prompt, or by using a Docker Compose file. Examples are provided in the links below.
@@ -55,9 +66,9 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 - [Mend Renovate Enterprise Edition](../examples/docker-compose/docker-compose-renovate-enterprise.yml)
 
 > [!NOTE]
->
+> 
 > Some configuration of environment variables will be required inside the Docker Compose files.
->
+> 
 > Essential configuration options are shown below. For a full list of configurable variables, see [Configuration Options](configuration-options.md).
 
 ## Configure Environment Variables
