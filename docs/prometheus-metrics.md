@@ -1,6 +1,6 @@
 # Prometheus metrics
 
-A number of default metrics are exposed by Node.JS.
+A number of default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server respondng to the API request, _not_ the worker(s)
 
 Additionally, the following custom metrics are exposed:
 
