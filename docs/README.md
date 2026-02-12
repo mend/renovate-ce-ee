@@ -23,6 +23,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - [Setup guide for Bitbucket Data Center](setup-for-bitbucket-data-center.md)
 4. Configuration
    - [Self-hosted App configuration options](configuration-options.md)
+   - [Renovate Web service configuration (Enterprise only)](renovate-web.md)
    - [Example Renovate CE Docker Compose](../examples/docker-compose/docker-compose-renovate-community.yml)
    - [Example Renovate EE Docker Compose](../examples/docker-compose/docker-compose-renovate-enterprise.yml)
    - [Configure PostgreSQL DB](configure-postgres-db.md)
