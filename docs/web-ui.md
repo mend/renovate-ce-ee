@@ -11,7 +11,7 @@ Enterprise users of Mend Renovate Self-Hosted have access to a web UI for their 
 
 The web UI relies upon the [Role Based Access Control functionality](rbac.md) to ensure that users can only access repositories, organizations and job logs that they are allowed to according to their access on the platform you're using.
 
-![A screenshot of a repository's job logs, presented in dark mode. There is syntax highlighting for extended JSON context on a log line, ` Detected config in env RENOVATE_CONFIG`, which provides more insight into what the log line is showing. There are two buttons to note - a button, shown as a download icon, to download logs and a "Collapse all" button. There is also a select box to note the lowest log level to show, which is currently set to `DEBUG`.](images/webui-github-job-logs-dark.png)
+![A screenshot of a repository's job logs, presented in dark mode. There is syntax highlighting for extended JSON context on a log line, `Detected config in env RENOVATE_CONFIG`, which provides more insight into what the log line is showing. There are two buttons to note - a button, shown as a download icon, to download logs and a "Collapse all" button. There is also a select box to note the lowest log level to show, which is currently set to `DEBUG`.](images/webui-github-job-logs-dark.png)
 
 ## Supported Platforms
 
