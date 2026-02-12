@@ -543,7 +543,7 @@ renovateWeb:
   enabled: false
 
   image:
-    repository: ghcr.io/mend/renovate-ee-web
+    repository: ghcr.io/mend/renovate-web-server
     version: 13.6.0
     pullPolicy: Always
 
