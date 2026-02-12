@@ -101,7 +101,7 @@ Alternatively, deploying it with an authenticating proxy such as [oauth2-proxy](
 
 Additionally, when the web UI runs in "no auth" mode, users are treated as if they have access to the static admin token. Because of this, there are no authorization checks on which organizations or repositories can be accessed.
 
-If you wish for "write" actions, such as being able to run a job against a repo, to be disabled when using "no auth" mode, it is recommended to st `MEND_RNV_UI_ENABLE_RUN_JOB=false`.
+If you wish for "write" actions, such as being able to run a job against a repo, to be disabled when using "no auth" mode, it is recommended to set `MEND_RNV_UI_ENABLE_RUN_JOB=false`.
 
 "No auth" mode can be used with all supported backends for the Self-Hosted deployment, as it delegates the work to the Server.
 
