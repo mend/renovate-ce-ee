@@ -55,9 +55,9 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 - [Mend Renovate Enterprise Edition](../examples/docker-compose/docker-compose-renovate-enterprise.yml)
 
 > [!NOTE]
-> 
+>
 > Some configuration of environment variables will be required inside the Docker Compose files.
-> 
+>
 > Essential configuration options are shown below. For a full list of configurable variables, see [Configuration Options](configuration-options.md).
 
 ## Configure Environment Variables
