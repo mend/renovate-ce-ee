@@ -544,7 +544,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-ee-web
-    version:
+    version: 13.6.0
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"
