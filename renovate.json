@@ -7,7 +7,7 @@
         "ghcr.io/mend/renovate-ce",
         "ghcr.io/mend/renovate-ee-server",
         "ghcr.io/mend/renovate-ee-worker",
-        "ghcr.io/mend/renovate-ee-web"
+        "ghcr.io/mend/renovate-web-server"
       ],
       "minimumGroupSize": 4,
       "versioning": "docker",
