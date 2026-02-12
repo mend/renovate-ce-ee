@@ -546,6 +546,199 @@ renovateWorker:
     existingName:
     annotations: { }
 
+
+
+renovateWeb:
+  enabled: false
+
+  image:
+    repository: ghcr.io/mend/renovate-web-server
+    version: 13.6.0
+    pullPolicy: Always
+
+  # Which platform the Web UI connects to. currently supported value: "github"
+  # If unset, the chart derives mendRnvPlatform from the server service.
+  mendRnvPlatform:
+
+  # Optional endpoint used by the platform client.
+  # Usually only needed for GitHub Enterprise. For github.com, defaults are derived from mendRnvPlatform.
+  # Example: https://ghe.example.com/
+  mendRnvEndpoint:
+
+  # Optional explicit backend URL override.
+  # If unset, the chart derives mendRnvBackendAddr from the server service.
+  mendRnvBackendAddr:
+
+  # Optional backend API secret for websrv.
+  # This must match the server API secret value used by renovateServer.mendRnvServerApiSecret.
+  # If unset, websrv uses renovateServer.mendRnvServerApiSecret.
+  mendRnvBackendSecret:
+
+  # GitHub app client ID.
+  mendRnvGithubClientId:
+
+  # GitHub app client secret.
+  # Used when renovateWeb.existingSecret is not set.
+  mendRnvGithubClientSecret:
+
+  # Optional existing secret with keys used by websrv:
+  #   mendRnvGithubClientSecret:
+  #   mendRnvBackendSecret:
+  existingSecret:
+
+  # Optional GitHub OAuth redirect URI override.
+  mendRnvGithubRedirectURI:
+
+  # HTTPS server configuration for websrv.
+  # mendRnvCertFile and mendRnvKeyFile are file paths inside the web container.
+  # Ensure the files are mounted into the pod (for example via Secret/ConfigMap + extraVolumes/extraVolumeMounts).
+  mendRnvHttpsEnabled: false
+  # Required when mendRnvHttpsEnabled=true.
+  mendRnvCertFile:
+  # Required when mendRnvHttpsEnabled=true.
+  mendRnvKeyFile:
+  
+  mendRnvListenAddr: ":8080"
+
+  # Optional backend TLS CA certificate file path used to verify HTTPS server certificates.
+  # This path must exist inside the web container (typically mounted via extraVolumes/extraVolumeMounts).
+  mendRnvClientCACert:
+
+  # Optional Go duration string. Example: "30m", "24h".
+  mendRnvSessionAgeOverride:
+
+  # UI specific settings.
+  mendRnvPageSize: 20
+  mendRnvUIEnableRunJob: true
+
+  # Optional CSP form-action override.
+  # Default: "'self'"
+  mendRnvCSPFormAction:
+
+  # Optional CSP connect-src override.
+  # Default: "'self'"
+  mendRnvCSPConnectSrc:
+
+  # Optional CSP img-src override.
+  # Default "'self' data: https:"
+  mendRnvCSPImgSrc:
+
+  # Additional web env vars
+  extraEnvVars: [ ]
+
+  # Number of renovate-ee-web instances
+  replicas: 1
+
+  # Set log level, defaults to 'info'. Allowed values: fatal, error, warn, info, debug, trace
+  logLevel: info
+
+  resources:
+    limits:
+      memory: "4096Mi"
+      cpu: "2000m"
+    requests:
+      memory: "512Mi"
+      cpu: "10m"
+
+  annotations: { }
+
+  labels:
+    deployment: { }
+    pods: { }
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  automountServiceAccountToken: false
+
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 12021
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
+
+  initContainers: [ ]
+
+  # name of the image pull secret
+  imagePullSecrets: ""
+
+  readinessProbe:
+    httpGet:
+      path: /readyz
+      port: ee-web
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  livenessProbe:
+    httpGet:
+      path: /livez
+      port: ee-web
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+
+  # Extra ConfigMaps to be created by the chart
+  # These are full Kubernetes ConfigMap definitions
+  extraConfigMaps: [ ]
+  #  - apiVersion: v1
+  #    kind: ConfigMap
+  #    metadata:
+  #      name: my-extra-config-map
+  #    data:
+  #      MY_ENV_VAR: "my-value"
+  #      ANOTHER_VAR: "123"
+
+  # List of ConfigMaps to be loaded as environment variables
+  extraEnvFromConfigMaps: [ ]
+  #  - name: my-extra-config-map
+
+  # List of Secrets to be loaded as environment variables
+  extraEnvFromSecrets: [ ]
+  #  - name: my-extra-secret
+
+  extraVolumes: [ ]
+  #    - name: secrets-store-inline
+  #      csi:
+  #        driver: secrets-store.csi.k8s.io
+  #        readOnly: true
+  #        volumeAttributes:
+  #          secretProviderClass: "some-secret-store"
+  #    - name: my-extra-config-map-volume
+  #      configMap:
+  #        name: my-extra-config
+
+  extraVolumeMounts: [ ]
+  # - name: secrets-store-inline
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+  # - name: my-extra-config-map-volume
+  #   mountPath: /path
+
+  serviceAccount:
+    create: false
+    existingName:
+    annotations: { }
+
+
+
+
+
 ## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
@@ -574,6 +767,16 @@ dataInMemory:
   enabled: false
 
 service:
+  annotations: { }
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
+  # cloud.google.com/load-balancer-type: "Internal"
+  labels: { }
+
+# TODO: reorganize
+serviceWeb:
   annotations: { }
   type: ClusterIP
   ports:

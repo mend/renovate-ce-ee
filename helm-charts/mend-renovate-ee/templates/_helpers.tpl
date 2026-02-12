@@ -65,6 +65,17 @@ Expand the name of the worker secret
 {{- end -}}
 
 {{/*
+Expand the name of the web secret
+*/}}
+{{- define "mend-renovate.web-secret-name" -}}
+{{- if .Values.renovateWeb.existingSecret -}}
+{{- .Values.renovateWeb.existingSecret -}}
+{{- else -}}
+{{- include "mend-renovate.name" . }}-web
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the npmrc secret
 */}}
 {{- define "mend-renovate.npmrc-secret-name" -}}
@@ -94,5 +105,16 @@ Expand the name of the worker service account
 {{- include "mend-renovate.name" . }}-worker-sa
 {{- else -}}
 {{- .Values.renovateWorker.serviceAccount.existingName -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the web service account
+*/}}
+{{- define "mend-renovate.web-service-account-name" -}}
+{{- if .Values.renovateWeb.serviceAccount.create -}}
+{{- include "mend-renovate.name" . }}-web-sa
+{{- else -}}
+{{- .Values.renovateWeb.serviceAccount.existingName -}}
 {{- end -}}
 {{- end -}}
