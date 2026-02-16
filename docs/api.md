@@ -24,6 +24,19 @@ Note that some of the API types require more than one environment variable to be
 
 All APIs can be enabled alongside each other, by specifying _all_ of the environment variables noted above. There is no current means to enable all APIs in a single environment variable due to security concerns.
 
+### Reporting APIs
+
+When Reporting APIs are enabled, relevant data will be collected after every Renovate job and stored locally in the Renovate database.
+
+For this to occur, extra environment variables must be set.
+
+| Container | Configuration variable              | Description                                                                                                                                  |
+|-----------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Worker    | `RENOVATE_REPOSITORY_CACHE`         | Set to `enabled` to enable `Repo pull requests` API                                                                                          |
+| Worker    | `RENOVATE_REPOSITORY_CACHE_TYPE`    | To enable S3 repository cache, see [docs](https://docs.renovatebot.com/self-hosted-configuration/#repositorycachetype). Defaults to `local`. |
+| Worker    | `RENOVATE_X_REPO_CACHE_FORCE_LOCAL` | If using S3 repository cache, set to `enabled` to enable `Repo pull request` API                                                             |
+| Server    | `MEND_RNV_CRON_LIBYEARS_MV_REFRESH` | Defines the cron schedule for updating the org-level libyears data. Defaults to `20 * * * *` (every hour at 20 minutes past the hour)        |
+
 ## OpenAPI browser
 
 You can see [a rendered copy](https://mend.github.io/renovate-ce-ee/api.html) of the current documentation on `main`.
