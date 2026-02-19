@@ -19,14 +19,14 @@ The RBAC functionality is available for both Community Edition and Enterprise Ed
 
 ## Caching
 
-By default, once a user's permissions are looked up, they are cached for 60 minutes (1 hour).
+By default, once a user's permissions are looked up, they are cached for 5 minutes.
 
 You can configure this using `MEND_RNV_CACHE_TTL_OVERRIDES_MAP`.
 
-For instance, to configure the RBAC data be cached for a maximum of 5 minutes:
+For instance, to configure the RBAC data be cached for a maximum of 15 minutes:
 
 ```sh
-export MEND_RNV_CACHE_TTL_OVERRIDES_MAP=rbac=5m
+export MEND_RNV_CACHE_TTL_OVERRIDES_MAP=rbac=15m
 ```
 
 ## Supported APIs
