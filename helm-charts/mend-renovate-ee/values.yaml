@@ -39,7 +39,7 @@ extraConfigMaps: [ ]
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 13.6.0@sha256:7eb4a8969691c9bdaacb26c3be21cd696cdb973a812fdd0004f5b33822775f6b
+    version: 14.0.0@sha256:a2d0be5c2f6d52873856274238525596a4a3da9cce57992a68a201f44a93ca85
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -346,7 +346,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 13.6.0-full@sha256:258394ddbf5756f5d93b4f6806c87b703603b8ade686776c52099a75e21f46aa
+    version: 14.0.0-full@sha256:4b55511ec9ae1b5a5732f851be6a6703bbd71560ce721dab5447ae7e253267ac
     pullPolicy: Always
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
@@ -553,7 +553,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-web-server
-    version: 13.6.0@sha256:8ec9ce82083c8ff812f319b190e449278a1ae31fbaeefdb9a085089fc308dfd4
+    version: 14.0.0@sha256:751a9d13c96ab857a5f100cf06b48619164b5c31f3dfa694a79763742e9119af
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"
