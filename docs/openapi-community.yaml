@@ -27,7 +27,7 @@ tags:
 
       - On the Workers:
         - `RENOVATE_REPOSITORY_CACHE=enabled`
-        - If using the S3 repo cache, `RENOVATE_X_REPO_CACHE_FORCE_LOCAL=true` must be set
+        - If using the S3 repo cache, `RENOVATE_REPOSITORY_CACHE_FORCE_LOCAL=true` (prior to 14.0.0, `RENOVATE_X_REPO_CACHE_FORCE_LOCAL=true`) must be set
       - On the Server:
         - `MEND_RNV_CRON_LIBYEARS_MV_REFRESH` can be specified to override the cron schedule for updating org-level LibYears stats. The default is `20 * * * *` (every hour at 20 minutes past the hour)
   - name: Jobs
@@ -782,7 +782,7 @@ components:
 
         See [the Mend Renovate Self-Hosted RBAC docs](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/rbac.md) for more information.
 
-        Note that this permissions data is, by default, cached for 60m after first authorization.
+        Note that this permissions data is, by default, cached for 5m after first authorization.
       flows:
         password:
           tokenUrl: 'https://unused.example.com'
@@ -1353,6 +1353,11 @@ components:
           $ref: '#/components/schemas/JobsMeta'
         renovateVersion:
           type: string
+          pattern: '[0-9]+\.[0-9]+\.[0-9]+'
+          description: |
+            The exact Renovate CLI version used (as a Semantic Version).
+
+            This is the version of the Renovate CLI that is used when processing repositories.
         license:
           type: object
           additionalProperties: true
@@ -1985,7 +1990,7 @@ components:
       type: string
       format: date-time
       description: |
-        **Note**: this format will be corrected in the next breaking change.
+        **Note**: this format will be corrected in the 15.0.0 release.
 
         The date formats returned at this point in time are non-standard, and depend on the database used.
 
