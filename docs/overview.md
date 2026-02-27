@@ -26,8 +26,8 @@ In particular, it checks webhooks for:
 
 - Projects it has just been added to
 - Commits to `main` branch that touch "important" files:
-  - [Renovate's configuration filenames](https://docs.renovatebot.com/configuration-options/) (i.e. `renovate.json`)
-  - any known package manager files, as found by the `managerFilePatterns` in each package manager's default configuration, i.e. [the `bazel` manager's default config](https://docs.renovatebot.com/modules/manager/bazel/)
+  - [Renovate's configuration filenames](https://docs.renovatebot.com/configuration-options/) (e.g. `renovate.json`)
+  - any known package manager files, as found by the `managerFilePatterns` in each package manager's default configuration, e.g. [the `bazel` manager's default config](https://docs.renovatebot.com/modules/manager/bazel/)
 - Any commits made to Renovate's branches
 - Closing or merging of Renovate PRs
 
