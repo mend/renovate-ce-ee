@@ -47,6 +47,7 @@ If both an organization and a repository are assigned to queues, the repository 
 ```sh
 MEND_RNV_API_ENABLED=true
 MEND_RNV_API_ENABLE_SYSTEM=true
+MEND_RNV_API_SERVER_SECRET=<server_secret>
 ```
 
 Enable these settings on the server to manage queues through the System API.
