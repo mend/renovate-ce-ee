@@ -61,7 +61,7 @@ See [Metrics and Autoscaling](#metrics-and-autoscaling).
 
 ### Worker
 
-```text
+```sh
 MEND_RNV_WORKER_QUEUES=<queue_name>
 ```
 
