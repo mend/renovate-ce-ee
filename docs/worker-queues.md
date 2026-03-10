@@ -1,12 +1,14 @@
 <!-- omit in toc -->
 # Worker Queues 
 
-Worker queues let you isolate Renovate workloads across dedicated worker pools instead of sending all jobs to the default shared workers.
+Worker queues let you isolate Renovate workloads across dedicated worker pools, instead of sending all jobs to the default shared workers.
 
-This document covers the worker queue workflow and routing model. For general API documentation, see [API Documentation](./api.md). For the exact worker queue API contract, see [openapi-enterprise.yaml](./openapi-enterprise.yaml) or the [rendered API documentation](https://mend.github.io/renovate-ce-ee/api.html).
+This document covers the worker queue workflow and routing model.
+
+For general API documentation, see [API Documentation](./api.md). For the exact worker queue API contract, see [openapi-enterprise.yaml](./openapi-enterprise.yaml) or the [rendered API documentation](https://mend.github.io/renovate-ce-ee/api.html).
 
 > [!IMPORTANT]
-> Worker queues are an enterprise only feature.
+> Worker queues are an Enterprise only feature.
 
 <!-- omit in toc -->
 # Table of Content
@@ -42,7 +44,7 @@ If both an organization and a repository are assigned to queues, the repository 
 
 ### Server
 
-```text
+```sh
 MEND_RNV_API_ENABLED=true
 MEND_RNV_API_ENABLE_SYSTEM=true
 ```
@@ -51,7 +53,7 @@ Enable these settings on the server to manage queues through the System API.
 
 To expose worker queue metrics, also enable:
 
-```text
+```sh
 MEND_RNV_API_ENABLE_PROMETHEUS_METRICS=true
 ```
 
