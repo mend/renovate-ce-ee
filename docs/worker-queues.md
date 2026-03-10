@@ -94,7 +94,7 @@ Use `MEND_RNV_WORKER_QUEUES` to define which queues a worker can process (defaul
 
 Examples:
 
-```text
+```sh
 # General purpose workers on the default queue
 MEND_RNV_WORKER_QUEUES=main
 
@@ -196,7 +196,7 @@ curl --request GET "$MEND_RNV_SERVER_HOSTNAME/system/v1/queues?name=arm" \
 
 Configure one or more workers with:
 
-```text
+```sh
 MEND_RNV_WORKER_QUEUES=arm
 ```
 
