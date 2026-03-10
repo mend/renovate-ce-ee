@@ -39,7 +39,6 @@ tags:
     description: |
       Worker queue APIs provide worker queue management, repository/organization
       queue assignment, and dequeue filtering behavior.
-    x-enterprise-only: true
   - name: Enterprise-Only
     description: |
       APIs associated with [Mend Renovate Self-Hosted Enterprise Edition](https://github.com/mend/renovate-ce-ee/).
