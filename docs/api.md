@@ -9,6 +9,8 @@ We document these APIs using the OpenAPI standard:
 
 A subset of APIs are available on the Community Edition, which is why we have split the specifications, so a Community user is able to clearly see which APIs they have available to them.
 
+For a workflow oriented guide to enterprise worker queue management and routing, see [Worker queues](./worker-queues.md).
+
 ## Enabling APIs via environment variables
 
 When starting the Renovate Server, the APIs are not enabled by default, and must be enabled through environment variables.

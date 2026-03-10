@@ -1,6 +1,6 @@
 # Prometheus metrics
 
-A number of default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server respondng to the API request, _not_ the worker(s)
+A number of default metrics are exposed by Node.js for the Mend Renovate Self-Hosted Server responding to the API request, _not_ the worker(s).
 
 > [!NOTE]
 > The Prometheus metrics are only enabled if specifying `env MEND_RNV_API_ENABLE_PROMETHEUS_METRICS=true`
@@ -32,16 +32,16 @@ Additionally, the following custom metrics are exposed:
         <!-- don't indent further or add a newline above this line, as Markdown rendering will make it a code block -->
         <ul>
           <li>
-            <code>scheduledAll</code>
+            <code>schedule-all</code>
           </li>
           <li>
-            <code>scheduledHot</code>
+            <code>schedule-hot</code>
           </li>
           <li>
-            <code>scheduledCold</code>
+            <code>schedule-cold</code>
           </li>
           <li>
-            <code>scheduledCapped</code>
+            <code>schedule-capped</code>
           </li>
           <li>
             <code>requested</code>
@@ -65,19 +65,70 @@ Additionally, the following custom metrics are exposed:
         <!-- don't indent further or add a newline above this line, as Markdown rendering will make it a code block -->
         <ul>
           <li>
-            <code>scheduledAll</code>
+            <code>schedule-all</code>
           </li>
           <li>
-            <code>scheduledHot</code>
+            <code>schedule-hot</code>
           </li>
           <li>
-            <code>scheduledCold</code>
+            <code>schedule-cold</code>
           </li>
           <li>
-            <code>scheduledCapped</code>
+            <code>schedule-capped</code>
           </li>
           <li>
             <code>requested</code>
+          </li>
+        </ul>
+        <!-- don't indent further -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mend_renovate_worker_queue_size</code>
+      </td>
+      <td>
+        <code>gauge</code>
+      </td>
+      <td>
+        Current number of jobs by worker queue, schedule, and status.
+      </td>
+      <td>
+        Labels:
+        <!-- don't indent further or add a newline above this line, as Markdown rendering will make it a code block -->
+        <ul>
+          <li>
+            <code>queue</code>: worker queue name, for example <code>main</code> or <code>foo</code>
+          </li>
+          <li>
+            <code>schedule</code>: scheduler queue name, for example <code>schedule-all</code>
+          </li>
+          <li>
+            <code>status</code>: <code>pending</code> or <code>running</code>
+          </li>
+        </ul>
+        <!-- don't indent further -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mend_renovate_worker_queue_max_wait</code>
+      </td>
+      <td>
+        <code>gauge</code>
+      </td>
+      <td>
+        Current age in seconds of the oldest pending job by worker queue and schedule.
+      </td>
+      <td>
+        Labels:
+        <!-- don't indent further or add a newline above this line, as Markdown rendering will make it a code block -->
+        <ul>
+          <li>
+            <code>queue</code>: worker queue name, for example <code>main</code> or <code>foo</code>
+          </li>
+          <li>
+            <code>schedule</code>: scheduler queue name, for example <code>schedule-all</code>
           </li>
         </ul>
         <!-- don't indent further -->

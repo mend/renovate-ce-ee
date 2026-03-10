@@ -33,4 +33,6 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
 6. [API Documentation](./api.md) ([rendered](https://mend.github.io/renovate-ce-ee/api.html))
    - [`openapi-enterprise.yaml`](openapi-enterprise.yaml)
    - [`openapi-community.yaml`](openapi-community.yaml)
-7. [Advanced topics](./advanced.md)
+7. Advanced topics
+   - [Advanced details](./advanced.md)
+   - [Worker queues (Enterprise only)](./worker-queues.md)
