@@ -1322,7 +1322,10 @@ components:
         queueName:
           type: string
           description: |
-            Queue name captured at dequeue time for this execution attempt.
+            Queue name associated with the job.
+
+            For pending jobs, this is the effective queue name before dequeue.
+            For running/completed jobs, this is the queue captured at dequeue time for this execution attempt.
       required:
         - repository
         - priority
