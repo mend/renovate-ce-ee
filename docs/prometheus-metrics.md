@@ -115,7 +115,7 @@ Additionally, the following custom metrics are exposed:
         <code>gauge</code>
       </td>
       <td>
-        Current age in seconds of the oldest pending job by worker queue.
+        Current age in seconds of the oldest pending job by worker queue and schedule.
       </td>
       <td>
         Labels:
