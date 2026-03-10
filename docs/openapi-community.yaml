@@ -862,6 +862,45 @@ components:
       required: true
       schema:
         type: string
+    QueueName:
+      name: queueName
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/QueueName'
+      description: Worker queue name.
+    QueueNames:
+      name: name
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/QueueName'
+      style: form
+      explode: true
+      description: |
+        Optional repeated queue name filter.
+
+        Example: `name=main&name=arm`
+
+        If omitted, all queues are returned.
+    DequeueQueues:
+      name: queue
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/QueueName'
+      style: form
+      explode: true
+      description: |
+        Optional repeated queue dequeue filter.
+
+        Example: `queue=main&queue=arm`.
+
+        If omitted, dequeue considers all queues.
     OrgReposCursor:
       name: cursor
       in: query
@@ -1014,6 +1053,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    ConflictError:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     NoContent:
       description: No Content
     UnauthorizedError:
@@ -1067,6 +1112,114 @@ components:
           type: string
       required:
         - message
+    QueueName:
+      type: string
+      pattern: '^[a-z0-9_-]{1,64}$'
+      description: |
+        Queue name in lowercase.
+
+        Must match `^[a-z0-9_-]{1,64}$`.
+    CreateWorkerQueueName:
+      allOf:
+        - $ref: '#/components/schemas/QueueName'
+        - not:
+            enum:
+              - main
+              - all
+              - 'null'
+      description: |
+        Queue name for queue creation.
+
+        Reserved names are rejected: `main`, `all`, `null`.
+    AssignableQueueName:
+      allOf:
+        - $ref: '#/components/schemas/QueueName'
+        - not:
+            enum:
+              - main
+              - all
+              - 'null'
+      description: |
+        Queue name allowed for explicit assignment.
+        Used by organization assignment and named repository assignment.
+        Does not represent clear/unassign semantics.
+
+        Reserved names are rejected: `main`, `all`, `null`.
+    MainQueueLiteral:
+      type: string
+      enum:
+        - main
+      description: |
+        Explicit repository assignment to the main queue.
+        This is not a clear operation.
+        Use `DELETE /system/v1/repos/{orgRepo}/queue` to clear explicit repository assignment.
+    WorkerQueueJobCounts:
+      type: object
+      properties:
+        pending:
+          type: integer
+          minimum: 0
+        running:
+          type: integer
+          minimum: 0
+      required:
+        - pending
+        - running
+    WorkerQueue:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/QueueName'
+        description:
+          type: string
+        locked:
+          type: boolean
+          description: Prevents deletion when true. A queue can be deleted only when `locked=false`.
+        jobs:
+          $ref: '#/components/schemas/WorkerQueueJobCounts'
+      required:
+        - name
+        - locked
+        - jobs
+    CreateWorkerQueueRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          $ref: '#/components/schemas/CreateWorkerQueueName'
+        description:
+          type: string
+      required:
+        - name
+    UpdateWorkerQueueRequest:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        description:
+          type: string
+          description: Queue description. Set to an empty string to clear it.
+        locked:
+          type: boolean
+          description: Queue delete guard. Set to `false` to allow deletion; set to `true` to block deletion.
+    AssignOrgQueueRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        queue:
+          $ref: '#/components/schemas/AssignableQueueName'
+      required:
+        - queue
+    AssignRepoQueueRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        queue:
+          oneOf:
+            - $ref: '#/components/schemas/AssignableQueueName'
+            - $ref: '#/components/schemas/MainQueueLiteral'
+      required:
+        - queue
     ActiveJobStatus:
       type: string
       enum:
@@ -1166,6 +1319,10 @@ components:
           type: integer
         reason:
           $ref: '#/components/schemas/JobReason'
+        queueName:
+          type: string
+          description: |
+            Queue name captured at dequeue time for this execution attempt.
       required:
         - repository
         - priority
@@ -1472,6 +1629,18 @@ components:
           $ref: '#/components/schemas/DateFormat'
         logLocation:
           type: string
+        queueName:
+          type: string
+          description: |
+            Queue name associated with the job.
+
+            For pending jobs, this is the effective queue name. Resolution order:
+
+            1. repository queue assignment
+            2. organization queue assignment
+            3. `main`.
+
+            For running/completed jobs, this is the queue captured at dequeue time.
         status:
           type: string
         artifactErrors:
@@ -1586,6 +1755,15 @@ components:
             When `env MEND_RNV_PLATFORM=gitlab`: This is unused, and always returns `false`.
 
             When `env MEND_RNV_PLATFORM=bitbucket-server`: This is unused, and always returns `false`.
+        queueName:
+          type: string
+          description: |
+            Effective queue name for the organization.
+
+            Resolution order: 
+
+            1. organization queue assignment
+            2. `main`.
         installedAt:
           $ref: '#/components/schemas/DateFormat'
         installationId:
@@ -1605,6 +1783,16 @@ components:
           type: boolean
         fullName:
           type: string
+        queueName:
+          type: string
+          description: |
+            Effective queue name for the repository.
+
+            Resolution order:
+
+            1. repository queue assignment
+            2. organization queue assignment
+            3. `main`.
         installedAt:
           $ref: '#/components/schemas/DateFormat'
         removedAt:
@@ -1769,6 +1957,16 @@ components:
           type: string
         fullName:
           type: string
+        queueName:
+          type: string
+          description: |
+            Effective queue name for the repository.
+
+            Resolution order:
+
+            1. repository queue assignment
+            2. organization queue assignment
+            3. `main`.
         installedAt:
           $ref: '#/components/schemas/DateFormat'
         removedAt:

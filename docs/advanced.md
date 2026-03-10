@@ -72,3 +72,5 @@ The current architecture of Mend Renovate CE is monolithic in order to keep thin
 Accordingly, there is a 1:1 relationship between the worker and the job queue, meaning that only one job can be processed at a time.
 
 Renovate EE is designed with Horizontal scalability in mind. It separates the components into a server/worker architecture that can scale independently on different containers/machines.
+
+For queue based worker isolation and routing in Renovate EE, see [Worker queues](./worker-queues.md).
