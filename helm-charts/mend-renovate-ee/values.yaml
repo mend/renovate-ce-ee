@@ -560,8 +560,10 @@ renovateWeb:
   # If unset, the chart derives mendRnvPlatform from the server service.
   mendRnvPlatform:
 
-  # Optional endpoint used by the platform client.
-  # Usually only needed for GitHub Enterprise. For github.com, defaults are derived from mendRnvPlatform.
+  # Optional endpoint override.
+  # Behavior depends on mendRnvPlatform:
+  # - github: for GitHub.com, defaults are derived from mendRnvPlatform; for GitHub Enterprise Server, set this for API requests
+  # - noauth: set this to the SCM web URL used to render organization and repository links for Bitbucket Data Center, GitLab, or GitHub
   # Example: https://ghe.example.com/
   mendRnvEndpoint:
 
@@ -586,7 +588,10 @@ renovateWeb:
   #   mendRnvBackendSecret:
   existingSecret:
 
-  # Optional GitHub OAuth redirect URI override.
+  # Optional when the GitHub App has a single callback URL.
+  # Required when the GitHub App is configured with multiple callback URLs.
+  # Use this to select the redirect URI used for GitHub OAuth.
+  # Example: https://renovate-ui.example.com/oauth/github/callback
   mendRnvGithubRedirectURI:
 
   # HTTPS server configuration for websrv.
