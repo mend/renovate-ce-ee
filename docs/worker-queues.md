@@ -135,7 +135,7 @@ This example shows the full flow for creating a queue, assigning an entity to it
 
 Create a queue named `arm`:
 
-```bash
+```sh
 MEND_RNV_SERVER_HOSTNAME=<server_url>
 MEND_RNV_API_SERVER_SECRET=<server_secret>
 
@@ -154,7 +154,7 @@ This creates the queue definition that routing can target.
 
 Assign an organization to `arm`:
 
-```bash
+```sh
 curl --request PATCH "$MEND_RNV_SERVER_HOSTNAME/system/v1/orgs/example-org/queue" \
   -H "Authorization: Bearer $MEND_RNV_API_SERVER_SECRET" \
   -H "Content-Type: application/json" \
@@ -167,7 +167,7 @@ At this point, repositories in `example-org` will route to `arm` unless a reposi
 
 You can do the same at repository level instead:
 
-```bash
+```sh
 curl --request PATCH "$MEND_RNV_SERVER_HOSTNAME/system/v1/repos/example-org/example-repo/queue" \
   -H "Authorization: Bearer $MEND_RNV_API_SERVER_SECRET" \
   -H "Content-Type: application/json" \
@@ -180,14 +180,14 @@ curl --request PATCH "$MEND_RNV_SERVER_HOSTNAME/system/v1/repos/example-org/exam
 
 List queues to confirm that `arm` exists:
 
-```bash
+```sh
 curl --request GET "$MEND_RNV_SERVER_HOSTNAME/system/v1/queues" \
   -H "Authorization: Bearer $MEND_RNV_API_SERVER_SECRET"
 ```
 
 Filter for a specific queue:
 
-```bash
+```sh
 curl --request GET "$MEND_RNV_SERVER_HOSTNAME/system/v1/queues?name=arm" \
   -H "Authorization: Bearer $MEND_RNV_API_SERVER_SECRET"
 ```
