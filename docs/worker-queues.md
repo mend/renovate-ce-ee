@@ -5,7 +5,7 @@ Worker queues let you isolate Renovate workloads across dedicated worker pools, 
 
 This document covers the worker queue workflow and routing model.
 
-For general API documentation, see [API Documentation](./api.md). For the exact worker queue API contract, see [openapi-enterprise.yaml](./openapi-enterprise.yaml) or the [rendered API documentation](https://mend.github.io/renovate-ce-ee/api.html).
+For general API documentation, see [API Documentation](./api.md). For the exact worker queue API contract, see [the OpenAPI spec for Enterprise APIs](./openapi-enterprise.yaml) or the [rendered API documentation](https://mend.github.io/renovate-ce-ee/api.html).
 
 > [!IMPORTANT]
 > Worker queues are an Enterprise only feature.
@@ -215,7 +215,7 @@ That is the minimum setup needed for dedicated queue based execution.
 ## Related documentation
 
 - [API Documentation](./api.md)
-- [openapi-enterprise.yaml](./openapi-enterprise.yaml)
+- [OpenAPI spec for Enterprise APIs](./openapi-enterprise.yaml)
 - [Rendered API documentation](https://mend.github.io/renovate-ce-ee/api.html)
 - [Prometheus metrics](./prometheus-metrics.md)
 - [Advanced details](./advanced.md)
