@@ -2,6 +2,9 @@
 
 A number of default metrics are exposed by Node.JS for the Mend Renovate Self-Hosted Server respondng to the API request, _not_ the worker(s)
 
+> [!NOTE]
+> The Prometheus metrics are only enabled if specifying `env MEND_RNV_API_ENABLE_PROMETHEUS_METRICS=true`
+
 Additionally, the following custom metrics are exposed:
 
 <table>
