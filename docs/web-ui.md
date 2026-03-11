@@ -69,11 +69,13 @@ MEND_RNV_GITHUB_CLIENT_ID=Iv...
 # The client secret for the GitHub App
 # NOTE that this is a separate credential to the GitHub App key
 MEND_RNV_GITHUB_CLIENT_SECRET=
-# The URL for the web UI, with the path `/oauth/github/callback`
-# NOTE that this does not need to be publicly accessible, it only needs to be accessible to a user's browser
+# Optional when the GitHub App has a single callback URL.
+# Required when the GitHub App is configured with multiple callback URLs.
+# Use this to select the redirect URI the web UI should use for GitHub OAuth.
 # Must be an absolute URL with optional port and path (`scheme://host[:port][/path]`)
 MEND_RNV_GITHUB_REDIRECT_URI=https://renovate-ui.example.com/oauth/github/callback
-# If using GitHub Enterprise Server (GHES), this will be used to display outbound links to organizations/repositories
+# Optional. For GitHub.com, this defaults automatically to the GitHub API endpoint.
+# If using GitHub Enterprise Server (GHES), set this so it can be used to display outbound links to organizations/repositories and for OAuth requests.
 # Must be an absolute URL with optional port and path (`scheme://host[:port][/path]`)
 MEND_RNV_ENDPOINT=
 ```
@@ -88,6 +90,10 @@ In addition to the above environment variables, the following must be set when `
 # This platform value is a specific environment variable for the web UI.
 # This should not be set on your Server or Worker deployments.
 MEND_RNV_PLATFORM=noauth
+# Optional. Set this to the base URL of your SCM web interface so the web UI can render links to organizations and repositories.
+# Supported for Bitbucket Data Center, GitLab, and GitHub.
+# Must be an absolute URL with optional port and path (`scheme://host[:port][/path]`)
+MEND_RNV_ENDPOINT=<scm_web_url>
 ```
 
 > [!CAUTION]
