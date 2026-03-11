@@ -349,6 +349,26 @@ renovateWorker:
     version: 14.1.1-full@sha256:98fe9ab3038658799c83034289bf1f145cd1d2a105d5dd6f26620164035bc876
     pullPolicy: Always
 
+    # Optional worker pools. When set, one worker Deployment is created per pool.
+    # Pool values are merged over renovateWorker values.
+    # Merge semantics (mustMergeOverwrite):
+    # ref https://helm.sh/docs/chart_template_guide/function_list/#mergeoverwrite-mustmergeoverwrite
+    # - Scalars: pool value overrides default value.
+    # - dict: deep merged recursively.
+    # - list: replaced as a whole (not merged).
+    # If empty, a single legacy worker Deployment is rendered from renovateWorker values.
+    pools: []
+    #  - name: amd64
+    #    replicas: 2
+    #    nodeSelector:
+    #      kubernetes.io/arch: amd64
+    #  - name: arm64
+    #    replicas: 1
+    #    nodeSelector:
+    #      kubernetes.io/arch: arm64
+    #    existingSecret: renovate-worker-arm64
+    #    npmrcExistingSecret: renovate-npmrc-arm64
+
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
 

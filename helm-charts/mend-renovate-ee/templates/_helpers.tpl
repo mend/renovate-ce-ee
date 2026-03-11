@@ -65,6 +65,20 @@ Expand the name of the worker secret
 {{- end -}}
 
 {{/*
+Expand the name of the worker secret for a pooled worker deployment.
+Input dict:
+  root: full chart context
+  worker: merged worker values for the current pool
+*/}}
+{{- define "mend-renovate.worker-secret-name-for-pool" -}}
+{{- if .worker.existingSecret -}}
+{{- .worker.existingSecret -}}
+{{- else -}}
+{{- include "mend-renovate.worker-secret-name" .root -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the web secret
 */}}
 {{- define "mend-renovate.web-secret-name" -}}
@@ -87,6 +101,20 @@ Expand the name of the npmrc secret
 {{- end -}}
 
 {{/*
+Expand the name of the npmrc secret for a pooled worker deployment.
+Input dict:
+  root: full chart context
+  worker: merged worker values for the current pool
+*/}}
+{{- define "mend-renovate.npmrc-secret-name-for-pool" -}}
+{{- if .worker.npmrcExistingSecret -}}
+{{- .worker.npmrcExistingSecret -}}
+{{- else -}}
+{{- include "mend-renovate.npmrc-secret-name" .root -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the server service account
 */}}
 {{- define "mend-renovate.server-service-account-name" -}}
@@ -105,6 +133,20 @@ Expand the name of the worker service account
 {{- include "mend-renovate.name" . }}-worker-sa
 {{- else -}}
 {{- .Values.renovateWorker.serviceAccount.existingName -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand the name of the worker service account for a pooled worker deployment.
+Input dict:
+  root: full chart context
+  worker: merged worker values for the current pool
+*/}}
+{{- define "mend-renovate.worker-service-account-name-for-pool" -}}
+{{- if .worker.serviceAccount.create -}}
+{{- include "mend-renovate.name" .root }}-worker-sa
+{{- else -}}
+{{- .worker.serviceAccount.existingName -}}
 {{- end -}}
 {{- end -}}
 
