@@ -38,7 +38,10 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add docs/openapi-community.yaml docs/openapi-enterprise.yaml
+          mv docs/openapi-community.yaml community.yaml
+          mv docs/openapi-enterprise.yaml enterprise.yaml
+          git rm --cached docs/openapi-community.yaml docs/openapi-enterprise.yaml
+          git add community.yaml enterprise.yaml
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
