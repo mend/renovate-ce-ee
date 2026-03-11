@@ -392,6 +392,10 @@ renovateWorker:
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
 
+  # Optional: Comma-separated worker queues this worker can consume.
+  # Examples: "main", "arm", "main,arm,x86", "all".
+  mendRnvWorkerQueues:
+
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
   #  similar config available in the server
   mendRnvDisableGlobalAgent:

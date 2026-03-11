@@ -139,6 +139,10 @@ spec:
             - name: RENOVATE_NODE_ARGS
               value: {{ $renovateWorker.mendRnvWorkerNodeArgs | quote }}
             {{- end }}
+            {{- if $renovateWorker.mendRnvWorkerQueues }}
+            - name: MEND_RNV_WORKER_QUEUES
+              value: {{ $renovateWorker.mendRnvWorkerQueues | quote }}
+            {{- end }}
 
             {{- if or $renovateWorker.githubComToken $renovateWorker.existingSecret }}
             - name: GITHUB_COM_TOKEN
