@@ -1,12 +1,28 @@
 {{- $root := . -}}
 {{- $base := mustDeepCopy (omit $root.Values.renovateWorker "pools") -}}
-{{- $pools := default (list) $root.Values.renovateWorker.pools -}}
-{{- if eq (len $pools) 0 -}}
-  {{- $pools = list (dict "name" "") -}}
+{{- $workerPools := default (list) $root.Values.renovateWorker.pools -}}
+
+{{- $hasPools := gt (len $workerPools) 0 -}}
+
+{{- include "mend-renovate.validate-worker-pools" $root -}}
+
+{{- if not $hasPools -}}
+  {{- $workerPools = list (dict "name" "") -}}
 {{- end -}}
 
-{{- range $pool := $pools }}
+{{- range $pool := $workerPools }}
+
 {{- $renovateWorker := mustMergeOverwrite (mustDeepCopy $base) (mustDeepCopy $pool) }}
+
+{{- $poolName := "" -}}
+{{- if $hasPools -}}
+  {{- $poolName = required "renovateWorker.pools[].name is required when pools are configured" $renovateWorker.name -}}
+{{- end -}}
+
+{{- $poolExtraConfigMaps := list -}}
+{{- if and (kindIs "map" $pool) (hasKey $pool "extraConfigMaps") -}}
+  {{- $poolExtraConfigMaps = default (list) $pool.extraConfigMaps -}}
+{{- end -}}
 
 ---
 apiVersion: apps/v1
@@ -19,7 +35,9 @@ metadata:
     helm.sh/chart: {{ include "mend-renovate.chart" $root }}
     app.kubernetes.io/instance: {{ $root.Release.Name }}
     app.kubernetes.io/managed-by: {{ $root.Release.Service }}
-    renovate-worker-pool: {{ default "default" $renovateWorker.name | quote }}
+    {{- if $hasPools }}
+    renovate-worker-pool: {{ $poolName | quote }}
+    {{- end }}
     {{- with $renovateWorker.labels.deployment }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
@@ -30,7 +48,9 @@ spec:
       app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
       app.kubernetes.io/instance: {{ $root.Release.Name }}
       app: {{ include "mend-renovate.name" $root }}-worker
-      renovate-worker-pool: {{ default "default" $renovateWorker.name | quote }}
+      {{- if $hasPools }}
+      renovate-worker-pool: {{ $poolName | quote }}
+      {{- end }}
   strategy:
     type: Recreate
   template:
@@ -39,14 +59,17 @@ spec:
         app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
         app.kubernetes.io/instance: {{ $root.Release.Name }}
         app: {{ include "mend-renovate.name" $root }}-worker
-        renovate-worker-pool: {{ default "default" $renovateWorker.name | quote }}
+        {{- if $hasPools }}
+        renovate-worker-pool: {{ $poolName | quote }}
+        {{- end }}
         {{- with $renovateWorker.labels.pods }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        checksum/config.jsFileConfigMap: {{ include (print $root.Template.BasePath "/configmap.yaml") $root | sha256sum }}
+        checksum/config.jsFileConfigMap: {{ $renovateWorker.config | sha256sum }}
         checksum/shardedExtraConfigMaps: {{ include (print $root.Template.BasePath "/extra-configmaps.yaml") $root | sha256sum }}
-        checksum/extraConfigMaps: {{ include (print $root.Template.BasePath "/worker-extra-configmaps.yaml") $root | sha256sum }}
+        checksum/extraConfigMapsGlobal: {{ $root.Values.renovateWorker.extraConfigMaps | toYaml | sha256sum }}
+        checksum/extraConfigMapsPool: {{ $poolExtraConfigMaps | toYaml | sha256sum }}
         {{- with $renovateWorker.annotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -56,8 +79,8 @@ spec:
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ $renovateWorker.terminationGracePeriodSeconds }}
-      {{- if or $renovateWorker.serviceAccount.create $renovateWorker.serviceAccount.existingName }}
-      serviceAccountName: {{ include "mend-renovate.worker-service-account-name-for-pool" (dict "root" $root "worker" $renovateWorker) }}
+      {{- if or $root.Values.renovateWorker.serviceAccount.create $root.Values.renovateWorker.serviceAccount.existingName }}
+      serviceAccountName: {{ include "mend-renovate.worker-service-account-name" $root }}
       {{- end }}
       {{- with $renovateWorker.initContainers }}
       initContainers: {{- toYaml . | nindent 8 }}
@@ -219,7 +242,7 @@ spec:
               readOnly: true
               mountPath: /usr/src/app/config.js
               subPath: config.js
-            {{- if $renovateWorker.npmrc }}
+            {{- if or $renovateWorker.npmrc $renovateWorker.npmrcExistingSecret }}
             - name: {{ $root.Release.Name }}-npmrc-volume
               readOnly: true
               mountPath: /home/ubuntu/.npmrc
@@ -244,11 +267,11 @@ spec:
       volumes:
         - name: {{ $root.Release.Name }}-config-js-volume
           configMap:
-            name: {{ include "mend-renovate.fullname" $root }}-config-js
+            name: {{ include "mend-renovate.worker-configmap-name-for-pool" (dict "root" $root "worker" $renovateWorker) }}
         {{- if or $renovateWorker.npmrc $renovateWorker.npmrcExistingSecret }}
         - name: {{ $root.Release.Name }}-npmrc-volume
           secret:
-            secretName: {{ include "mend-renovate.npmrc-secret-name-for-pool" (dict "root" $root "worker" $renovateWorker) }}
+            secretName: {{ include "mend-renovate.npmrc-secret-name" $root }}
         {{- end }}
         {{- if not $renovateWorker.disableCacheVolume }}
         - name: {{ $root.Release.Name }}-cache-volume
@@ -273,4 +296,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}
+{{ end }}

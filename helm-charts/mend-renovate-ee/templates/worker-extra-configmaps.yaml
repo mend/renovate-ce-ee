@@ -1,4 +1,29 @@
-{{- range .Values.renovateWorker.extraConfigMaps }}
+{{- $renovateWorker := .Values.renovateWorker -}}
+{{- $workerPools := default (list) $renovateWorker.pools -}}
+{{- $seenConfigMapNames := dict -}}
+
+{{- range $extraConfigMap := $renovateWorker.extraConfigMaps }}
+  {{- $extraConfigMapName := required "renovateWorker.extraConfigMaps[].metadata.name is required" $extraConfigMap.metadata.name -}}
+  {{- if hasKey $seenConfigMapNames $extraConfigMapName -}}
+    {{- fail (printf "duplicate worker extraConfigMap name %q (already defined in %s)" $extraConfigMapName (index $seenConfigMapNames $extraConfigMapName)) -}}
+  {{- end -}}
+  {{- $_ := set $seenConfigMapNames $extraConfigMapName "renovateWorker.extraConfigMaps" -}}
 ---
-{{- toYaml . | nindent 0 }}
+{{- toYaml $extraConfigMap | nindent 0 }}
+{{- end }}
+
+{{ range $pool := $workerPools }}
+  {{- if not (and (kindIs "map" $pool) (hasKey $pool "extraConfigMaps")) -}}
+    {{- continue -}}
+  {{- end -}}
+  {{- $poolName := required "renovateWorker.pools[].name is required when pools are configured" $pool.name -}}
+  {{- range $extraConfigMap := (default (list) $pool.extraConfigMaps) }}
+    {{- $extraConfigMapName := required (printf "renovateWorker.pools[%s].extraConfigMaps[].metadata.name is required" $poolName) $extraConfigMap.metadata.name -}}
+    {{- if hasKey $seenConfigMapNames $extraConfigMapName -}}
+      {{- fail (printf "duplicate worker extraConfigMap name %q (already defined in %s)" $extraConfigMapName (index $seenConfigMapNames $extraConfigMapName)) -}}
+    {{- end -}}
+    {{- $_ := set $seenConfigMapNames $extraConfigMapName (printf "renovateWorker.pools[%s].extraConfigMaps" $poolName) -}}
+---
+{{- toYaml $extraConfigMap | nindent 0 }}
+  {{- end }}
 {{- end }}

@@ -1,12 +1,25 @@
+{{- $root := . -}}
+{{- $base := mustDeepCopy (omit $root.Values.renovateWorker "pools") -}}
+{{- $workerPools := default (list) $root.Values.renovateWorker.pools -}}
+
+{{- $hasPools := gt (len $workerPools) 0 -}}
+{{- if not $hasPools -}}
+  {{- $workerPools = list (dict "name" "") -}}
+{{- end -}}
+
+{{- range $pool := $workerPools }}
+{{- $renovateWorker := mustMergeOverwrite (mustDeepCopy $base) (mustDeepCopy $pool) }}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "mend-renovate.fullname" . }}-config-js
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "mend-renovate.worker-configmap-name-for-pool" (dict "root" $root "worker" $renovateWorker) }}
+  namespace: {{ $root.Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
-    helm.sh/chart: {{ include "mend-renovate.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
+    helm.sh/chart: {{ include "mend-renovate.chart" $root }}
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $root.Release.Service }}
 data:
-  config.js: {{ .Values.renovateWorker.config | quote }}
+  config.js: {{ $renovateWorker.config | quote }}
+{{ end }}

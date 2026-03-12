@@ -65,6 +65,28 @@ Expand the name of the worker secret
 {{- end -}}
 
 {{/*
+Expand the name of the worker configmap
+*/}}
+{{- define "mend-renovate.worker-configmap-name" -}}
+{{- include "mend-renovate.fullname" . }}-config-js
+{{- end -}}
+
+{{/*
+Expand the name of the worker configmap for a pooled worker deployment.
+Input dict:
+  root: full chart context
+  worker: merged worker values for the current pool
+*/}}
+{{- define "mend-renovate.worker-configmap-name-for-pool" -}}
+{{- if gt (len (default (list) .root.Values.renovateWorker.pools)) 0 -}}
+{{- $poolName := required "renovateWorker.pools[].name is required when pools are configured" .worker.name -}}
+{{- include "mend-renovate.worker-configmap-name" .root }}-{{ $poolName }}
+{{- else -}}
+{{- include "mend-renovate.worker-configmap-name" .root -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the worker secret for a pooled worker deployment.
 Input dict:
   root: full chart context
@@ -73,8 +95,41 @@ Input dict:
 {{- define "mend-renovate.worker-secret-name-for-pool" -}}
 {{- if .worker.existingSecret -}}
 {{- .worker.existingSecret -}}
+{{- else if gt (len (default (list) .root.Values.renovateWorker.pools)) 0 -}}
+{{- $poolName := required "renovateWorker.pools[].name is required when pools are configured" .worker.name -}}
+{{- include "mend-renovate.name" .root }}-worker-{{ $poolName }}
 {{- else -}}
 {{- include "mend-renovate.worker-secret-name" .root -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Validate worker pools configuration.
+*/}}
+{{- define "mend-renovate.validate-worker-pools" -}}
+{{- $workerPools := default (list) .Values.renovateWorker.pools -}}
+{{- $workerPoolNames := dict -}}
+
+{{- range $pool := $workerPools -}}
+  {{- $poolName := required "renovateWorker.pools[].name is required when pools are configured" $pool.name -}}
+  
+  {{- if hasKey $workerPoolNames $poolName -}}
+    {{- fail (printf "duplicate renovateWorker.pools[].name %q is not allowed" $poolName) -}}
+  {{- end -}}
+  
+  {{- $_ := set $workerPoolNames $poolName true -}}
+  
+  {{- if and (kindIs "map" $pool) (hasKey $pool "serviceAccount") -}}
+    {{- fail (printf "renovateWorker.pools[%s].serviceAccount is not supported; use renovateWorker.serviceAccount for all worker pools" $poolName) -}}
+  {{- end -}}
+  
+  {{- if and (kindIs "map" $pool) (hasKey $pool "npmrc") -}}
+    {{- fail (printf "renovateWorker.pools[%s].npmrc is not supported; use renovateWorker.npmrc at root level" $poolName) -}}
+  {{- end -}}
+  
+  {{- if and (kindIs "map" $pool) (hasKey $pool "npmrcExistingSecret") -}}
+    {{- fail (printf "renovateWorker.pools[%s].npmrcExistingSecret is not supported; use renovateWorker.npmrcExistingSecret at root level" $poolName) -}}
+  {{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -101,20 +156,6 @@ Expand the name of the npmrc secret
 {{- end -}}
 
 {{/*
-Expand the name of the npmrc secret for a pooled worker deployment.
-Input dict:
-  root: full chart context
-  worker: merged worker values for the current pool
-*/}}
-{{- define "mend-renovate.npmrc-secret-name-for-pool" -}}
-{{- if .worker.npmrcExistingSecret -}}
-{{- .worker.npmrcExistingSecret -}}
-{{- else -}}
-{{- include "mend-renovate.npmrc-secret-name" .root -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Expand the name of the server service account
 */}}
 {{- define "mend-renovate.server-service-account-name" -}}
@@ -126,27 +167,13 @@ Expand the name of the server service account
 {{- end -}}
 
 {{/*
-Expand the name of the worker service account
+Expand the name of the worker service account.
 */}}
 {{- define "mend-renovate.worker-service-account-name" -}}
 {{- if .Values.renovateWorker.serviceAccount.create -}}
 {{- include "mend-renovate.name" . }}-worker-sa
 {{- else -}}
 {{- .Values.renovateWorker.serviceAccount.existingName -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Expand the name of the worker service account for a pooled worker deployment.
-Input dict:
-  root: full chart context
-  worker: merged worker values for the current pool
-*/}}
-{{- define "mend-renovate.worker-service-account-name-for-pool" -}}
-{{- if .worker.serviceAccount.create -}}
-{{- include "mend-renovate.name" .root }}-worker-sa
-{{- else -}}
-{{- .worker.serviceAccount.existingName -}}
 {{- end -}}
 {{- end -}}
 
