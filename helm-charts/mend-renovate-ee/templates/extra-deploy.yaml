@@ -1,0 +1,8 @@
+{{- range $manifest := default (list) .Values.extraDeploy }}
+---
+{{- if kindIs "string" $manifest }}
+{{- tpl $manifest $ | nindent 0 }}
+{{- else }}
+{{- tpl (toYaml $manifest) $ | nindent 0 }}
+{{- end }}
+{{- end }}
