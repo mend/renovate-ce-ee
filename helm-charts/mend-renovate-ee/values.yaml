@@ -536,6 +536,9 @@ renovateWorker:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
+  # Optional worker pod restart policy.
+  restartPolicy:
+
   readinessProbe:
     httpGet:
       path: /health

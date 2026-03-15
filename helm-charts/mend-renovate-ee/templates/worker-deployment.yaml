@@ -79,6 +79,9 @@ spec:
       securityContext: {{- toYaml . | nindent 8 }}
       {{- end }}
       terminationGracePeriodSeconds: {{ $renovateWorker.terminationGracePeriodSeconds }}
+      {{- if $renovateWorker.restartPolicy }}
+      restartPolicy: {{ $renovateWorker.restartPolicy | quote }}
+      {{- end }}
       {{- if or $root.Values.renovateWorker.serviceAccount.create $root.Values.renovateWorker.serviceAccount.existingName }}
       serviceAccountName: {{ include "mend-renovate.worker-service-account-name" $root }}
       {{- end }}
