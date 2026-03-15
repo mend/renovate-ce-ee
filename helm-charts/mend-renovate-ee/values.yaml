@@ -379,6 +379,7 @@ renovateWorker:
   #
   # serviceAccount in pools is not supported; configure renovateWorker.serviceAccount once for all worker pools.
   # npmrc and npmrcExistingSecret in pools are not supported; configure renovateWorker.npmrc / renovateWorker.npmrcExistingSecret at root level.
+  # extraDeploy in pools is not supported; configure extraDeploy at root level.
   # each pool must define a non-empty name.
   # If empty, a single legacy worker Deployment is rendered from renovateWorker values.
   pools: []
@@ -418,6 +419,10 @@ renovateWorker:
   # Optional: Comma-separated worker queues this worker can consume.
   # Examples: "main", "arm", "main,arm,x86", "all".
   mendRnvWorkerQueues:
+
+  # Optional. Set to 'true' to process a single job and then exit. Defaults to 'false'.
+  # Intended for autoscaling patterns such as KEDA.
+  mendRnvSingleJobWorker:
 
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
   #  similar config available in the server

@@ -130,6 +130,10 @@ Validate worker pools configuration.
   {{- if and (kindIs "map" $pool) (hasKey $pool "npmrcExistingSecret") -}}
     {{- fail (printf "renovateWorker.pools[%s].npmrcExistingSecret is not supported; use renovateWorker.npmrcExistingSecret at root level" $poolName) -}}
   {{- end -}}
+  
+  {{- if and (kindIs "map" $pool) (hasKey $pool "extraDeploy") -}}
+    {{- fail (printf "renovateWorker.pools[%s].extraDeploy is not supported; use extraDeploy at root level" $poolName) -}}
+  {{- end -}}
 {{- end -}}
 {{- end -}}
 
