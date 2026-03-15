@@ -36,17 +36,38 @@ extraConfigMaps: [ ]
 #      MY_ENV_VAR: "my-value"
 #      ANOTHER_VAR: "123"
 
-# Extra Kubernetes manifests to deploy with this chart (for example, KEDA ScaledObject).
+# Extra Kubernetes manifests to deploy with this chart (for example, KEDA ScaledJob).
 # Each entry is rendered as a standalone manifest and supports Helm templating via `tpl`.
 extraDeploy: []
-#  - apiVersion: keda.sh/v1alpha1
+#  - |
+#    {{- $worker := include "mend-renovate.worker-for-pool" (dict "root" . "poolName" "main") | fromYaml }}
+#    {{- $_ := set $worker "mendRnvSingleJobWorker" true }}
+#    {{- $_ := set $worker "restartPolicy" "Never" }}
+#    apiVersion: keda.sh/v1alpha1
+#    kind: ScaledJob
+#    metadata:
+#      name: '{{ include "mend-renovate.fullname" . }}-worker-main'
+#    spec:
+#      maxReplicaCount: 5
+#      jobTargetRef:
+#        template:
+#          spec:{{ include "mend-renovate.worker-pod-spec" (dict "root" . "worker" $worker) | nindent 12 }}
+#      triggers:
+#        - type: prometheus
+#          metadata:
+#            serverAddress: http://prometheus-server.monitoring.svc.cluster.local
+#            metricName: mend_renovate_worker_queue_pending
+#            query: sum(mend_renovate_worker_queue_size{queue="main",schedule="schedule-hot",status="pending"})
+#            threshold: "10"
+#  - |
+#    apiVersion: keda.sh/v1alpha1
 #    kind: ScaledObject
 #    metadata:
-#      name: "{{ include \"mend-renovate.fullname\" . }}-worker"
+#      name: '{{ include "mend-renovate.fullname" . }}-worker-main'
 #    spec:
 #      scaleTargetRef:
-#        name: "{{ include \"mend-renovate.fullname\" . }}-worker"
-#      minReplicaCount: 1
+#        name: '{{ include "mend-renovate.fullname" . }}-worker-main'
+#      minReplicaCount: 0
 #      maxReplicaCount: 5
 #      triggers:
 #        - type: prometheus
