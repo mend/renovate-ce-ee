@@ -58,7 +58,7 @@ Input dict:
 {{- $renovateWorker := required "mend-renovate.worker-pod-spec: worker is required" .worker -}}
 automountServiceAccountToken: {{ $renovateWorker.automountServiceAccountToken | default false }}
 {{- with $renovateWorker.podSecurityContext }}
-securityContext: {{- toYaml . | nindent 8 }}
+securityContext: {{- toYaml . | nindent 2 }}
 {{- end }}
 terminationGracePeriodSeconds: {{ $renovateWorker.terminationGracePeriodSeconds }}
 {{- if $renovateWorker.restartPolicy }}
@@ -68,14 +68,14 @@ restartPolicy: {{ $renovateWorker.restartPolicy | quote }}
 serviceAccountName: {{ include "mend-renovate.worker-service-account-name" $root }}
 {{- end }}
 {{- with $renovateWorker.initContainers }}
-initContainers: {{- toYaml . | nindent 8 }}
+initContainers: {{- toYaml . | nindent 2 }}
 {{- end }}
 containers:
   - name: {{ $root.Chart.Name }}-worker
     image: "{{ $renovateWorker.image.repository }}:{{ $renovateWorker.image.version }}"
     imagePullPolicy: {{ $renovateWorker.image.pullPolicy }}
     {{- with $renovateWorker.containerSecurityContext }}
-    securityContext: {{- toYaml . | nindent 12 }}
+    securityContext: {{- toYaml . | nindent 6 }}
     {{- end }}
     {{- if or $renovateWorker.extraEnvFromConfigMaps $renovateWorker.extraEnvFromSecrets }}
     envFrom:
@@ -94,15 +94,15 @@ containers:
     {{- end }}
     env:
       {{- with $renovateWorker.extraEnvVars }}
-      {{- toYaml . | nindent 12 }}
+      {{- toYaml . | nindent 6 }}
       {{- end }}
       - name: MEND_RNV_SERVER_HOSTNAME
-        {{- $httpsPort:= "" }}
+        {{- $httpsPort := "" }}
         {{- $scheme := "http" }}
-        {{- if or $renovateWorker.mendRnvClientHttpsConfig $renovateWorker.mendRnvClientHttpsConfigPath}}
+        {{- if or $renovateWorker.mendRnvClientHttpsConfig $renovateWorker.mendRnvClientHttpsConfigPath }}
           {{- $httpsPort = print ":" $root.Values.service.ports.https }}
           {{- $scheme = "https" }}
-        {{- end}}
+        {{- end }}
         value: "{{ $scheme }}://{{ include "mend-renovate.fullname" $root }}-svc-server{{ $httpsPort }}"
       {{- if or $root.Values.renovateServer.mendRnvServerApiSecret $root.Values.renovateServer.existingSecret }}
       - name: MEND_RNV_SERVER_API_SECRET
@@ -190,7 +190,7 @@ containers:
       {{- end }}
       {{- if $renovateWorker.mendRnvClientHttpsConfigPath }}
       - name: MEND_RNV_CLIENT_HTTPS_CONFIG_PATH
-        value: {{ $renovateWorker.mendRnvClientHttpsConfigPath | quote}}
+        value: {{ $renovateWorker.mendRnvClientHttpsConfigPath | quote }}
       {{- end }}
       {{- if $renovateWorker.noNodeTlsVerify }}
       - name: NODE_TLS_REJECT_UNAUTHORIZED
@@ -218,14 +218,14 @@ containers:
         protocol: TCP
     {{- with $renovateWorker.livenessProbe }}
     livenessProbe:
-      {{- toYaml . | nindent 12 }}
+      {{- toYaml . | nindent 6 }}
     {{- end }}
     {{- with $renovateWorker.readinessProbe }}
     readinessProbe:
-    {{- toYaml . | nindent 12 }}
+      {{- toYaml . | nindent 6 }}
     {{- end }}
     resources:
-      {{- toYaml $renovateWorker.resources | nindent 12 }}
+      {{- toYaml $renovateWorker.resources | nindent 6 }}
     volumeMounts:
       - name: {{ $root.Release.Name }}-config-js-volume
         readOnly: true
@@ -243,11 +243,11 @@ containers:
         mountPath: /tmp/renovate
       {{- end }}
       {{- with $renovateWorker.extraVolumeMounts }}
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 6 }}
       {{- end }}
 {{- with $renovateWorker.nodeSelector }}
 nodeSelector:
-{{- toYaml . | nindent 8 }}
+{{- toYaml . | nindent 2 }}
 {{- end }}
 {{- if $renovateWorker.imagePullSecrets }}
 imagePullSecrets:
@@ -275,14 +275,14 @@ volumes:
     {{- end }}
   {{- end }}
 {{- with $renovateWorker.extraVolumes }}
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- with $renovateWorker.affinity }}
 affinity:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- with $renovateWorker.tolerations }}
 tolerations:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- end -}}

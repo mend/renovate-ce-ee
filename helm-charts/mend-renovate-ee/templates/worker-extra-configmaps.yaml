@@ -10,7 +10,7 @@
   {{- $_ := set $seenConfigMapNames $extraConfigMapName "renovateWorker.extraConfigMaps" -}}
 ---
 {{- toYaml $extraConfigMap | nindent 0 }}
-{{- end }}
+{{ end }}
 
 {{ range $pool := $workerPools }}
   {{- if not (and (kindIs "map" $pool) (hasKey $pool "extraConfigMaps")) -}}
@@ -25,5 +25,5 @@
     {{- $_ := set $seenConfigMapNames $extraConfigMapName (printf "renovateWorker.pools[%s].extraConfigMaps" $poolName) -}}
 ---
 {{- toYaml $extraConfigMap | nindent 0 }}
-  {{- end }}
-{{- end }}
+  {{ end }}
+{{ end }}
