@@ -403,7 +403,9 @@ renovateWorker:
   # 
   # extraDeploy in pools is not supported; configure extraDeploy at root level.
   # 
-  # For KEDA ScaledJob patterns, define a dedicated pool with replicas: 0 and queue/single-job settings,
+  # Optional per-pool flag: set createDeployment: false to skip rendering the worker Deployment for that pool.
+  # Useful for KEDA ScaledJob pools. For KEDA ScaledObject pools, keep createDeployment true (default).
+  # For KEDA patterns, define a dedicated pool with queue/single-job settings,
   # then reference that pool from extraDeploy via the worker-for-pool + worker-pod-spec helpers.
   # 
   # each pool must define a non-empty name.
@@ -419,6 +421,7 @@ renovateWorker:
   #    nodeSelector:
   #      kubernetes.io/arch: arm64
   #  - name: scaled-jobs
+  #    createDeployment: false
   #    replicas: 0
   #    mendRnvWorkerQueues: scaled
   #    mendRnvSingleJobWorker: true

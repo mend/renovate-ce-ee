@@ -24,6 +24,12 @@
   {{- $poolExtraConfigMaps = default (list) $pool.extraConfigMaps -}}
 {{- end -}}
 
+{{- $createDeployment := true -}}
+{{- if and (kindIs "map" $pool) (hasKey $pool "createDeployment") -}}
+  {{- $createDeployment = $pool.createDeployment -}}
+{{- end -}}
+
+{{- if $createDeployment }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -75,4 +81,5 @@ spec:
         {{- end }}
     spec:
 {{ include "mend-renovate.worker-pod-spec" (dict "root" $root "worker" $renovateWorker) | nindent 6 }}
+{{- end }}
 {{ end }}
