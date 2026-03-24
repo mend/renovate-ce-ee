@@ -122,7 +122,7 @@ Special handling:
 
 ### Helm Example: main and arm64 pools
 
-If you deploy with the Helm chart, a minimal change pattern is to keep `main` on amd64 and add a dedicated `arm64` queue/pool:
+If you deploy with the Helm chart, a minimal change pattern is to keep `main` on `amd64` and add a dedicated `arm64` queue/pool:
 
 ```yaml
 renovateWorker:
