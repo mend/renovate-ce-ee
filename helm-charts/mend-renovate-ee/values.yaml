@@ -454,7 +454,7 @@ renovateWorker:
   mendRnvWorkerQueues:
 
   # Optional. Set to 'true' to process a single job and then exit. Defaults to 'false'.
-  # Intended for autoscaling patterns such as KEDA.
+  # Intended for autoscaling patterns such as Kubernetes Event-driven Autoscaling (KEDA).
   mendRnvSingleJobWorker:
 
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
