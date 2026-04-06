@@ -247,7 +247,7 @@ spec:
             {{- end }}
             {{- if .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
             - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
-              value: {{ .Values.renovateServer.mendRnvLogHistoryCleanupCron }}
+              value: {{ .Values.renovateServer.mendRnvLogHistoryCleanupCron | quote }}
             {{- end }}
             {{- if .Values.renovateServer.mendRnvLibYearsMVRefreshCron }}
             - name: MEND_RNV_CRON_LIBYEARS_MV_REFRESH
