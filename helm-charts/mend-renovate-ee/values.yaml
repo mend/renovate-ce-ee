@@ -80,7 +80,7 @@ extraDeploy: []
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 14.3.0@sha256:687434be48338f67bd5bdf95117a5dc278293e43bfc88469d1aee0a1d6b823b7
+    version: 14.4.0@sha256:6a644188df8097a1d421bcd348a19a9ce76cf33ce5de25c9572236f689ca0187
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -387,7 +387,7 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 14.3.0-full@sha256:b723efa632fc59151690807c7fb6437edc14d9af8403e2744ce65bf487d56a8a
+    version: 14.4.0-full@sha256:bb43a15a9da58f2327aa6fd10dfc73154ee6d67cfecb5fdd1147ffcd0dcbf5f4
     pullPolicy: Always
 
   # Optional worker pools. When set, one worker Deployment is created per pool.
@@ -646,7 +646,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-web-server
-    version: 14.3.0@sha256:f38d4e2ff66974ffe7a2a9aa492b1a13fa895366c66814dcdd9b7557ddec5359
+    version: 14.4.0@sha256:464abe9952145069269855586bd1a7e31066c823430639724e2468a7d124118d
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"
