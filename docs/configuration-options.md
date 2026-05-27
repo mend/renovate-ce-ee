@@ -103,7 +103,7 @@ Must be accessible to receive incoming calls from the BitBucket Data Center.
 
 values:
 - `minimal` (default) when a repository's last run result is `disabled`, only trigger jobs for push/commit webhook event affecting a base branch and include a Renovate config in the list of changed files  
-- `full`: trigger jobs for any "importatn" webhook even if the repository is `disabled`
+- `full`: trigger jobs for any "important" webhook even if the repository is `disabled`
 
 Notes: 
 - Bitbucket webhook event does not include the list of changed files. 
