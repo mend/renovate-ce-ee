@@ -1860,6 +1860,7 @@ components:
         - unsuspend
         - repositories-added
         - repositories-added-sync
+        - remediate
         - api-request
         - web-ui
     JobInfo:
@@ -2732,14 +2733,27 @@ components:
           type: object
           additionalProperties:
             type: string
+    WorkerRenovateConfig:
+      type: object
+      required:
+        - globalConfig
+      properties:
+        globalConfig:
+          $ref: '#/components/schemas/AnyObject'
+        repositoryConfig:
+          $ref: '#/components/schemas/AnyObject'
     NextJob:
       type: object
       required:
-        - config
+        - workerRenovateConfig
         - settings
         - job
       properties:
-        config: {}
+        workerRenovateConfig:
+          $ref: '#/components/schemas/WorkerRenovateConfig'
+        config:
+          deprecated: true
+          $ref: '#/components/schemas/AnyObject'
         settings:
           $ref: '#/components/schemas/Settings'
         job:
