@@ -1,10 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices",
-    ":pinDigestsDisabled",
-    "mergeConfidence:all-badges"
-  ],
+  "extends": ["config:best-practices", "mergeConfidence:all-badges"],
   "packageRules": [
     {
       "groupName": "Update Mend Renovate docker images",
