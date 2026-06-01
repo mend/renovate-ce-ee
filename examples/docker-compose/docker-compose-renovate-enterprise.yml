@@ -15,7 +15,7 @@ services:
   ## Renovate Server
   rnv-ee-server:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-server
-    image: ghcr.io/mend/renovate-ee-server:<X.Y.Z>  # Replace <X.Y.Z> with a specific version number
+    image: ghcr.io/mend/renovate-ee-server:14.2.0
     deploy:
       replicas: 1 # Define the number of Server containers to run
       # Note: For multiple Server instances, use a network database (eg. Postgres) and a load balancer (eg. nginx)
@@ -57,7 +57,7 @@ services:
   ## Renovate Worker
   rnv-ee-worker:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ee-worker
-    image: ghcr.io/mend/renovate-ee-worker:<X.Y.Z>  # Replace <X.Y.Z> with a specific version number
+    image: ghcr.io/mend/renovate-ee-worker:14.2.0
     deploy:
       replicas: 2 # Define the number of Worker containers to run
     depends_on:
