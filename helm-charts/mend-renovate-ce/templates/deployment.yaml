@@ -288,7 +288,7 @@ spec:
             {{- end }}
             {{- if .Values.renovate.mendRnvLogHistoryCleanupCron }}
             - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
-              value: {{ .Values.renovate.mendRnvLogHistoryCleanupCron }}
+              value: {{ .Values.renovate.mendRnvLogHistoryCleanupCron | quote }}
             {{- end }}
             {{- if .Values.renovate.mendRnvForksProcessing }}
             - name: MEND_RENOVATE_FORKS_PROCESSING

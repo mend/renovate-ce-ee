@@ -36,10 +36,51 @@ extraConfigMaps: [ ]
 #      MY_ENV_VAR: "my-value"
 #      ANOTHER_VAR: "123"
 
+# Extra Kubernetes manifests to deploy with this chart (for example, KEDA ScaledJob).
+# Each entry is rendered as a standalone manifest and supports Helm templating via `tpl`.
+# The examples below correspond to the sample worker pools documented under renovateWorker.pools
+extraDeploy: []
+#  - |
+#    {{- $worker := include "mend-renovate.worker-for-pool" (dict "root" . "poolName" "scaled-jobs") | fromYaml }}
+#    {{- $_ := set $worker "restartPolicy" "Never" }}
+#    apiVersion: keda.sh/v1alpha1
+#    kind: ScaledJob
+#    metadata:
+#      name: '{{ include "mend-renovate.fullname" . }}-worker-scaled-jobs'
+#    spec:
+#      maxReplicaCount: 5
+#      jobTargetRef:
+#        template:
+#          spec:{{ include "mend-renovate.worker-pod-spec" (dict "root" . "worker" $worker) | nindent 12 }}
+#      triggers:
+#        - type: prometheus
+#          metadata:
+#            serverAddress: http://prometheus-server.monitoring.svc.cluster.local
+#            metricName: mend_renovate_worker_queue_scaled
+#            query: sum(mend_renovate_worker_queue_size{queue="scaled",status="pending"})
+#            threshold: "10"
+#  - |
+#    apiVersion: keda.sh/v1alpha1
+#    kind: ScaledObject
+#    metadata:
+#      name: '{{ include "mend-renovate.fullname" . }}-worker-arm64'
+#    spec:
+#      scaleTargetRef:
+#        name: '{{ include "mend-renovate.fullname" . }}-worker-arm64'
+#      minReplicaCount: 0
+#      maxReplicaCount: 5
+#      triggers:
+#        - type: prometheus
+#          metadata:
+#            serverAddress: http://prometheus-server.monitoring.svc.cluster.local
+#            metricName: mend_renovate_worker_queue_pending
+#            query: sum(mend_renovate_worker_queue_size{queue="arm64",status="pending"})
+#            threshold: "10"
+
 renovateServer:
   image:
     repository: ghcr.io/mend/renovate-ee-server
-    version: 14.1.1@sha256:f34d6fd0f9f017f60e723d6ba52feaa61f81a74ac9d56b60aa9da126e8f687df
+    version: 14.5.0@sha256:0840ea3a8eb762b34f6548b693df82394cb29361f9b28965c341eeb4f8ceb356
     pullPolicy: Always
 
   # Number of renovate-ee-server (for SQLite only 1 replica is allowed)
@@ -346,8 +387,49 @@ renovateServer:
 renovateWorker:
   image:
     repository: ghcr.io/mend/renovate-ee-worker
-    version: 14.1.1-full@sha256:98fe9ab3038658799c83034289bf1f145cd1d2a105d5dd6f26620164035bc876
+    version: 14.5.0-full@sha256:84a386f09c3d74dc5c6cc576a0a3faf81a75626a27a5674c7ccdf0c7609df9db
     pullPolicy: Always
+
+  # Optional worker pools. When set, one worker Deployment is created per pool.
+  # Pool values are merged over root renovateWorker values.
+  # Merge semantics (mustMergeOverwrite):
+  # ref https://helm.sh/docs/chart_template_guide/function_list/#mergeoverwrite-mustmergeoverwrite
+  # - Scalars: pool value overrides default value.
+  # - dict: deep merged recursively.
+  # - list: replaced as a whole (not merged), e.g. extraEnvFromConfigMaps, extraEnvFromSecrets, extraVolumes, extraVolumeMounts.
+  #
+  # Pool-specific keys:
+  # - name: string (required)
+  # - createDeployment: bool (optional, default true)
+  # 
+  # Not supported in pools:
+  # - serviceAccount (configure renovateWorker.serviceAccount at root level)
+  # - npmrc (configure renovateWorker.npmrc at root level)
+  # - npmrcExistingSecret (configure renovateWorker.npmrcExistingSecret at root level)
+  # - extraDeploy (configure extraDeploy at root level)
+  # 
+  # Optional per-pool flag: set createDeployment: false to skip rendering the worker Deployment for that pool.
+  # Useful for KEDA ScaledJob pools. For KEDA ScaledObject pools, keep createDeployment true (default).
+  # For KEDA patterns, define a dedicated pool with queue/single-job settings,
+  # then reference that pool from extraDeploy via the worker-for-pool + worker-pod-spec helpers.
+  # 
+  # each pool must define a non-empty name.
+  # If empty, a single legacy worker Deployment is rendered from renovateWorker values.
+  pools: []
+  #  - name: amd64
+  #    replicas: 2
+  #    nodeSelector:
+  #      kubernetes.io/arch: amd64
+  #  - name: arm64
+  #    replicas: 0
+  #    mendRnvWorkerQueues: arm64
+  #    nodeSelector:
+  #      kubernetes.io/arch: arm64
+  #  - name: scaled-jobs
+  #    createDeployment: false
+  #    replicas: 0
+  #    mendRnvWorkerQueues: scaled
+  #    mendRnvSingleJobWorker: true
 
   # Optional: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
   mendRnvWorkerExecutionTimeout:
@@ -371,6 +453,14 @@ renovateWorker:
 
   # optional: mainly added to allow support for the '--security-revert=CVE-2023-46809' value
   mendRnvWorkerNodeArgs:
+
+  # Optional: Comma-separated worker queues this worker can consume.
+  # Examples: "main", "arm", "main,arm,x86", "all".
+  mendRnvWorkerQueues:
+
+  # Optional. Set to 'true' to process a single job and then exit. Defaults to 'false'.
+  # Intended for autoscaling patterns such as Kubernetes Event-driven Autoscaling (KEDA).
+  mendRnvSingleJobWorker:
 
   # Optional. Set to 'true' to disable GlobalProxyAgent. Defaults to 'false'.
   #  similar config available in the server
@@ -484,6 +574,9 @@ renovateWorker:
   # This allows renovate to finish running for a repo and then gracefully exit
   terminationGracePeriodSeconds: 60
 
+  # Optional worker pod restart policy.
+  restartPolicy:
+
   readinessProbe:
     httpGet:
       path: /health
@@ -553,7 +646,7 @@ renovateWeb:
 
   image:
     repository: ghcr.io/mend/renovate-web-server
-    version: 14.1.1@sha256:a36ee71954129366644e6c97bd0babe73fb3447cd92c00a534ed8206ed7c06c6
+    version: 14.5.0@sha256:56035fe685e1c8376c8bbe792685ef6ea1a5550d1c5f19757424585d0947453d
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"

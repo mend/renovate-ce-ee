@@ -1,257 +1,85 @@
+{{- $root := . -}}
+{{- $base := mustDeepCopy (omit $root.Values.renovateWorker "pools") -}}
+{{- $workerPools := default (list) $root.Values.renovateWorker.pools -}}
+
+{{- $hasPools := gt (len $workerPools) 0 -}}
+
+{{- include "mend-renovate.validate-worker-pools" $root -}}
+
+{{- if not $hasPools -}}
+  {{- $workerPools = list (dict "name" "") -}}
+{{- end -}}
+
+{{- range $pool := $workerPools }}
+
+{{- $renovateWorker := mustMergeOverwrite (mustDeepCopy $base) (mustDeepCopy $pool) }}
+
+{{- $poolName := "" -}}
+{{- if $hasPools -}}
+  {{- $poolName = required "renovateWorker.pools[].name is required when pools are configured" $renovateWorker.name -}}
+{{- end -}}
+
+{{- $poolExtraConfigMaps := list -}}
+{{- if and (kindIs "map" $pool) (hasKey $pool "extraConfigMaps") -}}
+  {{- $poolExtraConfigMaps = default (list) $pool.extraConfigMaps -}}
+{{- end -}}
+
+{{- $createDeployment := true -}}
+{{- if and (kindIs "map" $pool) (hasKey $pool "createDeployment") -}}
+  {{- $createDeployment = $pool.createDeployment -}}
+{{- end -}}
+
+{{- if $createDeployment }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mend-renovate.fullname" . }}-worker
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "mend-renovate.fullname" $root }}-worker{{ if $renovateWorker.name }}-{{ $renovateWorker.name }}{{ end }}
+  namespace: {{ $root.Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
-    helm.sh/chart: {{ include "mend-renovate.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    {{- with .Values.renovateWorker.labels.deployment }}
+    app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
+    helm.sh/chart: {{ include "mend-renovate.chart" $root }}
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $root.Release.Service }}
+    {{- if $hasPools }}
+    renovate-worker-pool: {{ $poolName | quote }}
+    {{- end }}
+    {{- with $renovateWorker.labels.deployment }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: {{ .Values.renovateWorker.replicas }}
+  replicas: {{ $renovateWorker.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app: {{ include "mend-renovate.name" . }}-worker
+      app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
+      app.kubernetes.io/instance: {{ $root.Release.Name }}
+      app: {{ include "mend-renovate.name" $root }}-worker
+      {{- if $hasPools }}
+      renovate-worker-pool: {{ $poolName | quote }}
+      {{- end }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "mend-renovate.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app: {{ include "mend-renovate.name" . }}-worker
-        {{- with .Values.renovateWorker.labels.pods }}
+        app.kubernetes.io/name: {{ include "mend-renovate.name" $root }}
+        app.kubernetes.io/instance: {{ $root.Release.Name }}
+        app: {{ include "mend-renovate.name" $root }}-worker
+        {{- if $hasPools }}
+        renovate-worker-pool: {{ $poolName | quote }}
+        {{- end }}
+        {{- with $renovateWorker.labels.pods }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        checksum/config.jsFileConfigMap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/shardedExtraConfigMaps: {{ include (print $.Template.BasePath "/extra-configmaps.yaml") . | sha256sum }}
-        checksum/extraConfigMaps: {{ include (print $.Template.BasePath "/worker-extra-configmaps.yaml") . | sha256sum }}
-        {{- with .Values.renovateWorker.annotations }}
+        checksum/config.jsFileConfigMap: {{ $renovateWorker.config | sha256sum }}
+        checksum/shardedExtraConfigMaps: {{ include (print $root.Template.BasePath "/extra-configmaps.yaml") $root | sha256sum }}
+        checksum/extraConfigMapsGlobal: {{ $root.Values.renovateWorker.extraConfigMaps | toYaml | sha256sum }}
+        checksum/extraConfigMapsPool: {{ $poolExtraConfigMaps | toYaml | sha256sum }}
+        {{- with $renovateWorker.annotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      automountServiceAccountToken: {{ .Values.renovateWorker.automountServiceAccountToken | default false }}
-      {{- with .Values.renovateWorker.podSecurityContext }}
-      securityContext: {{- toYaml . | nindent 8 }}
-      {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.renovateWorker.terminationGracePeriodSeconds }}
-      {{- if or .Values.renovateWorker.serviceAccount.create .Values.renovateWorker.serviceAccount.existingName }}
-      serviceAccountName: {{ include "mend-renovate.worker-service-account-name" . }}
-      {{- end }}
-      {{- with .Values.renovateWorker.initContainers }}
-      initContainers: {{- toYaml . | nindent 8 }}
-      {{- end }}
-      containers:
-        - name: {{ .Chart.Name }}-worker
-          image: "{{ .Values.renovateWorker.image.repository }}:{{ .Values.renovateWorker.image.version }}"
-          imagePullPolicy: {{ .Values.renovateWorker.image.pullPolicy }}
-          {{- with .Values.renovateWorker.containerSecurityContext }}
-          securityContext: {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if or .Values.renovateWorker.extraEnvFromConfigMaps .Values.renovateWorker.extraEnvFromSecrets }}
-          envFrom:
-          {{- with .Values.renovateWorker.extraEnvFromConfigMaps }}
-            {{- range . }}
-            - configMapRef:
-                name: {{ .name }}
-            {{- end }}
-          {{- end }}
-          {{- with .Values.renovateWorker.extraEnvFromSecrets }}
-            {{- range . }}
-            - secretRef:
-                name: {{ .name }}
-            {{- end }}
-          {{- end }}
-          {{- end }}
-          env:
-            {{- with .Values.renovateWorker.extraEnvVars }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            - name: MEND_RNV_SERVER_HOSTNAME
-              {{- $httpsPort:= "" }}
-              {{- $scheme := "http" }}
-              {{- if or .Values.renovateWorker.mendRnvClientHttpsConfig .Values.renovateWorker.mendRnvClientHttpsConfigPath}}
-                {{- $httpsPort = print ":" .Values.service.ports.https }}
-                {{- $scheme = "https" }}
-              {{- end}}
-              value: "{{ $scheme }}://{{ include "mend-renovate.fullname" . }}-svc-server{{ $httpsPort }}"
-            {{- if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
-            - name: MEND_RNV_SERVER_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.server-secret-name" . }}
-                  key: mendRnvServerApiSecret
-            {{- end }}
-
-            {{- if .Values.license.mendRnvAcceptTos }}
-            - name: MEND_RNV_ACCEPT_TOS
-              value: {{ .Values.license.mendRnvAcceptTos | quote }}
-            {{- end }}
-            {{- if or .Values.license.mendRnvLicenseKey .Values.license.existingSecret }}
-            - name: MEND_RNV_LICENSE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.license-secret-name" . }}
-                  key: mendRnvLicenseKey
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvWorkerCleanup }}
-            - name: MEND_RNV_WORKER_CLEANUP
-              value: {{ .Values.renovateWorker.mendRnvWorkerCleanup | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvWorkerCleanupDirs }}
-            - name: MEND_RNV_WORKER_CLEANUP_DIRS
-              value: {{ .Values.renovateWorker.mendRnvWorkerCleanupDirs | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvDiskUsageWarnThreshold }}
-            - name: MEND_RNV_DISK_USAGE_WARN_THRESHOLD
-              value: {{ .Values.renovateWorker.mendRnvDiskUsageWarnThreshold | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvDiskUsageFilter }}
-            - name: MEND_RNV_DISK_USAGE_FILTER
-              value: {{ .Values.renovateWorker.mendRnvDiskUsageFilter | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvExitInactiveCount }}
-            - name: MEND_RNV_EXIT_INACTIVE_COUNT
-              value: {{ .Values.renovateWorker.mendRnvExitInactiveCount | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvWorkerNodeArgs }}
-            - name: RENOVATE_NODE_ARGS
-              value: {{ .Values.renovateWorker.mendRnvWorkerNodeArgs | quote }}
-            {{- end }}
-
-            {{- if or .Values.renovateWorker.githubComToken .Values.renovateWorker.existingSecret }}
-            - name: GITHUB_COM_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.worker-secret-name" . }}
-                  key: githubComToken
-                  optional: true
-            {{- end }}
-            {{- if or .Values.renovateWorker.pipIndexUrl .Values.renovateWorker.existingSecret }}
-            - name: PIP_INDEX_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "mend-renovate.worker-secret-name" . }}
-                  key: pipIndexUrl
-                  optional: true
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvWorkerExecutionTimeout }}
-            - name: MEND_RNV_WORKER_EXECUTION_TIMEOUT
-              value: {{ .Values.renovateWorker.mendRnvWorkerExecutionTimeout | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvDisableGlobalAgent }}
-            - name: MEND_RNV_DISABLE_GLOBAL_AGENT
-              value: {{ .Values.renovateWorker.mendRnvDisableGlobalAgent | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvEnableHttp2 }}
-            - name: MEND_RNV_ENABLE_HTTP2
-              value: {{ .Values.renovateWorker.mendRnvEnableHttp2 | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvClientHttpsConfig }}
-            - name: MEND_RNV_CLIENT_HTTPS_CONFIG
-              value: {{ toJson .Values.renovateWorker.mendRnvClientHttpsConfig | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.mendRnvClientHttpsConfigPath }}
-            - name: MEND_RNV_CLIENT_HTTPS_CONFIG_PATH
-              value: {{ .Values.renovateWorker.mendRnvClientHttpsConfigPath | quote}}
-            {{- end }}
-            {{- if .Values.renovateWorker.noNodeTlsVerify }}
-            - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: '0'
-            {{- end }}
-            {{- if .Values.renovateWorker.noGitTlsVerify }}
-            - name: GIT_SSL_NO_VERIFY
-              value: 'true'
-            {{- end }}
-            {{- if .Values.renovateWorker.renovateUserAgent }}
-            - name: RENOVATE_USER_AGENT
-              value: {{ .Values.renovateWorker.renovateUserAgent | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.logLevel }}
-            - name: LOG_LEVEL
-              value: {{ .Values.renovateWorker.logLevel | quote }}
-            {{- end }}
-            {{- if .Values.renovateWorker.logFormat }}
-            - name: LOG_FORMAT
-              value: {{ .Values.renovateWorker.logFormat | quote }}
-            {{- end }}
-          ports:
-            - name: ee-worker
-              containerPort: 8080
-              protocol: TCP
-          {{- with .Values.renovateWorker.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.renovateWorker.readinessProbe }}
-          readinessProbe:
-          {{- toYaml . | nindent 12 }}
-          {{- end }}
-          resources:
-            {{- toYaml .Values.renovateWorker.resources | nindent 12 }}
-          volumeMounts:
-            - name: {{ .Release.Name }}-config-js-volume
-              readOnly: true
-              mountPath: /usr/src/app/config.js
-              subPath: config.js
-            {{- if .Values.renovateWorker.npmrc }}
-            - name: {{ .Release.Name }}-npmrc-volume
-              readOnly: true
-              mountPath: /home/ubuntu/.npmrc
-              subPath: .npmrc
-            {{- end }}
-            {{- if not .Values.renovateWorker.disableCacheVolume }}
-            - name: {{ .Release.Name }}-cache-volume
-              readOnly: false
-              mountPath: /tmp/renovate
-            {{- end }}
-            {{- with .Values.renovateWorker.extraVolumeMounts }}
-              {{- toYaml . | nindent 12 }}
-            {{- end }}
-      {{- with .Values.renovateWorker.nodeSelector }}
-      nodeSelector:
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.renovateWorker.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ .Values.renovateWorker.imagePullSecrets }}
-      {{- end }}
-      volumes:
-        - name: {{ .Release.Name }}-config-js-volume
-          configMap:
-            name: {{ include "mend-renovate.fullname" . }}-config-js
-        {{- if or .Values.renovateWorker.npmrc .Values.renovateWorker.npmrcExistingSecret }}
-        - name: {{ .Release.Name }}-npmrc-volume
-          secret:
-            secretName: {{ include "mend-renovate.npmrc-secret-name" . }}
-        {{- end }}
-        {{- if not .Values.renovateWorker.disableCacheVolume }}
-        - name: {{ .Release.Name }}-cache-volume
-          {{- if .Values.dataPersistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.dataPersistence.existingClaim | default (printf "%s-data" (include "mend-renovate.fullname" .)) }}
-          {{- else if .Values.dataInMemory.enabled }}
-          emptyDir:
-            medium: Memory
-          {{- else }}
-          emptyDir: { }
-          {{- end }}
-        {{- end }}
-      {{- with .Values.renovateWorker.extraVolumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.renovateWorker.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.renovateWorker.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+{{ include "mend-renovate.worker-pod-spec" (dict "root" $root "worker" $renovateWorker) | nindent 6 }}
+{{- end }}
+{{ end }}

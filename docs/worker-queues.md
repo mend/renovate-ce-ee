@@ -20,6 +20,7 @@ For general API documentation, see [API Documentation](./api.md). For the exact 
 - [Queue Management](#queue-management)
 - [Queue Assignment](#queue-assignment)
 - [Worker Configuration](#worker-configuration)
+  - [Helm Example: main and arm64 pools](#helm-example-main-and-arm64-pools)
 - [Metrics and Autoscaling](#metrics-and-autoscaling)
 - [End to End Example](#end-to-end-example)
   - [1. Create a queue](#1-create-a-queue)
@@ -118,6 +119,31 @@ Special handling:
 - `all` is reserved in the API and cannot be used as a named worker queue
 - In worker configuration, `all` is a wildcard value that means "consume from every queue"
 - If `all` is present, it overrides the need to list specific queues
+
+### Helm Example: main and arm64 pools
+
+If you deploy with the Helm chart, a minimal change pattern is to keep `main` on `amd64` and add a dedicated `arm64` queue/pool:
+
+```yaml
+renovateWorker:
+  pools:
+    - name: main
+      replicas: 2
+      mendRnvWorkerQueues: main
+      nodeSelector:
+        kubernetes.io/arch: amd64
+    - name: arm64
+      replicas: 2
+      mendRnvWorkerQueues: arm64
+      nodeSelector:
+        kubernetes.io/arch: arm64
+```
+
+Then assign selected repositories or organizations to `arm64` via the queue assignment API. Unassigned jobs continue to route to `main`.
+
+Each entry in `renovateWorker.pools` renders a separate worker Deployment. Pool values are merged over root `renovateWorker` values.
+
+For additional Helm examples (including `extraDeploy` autoscaling patterns), see [`helm-charts/mend-renovate-ee/values.yaml`](../helm-charts/mend-renovate-ee/values.yaml).
 
 ## Metrics and Autoscaling
 
