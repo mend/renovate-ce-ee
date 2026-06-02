@@ -1,4 +1,4 @@
-![Mend Renovate banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
+![Mend Renovate (CLI) banner](https://app.renovatebot.com/images/whitesource_renovate_660_220.jpg)
 
 # Mend Renovate Self-Hosted Community and Enterprise Editions
 
