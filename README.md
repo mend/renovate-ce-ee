@@ -4,6 +4,8 @@
 
 This repository contains documentation, release notes and an issue tracker for Mend Renovate Self-Hosted Community Edition ("CE") and Mend Renovate Enterprise Edition ("EE").
 
+Mend Renovate Self-Hosted is a product by Mend which combines the [Mend Renovate CLI](https://docs.renovatebot.com/) with a **??** to make it more straightforward for **??**.
+
 ## Documentation
 
 Please view [the Markdown docs in this repository](https://github.com/mend/renovate-ce-ee/tree/main/docs).
