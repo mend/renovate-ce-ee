@@ -2,7 +2,7 @@
 
 This repository provides documentation specific to the Mend Renovate Self-hosted Apps - Community Edition (Renovate CE) and Enterprise Edition (Renovate EE), and does not duplicate anything that is relevant and can be found in the [Renovate Open Source project's documentation site](https://docs.renovatebot.com).
 
-Mend Renovate Community Edition was formerly known as "Mend Renovate On-Premises".
+Mend Renovate Community Edition was formerly known as "Mend Renovate On-Premises", and has previously been commonly referred to as "Renovate CE".
 
 ## Supported platforms
 
