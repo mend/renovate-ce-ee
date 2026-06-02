@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mend/renovate-ce
-  tag: 14.6.0@sha256:509ea5f8e1d031a41b7d2f0b6186559c711d33535a2a439118f40524d1e49c28
+  tag: 14.6.0
   useFull: true
   pullPolicy: IfNotPresent
 

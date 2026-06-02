@@ -33,6 +33,12 @@
           "bumpType": "{{updateType}}"
         }
       ]
+    },
+    {
+      "description": "Don't digest pin CE's -full image",
+      "matchFileNames": ["helm-charts/mend-renovate-ce/values.yaml"],
+      "matchPackageNames": ["ghcr.io/mend/renovate-ce"],
+      "pinDigests": false
     }
   ],
   "ignorePaths": []
