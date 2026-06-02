@@ -36,7 +36,7 @@ Therefore if the repository already exists in the job queue (e.g. due to the hou
 The worker runs on an endless loop where it queries the DB for the next job (sorted by priority) and processes whatever repository it is given.
 If the job queue is empty, it sleeps for a second before retrying.
 
-If the Mend Renovate server receives a SIGINT (e.g. maybe you are upgrading it and want to restart it with a newer image), then the worker will attempt to finish whatever job it is currently processing before shutting down gracefully.
+If the Server receives a SIGINT (e.g. maybe you are upgrading it and want to restart it with a newer image), then the worker will attempt to finish whatever job it is currently processing before shutting down gracefully.
 Therefore it is recommended to supply a long timeout value (e.g. 60+ seconds) to Docker in order to allow the worker to finish what it's working on.
 
 Here is an except showing the relative priority of job types:
@@ -68,7 +68,7 @@ Because onboarding is an interactive process, it needs the most responsiveness.
 
 ## Horizontal Scaling
 
-The current architecture of Mend Renovate CE is monolithic in order to keep things simple and maximize maintainability.
+The current architecture of Mend Renovate Self-Hosted CE is monolithic in order to keep things simple and maximize maintainability.
 Accordingly, there is a 1:1 relationship between the worker and the job queue, meaning that only one job can be processed at a time.
 
 Renovate EE is designed with Horizontal scalability in mind. It separates the components into a server/worker architecture that can scale independently on different containers/machines.
