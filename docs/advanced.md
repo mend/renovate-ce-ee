@@ -1,4 +1,4 @@
-# Mend Renovate Advanced Details
+# Mend Renovate Self-Hosted Advanced Details
 
 ## Modules
 
