@@ -335,7 +335,7 @@ spec:
           {{- toYaml .Values.renovateServer.resources | nindent 12 }}
           volumeMounts:
             - name: {{ .Release.Name }}-database-volume
-              mountPath: /database
+              mountPath: /tmp/renovate
             {{- with .Values.renovateServer.extraVolumeMounts }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
