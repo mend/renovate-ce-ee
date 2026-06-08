@@ -1,4 +1,4 @@
-FROM dpage/pgadmin4:9.11
+FROM dpage/pgadmin4:9.15@sha256:cefc4cc6b7d9d71a9e81e76fb9d7e14038ab5661b539a190eea1b63fa612589a
 
 # pgadmin server user attributes
 ARG P_USER=pgadmin
