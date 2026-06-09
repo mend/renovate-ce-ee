@@ -1,6 +1,6 @@
 services:
   kafka:
-    image: apache/kafka-native
+    image: apache/kafka-native@sha256:777f2dddec6970003f1f27922a8c317d87140567b0537e801d35669ad9a81faf
     ports:
       - "9092:9092"
     environment:
@@ -25,7 +25,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
 
   kafka-ui:
-    image: ghcr.io/kafbat/kafka-ui:latest
+    image: ghcr.io/kafbat/kafka-ui:latest@sha256:7cda86a33344160309fdb65146332e4da65db81a945614f2fe32e210803f6fd1
     ports:
       - "8081:8080"
     environment:
