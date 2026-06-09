@@ -7,7 +7,7 @@
 
 services:
   ngrok:
-    image: ngrok/ngrok:latest
+    image: ngrok/ngrok:latest@sha256:fc148db24a14f151a8d07101b01f00d116e58609c47334a8034edb1870f92c21
     container_name: ngrok
     command:
       - "http"
