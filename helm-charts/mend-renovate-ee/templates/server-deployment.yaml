@@ -84,6 +84,30 @@ spec:
                   name: {{ include "mend-renovate.license-secret-name" . }}
                   key: mendRnvLicenseKey
             {{- end }}
+            {{- if or .Values.renovateServer.mendRnvActivationKey .Values.renovateServer.existingSecret }}
+            - name: MEND_RNV_ACTIVATION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: mendRnvActivationKey
+                  optional: true
+            {{- end }}
+            {{- if or .Values.renovateServer.mendRnvRemediateServerSecret .Values.renovateServer.existingSecret }}
+            - name: MEND_RNV_REMEDIATE_SERVER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mend-renovate.server-secret-name" . }}
+                  key: mendRnvRemediateServerSecret
+                  optional: true
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvRemediateControllerUrl }}
+            - name: MEND_RNV_REMEDIATE_CONTROLLER_URL
+              value: {{ .Values.renovateServer.mendRnvRemediateControllerUrl | quote }}
+            {{- end }}
+            {{- if .Values.renovateServer.mendRnvRemediateSkipDatasourceRedirect }}
+            - name: MEND_RNV_REMEDIATE_SKIP_DATASOURCE_REDIRECT
+              value: {{ .Values.renovateServer.mendRnvRemediateSkipDatasourceRedirect | quote }}
+            {{- end }}
             {{- if .Values.renovateServer.mendRnvPlatform }}
             - name: MEND_RNV_PLATFORM
               value: {{ .Values.renovateServer.mendRnvPlatform | quote }}
