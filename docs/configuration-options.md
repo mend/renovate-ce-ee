@@ -1,7 +1,7 @@
 # Mend Renovate Self-hosted App Configuration Options
 
-Mend Renovate Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
-Mend Renovate Community Edition runs on a single Server container that also performs the Worker actions. 
+The Enterprise Edition runs with one or more **_Server_** containers and one or more **_Worker_** containers.
+The Community Edition runs on a single Server container that also performs the Worker actions.
 See below for a list of environment variables that relate to each.
 
 Separately, you can provide configuration for the Renovate Core. See the end of this doc for details.
@@ -99,19 +99,19 @@ Must be accessible to receive incoming calls from the BitBucket Data Center.
 
 ** `MEND_RNV_WEBHOOK_BRANCH_PREFIXES`: Optional: Set to add values to the default Renovate branches list that are considered for webhook evens (default list: `['renovate/']`)
 
-** `MEND_RNV_WEBHOOK_DISABLED_REPOS_HANDLING`: allows reduced number of jobs from incoming webhook events by skipping jobs for `disabled` repositories 
+** `MEND_RNV_WEBHOOK_DISABLED_REPOS_HANDLING`: allows reduced number of jobs from incoming webhook events by skipping jobs for `disabled` repositories
 
 values:
-- `minimal` (default) when a repository's last run result is `disabled`, only trigger jobs for push/commit webhook event affecting a base branch and include a Renovate config in the list of changed files  
+- `minimal` (default) when a repository's last run result is `disabled`, only trigger jobs for push/commit webhook event affecting a base branch and include a Renovate config in the list of changed files
 - `full`: trigger jobs for any "important" webhook even if the repository is `disabled`
 
-Notes: 
-- Bitbucket webhook event does not include the list of changed files. 
+Notes:
+- Bitbucket webhook event does not include the list of changed files.
 - To trigger a job for a `disabled` repository in case webhook events are not an option:
   - wait for `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (it adds jobs for all repositories including `disabled` ones)
   - use `POST /system/v1/jobs/add` to trigger a job
   - use `POST /api/v1/repos/{org}/{repo}/-/jobs/run` to trigger a job
-  
+
 
 **`MEND_RNV_SYNC_MODE`**: [GitHub only] Performance tuning for the App Sync operation. Set to 'batch' for orgs with very large numbers of repos.
 
@@ -153,7 +153,7 @@ Note: For more information about TLS configuration, see separate docs for [TLS c
 
 **`MEND_RNV_HTTP_SERVER_DISABLED`**: Set to 'true' to ensure that non-secure requests are rejected.
 
-**`MEND_RNV_SERVER_HTTPS_CONFIG`**: TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`. 
+**`MEND_RNV_SERVER_HTTPS_CONFIG`**: TLS server config (JSON format). Takes precedence over `MEND_RNV_SERVER_HTTPS_CONFIG_PATH`.
 
 **`MEND_RNV_SERVER_HTTPS_CONFIG_PATH`**: File for defining TLS server config. Note: Ensure volume is defined.
 
@@ -165,8 +165,8 @@ Note: For more information about TLS configuration, see separate docs for [TLS c
 
 **`MEND_RNV_SQLITE_FILE_PATH`**: Defaults to '/tmp/database.sqlite'. Optional: Provide a path to persist the database. (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
 
-> [!IMPORTANT]  
-> The container running either the Renovate EE server service or the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file. 
+> [!IMPORTANT]
+> The container running either the Renovate EE server service or the Renovate CE service requires read, write, and execute (rwx) permissions for the parent folder of the SQLite file.
 > Additionally, the process inside the container executes with `uid=12021` (ubuntu) and `gid=12021`.
 
 > [!NOTE]
@@ -184,16 +184,16 @@ Use ".open FILENAME" to reopen on a persistent database.
 sqlite> .open -readonly /db/renovate-ce.sqlite
 sqlite> .tables
 job_queue   migrations  org         repo        task_queue
-sqlite> 
+sqlite>
 ```
 
 ### Startup and Sync behavior
 
 > [!IMPORTANT]
-> 
+>
 > When running Renovate Enterprise with multiple Server instances, unpredictable behavior can occur when more than one server attempts to sync repos or enqueue jobs.
 > Therefore, it is recommended NOT to run App Sync or to enqueue jobs when the server starts, and instead to rely on the primary server to perform these tasks when the related cron jobs are triggered.
-> 
+>
 > **Recommended settings when running with multiple Server instances:**
 > - Set `MEND_RNV_SYNC_ON_STARTUP` = false
 > - Set `MEND_RNV_ENQUEUE_JOBS_ON_STARTUP` = disabled
@@ -219,7 +219,7 @@ Note: This should be set to `disabled` when running multiple Server instances.
 
 **`MEND_RNV_AUTODISCOVER_FILTER`**: Accepts a comma-separated string of minimatch-compatible globs or RE2-compatible regular expressions, following the same input format as Renovate’s `autodiscoverFilter`. For examples and full documentation, see the [Renovate autodiscoverFilter docs](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 
-> [!WARNING]  
+> [!WARNING]
 > The Renovate CLI [autodiscover](https://docs.renovatebot.com/self-hosted-configuration/#autodiscover) configuration option is disabled at the client level. Repository filtering should solely rely on server-side filtering using `MEND_RNV_AUTODISCOVER_FILTER`.
 
 > [!IMPORTANT]
@@ -227,30 +227,30 @@ Note: This should be set to `disabled` when running multiple Server instances.
 
 ### Job Scheduling Options
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Job scheduling options are different between Community Edition and Enterprise Edition.
-> 
+>
 > **Renovate Enterprise Edition** allows job scheduling to be customized so that active repos run more frequently and stale repos run less often.
 > The Enterprise job schedulers are:
 > - `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (Default Hourly - Active repos: new, activated)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_COLD` (Default Daily - Semi-active repos: onboarded, onboarding, failed)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_CAPPED` (Default Weekly - Blocked repos: resource-limit, timeout)
 > - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Monthly - All enabled repos: not disabled)
-> 
+>
 > **Renovate Community Edition** has a single job scheduler that runs against all repos, regardless of their repo state.
 > - `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (Default Hourly - All repos)
-> 
+>
 > See below for details
 
 > [!Note]
-> 
+>
 > `MEND_RNV_CRON_JOB_SCHEDULER` is deprecated from v7.3.0.
 > - For Renovate Community Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_ALL` (see below)
 > - For Renovate Enterprise Edition: use `MEND_RNV_CRON_JOB_SCHEDULER_HOT` (see below)
 
 **`MEND_RNV_CRON_JOB_SCHEDULER_HOT`**: [Enterprise Only] Runs all activate and new repositories. Defaults to hourly (0 * * * *)
   * Runs repos with status: `new`, `activated`
- 
+
 Note: An `activated` repository is one that has onboarded and also accepted at least one Renovate PR.
 
 Note: This option overrides the deprecated MEND_RNV_CRON_JOB_SCHEDULER flag.
@@ -288,7 +288,7 @@ The corresponding Renovate job log file will be saved as:
 /home/renovate/logs/org/repo/20231025_104229_6e4ecdc343.log
 ```
 
-Note: 
+Note:
 - Recommended to be an external volume to preserve history between multiple workers
 - For disk cleanup use `MEND_RNV_LOG_HISTORY_TTL_DAYS` and `MEND_RNV_LOG_HISTORY_CLEANUP_CRON`
 
@@ -301,7 +301,7 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 
 **`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file older than `MEND_RNV_LOG_HISTORY_TTL_DAYS`.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
 ### Other Server Config Options
@@ -337,7 +337,7 @@ INFO: Mismatching versions of Server XXX and Worker YYY
 Only one message will be printed during the version check interval. If mismatches continue to occur after the interval, the log messages will escalate from INFO to WARN and ERROR.
 Escalation is reset when no mismatching versions are found during the version check interval.
 
-Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server. 
+Note: You can inspect the `Renovate-EE-Version` in the response header of any Renovate API call to see the current version of the responding Server.
 
 **`MEND_RNV_FORK_PROCESSING`**: controls the value of Renovate `forkProcessing` in the worker. valid values
 
@@ -350,8 +350,8 @@ Note: You can inspect the `Renovate-EE-Version` in the response header of any Re
     - `forkProcessing=disabled` if "All repositories"
   - others platforms: `forkProcessing=disabled`
 
-**`MEND_RNV_MERGE_CONFIDENCE_ENDPOINT`**: [Enterprise only] defines the endpoint used to retrieve Merge Confidence data by querying this API. 
-this config option only need to be defined in the server, and it will be passed to the worker automatically. 
+**`MEND_RNV_MERGE_CONFIDENCE_ENDPOINT`**: [Enterprise only] defines the endpoint used to retrieve Merge Confidence data by querying this API.
+this config option only need to be defined in the server, and it will be passed to the worker automatically.
 defaults to https://developer.mend.io/.
 
 Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BASE_URL` flag.
