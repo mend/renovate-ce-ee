@@ -135,6 +135,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AddJobRequest'
+            examples:
+              withCheckedBranches:
+                value:
+                  repository: renovatebot/renovate
+                  checkedBranches:
+                    - renovate/lodash-4.x
+                    - renovate/typescript-5.x
       responses:
         '200':
           description: Job already queued or updated
@@ -331,9 +338,21 @@ paths:
       parameters:
         - $ref: '#/components/parameters/OrgRepo'
       requestBody:
-        description: 'No request body is required, as the `orgRepo` parameter is used instead.'
+        description: |
+          The request body can optionally include job run options.
+
+          No repository field is required here, as the `orgRepo` path parameter identifies the repository.
         required: false
-        content: {}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnqueueJobOptions'
+            examples:
+              withCheckedBranches:
+                value:
+                  checkedBranches:
+                    - renovate/lodash-4.x
+                    - renovate/typescript-5.x
       responses:
         '200':
           description: Job already queued or updated
@@ -577,8 +596,8 @@ paths:
         Filtering:
         - Use the `state` query parameter to filter repositories by installation state.
           The default state is `installed`.
-        - Use the optional `q` query parameter to filter repositories by name or full name.
-          (the organization prefix is omitted, e.g. `repo1` not `org1/repo1`).
+        - Use the optional `q` query parameter to filter repositories by name.
+          The organization prefix is omitted, e.g. `repo1` not `org1/repo1`.
         - Matching for the `q` parameter is case-insensitive.
 
         Pagination:
@@ -905,6 +924,7 @@ components:
       required: false
       schema:
         type: string
+        default: installed
         description: |
           What state organizations are in, based on the installation status:
 
@@ -936,6 +956,9 @@ components:
       required: false
       schema:
         type: string
+        default: installed
+        description: |
+          Repository installation state filter. Defaults to `installed`.
         enum:
           - installed
           - uninstalled
@@ -1052,20 +1075,47 @@ components:
           schema:
             $ref: '#/components/schemas/LogsNotFound'
   schemas:
+    EnqueueJobOptions:
+      type: object
+      additionalProperties: false
+      properties:
+        checkedBranches:
+          type: array
+          items:
+            type: string
+          description: |
+            Optional list of branch names to target for branch-aware runs. This mirrors [Renovate's `checkedBranches`](https://docs.renovatebot.com/self-hosted-configuration/#checkedbranches) behavior,
+            and is treated as if those branches were selected in the Dependency Dashboard.
+          example:
+            - renovate/lodash-4.x
+            - renovate/typescript-5.x
     AddJobRequest:
       type: object
+      additionalProperties: false
+      example:
+        repository: renovatebot/renovate
+        checkedBranches:
+          - renovate/lodash-4.x
+          - renovate/typescript-5.x
       required:
         - repository
       properties:
         repository:
           type: string
           description: |
-            The organisation + repo(s) slug
+            The organization + repo(s) slug
 
             For instance:
 
             - `https://gitlab.example.com/infrastructure/renovate/runner` would have `orgRepo=infrastructure/renovate/runner`
             - `https://github.example.com/renovatebot/renovate` would have `orgRepo=renovatebot/renovate`
+        checkedBranches:
+          type: array
+          items:
+            type: string
+          description: |
+            Optional list of branch names to target for branch-aware runs. This mirrors [Renovate's `checkedBranches`](https://docs.renovatebot.com/self-hosted-configuration/#checkedbranches) behavior,
+            and is treated as if those branches were selected in the Dependency Dashboard.
     MessageResponse:
       type: object
       properties:
@@ -1624,7 +1674,7 @@ components:
           description: |
             Effective queue name for the organization.
 
-            Resolution order: 
+            Resolution order:
 
             1. organization queue assignment
             2. `main`.
@@ -1917,51 +1967,107 @@ components:
         pendingApproval:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         awaitingSchedule:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         errored:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         prCreationApprovalRequired:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         editedOrBlocked:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         pendingStatusChecks:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         ignoredOrBlocked:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         rateLimited:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         pendingBranchAutomerge:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         otherBranches:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
         open:
           type: array
           items:
-            $ref: '#/components/schemas/AnyObject'
+            $ref: '#/components/schemas/DashboardUpdate'
+    DashboardUpdate:
+      type: object
+      required:
+        - prNo
+      properties:
+        branchName:
+          type: string
+        prTitle:
+          type: string
+        prNo:
+          type:
+            - integer
+            - 'null'
+        dependencyDashboardCategory:
+          type: string
+        upgrades:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardUpgrade'
+    DashboardUpgrade:
+      type: object
+      properties:
+        depName:
+          type: string
+        packageName:
+          type: string
+        currentValue:
+          type:
+            - string
+            - 'null'
+        currentDigest:
+          type: string
+        lockedVersion:
+          type: string
+        skipReason:
+          type: string
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardUpgradeUpdate'
+    DashboardUpgradeUpdate:
+      type: object
+      properties:
+        newValue:
+          type: string
+        newVersion:
+          type: string
     PackageFileArray:
       type: array
       items:
-        $ref: '#/components/schemas/AnyObject'
+        $ref: '#/components/schemas/DashboardPackageFile'
+    DashboardPackageFile:
+      type: object
+      properties:
+        packageFile:
+          type: string
+        deps:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardUpgrade'
     ManagerPackageFiles:
       type: object
       additionalProperties:
