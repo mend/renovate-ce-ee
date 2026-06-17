@@ -154,6 +154,8 @@ When clicking through to an organization, this will then list any repositories:
 
 As noted above, these organizations and repositories listed are only where the user has access, according to the permissions as denoted by the [Role Based Access Control functionality](rbac.md).
 
+### Jobs
+
 From the given repository, you can then see the job history list:
 
 ![A screenshot of the list of recent jobs the selected repository has. It lists a table with the Job IDs, status, reason (for scheduling), what time the job was added to the queue and when it was completed. The repository also has an icon next to it which will link out to the repo on the platform, i.e. `github.com/JamieTanna-Mend-testing/renovate-ce-ee`. There is also a `Run job` button, which will trigger the creation of a job against the repo](images/webui-github-repository-job-list.png)
@@ -161,6 +163,19 @@ From the given repository, you can then see the job history list:
 And when you click in to a specific job (if it has finished running):
 
 ![A screenshot of a repository's job logs, presented in dark mode. There is syntax highlighting for extended JSON context on a log line, ` Detected config in env RENOVATE_CONFIG`, which provides more insight into what the log line is showing.](images/webui-github-job-logs-dark.png)
+
+### Dependency Dashboard
+
+Each repository also has a `Dependency Dashboard` tab, which is available across all SCM platforms supported by the web UI.
+
+This mirrors the Renovate Dependency Dashboard experience in GitHub, allowing you to select one or more entries and then click `Create/Rebase` to trigger Renovate jobs for the selected updates.
+
+> [!NOTE]
+> Currently, Renovate abandoned packages and replacement suggestions are not yet supported in the web UI Dependency Dashboard.
+>
+> Support for these is planned in a future release.
+
+![A screenshot of the repository Dependency Dashboard in the web UI. The `Dependency Dashboard` tab is selected, two update entries are checked, and the `Create/Rebase` button is visible so Renovate jobs can be triggered for the selected updates.](images/webui-noauth-dependency-dashboard-checked.png)
 
 ### Dark + light mode
 
