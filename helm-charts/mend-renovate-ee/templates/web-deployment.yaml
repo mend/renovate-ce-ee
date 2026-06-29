@@ -79,10 +79,15 @@ spec:
             {{ toYaml . | nindent 12 }}
             {{- end }}
 
+            {{- if or .Values.renovateServer.mendRnvActivationKey .Values.renovateServer.mendRnvRemediateMode }}
+            - name: MEND_RNV_PLATFORM
+              value: {{ required "renovateWeb.mendRnvPlatform is required when remediate is enabled" .Values.renovateWeb.mendRnvPlatform | quote }}
+            {{- else }}
             {{- $platform := coalesce .Values.renovateWeb.mendRnvPlatform .Values.renovateServer.mendRnvPlatform }}
             {{- if $platform }}
             - name: MEND_RNV_PLATFORM
               value: {{ $platform | quote }}
+            {{- end }}
             {{- end }}
             {{- $endpoint := coalesce .Values.renovateWeb.mendRnvEndpoint .Values.renovateServer.mendRnvEndpoint }}
             {{- if $endpoint }}

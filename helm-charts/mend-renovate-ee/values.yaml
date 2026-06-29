@@ -134,6 +134,28 @@ renovateServer:
   # Required, used for api authentication.
   mendRnvServerApiSecret: abc123
 
+  # Optional: Mend activation key.
+  # Setting this value enables remediate.
+  mendRnvActivationKey:
+
+  # Optional: Explicit template time switch for enabling remediate.
+  # Set to 'true' when mendRnvActivationKey is supplied through renovateServer.existingSecret.
+  # Required for template time remediate behavior when activation key is not set inline in values.
+  mendRnvRemediateMode: false
+
+  # Optional: Shared secret used by remediate runtime components.
+  # Use this when the controller must authenticate calls to server remediate endpoints.
+  mendRnvRemediateServerSecret:
+
+  # Optional: Remediate controller URL override.
+  # Defaults to the application built-in controller URL when unset.
+  # Example: https://ws-controller.example.com
+  mendRnvRemediateControllerUrl:
+
+  # Optional: Set to 'true' to skip datasource redirects in remediate runtime.
+  # Defaults to 'false'.
+  mendRnvRemediateSkipDatasourceRedirect:
+
   # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
   #
   # deprecated: use mendRnvApiEnabled instead.
@@ -171,8 +193,13 @@ renovateServer:
   #   mendRnvGitlabPat:
   #   mendRnvGithubAppId:
   #   mendRnvGithubAppKey:
+  #   mendRnvBitbucketPat:
+  #   mendRnvAdminToken:
   #   mendRnvWebhookSecret:
   #   mendRnvServerApiSecret:
+  #   mendRnvActivationKey:
+  #   mendRnvRemediateServerSecret:
+  #   pgPassword:
   existingSecret:
 
   # Optional, defaults to '0 * * * *' (hourly)
@@ -650,7 +677,8 @@ renovateWeb:
     pullPolicy: Always
 
   # Which platform the Web UI connects to. currently supported value: "github"
-  # If unset, the chart derives mendRnvPlatform from the server service.
+  # If unset, the chart derives mendRnvPlatform from the server service in non-remediate mode.
+  # Required when renovateServer.mendRnvRemediateMode=true or renovateServer.mendRnvActivationKey is set.
   mendRnvPlatform:
 
   # Optional endpoint override.
