@@ -102,7 +102,7 @@ Note: By default Renovate server will attempt to call this endpoint once during 
 This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
 It needs only read-only access privileges. Not required if SCM is GitHub.com.
 
-**`MEND_RNV_WEBHOOK_SKIP_SIGNATURE_VERIFICATION`**: Skips webhook signature verification. **WARNING: Disabling webhook signature verification allows attackers to spoof webhook events, potentially triggering unauthorized jobs or actions.**
+**`MEND_RNV_WEBHOOK_SKIP_SIGNATURE_VERIFICATION`**: Optional. Skips webhook signature verification. Defaults to 'false' **WARNING: Disabling webhook signature verification allows attackers to spoof webhook events, potentially triggering unauthorized jobs or actions.**
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
