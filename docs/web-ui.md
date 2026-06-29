@@ -5,7 +5,7 @@ Enterprise users of Mend Renovate Self-Hosted have access to a web UI for their 
 > [!NOTE]
 > The web UI is in active development.
 >
-> As part of Self-Hosted 13.6.0 (AKA Enterprise 7.6.0), the web UI is part of an **Open Beta**.
+> As part of Self-Hosted 14.8.0 (AKA Enterprise charts 9.6.0), the web UI is GA.
 >
 > Future development is planned, which will expand the functionality in the web UI.
 
