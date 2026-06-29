@@ -7,7 +7,7 @@ version: "3.4"
 services:
   renovate-ce:
     # Check latest version here: https://github.com/mend/renovate-ce-ee/pkgs/container/renovate-ce
-    image: ghcr.io/mend/renovate-ce:14.7.0@sha256:b4c8cbfa343dcf78ecaa7e0db85742f4dc501f1c3c8e150713bbe5a338e6ee59
+    image: ghcr.io/mend/renovate-ce:14.8.0@sha256:5c3eeb5a3d2b5fbf232aee5334fa3def9da71bc1ae56aafb2f313a71a6fcfa3b
     ports:
       # Note: Set MEND_RNV_SERVER_PORT to match internal port. (Defaults to 8080)
       - "80:8080"  # "[external]:[internal]" Receive APIs and Webhooks on external port
