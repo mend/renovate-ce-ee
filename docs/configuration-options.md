@@ -55,11 +55,14 @@ Environment variables for the **Mend Renovate Enterprise Worker** are in the nex
 
 ### Mend Remediate Config
 
-The following environment variables relate to the Mend Remediate integration in Renovate Enterprise Edition. For migration details, see the [Mend Remediate](./remediate-improved.md) documentation.
+> [!NOTE]
+> The Mend Remediate integration is currently a **Beta** release.
+
+The following environment variables relate to the Mend Remediate integration in Renovate Enterprise Edition. For migration details, see the [Mend Remediate](./remediate.md) documentation.
 
 **`MEND_RNV_ACTIVATION_KEY`**: The Mend Remediate activation key.
 
-**`MEND_RNV_REMEDIATE_SERVER_SECRET`**: The server secret used by Mend Remediate.
+**`MEND_RNV_REMEDIATE_SERVER_SECRET`**: Optional: The server secret used by Mend Remediate.
 
 **`MEND_RNV_REMEDIATE_CONTROLLER_URL`**: The URL of the Mend App-controller.
 
@@ -99,7 +102,7 @@ Note: By default Renovate server will attempt to call this endpoint once during 
 This is used for retrieving changelogs and release notes from repositories hosted on github.com and it does not matter who it belongs to.
 It needs only read-only access privileges. Not required if SCM is GitHub.com.
 
-**`MEND_RNV_WEBHOOK_SKIP_SIGNATURE_VERIFICATION`**: Skips webhook signature verification.
+**`MEND_RNV_WEBHOOK_SKIP_SIGNATURE_VERIFICATION`**: Skips webhook signature verification. **WARNING: Disabling webhook signature verification allows attackers to spoof webhook events, potentially triggering unauthorized jobs or actions.**
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Optional: Defaults to `renovate`
 
