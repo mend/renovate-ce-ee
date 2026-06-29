@@ -19,9 +19,9 @@ The main difference is how the Docker container is configured.
 
 Configuration that previously lived in `prop.json` now moves to environment variables:
 
-- **Activation key** — passed as an environment variable.
-- **Proxy** — uses the native environment proxy settings: `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY`.
-- **Controller URL** — passed via the `MEND_RNV_REMEDIATE_CONTROLLER_URL` environment variable.
+- **Activation key**: passed as an environment variable.
+- **Proxy**: uses the native environment proxy settings: `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY`.
+- **Controller URL**: passed via the `MEND_RNV_REMEDIATE_CONTROLLER_URL` environment variable.
 
 #### 2. Renamed configuration
 
@@ -37,6 +37,14 @@ Configuration that previously lived in `prop.json` now moves to environment vari
 #### 4. Updated APIs
 
 - The `/status` API now follows the Renovate Enterprise Edition specification.
+
+#### 5. Docker Images
+
+As an initial phase, Renovate EE is only available as a pullable Docker image 
+([at ghcr.io](https://github.com/orgs/mend/packages) or [at Docker Hub](https://hub.docker.com/u/mend?page=1&search=renovate)).
+
+In future releases it is planed to be included in the Classic Repository Integration distributed files (`.tar.gz` and `.zip`)
+
 
 ### New environment variables
 
