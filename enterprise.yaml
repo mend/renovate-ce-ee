@@ -1868,10 +1868,8 @@ components:
           type: string
           description: Cron expression (optional)
         lastScheduling:
-          $ref: '#/components/schemas/DateFormat'
+          $ref: '#/components/schemas/OptionalDateFormat'
           description: timestamp of the last scheduling
-      required:
-        - lastScheduling
     Scheduler:
       type: object
       properties:
@@ -2057,15 +2055,13 @@ components:
             processed:
               type: integer
             lastEnqueueDate:
-              $ref: '#/components/schemas/DateFormat'
+              $ref: '#/components/schemas/OptionalDateFormat'
             lastDispatchDate:
-              $ref: '#/components/schemas/DateFormat'
+              $ref: '#/components/schemas/OptionalDateFormat'
             lastFinished:
               $ref: '#/components/schemas/FinishedJob'
           required:
             - processed
-            - lastEnqueueDate
-            - lastDispatchDate
         queue:
           type: object
           properties:
@@ -2109,9 +2105,7 @@ components:
           type: object
           properties:
             lastValidWebhookReceived:
-              $ref: '#/components/schemas/DateFormat'
-          required:
-            - lastValidWebhookReceived
+              $ref: '#/components/schemas/OptionalDateFormat'
         jobs:
           $ref: '#/components/schemas/JobsMeta'
         renovateVersion:
@@ -2730,8 +2724,8 @@ components:
         upgrades:
           type: array
           items:
-            $ref: '#/components/schemas/DashboardUpgrade'
-    DashboardUpgrade:
+            $ref: '#/components/schemas/DashboardBranchUpgrade'
+    DashboardBranchUpgrade:
       type: object
       properties:
         depName:
@@ -2752,6 +2746,53 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DashboardUpgradeUpdate'
+    DashboardDependency:
+      type: object
+      properties:
+        datasource:
+          type: string
+        sourceUrl:
+          type:
+            - string
+            - 'null'
+        depName:
+          type: string
+        packageName:
+          type: string
+        currentValue:
+          type:
+            - string
+            - 'null'
+        currentDigest:
+          type: string
+        lockedVersion:
+          type: string
+        skipReason:
+          type: string
+        deprecationMessage:
+          type: string
+        isAbandoned:
+          type: boolean
+        mostRecentTimestamp:
+          type: string
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardUpgradeUpdate'
+    RenovateUpdateType:
+      type: string
+      enum:
+        - major
+        - minor
+        - patch
+        - pin
+        - digest
+        - pinDigest
+        - lockFileMaintenance
+        - lockfileUpdate
+        - rollback
+        - bump
+        - replacement
     DashboardUpgradeUpdate:
       type: object
       properties:
@@ -2759,6 +2800,8 @@ components:
           type: string
         newVersion:
           type: string
+        updateType:
+          $ref: '#/components/schemas/RenovateUpdateType'
     PackageFileArray:
       type: array
       items:
@@ -2771,7 +2814,7 @@ components:
         deps:
           type: array
           items:
-            $ref: '#/components/schemas/DashboardUpgrade'
+            $ref: '#/components/schemas/DashboardDependency'
     ManagerPackageFiles:
       type: object
       additionalProperties:
@@ -2857,9 +2900,6 @@ components:
       properties:
         workerRenovateConfig:
           $ref: '#/components/schemas/WorkerRenovateConfig'
-        config:
-          deprecated: true
-          $ref: '#/components/schemas/AnyObject'
         settings:
           $ref: '#/components/schemas/Settings'
         job:
@@ -2867,14 +2907,11 @@ components:
     DateFormat:
       type: string
       format: date-time
-      description: |
-        **Note**: this format will be corrected in the 15.0.0 release.
-
-        The date formats returned at this point in time are non-standard, and depend on the database used.
-
-        - **SQLite**: a date such as `2025-12-09 16:02:25` will be returned. A Go time format string for this would be `2006-01-02 15:04:05`
-        - **PostgreSQL**: a date such as `2025-09-21 13:19:12.027202` will be returned. A Go time format string for this would be `2006-01-02 15:04:05.999999999`
-      pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]{6})'
+    OptionalDateFormat:
+      type:
+        - string
+        - 'null'
+      format: date-time
     JobId:
       type: string
       format: uuid
