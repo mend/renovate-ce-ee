@@ -79,7 +79,31 @@ Use the appropriate settings to define connection details to your specific SCM.
 
 **`MEND_RNV_GITHUB_APP_ID`**: The GitHub App ID of the provisioned Renovate app on GitHub.
 
-**`MEND_RNV_GITHUB_APP_KEY`**: A string or Base64 encoded (e.g. `base64://ENCODED_VALUE`) representation of the private key of the provisioned Renovate app on GitHub. To insert the value directly into a Docker Compose environment variable, open the PEM file in a text editor and replace all new lines with "\n" so that the entire key is on one line. Alternatively, you can skip setting this key as an environment variable and instead mount it as a file to the path specified by `MEND_RNV_GITHUB_PEM_FILE_PATH`, as shown in the example Docker Compose file.
+**`MEND_RNV_GITHUB_APP_KEY`**: The GitHub App private key for the GitHub App you have provisioned for Renovate.
+
+As this is an environment variable, there must not be any newlines.
+
+You can convert the PEM file to a string with:
+
+```sh
+# for GNU `sed` (i.e. on Linux)
+sed ':a;N;$!ba;s/\n/\\n/g' /path/to/private.pem
+# NOTE when on Mac OS, BSD `sed` doesn't work as easily, so use `perl`
+perl -0pe 's/\n/\\n/g' /path/to/private.pem
+```
+
+Alternatively, open the PEM file in a text editor and replace all new lines with `\n` so that the entire key is on one line.
+
+It is also possible to provide this as a Base64 encoded string, like so:
+
+```sh
+# For GNU `base64`
+echo "base64://$(base64 -w0 < /path/to/private.pem)"
+# For BSD `base64`
+echo "base64://$(/usr/bin/base64 -b0 < /path/to/private.pem)"
+```
+
+Note the `base64://` prefix, which is required.
 
 **`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for GitHub app key. Defaults to `/usr/src/app/renovate.private-key.pem`.
 
@@ -88,13 +112,35 @@ Note: By default Renovate server will attempt to call this endpoint once during 
 
 #### GitLab connection variables
 
-**`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account. supports Base64 encoded value (e.g. `base64://ENCODED_VALUE`).
+**`MEND_RNV_GITLAB_PAT`**: Personal Access Token for the GitLab bot account.
+
+It is also possible to provide this as a Base64 encoded string, like so:
+
+```sh
+# For GNU `base64` (i.e. on Linux)
+echo "base64://$(base64 -w0 <<< "glpat-....")"
+# For BSD `base64` (i.e. on Mac OS)
+echo "base64://$(/usr/bin/base64 -b0 <<< "glpat-....")"
+```
+
+Note the `base64://` prefix, which is required.
 
 #### Bitbucket connection variables
 
 **`MEND_RNV_BITBUCKET_USER`**: Renovate Bot user account (“Bitbucket User” access only)
 
 **`MEND_RNV_BITBUCKET_PAT`**: BitBucket access token for the bot user `MEND_RNV_BITBUCKET_USER`. supports Base64 encoded value (e.g. `base64://ENCODED_VALUE`).
+
+It is also possible to provide this as a Base64 encoded string, like so:
+
+```sh
+# For GNU `base64` (i.e. on Linux)
+echo "base64://$(base64 -w0 <<< "bb-....")"
+# For BSD `base64` (i.e. on Mac OS)
+echo "base64://$(/usr/bin/base64 -b0 <<< "bb-....")"
+```
+
+Note the `base64://` prefix, which is required.
 
 ### Server Config Options
 
