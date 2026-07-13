@@ -118,9 +118,9 @@ It is also possible to provide this as a Base64 encoded string, like so:
 
 ```sh
 # For GNU `base64` (i.e. on Linux)
-echo "base64://$(base64 -w0 <<< "glpat-....")"
+echo "base64://$(printf '%s' "glpat-...." | base64 -w0)"
 # For BSD `base64` (i.e. on Mac OS)
-echo "base64://$(/usr/bin/base64 -b0 <<< "glpat-....")"
+echo "base64://$(printf '%s' "glpat-...." | /usr/bin/base64 -b0)"
 ```
 
 Note the `base64://` prefix, which is required.
@@ -135,9 +135,9 @@ It is also possible to provide this as a Base64 encoded string, like so:
 
 ```sh
 # For GNU `base64` (i.e. on Linux)
-echo "base64://$(base64 -w0 <<< "bb-....")"
+echo "base64://$(printf '%s' "bb-...." | base64 -w0)"
 # For BSD `base64` (i.e. on Mac OS)
-echo "base64://$(/usr/bin/base64 -b0 <<< "bb-....")"
+echo "base64://$(printf '%s' "bb-...." | /usr/bin/base64 -b0)"
 ```
 
 Note the `base64://` prefix, which is required.
