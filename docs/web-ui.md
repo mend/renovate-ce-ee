@@ -78,7 +78,8 @@ MEND_RNV_GITHUB_REDIRECT_URI=https://renovate-ui.example.com/oauth/github/callba
 # If using GitHub Enterprise Server (GHES), set this so it can be used to display outbound links to organizations/repositories and for OAuth requests.
 # Must be an absolute URL with optional port and path (`scheme://host[:port][/path]`)
 MEND_RNV_ENDPOINT=
-# Optional. provide support for alternative profile avatars instead of the GitHub profile picture
+# Optional. Provide an alternative profile avatar, instead of using the profile picture from GitHub.
+# This is only required when your GitHub instance does not allow unauthenticated access.
 # value: true|false
 MEND_RNV_UI_ENABLE_ALTERNATIVE_AVATARS=
 ```
