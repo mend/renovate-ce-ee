@@ -174,11 +174,6 @@ Each repository also has a `Dependency Dashboard` tab, which is available across
 
 This mirrors the Renovate Dependency Dashboard experience in GitHub, allowing you to select one or more entries and then click `Create/Rebase` to trigger Renovate jobs for the selected updates.
 
-> [!NOTE]
-> Currently, Renovate abandoned packages and replacement suggestions are not yet supported in the web UI Dependency Dashboard.
->
-> Support for these is planned in a future release.
-
 ![A screenshot of the repository Dependency Dashboard in the web UI. The `Dependency Dashboard` tab is selected, two update entries are checked, and the `Create/Rebase` button is visible so Renovate jobs can be triggered for the selected updates.](images/webui-noauth-dependency-dashboard-checked.png)
 
 ### Dark + light mode
