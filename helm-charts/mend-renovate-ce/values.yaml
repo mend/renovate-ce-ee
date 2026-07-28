@@ -63,7 +63,7 @@ renovate:
   mendRnvUserAgent:
 
   # Required if Admin APIs are enabled.
-  mendRnvServerApiSecret:
+  mendRnvApiServerSecret:
 
   # Optional: Set to 'true' to enable Admin APIs. Defaults to 'false'.
   #
@@ -110,7 +110,7 @@ renovate:
   #   mendRnvGithubAppId:
   #   mendRnvGithubAppKey:
   #   mendRnvWebhookSecret:
-  #   mendRnvServerApiSecret:
+  #   mendRnvApiServerSecret:
   #   githubComToken:
   #   pipIndexUrl:
   existingSecret:

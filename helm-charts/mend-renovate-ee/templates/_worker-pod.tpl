@@ -104,12 +104,12 @@ containers:
           {{- $scheme = "https" }}
         {{- end }}
         value: "{{ $scheme }}://{{ include "mend-renovate.fullname" $root }}-svc-server{{ $httpsPort }}"
-      {{- if or $root.Values.renovateServer.mendRnvServerApiSecret $root.Values.renovateServer.existingSecret }}
-      - name: MEND_RNV_SERVER_API_SECRET
+      {{- if or $root.Values.renovateServer.mendRnvApiServerSecret $root.Values.renovateServer.existingSecret }}
+      - name: MEND_RNV_API_SERVER_SECRET
         valueFrom:
           secretKeyRef:
             name: {{ include "mend-renovate.server-secret-name" $root }}
-            key: mendRnvServerApiSecret
+            key: mendRnvApiServerSecret
       {{- end }}
 
       {{- if $root.Values.license.mendRnvAcceptTos }}
