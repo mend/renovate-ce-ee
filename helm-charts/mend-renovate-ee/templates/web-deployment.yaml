@@ -163,12 +163,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "mend-renovate.web-secret-name" . }}
                   key: mendRnvBackendSecret
-            {{- else if or .Values.renovateServer.mendRnvServerApiSecret .Values.renovateServer.existingSecret }}
+            {{- else if or .Values.renovateServer.mendRnvApiServerSecret .Values.renovateServer.existingSecret }}
             - name: MEND_RNV_BACKEND_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "mend-renovate.server-secret-name" . }}
-                  key: mendRnvServerApiSecret
+                  key: mendRnvApiServerSecret
             {{- end }}
 
             {{- if .Values.license.mendRnvAcceptTos }}

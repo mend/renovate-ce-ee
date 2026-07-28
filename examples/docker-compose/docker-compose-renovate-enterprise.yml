@@ -41,7 +41,7 @@ services:
       # LOG_FORMAT: json  # Defaults to 'pretty'. Use 'json' when importing logs to reporting tool (eg. Splunk).
       MEND_RNV_REQUEST_LOGGER_ENABLED: true # Set to 'true' to log all incoming API requests to DEBUG logger. Defaults to 'false'.
       # API settings
-      MEND_RNV_ADMIN_API_ENABLED: true # Enable incoming API calls. Must set `MEND_RNV_SERVER_API_SECRET` (Hint: check the mend-renovate.env file).
+      MEND_RNV_ADMIN_API_ENABLED: true # Enable incoming API calls. Must set `MEND_RNV_API_SERVER_SECRET` (Hint: check the mend-renovate.env file).
       MEND_RNV_REPORTING_ENABLED: true # Set to 'true' to enable Reporting APIs. (Set `RENOVATE_REPOSITORY_CACHE` on Worker for PR data)
       # If persisting Job logs or DB, set the following environment variables and enable volume mounts for /logs and /db
       MEND_RNV_LOG_HISTORY_DIR: /logs # Persist Renovate job logs. Enable volume mount for /logs

@@ -444,7 +444,7 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 ### Mandatory Worker config
 
 * **`MEND_RNV_SERVER_HOSTNAME`**: The hostname of the Renovate Enterprise `server` container (eg. http://renovate-ee-server:8080)
-* **`MEND_RNV_SERVER_API_SECRET`**: Set to same as Server
+* **`MEND_RNV_API_SERVER_SECRET`**: Set to same as Server
 * **`MEND_RNV_ACCEPT_TOS`**: Set to same as Server
 * **`MEND_RNV_LICENSE_KEY`**: Set to same as Server
 

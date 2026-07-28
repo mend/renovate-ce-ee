@@ -179,7 +179,7 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **`MEND_RNV_ADMIN_API_ENABLED`**: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
-**`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
+**`MEND_RNV_API_SERVER_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
 
 **`MEND_RNV_WEBHOOK_SECRET`**: Must match the secret sent by the GitLab webhooks. Defaults to 'renovate'.
 

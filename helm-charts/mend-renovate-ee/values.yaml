@@ -132,7 +132,7 @@ renovateServer:
   mendRnvUserAgent:
 
   # Required, used for api authentication.
-  mendRnvServerApiSecret: abc123
+  mendRnvApiServerSecret: abc123
 
   # Optional: Mend activation key.
   # Setting this value enables remediate.
@@ -196,7 +196,7 @@ renovateServer:
   #   mendRnvBitbucketPat:
   #   mendRnvAdminToken:
   #   mendRnvWebhookSecret:
-  #   mendRnvServerApiSecret:
+  #   mendRnvApiServerSecret:
   #   mendRnvActivationKey:
   #   mendRnvRemediateServerSecret:
   #   pgPassword:
@@ -693,8 +693,8 @@ renovateWeb:
   mendRnvBackendAddr:
 
   # Optional backend API secret for websrv.
-  # This must match the server API secret value used by renovateServer.mendRnvServerApiSecret.
-  # If unset, websrv uses renovateServer.mendRnvServerApiSecret.
+  # This must match the server API secret value used by renovateServer.mendRnvApiServerSecret.
+  # If unset, websrv uses renovateServer.mendRnvApiServerSecret.
   mendRnvBackendSecret:
 
   # GitHub app client ID.
