@@ -17,6 +17,7 @@ tags:
       System/admin endpoints
 
       In addition to setting `env MEND_RNV_API_ENABLED=true`, you also need to set the `env MEND_RNV_API_ENABLE_SYSTEM=true` environment variable when starting CE/EE.
+      These endpoints are authorized with the admin token (`MEND_RNV_API_SERVER_SECRET`), or with a platform token whose owner is listed in the `env MEND_RNV_API_SYSTEM_ALLOWED_USERS` environment variable. RBAC scopes never grant access to the System APIs.
   - name: Reporting
     description: |
       Reporting APIs provide real-time data about the state of Orgs, Repos, and Pull requests that are managed by Mend Renovate Self-Hosted.
@@ -77,6 +78,7 @@ paths:
         But it can be useful if you think Mend Renovate Self-Hosted's internal state has become out of sync: for example when a new repository is missing.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       responses:
         '200':
           description: Task enqueued
@@ -103,6 +105,7 @@ paths:
       description: Enqueue a background purge failed jobs task and return immediately.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       responses:
         '200':
           description: Purge task enqueued
@@ -129,6 +132,7 @@ paths:
       description: Enqueue a job for the given repository.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       requestBody:
         description: The request body specifies the repository to add a job for.
         content:
@@ -219,6 +223,7 @@ paths:
         All timestamps in the response body are in UTC.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       responses:
         '200':
           description: OK
@@ -243,6 +248,7 @@ paths:
         This API is exposed primarily to help you troubleshoot if something is going wrong.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       responses:
         '200':
           description: OK
@@ -268,6 +274,7 @@ paths:
       description: Return up to 100 jobs from the queue.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       responses:
         '200':
           description: OK
@@ -294,6 +301,7 @@ paths:
         Note that this does not require an `orgRepo` parameter to be specified, unlike `downloadJobLogsPublic`.
       security:
         - serverApiSecret: []
+        - systemApiAllowedUser: []
       parameters:
         - $ref: '#/components/parameters/JobId'
       responses:
@@ -329,6 +337,7 @@ paths:
       description: Enqueue a job for the given repository via path params.
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'repo:write'
             - 'org:write'
@@ -426,6 +435,7 @@ paths:
       description: Get plain text logs for the given job ID for the given repository.
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'repo:read'
             - 'org:write'
@@ -474,6 +484,7 @@ paths:
         - To fetch the next page, perform a GET request to the URL in `Link: <...>; rel="next"`.
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'repo:read'
             - 'org:write'
@@ -526,6 +537,101 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /api/v1/orgs/-/rate-limit:
+    get:
+      operationId: getOrgRateLimitSnapshots
+      tags:
+        - Reporting
+        - GitHub-Only
+      summary: Get organizations' GitHub rate-limit snapshots
+      description: |
+        Returns a paginated list of stored GitHub rate-limit snapshots for organizations.
+
+        Filtering:
+        - Use `q` and `state` as for the organizations metadata endpoint.
+        - Use `usagePercentage` to return organizations whose core rate-limit usage is at least the requested percentage.
+        - Use `stale` to return only stale (`true`) or fresh (`false`) snapshots.
+        - Use `sort=usage` to order by core rate-limit usage percentage, highest first.
+      security:
+        - serverApiSecret: []
+        - rbacBypassUser: []
+        - githubRoleBasedAccessControl:
+            - 'org:read'
+        - bitbucketRoleBasedAccessControl:
+            - 'org:read'
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 10000
+          description: 'If the value provided is higher than the maximum, the maximum will be used.'
+        - $ref: '#/components/parameters/OrgState'
+        - $ref: '#/components/parameters/OrgsQuery'
+        - $ref: '#/components/parameters/OrgsCursor'
+        - $ref: '#/components/parameters/RateLimitUsagePercentage'
+        - $ref: '#/components/parameters/RateLimitStale'
+        - $ref: '#/components/parameters/RateLimitSort'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+            x-next-cursor:
+              $ref: '#/components/headers/x-next-cursor'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrgRateLimitSnapshotItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  '/api/v1/orgs/{org}/-/rate-limit':
+    get:
+      operationId: getOrgRateLimitSnapshot
+      tags:
+        - Reporting
+        - GitHub-Only
+      summary: Get an organization's GitHub rate-limit snapshot
+      security:
+        - serverApiSecret: []
+        - rbacBypassUser: []
+        - githubRoleBasedAccessControl:
+            - 'org:read'
+        - bitbucketRoleBasedAccessControl:
+            - 'org:read'
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgRateLimitSnapshot'
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /api/v1/orgs:
     get:
       operationId: getOrgs
@@ -545,6 +651,7 @@ paths:
         - To fetch the next page, perform a GET request to the URL in `Link: <...>; rel="next"`.
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'org:write'
         - bitbucketRoleBasedAccessControl:
@@ -596,6 +703,7 @@ paths:
         Filtering:
         - Use the `state` query parameter to filter repositories by installation state.
           The default state is `installed`.
+        - Use the optional `status` query parameter to filter repositories by their Renovate status.
         - Use the optional `q` query parameter to filter repositories by name.
           The organization prefix is omitted, e.g. `repo1` not `org1/repo1`.
         - Matching for the `q` parameter is case-insensitive.
@@ -608,6 +716,7 @@ paths:
           `Link: <...>; rel="next"`.
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'repo:read'
             - 'org:write'
@@ -626,6 +735,7 @@ paths:
           description: 'If the value provided is higher than the maximum, the maximum will be used.'
         - $ref: '#/components/parameters/Org'
         - $ref: '#/components/parameters/OrgReposState'
+        - $ref: '#/components/parameters/OrgReposStatus'
         - $ref: '#/components/parameters/OrgReposQuery'
         - $ref: '#/components/parameters/OrgReposCursor'
       responses:
@@ -658,6 +768,7 @@ paths:
       summary: Get organizations stats
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'org:write'
         - bitbucketRoleBasedAccessControl:
@@ -689,6 +800,7 @@ paths:
       summary: Get repository Renovate stats
       security:
         - serverApiSecret: []
+        - rbacBypassUser: []
         - githubRoleBasedAccessControl:
             - 'repo:read'
             - 'org:write'
@@ -739,6 +851,50 @@ components:
         When running CE/EE with `env MEND_RNV_API_SERVER_SECRET=renovate-api-secret`, you can authenticate to this endpoint with:
         - Authorization: Bearer renovate-api-secret
         - Authorization: renovate-api-secret
+    systemApiAllowedUser:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: |
+        Authenticate to the System APIs using a platform token that belongs to an allowlisted user.
+
+        The token is not compared against `MEND_RNV_API_SERVER_SECRET`. Instead, the token is used to resolve the username of its owner on the platform, and the request is authorized when that username is listed in the comma-separated `env MEND_RNV_API_SYSTEM_ALLOWED_USERS` environment variable.
+
+        - Username matching is **case-sensitive** and must match exactly.
+        - Only available when setting the `env MEND_RNV_API_SYSTEM_ALLOWED_USERS` environment variable when starting CE/EE. When it is unset or empty, only `serverApiSecret` can be used on the System APIs.
+        - An allowlisted user gets full access to every System API endpoint, exactly as if the admin token had been used.
+        - This allowlist is **independent** of `env MEND_RNV_SERVER_RBAC_ENABLED`, and it does not grant, nor require, any RBAC scope.
+        - The username resolved from a token is cached for 8h by default (the `rbac-identity` cache namespace, overridable with `env MEND_RNV_CACHE_TTL_OVERRIDES_MAP`), so removing a user from the allowlist takes effect immediately, but a token that was already resolved is not re-resolved against the platform until the cache entry expires.
+
+        Supported platforms: GitHub (Personal Access Token, Fine-Grained or Classic) and Bitbucket Data Center (HTTP token). 
+        GitLab deployments cannot resolve a username from a token and must use `serverApiSecret`.
+
+        **Example**:
+        When running CE/EE with `env MEND_RNV_API_SYSTEM_ALLOWED_USERS=octocat,renovate-admin`, a platform token owned by `octocat` can authenticate to this endpoint with:
+        - Authorization: Bearer <octocat-platform-token>
+    rbacBypassUser:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: |
+        Authenticate to the API using a platform token that belongs to a user which bypasses the RBAC scope checks.
+
+        The token is used to resolve the username of its owner on the platform, and when that username is listed in the comma-separated `env MEND_RNV_API_RBAC_BYPASS_USERS` environment variable, the request is authorized without resolving or verifying any organization or repository scope.
+
+        - Username matching is **case-sensitive** and must match exactly.
+        - Requires `env MEND_RNV_SERVER_RBAC_ENABLED=true`. The bypass list is only consulted for RBAC-protected endpoints, so with RBAC disabled such a token is rejected with an HTTP 403 Forbidden.
+        - Bypass users are granted the equivalent of `repo:write` and `org:write` on every organization and repository, for both read and write endpoints.
+        - The username resolved from a token is cached for 8h by default (the `rbac-identity` cache namespace, overridable with `env MEND_RNV_CACHE_TTL_OVERRIDES_MAP`), separately from the 5m scope cache used by the RBAC schemes.
+        - A token whose owner is not on the bypass list falls through to the regular RBAC scope resolution described in `githubRoleBasedAccessControl` and `bitbucketRoleBasedAccessControl`.
+        - This list does not grant access to the System APIs. Use `MEND_RNV_API_SYSTEM_ALLOWED_USERS` for those.
+
+        Supported platforms: GitHub (Personal Access Token, Fine-Grained or Classic) and Bitbucket Data Center (HTTP token). GitLab deployments cannot resolve a username from a token and must use `serverApiSecret`.
+
+        See [the Mend Renovate Self-Hosted RBAC docs](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/rbac.md) for more information.
+
+        **Example**:
+        When running CE/EE with `env MEND_RNV_SERVER_RBAC_ENABLED=true` and `env MEND_RNV_API_RBAC_BYPASS_USERS=octocat,renovate-admin`, a platform token owned by `octocat` can authenticate to this endpoint with:
+        - Authorization: Bearer <octocat-platform-token>
     githubRoleBasedAccessControl:
       type: oauth2
       description: |
@@ -749,6 +905,8 @@ components:
         When multiple scopes are required, such as `repo:write` and `org:write`, the presence of either scope is sufficient.
 
         This authentication method is only available when setting the `env MEND_RNV_SERVER_RBAC_ENABLED=true` environment variable when starting CE/EE.
+
+        Scope resolution is skipped entirely for users listed in the `env MEND_RNV_API_RBAC_BYPASS_USERS` environment variable - see `rbacBypassUser`.
 
         See [the Mend Renovate Self-Hosted RBAC docs](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/rbac.md) for more information on how to create a Personal Access Token (Fine-Grained or Classic) that has the relevant access.
       flows:
@@ -798,6 +956,8 @@ components:
         When multiple repositories are being queried, Bitbucket Data Center's security model will return the lowest permissions for all repositories in the request. For example, if the token has 5x `REPO_WRITE` and 1x `REPO_READ`, the access will be `repo:read`
 
         This authentication method is only available when setting the `env MEND_RNV_SERVER_RBAC_ENABLED=true` environment variable when starting CE/EE.
+
+        Scope resolution is skipped entirely for users listed in the `env MEND_RNV_API_RBAC_BYPASS_USERS` environment variable - see `rbacBypassUser`.
 
         See [the Mend Renovate Self-Hosted RBAC docs](https://github.com/mend/renovate-ce-ee/blob/HEAD/docs/rbac.md) for more information.
 
@@ -866,6 +1026,31 @@ components:
       schema:
         type: string
       description: Organization name query filter.
+    RateLimitUsagePercentage:
+      name: usagePercentage
+      in: query
+      required: false
+      description: Minimum core rate-limit usage percentage to return.
+      schema:
+        type: number
+        minimum: 0
+        maximum: 100
+    RateLimitStale:
+      name: stale
+      in: query
+      required: false
+      description: Filter snapshots by whether they are stale.
+      schema:
+        type: boolean
+    RateLimitSort:
+      name: sort
+      in: query
+      required: false
+      description: 'Sort matching snapshots by core rate-limit usage percentage, highest first.'
+      schema:
+        type: string
+        enum:
+          - usage
     OrgRepo:
       name: orgRepo
       description: |
@@ -963,6 +1148,16 @@ components:
           - installed
           - uninstalled
           - all
+    OrgReposStatus:
+      name: status
+      in: query
+      required: false
+      description: |
+        Filter repositories by their Renovate status.
+
+        When omitted, repositories are returned regardless of status.
+      schema:
+        $ref: '#/components/schemas/RepositoryStatus'
     LibYearsDetails:
       name: details
       description: |
@@ -1678,6 +1873,61 @@ components:
           type: integer
         removedAt:
           $ref: '#/components/schemas/DateFormat'
+    RateLimit:
+      type: object
+      required:
+        - limit
+        - remaining
+        - reset
+        - used
+      properties:
+        limit:
+          type: integer
+        remaining:
+          type: integer
+        reset:
+          type: integer
+        used:
+          type: integer
+    GitHubRateLimitSnapshot:
+      type: object
+      required:
+        - resources
+        - rate
+      properties:
+        resources:
+          type: object
+          required:
+            - core
+          properties:
+            core:
+              $ref: '#/components/schemas/RateLimit'
+          additionalProperties:
+            $ref: '#/components/schemas/RateLimit'
+        rate:
+          $ref: '#/components/schemas/RateLimit'
+    OrgRateLimitSnapshot:
+      type: object
+      required:
+        - snapshot
+        - updatedAt
+        - isStale
+      properties:
+        snapshot:
+          $ref: '#/components/schemas/GitHubRateLimitSnapshot'
+        updatedAt:
+          $ref: '#/components/schemas/DateFormat'
+        isStale:
+          type: boolean
+    OrgRateLimitSnapshotItem:
+      allOf:
+        - $ref: '#/components/schemas/OrgRateLimitSnapshot'
+        - type: object
+          required:
+            - org
+          properties:
+            org:
+              type: string
     RepositoryInfo:
       type: object
       required:
@@ -1705,6 +1955,8 @@ components:
           $ref: '#/components/schemas/DateFormat'
         removedAt:
           $ref: '#/components/schemas/DateFormat'
+        status:
+          $ref: '#/components/schemas/RepositoryStatus'
     PostRunPullRequestSummary:
       type: object
       required:

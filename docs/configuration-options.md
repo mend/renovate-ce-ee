@@ -195,9 +195,27 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_API_ENABLE_SYSTEM`**: Optional: Set to 'true' to enable [System APIs](./api-system.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 
+**`MEND_RNV_API_SYSTEM_ALLOWED_USERS`**: Optional: A list of usernames to allow access to System APIs. 
+
+- Authentication accepts the server API secret, or a platform token whose resolved username exactly matches one of the comma-separated values in this list.
+- Username matching is case-sensitive.
+- This identity allowlist is independent of RBAC and does not grant access through RBAC scopes. 
+- If the allowlist is empty (default), only the server API secret can access these routes. 
+- Platforms: user tokens are supported on GitHub and Bitbucket Server; GitLab deployments must use the server API secret.
+
 **`MEND_RNV_API_ENABLE_JOBS`**: Optional: Set to 'true' to enable [Jobs APIs](./api-jobs.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 
 **`MEND_RNV_API_ENABLE_REPORTING`**: Optional: Set to 'true' to enable [Reporting APIs](./api-reporting.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
+
+**`MEND_RNV_API_RBAC_BYPASS_USERS`**: Optional: A list of usernames to allow RBAC bypass to APIs.
+
+- Authentication accepts the server API secret, or a platform token whose resolved username exactly matches one of the comma-separated values in this list.
+- Username matching is case-sensitive.
+- This identity allowlist is independent of `MEND_RNV_API_SYSTEM_ALLOWED_USERS` and does not grant access to System APIs.
+- If the allowlist is empty (default), only the server API secret can access these routes.
+- Platforms: user tokens are supported on GitHub and Bitbucket Server; GitLab deployments must use the server API secret.
+- Requires `MEND_RNV_SERVER_RBAC_ENABLED=true`
+- Bypass users are granted the equivalent of `repo:write` and `org:write` on every organization and repository, for both read and write endpoints. This also affects the WebUI content.
 
 **`MEND_RNV_REQUEST_LOGGER_ENABLED`**: Optional: Set to 'true' to output the details of all incoming API requests to DEBUG logger. Defaults to 'false'.
 
@@ -422,6 +440,53 @@ Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BAS
 
 **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
 
+
+#### Monitor GitHub App installations rate limits
+
+**`MEND_RNV_GITHUB_RATE_LIMIT_MONITORING_ENABLED`**: Optional. Enable rate-limit monitoring. Defaults to `false`.
+
+Set to `true` to enable collecting, logging, and exposing the APIs related to GitHub installation rate limits.
+
+Applies only when the resolved platform is GitHub, including Remediate.
+
+On job dispatch, we retrieve GitHub's [`/rate_limit` response](https://docs.github.com/en/rest/rate-limit/rate-limit?apiVersion=2022-11-28#get-rate-limit-status-for-the-authenticated-user) with the installation access token, if the organization's snapshot is missing or stale.
+Snapshots are persisted per organization, and are not updated unless a job is triggered for the organization.
+
+A warning is logged when the primary/core rate limit remaining percentage is less than or equal to `MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT`.
+
+A failed rate limit request does not block job dispatch.
+
+Two new APIs are introduced:
+
+- All organizations: `/api/v1/orgs/-/rate-limit` see openapi spec for more details
+- Per org API: `/api/v1/orgs/{org}/-/rate-limit` see openapi spec for more details
+
+**`MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT`**: Warn when GitHub's primary/core rate-limit remaining percentage is at or below this value (default: 10). Accepts whole percentages from 0 through 100, with or without % (for example, `10` or `10%`).
+
+**`MEND_RNV_GITHUB_RATE_LIMIT_STALE_AFTER`**: Optional. Refresh a stored installation snapshot after this interval (default: 10m)
+
+For example, when `MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT=100%`, the following log line will appear:
+
+```json
+{
+  "name": "renovate-server",
+  "hostname": "181a7b5def2a",
+  "pid": 9,
+  "level": 40,
+  "logContext": "c57beb49-b658-4a85-84ea-02c7d93c52d5",
+  "orgName": "some-tests-org",
+  "installationId": 147890680,
+  "limit": 5000,
+  "used": 0,
+  "remaining": 5000,
+  "reset": 1785334975,
+  "remainingPercent": 100,
+  "thresholdPercent": 100,
+  "msg": "GitHub installation primary rate limit is below set threshold",
+  "time": "2026-07-29T13:22:55.183Z",
+  "v": 0
+}
+```
 
 ### Postgres DB Configuration
 
