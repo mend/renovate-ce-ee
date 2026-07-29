@@ -442,7 +442,7 @@ Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BAS
 **`MEND_RNV_ENABLE_HTTP2`**: Enable got HTTP/2 support. Defaults to `false`.
 
 
-#### Monitor GitHub installations http rate limit 
+#### Monitor GitHub installations rate limits 
 
 **`MEND_RNV_GITHUB_RATE_LIMIT_MONITORING_ENABLED`**: Optional. Enable rate-limit monitoring. Defaults to `false`. 
 
