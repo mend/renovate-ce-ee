@@ -217,7 +217,6 @@ Important: Webhooks will be only installed on repos that the account has at leas
 - Requires `MEND_RNV_SERVER_RBAC_ENABLED=true`
 - Bypass users are granted the equivalent of `repo:write` and `org:write` on every organization and repository, for both read and write endpoints. This also affects the WebUI content.
 
-
 **`MEND_RNV_REQUEST_LOGGER_ENABLED`**: Optional: Set to 'true' to output the details of all incoming API requests to DEBUG logger. Defaults to 'false'.
 
 **`MEND_RNV_DEBUG_MODE`**: Optional: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
