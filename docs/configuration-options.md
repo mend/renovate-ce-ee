@@ -448,8 +448,16 @@ Notes: This option overrides the deprecated `RENOVATE_X_MERGE_CONFIDENCE_API_BAS
 
 Set to `true` to enable collecting, logging, and expoing the APIs related to GitHub installation rate-limit
 
-- All organizations: `/api/v1/orgs/-/rate-limit` see openapi spec for more details
-- Per org API: `/api/v1/orgs/{org}/-/rate-limit` see openapi spec for more details
+- Applies only when the resolved platform is GitHub, including Remediate.
+- Behavior
+  - On job dispatch, We retrieve GitHub’s /rate_limit response with the installation access token when the organization’s snapshot is missing or stale.
+  - Snapshots are persisted per organization.
+  - A warning is logged when the primary/core rate-limit remaining percentage is less than or equal to MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT.
+  - A failed rate-limit request does not block job dispatch.
+- APIS:
+  - All organizations: `/api/v1/orgs/-/rate-limit` see openapi spec for more details
+  - Per org API: `/api/v1/orgs/{org}/-/rate-limit` see openapi spec for more details
+
 
 **`MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT`**: Warn when GitHub's primary/core rate-limit remaining percentage is at or below this value (default: 10). Accepts whole percentages from 0 through 100, with or without % (for example, 10 or 10%).
 
