@@ -452,7 +452,7 @@ Set to `true` to enable collecting, logging, and expoing the APIs related to Git
 - Behavior
   - On job dispatch, We retrieve GitHub’s /rate_limit response with the installation access token when the organization’s snapshot is missing or stale.
   - Snapshots are persisted per organization.
-  - A warning is logged when the primary/core rate-limit remaining percentage is less than or equal to MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT.
+  - A warning is logged when the primary/core rate-limit remaining percentage is less than or equal to `MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT`.
   - A failed rate-limit request does not block job dispatch.
 - APIS:
   - All organizations: `/api/v1/orgs/-/rate-limit` see openapi spec for more details
