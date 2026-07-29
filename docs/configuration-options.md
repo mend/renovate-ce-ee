@@ -486,6 +486,8 @@ For example, when `MEND_RNV_GITHUB_RATE_LIMIT_LOW_PERCENT=100%`, the following l
   "time": "2026-07-29T13:22:55.183Z",
   "v": 0
 }
+```
+
 ### Postgres DB Configuration
 
 To configure Mend Renovate to use a PostgreSQL database, the following environment variables should be supplied to the Server containers (not required for Worker environment config).
