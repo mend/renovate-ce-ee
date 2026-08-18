@@ -101,6 +101,15 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 **`MEND_RNV_GITHUB_PEM_FILE_PATH`**: The file path for a GitHub app key PEM file. Defaults to `/usr/src/app/renovate.private-key.pem`. Alternatively, use `MEND_RNV_GITHUB_APP_KEY`.
 
+**`MEND_RNV_GITHUB_REBASE_PAGINATION_LINKS`**: Set to `true` for GitHub Enterprise Server installations that return pagination links with a different hostname from `MEND_RNV_ENDPOINT`. This enables `RENOVATE_X_REBASE_PAGINATION_LINKS` for the server and for each Renovate job.
+
+When enabled, the server and Renovate jobs rebase the URL in GitHub `Link` headers with `rel="next"` to the hostname configured in `MEND_RNV_ENDPOINT`.
+
+For details, see [Renovate's `RENOVATE_X_REBASE_PAGINATION_LINKS` documentation](https://docs.renovatebot.com/self-hosted-experimental/#renovate_x_rebase_pagination_links).
+
+> [!IMPORTANT]
+> The server and Renovate jobs ignore cross-origin GitHub `rel="next"` links unless this setting is enabled.
+
 **`MEND_RNV_ADMIN_API_ENABLED`**: Set to 'true' to enable Admin APIs. Defaults to 'false'.
 
 **`MEND_RNV_SERVER_API_SECRET`**: Required if Admin APIs are enabled, or if running Enterprise Edition.
