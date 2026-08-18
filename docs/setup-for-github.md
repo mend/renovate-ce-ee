@@ -105,7 +105,6 @@ You can run Mend Renovate Self-hosted App from a Docker command line prompt, or 
 
 When enabled, the server and Renovate jobs rebase the URL in GitHub `Link` headers with `rel="next"` to the hostname configured in `MEND_RNV_ENDPOINT`.
 
-For details, see [Renovate's `RENOVATE_X_REBASE_PAGINATION_LINKS` documentation](https://docs.renovatebot.com/self-hosted-experimental/#renovate_x_rebase_pagination_links).
 
 > [!IMPORTANT]
 > The server and Renovate jobs ignore cross-origin GitHub `rel="next"` links unless this setting is enabled.
