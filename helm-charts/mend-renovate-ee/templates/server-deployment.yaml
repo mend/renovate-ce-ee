@@ -172,7 +172,7 @@ spec:
             - name: PGHOST
               value: {{ .Values.postgresql.host | quote }}
             {{- end }}
-            {{- if or .Values.postgresql.enabled .Values.renovateServer.existingSecret }}
+            {{- if and .Values.postgresql.passwordFromSecret (or .Values.postgresql.enabled .Values.renovateServer.existingSecret) }}
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
