@@ -41,5 +41,6 @@
       "pinDigests": false
     }
   ],
-  "ignorePaths": []
+  "ignorePaths": [],
+  "baseBranchPatterns": ["$default", "gh-pages"]
 }
