@@ -6,7 +6,7 @@ services:
   ## Postgres Database
   postgres-database:
     restart: always
-    image: postgres:16.1-alpine3.17
+    image: postgres:16.1-alpine3.17@sha256:7e26cdee39d74f2f8cd527dc3bf8e675d008a2120fab3aded96d546ff12c9519
     container_name: postgres-db
     environment:
       POSTGRES_USER: postgres
