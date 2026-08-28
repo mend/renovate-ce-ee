@@ -252,6 +252,12 @@ postgresql:
   database:
   user:
   password:
+  # Gates whether the chart injects a PGPASSWORD env var (sourced from the chart's
+  # own Secret) into the Deployment. Defaults to 'true' to preserve existing behavior.
+  # Set to 'false' if you manage PGPASSWORD via another mechanism (e.g. an
+  # externally-provided secret injected through renovate.existingSecret or
+  # extraEnvFromSecrets) and want to avoid a duplicate/conflicting env var.
+  passwordFromSecret: true
 
 
 disableCacheVolume: false
