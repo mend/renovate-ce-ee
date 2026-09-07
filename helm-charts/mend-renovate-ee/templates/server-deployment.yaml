@@ -171,8 +171,12 @@ spec:
               value: {{ .Values.postgresql.port | quote }}
             - name: PGHOST
               value: {{ .Values.postgresql.host | quote }}
+            {{- if .Values.postgresql.iamAuthEnabled }}
+            - name: MEND_RNV_POSTGRES_IAM_AUTH_ENABLED
+              value: "true"
             {{- end }}
-            {{- if or .Values.postgresql.enabled .Values.renovateServer.existingSecret }}
+            {{- end }}
+            {{- if and (not .Values.postgresql.iamAuthEnabled) (or .Values.postgresql.enabled .Values.renovateServer.existingSecret) }}
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:

@@ -27,6 +27,7 @@ The following platforms are supported by Mend Renovate Community Edition and Ent
    - [Example Renovate CE Docker Compose](../examples/docker-compose/docker-compose-renovate-community.yml)
    - [Example Renovate EE Docker Compose](../examples/docker-compose/docker-compose-renovate-enterprise.yml)
    - [Configure PostgreSQL DB](configure-postgres-db.md)
+   - [Configure Amazon RDS PostgreSQL IAM Authentication](configure-postgres-db-aws-iam-auth.md)
    - [Configure TLS Communication](./tls.md)
    - [Configure Event Notifications](./events.md)
 5. Migration ([Renovate On-Premises to Renovate Community](./migrating-to-renovate-ce.md))

@@ -14,6 +14,10 @@ To configure renovate to use a PostgreSQL database, the following environment va
 
 **Note:** DB size is related to the number of repositories installed for Renovate.
 
+**Note:** For a database hosted on Amazon RDS, the Server can authenticate with an IAM database
+authentication token instead of `PGPASSWORD`. See the
+[Amazon RDS PostgreSQL IAM Authentication](configure-postgres-db-aws-iam-auth.md) documentation.
+
 ## Example configuration
 
 Example configuration in a Docker Compose file is shown below.

@@ -252,6 +252,12 @@ postgresql:
   database:
   user:
   password:
+  # Authenticate to an Amazon RDS PostgreSQL instance with IAM database authentication
+  # instead of a static password. Takes precedence over 'password': when set to 'true',
+  # the chart does not set 'PGPASSWORD' on the container even if 'password' is provided.
+  # Requires 'MEND_RNV_POSTGRES_SSL_PEM_PATH' to point to the mounted RDS CA bundle.
+  # See ../../docs/configure-postgres-db-aws-iam-auth.md
+  iamAuthEnabled: false
 
 
 disableCacheVolume: false
