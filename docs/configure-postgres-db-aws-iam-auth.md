@@ -39,7 +39,7 @@ The AWS SDK obtains credentials from its [default credential provider chain](htt
 
 Example configuration in a Docker Compose file is shown below.
 
-```
+```yaml
   rnv-ee-server:
     restart: always
     image: ghcr.io/mend/renovate-ee-server
