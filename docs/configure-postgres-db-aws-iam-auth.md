@@ -6,14 +6,14 @@ To enable it, the following environment variables should be supplied to the Serv
 
 | Environment variable name            | Description                                                                                            |
 |--------------------------------------|--------------------------------------------------------------------------------------------------------|
-| MEND_RNV_DATA_HANDLER_TYPE           | Set to `postgresql` to use a PostgreSQL database                                                       |
-| MEND_RNV_POSTGRES_IAM_AUTH_ENABLED   | Set to `true` to authenticate with an IAM token instead of `PGPASSWORD`. Defaults to `false`.           |
-| MEND_RNV_POSTGRES_SSL_PEM_PATH       | Required. The RDS CA bundle `.pem` file location in the container                                      |
-| PGDATABASE                           | Name of the database instance                                                                          |
-| PGUSER                               | Required. The database user granted the `rds_iam` role. Must have Create Schema permission.            |
-| PGHOST                               | Required. The RDS instance endpoint                                                                    |
-| PGPORT                               | Host Port for the PostgreSQL instance. Defaults to `5432`.                                               |
-| AWS_REGION                           | The region of the RDS instance, unless already resolved from the environment                           |
+| `MEND_RNV_DATA_HANDLER_TYPE`           | Set to `postgresql` to use a PostgreSQL database                                                       |
+| `MEND_RNV_POSTGRES_IAM_AUTH_ENABLED`   | Set to `true` to authenticate with an IAM token instead of `PGPASSWORD`. Defaults to `false`.           |
+| `MEND_RNV_POSTGRES_SSL_PEM_PATH`       | Required. The RDS CA bundle `.pem` file location in the container                                      |
+| `PGDATABASE`                           | Name of the database instance                                                                          |
+| `PGUSER`                               | Required. The database user granted the `rds_iam` role. Must have Create Schema permission.            |
+| `PGHOST`                               | Required. The RDS instance endpoint                                                                    |
+| `PGPORT`                               | Host Port for the PostgreSQL instance. Defaults to `5432`.                                               |
+| `AWS_REGION`                           | The region of the RDS instance, unless already resolved from the environment                           |
 
 **Note:** `PGPASSWORD` must not be set. The Server fails to start if a password is supplied while `MEND_RNV_POSTGRES_IAM_AUTH_ENABLED` is enabled.
 
@@ -62,7 +62,9 @@ Example configuration in a Docker Compose file is shown below.
 
 Both Helm charts expose the `postgresql.iamAuthEnabled` value. It takes precedence over `postgresql.password`: when set to ‘true’, the chart renders `MEND_RNV_POSTGRES_IAM_AUTH_ENABLED=true` and does not render `PGPASSWORD`, even if a password is provided. This applies to the chart rendering only - if `PGPASSWORD` reaches the container by another route, such as `extraEnvVars` or `extraEnvFromSecrets`, the Server still fails to start.
 
-The CA bundle and its path are supplied with the generic `extraVolumes`, `extraVolumeMounts` and `extraEnvVars` values. Example for Renovate EE, using a ConfigMap created with `kubectl create configmap rds-ca-bundle --from-file=rds-ca.pem=global-bundle.pem`:
+The CA bundle and its path are supplied with the generic `extraVolumes`, `extraVolumeMounts` and `extraEnvVars` values. Both examples below use a ConfigMap created with `kubectl create configmap rds-ca-bundle --from-file=rds-ca.pem=global-bundle.pem`.
+
+Renovate EE (`mend-renovate-ee`):
 
 ```yaml
 postgresql:
@@ -93,4 +95,36 @@ renovateServer:
       eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<renovate-server-role>
 ```
 
-For Renovate CE the `postgresql` block is identical, while `extraEnvVars` is set under `renovate`, and `extraVolumes`, `extraVolumeMounts` and `serviceAccount` are set at the top level of the chart.
+Renovate CE (`mend-renovate-ce`), where `extraEnvVars` is set under `renovate` and the volume and service account values are at the top level of the chart:
+
+```yaml
+postgresql:
+  enabled: true
+  iamAuthEnabled: true
+  host: database.abc123.us-east-1.rds.amazonaws.com
+  port: 5432
+  database: renovate
+  user: renovate
+
+renovate:
+  extraEnvVars:
+    - name: MEND_RNV_POSTGRES_SSL_PEM_PATH
+      value: /certs/rds-ca.pem
+    - name: AWS_REGION
+      value: us-east-1
+
+extraVolumes:
+  - name: rds-ca-bundle
+    configMap:
+      name: rds-ca-bundle
+
+extraVolumeMounts:
+  - name: rds-ca-bundle
+    mountPath: /certs
+    readOnly: true
+
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<renovate-server-role>
+```
