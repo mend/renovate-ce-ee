@@ -9,7 +9,7 @@ fullnameOverride: ""
 
 renovate:
   # Additional env vars
-  extraEnvVars: [ ]
+  extraEnvVars: []
 
   # You must accept the Mend Terms of Service to use the image.
   # Please read https://www.mend.io/terms-of-service/
@@ -57,7 +57,7 @@ renovate:
 
   # Optional: Provide a path to persist the SQLite database (eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume)
   # If you set cachePersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
-  mendRnvSqliteFilePath: '/tmp/renovate/renovate-ce.sqlite'
+  mendRnvSqliteFilePath: "/tmp/renovate/renovate-ce.sqlite"
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the registries, Defaults to 'mend-renovate'
   mendRnvUserAgent:
@@ -259,7 +259,6 @@ postgresql:
   # See ../../docs/configure-postgres-db-aws-iam-auth.md
   iamAuthEnabled: false
 
-
 disableCacheVolume: false
 
 ## Cache Persistence Parameters
@@ -294,9 +293,9 @@ service:
   ports:
     http: 80
     https: 443
-  annotations: { }
+  annotations: {}
   # cloud.google.com/load-balancer-type: "Internal"
-  labels: { }
+  labels: {}
 
 ingress:
   enabled: false
@@ -305,51 +304,123 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations: { }
+  annotations: {}
   # kubernetes.io/tls-acme: "true"
-  hosts:
-    { }
+  hosts: {}
     # mend-renovate.local:
     #   paths:
     #     - path: "/"
     #       pathType: ImplementationSpecific
-  tls: [ ]
+  tls: []
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
 
+# -- httproute settings
+route:
+  # -- when true, enable httproute
+  enabled: false
+  # -- the name of the gateway to use
+  gatewayName: ""
+  # -- the  namespace that the gateway is in
+  gatewayNamespace: ""
+  # -- the name of the gateway's listener
+  gatewayListenerName: ""
+  # -- the list of hostnames to route to the backend service
+  hostnames: []
+
+  # https://gateway-api.sigs.k8s.io/api-types/httproute/#filters-optional
+  # https://gateway-api.sigs.k8s.io/reference/spec/#httproutefilter
+  # Optional. Filters define processing steps that are applied to requests that match the route.
+  # filters:
+  #   - type: RequestHeaderModifier
+  #     RequestHeaderModifier:
+  #       add:
+  #         - name: my-header
+  #           value: foo
+
+  # Optional. Request timeout settings.
+  # timeouts:
+  #   request: "4s" # request timeout
+
+  # -- List of paths to route to the backend service
+  paths:
+    - pathType: PathPrefix
+      path: "/"
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpmethod
+      # Optional. Method specifies the HTTP method matcher and can be one of
+      # GET HEAD POST PUT DELETE CONNECT OPTIONS TRACE PATCH
+      #
+      # method: GET
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpheadermatch
+      # Optional. Specifies http request headers that must be matched.
+      # Multiple match values are ANDed together, meaning, a request
+      # must match all the specified headers to select the route.
+      #
+      # headers:
+      #   - name: x-example
+      #     value: example
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpqueryparammatch
+      # Optional. http query string matchers. Multiple matches are ANDed together,
+      # meaning, a request must match all the specified query params to select the route
+      #
+      # queryParams:
+      #   - type: Exact
+      #     name: version
+      #     value: "v2"
+
+  # Optional. Additional Gateways to attach the route to.
+  # https://gateway-api.sigs.k8s.io/reference/spec/#parentreference
+  #
+  # additionalGateways:
+  #   - name: envoy-gateway-external
+  #     namespace: envoy-gateway
+  #     sectionName: https
+
+  # Optional. Additional rules to attach the route to.
+  # additionalRules:
+  #   - matches:
+  #       - path:
+  #           type: PathPrefix
+  #           value: /internal
+  #     filters: []
+  #     backendRefs: []
+
 serviceAccount:
   create: false
   existingName:
-  annotations: { }
+  annotations: {}
 
-resources: { }
+resources: {}
 
-annotations: { }
+annotations: {}
 
 labels:
-  deployment: { }
-  pods: { }
+  deployment: {}
+  pods: {}
 
-nodeSelector: { }
+nodeSelector: {}
 
-tolerations: [ ]
+tolerations: []
 
-affinity: { }
+affinity: {}
 
-podSecurityContext: { }
+podSecurityContext: {}
 #   runAsNonRoot: true
 #   seccompProfile:
 #     type: RuntimeDefault
 
-containerSecurityContext: { }
+containerSecurityContext: {}
 #   allowPrivilegeEscalation: false
 #   readOnlyRootFilesystem: true
 #   capabilities:
 #     drop:
 #       - ALL
 
-initContainers: [ ]
+initContainers: []
 
 # name of the image pull secret
 imagePullSecrets: ""
@@ -378,7 +449,7 @@ readinessProbe:
 
 # Extra ConfigMaps to be created by the chart
 # These are full Kubernetes ConfigMap definitions
-extraConfigMaps: [ ]
+extraConfigMaps: []
 #  - apiVersion: v1
 #    kind: ConfigMap
 #    metadata:
@@ -389,15 +460,15 @@ extraConfigMaps: [ ]
 
 # List of ConfigMaps to be loaded as environment variables
 # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
-extraEnvFromConfigMaps: [ ]
+extraEnvFromConfigMaps: []
 #  - name: my-extra-config
 
 # List of Secrets to be loaded as environment variables
 # Ref: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables
-extraEnvFromSecrets: [ ]
+extraEnvFromSecrets: []
 #  - name: my-extra-secret
 
-extraVolumes: [ ]
+extraVolumes: []
 #  - name: secrets-store-inline
 #    csi:
 #      driver: secrets-store.csi.k8s.io
@@ -408,7 +479,7 @@ extraVolumes: [ ]
 #    configMap:
 #      name: my-extra-config
 
-extraVolumeMounts: [ ]
+extraVolumeMounts: []
 #  - name: secrets-store-inline
 #    mountPath: "/mnt/secrets-store"
 #    readOnly: true

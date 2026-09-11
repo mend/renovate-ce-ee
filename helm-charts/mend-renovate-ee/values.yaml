@@ -33,7 +33,7 @@ postgresql:
 
 # Extra ConfigMaps to be created by the chart
 # These are full Kubernetes ConfigMap definitions
-extraConfigMaps: [ ]
+extraConfigMaps: []
 #  - apiVersion: v1
 #    kind: ConfigMap
 #    metadata:
@@ -93,7 +93,7 @@ renovateServer:
   replicas: 1
 
   # Additional server env vars
-  extraEnvVars: [ ]
+  extraEnvVars: []
 
   # Which platform Mend Renovate will connect to.
   # valid values: "bitbucket-server", "github" or "gitlab"
@@ -132,7 +132,7 @@ renovateServer:
   # Optional: Provide a path to persist the SQLite database
   # eg. '/db/renovate-ce.sqlite', where 'db' is defined as a volume
   # If you set dataPersistence.enabled to true, the default value for this setting will persist the SQLite database automatically
-  mendRnvSqliteFilePath: '/tmp/renovate/renovate-ee.sqlite'
+  mendRnvSqliteFilePath: "/tmp/renovate/renovate-ee.sqlite"
 
   # Optional: Set User Agent Mend Renovate-ce will use to query the platform api, Defaults to 'mend-renovate'
   mendRnvUserAgent:
@@ -317,17 +317,17 @@ renovateServer:
       memory: "512Mi"
       cpu: "10m"
 
-  annotations: { }
+  annotations: {}
 
   labels:
-    deployment: { }
-    pods: { }
+    deployment: {}
+    pods: {}
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
+  affinity: {}
 
   automountServiceAccountToken: false
 
@@ -345,7 +345,7 @@ renovateServer:
       drop:
         - ALL
 
-  initContainers: [ ]
+  initContainers: []
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -375,7 +375,7 @@ renovateServer:
 
   # Extra ConfigMaps to be created by the chart
   # These are full Kubernetes ConfigMap definitions
-  extraConfigMaps: [ ]
+  extraConfigMaps: []
   #  - apiVersion: v1
   #    kind: ConfigMap
   #    metadata:
@@ -385,16 +385,16 @@ renovateServer:
   #      ANOTHER_VAR: "123"
 
   # List of ConfigMaps to be loaded as environment variables
-# Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
-  extraEnvFromConfigMaps: [ ]
+  # Ref: https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-environment-variables
+  extraEnvFromConfigMaps: []
   #  - name: my-extra-config-map
 
   # List of Secrets to be loaded as environment variables
-# Ref: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables
-  extraEnvFromSecrets: [ ]
+  # Ref: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables
+  extraEnvFromSecrets: []
   #  - name: my-extra-secret
 
-  extraVolumes: [ ]
+  extraVolumes: []
   #    - name: secrets-store-inline
   #      csi:
   #        driver: secrets-store.csi.k8s.io
@@ -405,7 +405,7 @@ renovateServer:
   #      configMap:
   #        name: my-extra-config
 
-  extraVolumeMounts: [ ]
+  extraVolumeMounts: []
   #   - name: secrets-store-inline
   #     mountPath: "/mnt/secrets-store"
   #     readOnly: true
@@ -415,7 +415,7 @@ renovateServer:
   serviceAccount:
     create: false
     existingName:
-    annotations: { }
+    annotations: {}
 
 renovateWorker:
   image:
@@ -434,18 +434,18 @@ renovateWorker:
   # Pool-specific keys:
   # - name: string (required)
   # - createDeployment: bool (optional, default true)
-  # 
+  #
   # Not supported in pools:
   # - serviceAccount (configure renovateWorker.serviceAccount at root level)
   # - npmrc (configure renovateWorker.npmrc at root level)
   # - npmrcExistingSecret (configure renovateWorker.npmrcExistingSecret at root level)
   # - extraDeploy (configure extraDeploy at root level)
-  # 
+  #
   # Optional per-pool flag: set createDeployment: false to skip rendering the worker Deployment for that pool.
   # Useful for KEDA ScaledJob pools. For KEDA ScaledObject pools, keep createDeployment true (default).
   # For KEDA patterns, define a dedicated pool with queue/single-job settings,
   # then reference that pool from extraDeploy via the worker-for-pool + worker-pod-spec helpers.
-  # 
+  #
   # each pool must define a non-empty name.
   # If empty, a single legacy worker Deployment is rendered from renovateWorker values.
   pools: []
@@ -514,7 +514,7 @@ renovateWorker:
   mendRnvClientHttpsConfigPath:
 
   # Additional worker env vars
-  extraEnvVars: [ ]
+  extraEnvVars: []
 
   # Personal Access Token for github.com (used for retrieving changelogs)
   githubComToken:
@@ -545,9 +545,9 @@ renovateWorker:
 
   disableCacheVolume: false
 
-#  # Npmrc file. Will be mounted as a secret
-#  npmrc: |
-#    //registry.npmjs.org/:_authToken=xxxxxx
+  #  # Npmrc file. Will be mounted as a secret
+  #  npmrc: |
+  #    //registry.npmjs.org/:_authToken=xxxxxx
 
   # Existing secret with npmrc configuration with key:
   #   .npmrc:
@@ -571,17 +571,17 @@ renovateWorker:
       memory: "512Mi"
       cpu: "10m"
 
-  annotations: { }
+  annotations: {}
 
   labels:
-    deployment: { }
-    pods: { }
+    deployment: {}
+    pods: {}
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
+  affinity: {}
 
   automountServiceAccountToken: false
 
@@ -599,7 +599,7 @@ renovateWorker:
       drop:
         - ALL
 
-  initContainers: [ ]
+  initContainers: []
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -632,7 +632,7 @@ renovateWorker:
 
   # Extra ConfigMaps to be created by the chart
   # These are full Kubernetes ConfigMap definitions
-  extraConfigMaps: [ ]
+  extraConfigMaps: []
   #  - apiVersion: v1
   #    kind: ConfigMap
   #    metadata:
@@ -642,14 +642,14 @@ renovateWorker:
   #      ANOTHER_VAR: "123"
 
   # List of ConfigMaps to be loaded as environment variables
-  extraEnvFromConfigMaps: [ ]
+  extraEnvFromConfigMaps: []
   #  - name: my-extra-config-map
 
   # List of Secrets to be loaded as environment variables
-  extraEnvFromSecrets: [ ]
+  extraEnvFromSecrets: []
   #  - name: my-extra-secret
 
-  extraVolumes: [ ]
+  extraVolumes: []
   #    - name: secrets-store-inline
   #      csi:
   #        driver: secrets-store.csi.k8s.io
@@ -660,7 +660,7 @@ renovateWorker:
   #      configMap:
   #        name: my-extra-config
 
-  extraVolumeMounts: [ ]
+  extraVolumeMounts: []
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
@@ -670,9 +670,7 @@ renovateWorker:
   serviceAccount:
     create: false
     existingName:
-    annotations: { }
-
-
+    annotations: {}
 
 renovateWeb:
   enabled: false
@@ -729,7 +727,7 @@ renovateWeb:
   mendRnvCertFile:
   # Required when mendRnvHttpsEnabled=true.
   mendRnvKeyFile:
-  
+
   mendRnvListenAddr: ":8080"
 
   # Optional backend TLS CA certificate file path used to verify HTTPS server certificates.
@@ -756,7 +754,7 @@ renovateWeb:
   mendRnvCSPImgSrc:
 
   # Additional web env vars
-  extraEnvVars: [ ]
+  extraEnvVars: []
 
   # Number of renovate-ee-web instances
   replicas: 1
@@ -772,17 +770,17 @@ renovateWeb:
       memory: "512Mi"
       cpu: "10m"
 
-  annotations: { }
+  annotations: {}
 
   labels:
-    deployment: { }
-    pods: { }
+    deployment: {}
+    pods: {}
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
+  affinity: {}
 
   automountServiceAccountToken: false
 
@@ -800,7 +798,7 @@ renovateWeb:
       drop:
         - ALL
 
-  initContainers: [ ]
+  initContainers: []
 
   # name of the image pull secret
   imagePullSecrets: ""
@@ -827,7 +825,7 @@ renovateWeb:
 
   # Extra ConfigMaps to be created by the chart
   # These are full Kubernetes ConfigMap definitions
-  extraConfigMaps: [ ]
+  extraConfigMaps: []
   #  - apiVersion: v1
   #    kind: ConfigMap
   #    metadata:
@@ -837,14 +835,14 @@ renovateWeb:
   #      ANOTHER_VAR: "123"
 
   # List of ConfigMaps to be loaded as environment variables
-  extraEnvFromConfigMaps: [ ]
+  extraEnvFromConfigMaps: []
   #  - name: my-extra-config-map
 
   # List of Secrets to be loaded as environment variables
-  extraEnvFromSecrets: [ ]
+  extraEnvFromSecrets: []
   #  - name: my-extra-secret
 
-  extraVolumes: [ ]
+  extraVolumes: []
   #    - name: secrets-store-inline
   #      csi:
   #        driver: secrets-store.csi.k8s.io
@@ -855,7 +853,7 @@ renovateWeb:
   #      configMap:
   #        name: my-extra-config
 
-  extraVolumeMounts: [ ]
+  extraVolumeMounts: []
   # - name: secrets-store-inline
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
@@ -865,11 +863,7 @@ renovateWeb:
   serviceAccount:
     create: false
     existingName:
-    annotations: { }
-
-
-
-
+    annotations: {}
 
 ## data Persistence Parameters
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -899,23 +893,23 @@ dataInMemory:
   enabled: false
 
 service:
-  annotations: { }
+  annotations: {}
   type: ClusterIP
   ports:
     http: 80
     https: 443
   # cloud.google.com/load-balancer-type: "Internal"
-  labels: { }
+  labels: {}
 
 # TODO: reorganize
 serviceWeb:
-  annotations: { }
+  annotations: {}
   type: ClusterIP
   ports:
     http: 80
     https: 443
   # cloud.google.com/load-balancer-type: "Internal"
-  labels: { }
+  labels: {}
 
 ingress:
   enabled: false
@@ -924,17 +918,89 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
 
-  annotations: { }
+  annotations: {}
   # kubernetes.io/tls-acme: "true"
 
-  hosts:
-    { }
+  hosts: {}
   # mend-renovate.local:
   #   paths:
   #     - path: "/"
   #       pathType: ImplementationSpecific
 
-  tls: [ ]
+  tls: []
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
+
+# -- httproute settings
+route:
+  # -- when true, enable httproute
+  enabled: false
+  # -- the name of the gateway to use
+  gatewayName: ""
+  # -- the  namespace that the gateway is in
+  gatewayNamespace: ""
+  # -- the name of the gateway's listener
+  gatewayListenerName: ""
+  # -- the list of hostnames to route to the backend service
+  hostnames: []
+
+  # https://gateway-api.sigs.k8s.io/api-types/httproute/#filters-optional
+  # https://gateway-api.sigs.k8s.io/reference/spec/#httproutefilter
+  # Optional. Filters define processing steps that are applied to requests that match the route.
+  # filters:
+  #   - type: RequestHeaderModifier
+  #     RequestHeaderModifier:
+  #       add:
+  #         - name: my-header
+  #           value: foo
+
+  # Optional. Request timeout settings.
+  # timeouts:
+  #   request: "4s" # request timeout
+
+  # -- List of paths to route to the backend service
+  paths:
+    - pathType: PathPrefix
+      path: "/"
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpmethod
+      # Optional. Method specifies the HTTP method matcher and can be one of
+      # GET HEAD POST PUT DELETE CONNECT OPTIONS TRACE PATCH
+      #
+      # method: GET
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpheadermatch
+      # Optional. Specifies http request headers that must be matched.
+      # Multiple match values are ANDed together, meaning, a request
+      # must match all the specified headers to select the route.
+      #
+      # headers:
+      #   - name: x-example
+      #     value: example
+
+      # https://gateway-api.sigs.k8s.io/reference/spec/#httpqueryparammatch
+      # Optional. http query string matchers. Multiple matches are ANDed together,
+      # meaning, a request must match all the specified query params to select the route
+      #
+      # queryParams:
+      #   - type: Exact
+      #     name: version
+      #     value: "v2"
+
+  # Optional. Additional Gateways to attach the route to.
+  # https://gateway-api.sigs.k8s.io/reference/spec/#parentreference
+  #
+  # additionalGateways:
+  #   - name: envoy-gateway-external
+  #     namespace: envoy-gateway
+  #     sectionName: https
+
+  # Optional. Additional rules to attach the route to.
+  # additionalRules:
+  #   - matches:
+  #       - path:
+  #           type: PathPrefix
+  #           value: /internal
+  #     filters: []
+  #     backendRefs: []
