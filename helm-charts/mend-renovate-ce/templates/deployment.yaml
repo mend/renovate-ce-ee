@@ -294,6 +294,14 @@ spec:
             - name: MEND_RNV_LOG_HISTORY_CLEANUP_CRON
               value: {{ .Values.renovate.mendRnvLogHistoryCleanupCron | quote }}
             {{- end }}
+            {{- if .Values.renovate.mendRnvDatabaseHistoryTTLDays }}
+            - name: MEND_RNV_DATABASE_HISTORY_TTL_DAYS
+              value: {{ .Values.renovate.mendRnvDatabaseHistoryTTLDays | quote }}
+            {{- end }}
+            {{- if .Values.renovate.mendRnvDatabaseHistoryCleanupCron }}
+            - name: MEND_RNV_DATABASE_HISTORY_CLEANUP_CRON
+              value: {{ .Values.renovate.mendRnvDatabaseHistoryCleanupCron | quote }}
+            {{- end }}
             {{- if .Values.renovate.mendRnvForksProcessing }}
             - name: MEND_RENOVATE_FORKS_PROCESSING
               value: {{ .Values.renovate.mendRnvForksProcessing }}

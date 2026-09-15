@@ -146,10 +146,18 @@ renovate:
   # Optional: The number of days to save log files. Defaults to 30.
   mendRnvLogHistoryTTLDays:
 
-  # Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight).
+  # Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (daily at midnight).
   # This cron job cleans up log history in the directory defined by `mendRnvLogHistoryDir`.
   # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
   mendRnvLogHistoryCleanupCron:
+
+  # Optional: Retention period for both `job_queue_history` and `task_queue_history` tables. 
+  # Defaults to 120 - Must be a positive integer. 
+  # Rows with `completed_at` older than this value are eligible for deletion.
+  mendRnvDatabaseHistoryTTLDays:
+
+  # Optional: Cron schedule for the database history tables cleanup job. Defaults to `0 0 * * *` (daily at midnight).
+  mendRnvDatabaseHistoryCleanupCron:
 
   # Optional. valid values: 'disabled', 'enabled', 'managed' and default to unset (see documentation)
   mendRnvForksProcessing:
