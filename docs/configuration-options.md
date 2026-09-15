@@ -387,7 +387,7 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
 
-**MEND_RNV_DATABASE_HISTORY_TTL_DAY**: Optional: Retention period for both `job_queue_history` and `task_queue_history` tables. Defaults to 120 - Must be a positive integer. 
+**MEND_RNV_DATABASE_HISTORY_TTL_DAYS**: Optional: Retention period for both `job_queue_history` and `task_queue_history` tables. Defaults to 120 - Must be a positive integer. 
 Rows with `completed_at` older than this value are eligible for deletion.
 
 **MEND_RNV_DATABASE_HISTORY_CLEANUP_CRON**: Optional: Cron schedule for the database history tables cleanup job. Defaults to `0 0 * * *` (daily at midnight).
