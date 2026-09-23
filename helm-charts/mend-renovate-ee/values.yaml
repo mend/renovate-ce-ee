@@ -503,6 +503,9 @@ renovateWorker:
   #  similar config available in the server
   mendRnvEnableHttp2:
 
+  # Optional. Set to 'true' to enable the Prometheus /metrics endpoint. Defaults to 'false'.
+  mendRnvPrometheusMetricsEnabled:
+
   # TLS client config (YAML format, stringified to JSON in template).
   # Takes precedence over 'mendRnvClientHttpsConfigPath'.
   #
