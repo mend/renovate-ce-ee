@@ -529,6 +529,7 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 * **`MEND_RNV_CLIENT_HTTPS_CONFIG`**: TLS client config (JSON format). Takes precedence over `MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`.
 * **`MEND_RNV_CLIENT_HTTPS_CONFIG_PATH`**: File for defining TLS client config. Note: Ensure volume is defined.
 * **`MEND_RNV_NODE_OPTIONS`**: Defines `NODE_OPTIONS` for the `Node.js` runtime
+* **`MEND_RNV_API_ENABLE_PROMETHEUS_METRICS`**: Set to 'true' to expose the Worker's Prometheus `/metrics` endpoint. Defaults to 'false'. Workers expose Node.js runtime metrics only. In the Helm chart, set `renovateWorker.mendRnvPrometheusMetricsEnabled`. See [Prometheus metrics](./prometheus-metrics.md).
 
 ## Configure Renovate Core
 

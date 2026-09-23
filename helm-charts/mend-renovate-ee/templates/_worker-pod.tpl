@@ -184,6 +184,10 @@ containers:
       - name: MEND_RNV_ENABLE_HTTP2
         value: {{ $renovateWorker.mendRnvEnableHttp2 | quote }}
       {{- end }}
+      {{- if $renovateWorker.mendRnvPrometheusMetricsEnabled }}
+      - name: MEND_RNV_API_ENABLE_PROMETHEUS_METRICS
+        value: {{ $renovateWorker.mendRnvPrometheusMetricsEnabled | quote }}
+      {{- end }}
       {{- if $renovateWorker.mendRnvClientHttpsConfig }}
       - name: MEND_RNV_CLIENT_HTTPS_CONFIG
         value: {{ toJson $renovateWorker.mendRnvClientHttpsConfig | quote }}
