@@ -9,28 +9,28 @@ Separately, you can provide configuration for the Renovate Core. See the end of 
 ## Contents
 
 <!-- TOC -->
-* [Mend Renovate Self-hosted App Configuration Options](#mend-renovate-self-hosted-app-configuration-options)
-  * [Contents](#contents)
-  * [Environment variables for Community Edition and Enterprise Server](#environment-variables-for-community-edition-and-enterprise-server)
-    * [Mend Licensing Config](#mend-licensing-config)
-    * [Mend Remediate Config](#mend-remediate-config)
-    * [Connection to the Source Code Management (SCM)](#connection-to-the-source-code-management-scm)
-      * [GitHub connection variables](#github-connection-variables)
-      * [GitLab connection variables](#gitlab-connection-variables)
-      * [Bitbucket connection variables](#bitbucket-connection-variables)
-    * [Server Config Options](#server-config-options)
-    * [SSL/TLS Communication (Secure HTTPS)](#ssltls-communication-secure-https)
-    * [Local Database Configuration](#local-database-configuration)
-    * [Startup and Sync behavior](#startup-and-sync-behavior)
-    * [Job Scheduling Options](#job-scheduling-options)
-    * [Logging Configuration Options](#logging-configuration-options)
-    * [Other Server Config Options](#other-server-config-options)
-      * [Monitor GitHub App installations rate limits](#monitor-github-app-installations-rate-limits)
-    * [Postgres DB Configuration](#postgres-db-configuration)
-  * [Environment variables for Enterprise Worker](#environment-variables-for-enterprise-worker)
-    * [Mandatory Worker config](#mandatory-worker-config)
-    * [Optional Worker config](#optional-worker-config)
-  * [Configure Renovate Core](#configure-renovate-core)
+- [Mend Renovate Self-hosted App Configuration Options](#mend-renovate-self-hosted-app-configuration-options)
+  - [Contents](#contents)
+  - [Environment variables for Community Edition and Enterprise Server](#environment-variables-for-community-edition-and-enterprise-server)
+    - [Mend Licensing Config](#mend-licensing-config)
+    - [Mend Remediate Config](#mend-remediate-config)
+    - [Connection to the Source Code Management (SCM)](#connection-to-the-source-code-management-scm)
+      - [GitHub connection variables](#github-connection-variables)
+      - [GitLab connection variables](#gitlab-connection-variables)
+      - [Bitbucket connection variables](#bitbucket-connection-variables)
+    - [Server Config Options](#server-config-options)
+    - [SSL/TLS Communication (Secure HTTPS)](#ssltls-communication-secure-https)
+    - [Local Database Configuration](#local-database-configuration)
+    - [Startup and Sync behavior](#startup-and-sync-behavior)
+    - [Job Scheduling Options](#job-scheduling-options)
+    - [Logging Configuration Options](#logging-configuration-options)
+    - [Other Server Config Options](#other-server-config-options)
+      - [Monitor GitHub App installations rate limits](#monitor-github-app-installations-rate-limits)
+    - [Postgres DB Configuration](#postgres-db-configuration)
+  - [Environment variables for Enterprise Worker](#environment-variables-for-enterprise-worker)
+    - [Mandatory Worker config](#mandatory-worker-config)
+    - [Optional Worker config](#optional-worker-config)
+  - [Configure Renovate Core](#configure-renovate-core)
 <!-- TOC -->
 
 ## Environment variables for Community Edition and Enterprise Server
@@ -382,10 +382,15 @@ Uses standard AWS environment variables to establish connection. (Also see `MEND
 
 **`MEND_RNV_LOG_HISTORY_TTL_DAYS`**: Optional: The number of days to save log files. Defaults to 30.
 
-**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (every midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file older than `MEND_RNV_LOG_HISTORY_TTL_DAYS`.
+**`MEND_RNV_LOG_HISTORY_CLEANUP_CRON`**: Optional: Specifies a 5-part cron schedule. Defaults to `0 0 * * *` (daily at midnight). This cron job cleans up log history in the directory defined by `MEND_RNV_LOG_HISTORY_DIR`. It deletes any log file older than `MEND_RNV_LOG_HISTORY_TTL_DAYS`.
 
 > [!IMPORTANT]  
 > Logs are saved by the Renovate OSS cli, so the corresponding folder must exist in the CE/EE-Worker container.
+
+**`MEND_RNV_DATABASE_HISTORY_TTL_DAYS`**: Optional: Retention period for both `job_queue_history` and `task_queue_history` tables. Defaults to 120 - Must be a positive integer. 
+Rows with `completed_at` older than this value are eligible for deletion.
+
+**`MEND_RNV_DATABASE_HISTORY_CLEANUP_CRON`**: Optional: Cron schedule for the database history tables cleanup job. Defaults to `0 0 * * *` (daily at midnight).
 
 ### Other Server Config Options
 
