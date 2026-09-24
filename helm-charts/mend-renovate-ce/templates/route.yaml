@@ -1,0 +1,63 @@
+{{- if .Values.route.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "mend-renovate.fullname" . }}
+  {{- with .Values.route.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.route.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    - name: {{ .Values.route.gatewayName }}
+      namespace: {{ .Values.route.gatewayNamespace }}
+      {{- with .Values.route.gatewayListenerName }}
+      sectionName: {{ . }}
+      {{- end }}
+  {{- with .Values.route.additionalGateways }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  hostnames:
+  {{- with .Values.route.hostnames }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+  {{ with .Values.route.additionalRules }}
+    {{ toYaml . | nindent 4 }}
+  {{- end }}
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: {{ include "mend-renovate.fullname" . }}
+          port: {{ .Values.service.ports.http }}
+      {{- with .Values.route.filters }}
+      filters:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.route.timeouts }}
+      timeouts:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      matches:
+        {{- range .Values.route.paths }}
+        - path:
+            type: {{ .pathType | default "PathPrefix" }}
+            value: {{ .path }}
+          {{- with .headers }}
+          headers:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .queryParams }}
+          queryParams:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .method }}
+          method: {{ . }}
+          {{- end }}
+        {{- end }}
+{{- end }}
+
