@@ -1,9 +1,12 @@
 # Prometheus metrics
 
-A number of default metrics are exposed by Node.js for the Mend Renovate Self-Hosted Server responding to the API request, _not_ the worker(s).
+Default Node.js runtime metrics are exposed by both the Mend Renovate Self-Hosted Server and Enterprise Edition workers. Workers expose runtime metrics only; the server also exposes the custom metrics listed below.
 
 > [!NOTE]
 > The Prometheus metrics are only enabled if specifying `env MEND_RNV_API_ENABLE_PROMETHEUS_METRICS=true`
+
+> [!IMPORTANT]
+> Worker metrics include all default Prometheus Node.js runtime metrics for the worker process. They do **not** include Node.js runtime metrics from the Renovate CLI process.
 
 Additionally, the following custom metrics are exposed:
 
