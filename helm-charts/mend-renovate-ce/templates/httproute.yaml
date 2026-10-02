@@ -35,6 +35,6 @@ spec:
       {{- end }}
       backendRefs:
         - name: {{ $fullName }}
-          port: {{ .Values.service.ports.http }}
+          port: {{ $.Values.service.ports.http }}
     {{- end }}
 {{- end }}
