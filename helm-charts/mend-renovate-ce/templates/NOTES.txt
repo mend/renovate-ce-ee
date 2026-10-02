@@ -14,7 +14,7 @@ Please read https://mend.io/terms-of-service/ and then:
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host }}{{ $path.path }}
   {{- end }}
 {{- end }}
-{{- else if .Values.httpRoute.enabled }}
+{{- else if and .Values.httpRoute.enabled .Values.httpRoute.hostnames }}
 {{- range .Values.httpRoute.hostnames }}
   http://{{ . }}
 {{- end }}
