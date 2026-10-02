@@ -15,9 +15,11 @@ Please read https://mend.io/terms-of-service/ and then:
   {{- end }}
 {{- end }}
 {{- else if and .Values.httpRoute.enabled .Values.httpRoute.hostnames }}
+  HTTPRoute is enabled for:
 {{- range .Values.httpRoute.hostnames }}
-  http://{{ . }}
+  {{ . }}
 {{- end }}
+Please use the scheme configured on the referenced Gateway listener.
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "mend-renovate.fullname" . }})
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
