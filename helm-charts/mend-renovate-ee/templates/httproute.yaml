@@ -35,6 +35,6 @@ spec:
       {{- end }}
       backendRefs:
         - name: {{ $fullName }}
-          port: 80
+          port: {{ .Values.service.ports.http }}
     {{- end }}
 {{- end }}
