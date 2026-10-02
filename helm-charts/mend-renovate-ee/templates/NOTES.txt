@@ -14,6 +14,10 @@ Please read https://mend.io/terms-of-service/ and then:
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host }}{{ . }}
   {{- end }}
 {{- end }}
+{{- else if .Values.httpRoute.enabled }}
+{{- range .Values.httpRoute.hostnames }}
+  http://{{ . }}
+{{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "mend-renovate.fullname" . }})
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -26,7 +30,7 @@ Please read https://mend.io/terms-of-service/ and then:
 {{- else if contains "ClusterIP" .Values.service.type }}
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "mend-renovate.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl port-forward  --namespace {{ .Release.Namespace }} $POD_NAME 8080:80
+  kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME 8080:80
 {{- end }}
 {{- end }}
 
