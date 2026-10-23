@@ -7,10 +7,10 @@ body:
   - type: dropdown
     id: ce-or-ee
     attributes:
-      label: Which flavour of the Mend Renovate Server are you running?
+      label: Which flavour of Mend Renovate Self-Hosted are you running?
       options:
-        - "Community Server (Community Edition / CE)"
-        - "Enterprise Server (Enterprise Edition / EE)"
+        - "Community Self-Hosted (Community Edition / CE)"
+        - "Enterprise Self-Hosted (Enterprise Edition / EE)"
     validations:
       required: true
 
