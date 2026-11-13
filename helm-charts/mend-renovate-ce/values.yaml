@@ -357,6 +357,9 @@ containerSecurityContext: { }
 #     drop:
 #       - ALL
 
+# User Namespaces, set to false to enable
+# hostUsers: true
+
 initContainers: [ ]
 
 # name of the image pull secret

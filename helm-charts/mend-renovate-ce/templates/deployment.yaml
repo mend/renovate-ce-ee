@@ -44,6 +44,9 @@ spec:
       {{- with .Values.initContainers }}
       initContainers: {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.hostUsers }}
+      hostUsers: {{ .Values.hostUsers }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.useFull | ternary (printf "%s-full" .Values.image.tag) .Values.image.tag }}"
