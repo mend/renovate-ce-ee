@@ -44,7 +44,7 @@ spec:
       {{- with .Values.initContainers }}
       initContainers: {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.hostUsers }}
+      {{- if hasKey .Values "hostUsers" }}
       hostUsers: {{ .Values.hostUsers }}
       {{- end }}
       containers:
