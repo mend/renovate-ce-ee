@@ -1206,6 +1206,7 @@ components:
         The cursor is an opaque pagination token, and clients should not attempt to interpret it.
       schema:
         type: string
+  requestBodies: {}
   responses:
     PlainOK:
       description: Plain OK response
@@ -1414,6 +1415,7 @@ components:
         - remediate
         - api-request
         - web-ui
+        - package-api-request
     JobInfo:
       type: object
       properties:
