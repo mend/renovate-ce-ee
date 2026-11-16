@@ -11,6 +11,9 @@ A subset of APIs are available on the Community Edition, which is why we have sp
 
 For a workflow oriented guide to enterprise worker queue management and routing, see [Worker queues](./worker-queues.md).
 
+To search packages, inspect dependency usages and updates, and trigger jobs by package,
+see [Package APIs (Enterprise beta)](./package-api.md).
+
 ## Enabling APIs via environment variables
 
 When starting the Renovate Server, the APIs are not enabled by default, and must be enabled through environment variables.
@@ -23,6 +26,7 @@ Note that some of the API types require more than one environment variable to be
 | System APIs | `System` | `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_SYSTEM=true` |
 | Jobs APIs  | `Jobs` |  `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_JOBS=true` |
 | Reporting APIs  | `Reporting` | `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_REPORTING=true` |
+| Package APIs (Enterprise beta) | `Packages API (Beta)` | `env MEND_RNV_API_ENABLED=true MEND_RNV_API_ENABLE_REPORTING=true MEND_RNV_API_BETA_PACKAGES_ENABLED=true`<br>System-wide endpoints also require `MEND_RNV_API_ENABLE_SYSTEM=true`. |
 
 All APIs can be enabled alongside each other, by specifying _all_ of the environment variables noted above. There is no current means to enable all APIs in a single environment variable due to security concerns.
 
