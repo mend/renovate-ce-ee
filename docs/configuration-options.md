@@ -528,6 +528,7 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 
 * **`MEND_RNV_DEBUG_MODE`**: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
 * **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+* **`MEND_RNV_WORKER_PACKAGE_INDEX_DISABLED`**: Optional. Set to 'true' to disable [package indexing](./package-api.md). Other reporting is unaffected. Defaults to 'false'.
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.

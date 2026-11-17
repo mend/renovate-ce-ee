@@ -33,13 +33,17 @@ see [API Documentation](./api.md) and the [Enterprise OpenAPI specification](./o
 
 ## Enable package APIs
 
-Enable these settings on the server:
+Configure the server and workers:
 
 ```sh
+# Server
 MEND_RNV_API_ENABLED=true
 MEND_RNV_API_ENABLE_REPORTING=true
 MEND_RNV_API_BETA_PACKAGES_ENABLED=true
 MEND_RNV_API_ENABLE_SYSTEM=true # Required for system-wide queries and job triggers
+
+# Workers (optional)
+MEND_RNV_WORKER_PACKAGE_INDEX_DISABLED=false # Set to true to disable package indexing
 ```
 
 > [!NOTE]

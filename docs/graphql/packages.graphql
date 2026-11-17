@@ -177,7 +177,9 @@ type Usage {
   """Replacement reported by Renovate, or null when not reported."""
   replacement: Replacement
 
-  """When this usage was persisted, not when the registry was queried."""
+  """
+  When this usage was persisted, as an RFC3339 UTC timestamp; not when the registry was queried.
+  """
   indexedAt: String!
 
   """
@@ -224,5 +226,7 @@ type UpdateState {
   Renovate processing result from the scan, such as needs-approval or pr-edited; not live branch or PR status.
   """
   state: String!
+
+  """When this update state was persisted, as an RFC3339 UTC timestamp."""
   indexedAt: String!
 }
