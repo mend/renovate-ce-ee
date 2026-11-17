@@ -344,7 +344,9 @@ For system-wide job triggering, use `/system/v1beta1/packages/npm/lodash/jobs`.
 > [!NOTE]
 > Jobs run asynchronously using each repository's Renovate configuration.
 > Triggering a job does not guarantee an update or pull request for the requested
-> package. Support for package-targeted updates is planned.
+> package.
+>
+> Support for package-targeted updates is planned.
 
 ## Related documentation
 
