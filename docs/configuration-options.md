@@ -210,7 +210,7 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_API_ENABLE_REPORTING`**: Optional: Set to 'true' to enable [Reporting APIs](./api-reporting.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 
-**`MEND_RNV_API_BETA_PACKAGES_ENABLED`**: [Enterprise only] Optional: Set to 'true' to enable the beta [Package APIs](./package-api.md). Defaults to 'false'. Requires reporting to be enabled.
+**`MEND_RNV_API_BETA_PACKAGES_ENABLED`**: [Enterprise only] Optional: Set to 'true' to enable the beta [Package APIs](./package-api.md). Defaults to 'false'. Requires `MEND_RNV_API_ENABLED=true` and `MEND_RNV_API_ENABLE_REPORTING=true`.
 
 **`MEND_RNV_API_RBAC_BYPASS_USERS`**: Optional: A list of usernames to allow RBAC bypass to APIs.
 

@@ -10,12 +10,20 @@ For authentication, parameters, and status codes,
 see [API Documentation](./api.md) and the [Enterprise OpenAPI specification](./openapi-enterprise.yaml).
 
 > [!IMPORTANT]
-> Package APIs are available as an opt-in beta in Renovate Self-Hosted Enterprise Edition and are subject to change.
+> Package APIs are available as an opt-in beta in Renovate Self-Hosted Enterprise
+> Edition and are subject to breaking changes, even in minor releases of Mend
+> Renovate Self-Hosted.
+>
+> Backward-compatible changes may be added to the existing beta version. Breaking
+> changes will increment the beta version, for example from `v1beta1` to `v1beta2`.
+> New beta versions replace previous versions. Clients must update when upgrading
+> the server.
 
 <!-- omit in toc -->
 ## Contents
 
 - [Enable package APIs](#enable-package-apis)
+- [GraphQL introspection](#graphql-introspection)
 - [Find a package](#find-a-package)
 - [Inspect usages and updates](#inspect-usages-and-updates)
   - [Pagination](#pagination)
@@ -34,16 +42,70 @@ MEND_RNV_API_BETA_PACKAGES_ENABLED=true
 MEND_RNV_API_ENABLE_SYSTEM=true # Required for system-wide queries and job triggers
 ```
 
-Package data is collected after each Renovate job when reporting is enabled. Results include only enabled repositories in enabled organizations.
+> [!NOTE]
+> Package data is indexed after successful Renovate jobs when both
+> `MEND_RNV_API_ENABLE_REPORTING` and `MEND_RNV_API_BETA_PACKAGES_ENABLED` are enabled.
+> No package data is indexed while the beta flag is disabled, and earlier scans are not backfilled.
+
+> [!NOTE]
+> API responses reflect the last indexed Renovate scan and may differ from the
+> current registry or repository state.
+
+Results include only enabled repositories in enabled organizations.
+
+## GraphQL introspection
+
+The GraphQL API supports [introspection](https://graphql.org/learn/introspection/), which allows clients to discover the queries, arguments, and types supported by the server.
+This request lists the queries available on the organization endpoint:
+
+```sh
+export MEND_RNV_SERVER_HOSTNAME='https://<SERVER_HOST>'
+export MEND_RNV_API_SERVER_SECRET='<SERVER_API_SECRET>'
+
+export GRAPHQL_REQUEST="$(jq -n --arg query '
+{
+  __schema {
+    queryType {
+      fields {
+        name
+      }
+    }
+  }
+}
+' '{ "query": $query }')"
+
+curl -sS "$MEND_RNV_SERVER_HOSTNAME/api/v1beta1/orgs/<ORG>/-/packages/graphql" \
+  -H "Authorization: Bearer $MEND_RNV_API_SERVER_SECRET" \
+  -H 'Content-Type: application/json' \
+  --data-binary "$GRAPHQL_REQUEST" | jq .
+```
+
+Response (`200`):
+
+```json
+{
+  "data": {
+    "__schema": {
+      "queryType": {
+        "fields": [
+          {
+            "name": "searchPackages"
+          },
+          {
+            "name": "searchUsages"
+          }
+        ]
+      }
+    }
+  }
+}
+```
 
 ## Find a package
 
 Search for package names containing `go` across organizations. `packageNameContains` is a case-insensitive substring filter. `searchPackages` returns distinct package/registry pairs across datasources; use `searchUsages` to find where a selected package is used.
 
 ```sh
-export MEND_RNV_SERVER_HOSTNAME='https://<SERVER_HOST>'
-export MEND_RNV_API_SERVER_SECRET='<SERVER_API_SECRET>'
-
 export GRAPHQL_REQUEST="$(jq -n --arg query '
 query Packages($nameContains: String) {
   searchPackages(packageNameContains: $nameContains, first: 50) {
@@ -232,9 +294,7 @@ Response (`200`):
 ```
 
 > [!NOTE]
-> Update targets and branch state reflect the last indexed Renovate scan, rather
-> than live registry or pull request status. An empty `updateTargets` array means
-> no updates were indexed for that usage.
+> An empty `updateTargets` array means no updates were indexed for that usage.
 
 ### Pagination
 
@@ -319,6 +379,20 @@ available fields and filters.
 Trigger jobs for repositories in an organization that use the npm package `lodash`
 with a declared value of `4.0.0`.
 
+For example, this `package.json` matches:
+
+```json
+{
+  "dependencies": {
+    "lodash": "4.0.0"
+  }
+}
+```
+
+A declaration of `"lodash": "^4.0.0"` would not match this request. The
+`currentValue` filter matches the declared value exactly, rather than evaluating
+the version range.
+
 ```sh
 curl -sS -X POST \
   "$MEND_RNV_SERVER_HOSTNAME/api/v1beta1/orgs/<ORG>/-/packages/npm/lodash/jobs?currentValue=4.0.0" \
@@ -339,7 +413,8 @@ appears in multiple files.
 For system-wide job triggering, use `/system/v1beta1/packages/npm/lodash/jobs`.
 
 > [!TIP]
-> URI-encode package names used in the URL path.
+> URI-encode package names used in the URL path. For example, `@angular/core`
+> becomes `%40angular%2Fcore`.
 
 > [!NOTE]
 > Jobs run asynchronously using each repository's Renovate configuration.
