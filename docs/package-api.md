@@ -3,11 +3,14 @@
 
 Use the package APIs to find dependencies across repositories, inspect the updates
 Renovate has detected, and trigger jobs for repositories using a package.
-This guide follows that workflow. For authentication, parameters, and status codes,
+
+This guide provides some examples for this workflow.
+
+For authentication, parameters, and status codes,
 see [API Documentation](./api.md) and the [Enterprise OpenAPI specification](./openapi-enterprise.yaml).
 
 > [!IMPORTANT]
-> Package APIs are available as an opt-in beta in Renovate Enterprise Edition and are subject to change.
+> Package APIs are available as an opt-in beta in Renovate Self-Hosted Enterprise Edition and are subject to change.
 
 <!-- omit in toc -->
 ## Contents
