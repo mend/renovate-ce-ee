@@ -293,9 +293,6 @@ Response (`200`):
 }
 ```
 
-> [!NOTE]
-> An empty `updateTargets` array means no updates were indexed for that usage.
-
 ### Pagination
 
 When `pageInfo.hasNextPage` is `true`, pass `pageInfo.endCursor` as the `after`
