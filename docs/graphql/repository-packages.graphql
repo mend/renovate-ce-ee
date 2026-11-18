@@ -1,0 +1,184 @@
+schema {
+  query: RepositoryQuery
+}
+
+type RepositoryQuery {
+  """
+  Dependency occurrences from Renovate scans within the requested system, organization, or repository scope. Supplied filters are combined with AND.
+  """
+  searchUsages(
+    """Exact Renovate datasource match."""
+    datasource: String
+
+    """Exact Renovate package name match, case-sensitive."""
+    packageName: String
+
+    """
+    Case-insensitive substring match on Renovate's packageName, falling back to depName when packageName is absent.
+    """
+    packageNameContains: String
+
+    """
+    Exact registry URL reported by Renovate. The literal sentinel "__unknown__" matches usages where Renovate did not report a registry URL.
+    """
+    registryUrl: String
+
+    """
+    Exact string match on the declared dependency value extracted by Renovate. Version ranges are matched literally, not evaluated.
+    """
+    currentValue: String
+
+    """Exact match on the current dependency digest extracted by Renovate."""
+    currentDigest: String
+
+    """
+    Exact match on Renovate's lockedVersion. No fallback to fixedVersion or currentVersion.
+    """
+    lockedVersion: String
+
+    """
+    Match Renovate's abandonment result. Requires an effective abandonmentThreshold and datasource release timestamps. See [abandonmentThreshold](https://docs.renovatebot.com/configuration-options/#abandonmentthreshold).
+    """
+    abandoned: Boolean
+
+    """
+    True matches dependencies with a nonempty deprecation notice. False matches nothing; an empty or missing notice is unknown.
+    """
+    deprecated: Boolean
+
+    """
+    True matches dependencies with a reported replacement. False matches nothing; a missing replacement is unknown.
+    """
+    replacementAvailable: Boolean
+
+    """Page size, from 1 to 10000. Larger values are capped."""
+    first: Int = 50
+
+    """Continue after a previous endCursor using the same filters."""
+    after: String
+  ): UsageConnection!
+}
+
+type UsageConnection {
+  nodes: [Usage!]!
+  pageInfo: PageInfo!
+}
+
+"""
+One dependency entry detected by Renovate in a repository package file on a base branch.
+"""
+type Usage {
+  repository: Repository!
+  packageName: String!
+
+  """
+  Registry URL reported by Renovate, or the literal sentinel "__unknown__" when not reported.
+  """
+  registryUrl: String!
+  baseBranch: String!
+  packageFilePath: String!
+  manager: String!
+  depType: String!
+
+  """
+  Dependency name extracted by Renovate; may be an alias for packageName.
+  """
+  depName: String
+
+  """
+  Declared dependency value extracted by Renovate: a version, range, or tag.
+  """
+  currentValue: String
+
+  """Current dependency digest reported by Renovate, when present."""
+  currentDigest: String
+
+  """
+  Renovate's lockedVersion, or null when not reported. No fallback to fixedVersion or currentVersion.
+  """
+  lockedVersion: String
+  sourceUrl: String
+  datasource: String!
+
+  """
+  Whether the package's latest release exceeds the effective abandonmentThreshold in this repository's Renovate configuration. Null means Renovate did not report a result, including when the threshold or datasource timestamps are unavailable. See [abandonmentThreshold](https://docs.renovatebot.com/configuration-options/#abandonmentthreshold).
+  """
+  abandoned: Boolean
+
+  """
+  True when Renovate reported a nonempty deprecation notice; otherwise null (unknown).
+  """
+  deprecated: Boolean
+
+  """Deprecation notice reported by Renovate, when present."""
+  deprecationMessage: String
+
+  """Reason Renovate skipped processing this dependency, when reported."""
+  skipReason: String
+
+  """Replacement reported by Renovate, or null when not reported."""
+  replacement: Replacement
+
+  """
+  When this usage was persisted, as an RFC3339 UTC timestamp; not when the registry was queried.
+  """
+  indexedAt: String!
+
+  """
+  Updates detected by Renovate for this repository's configuration, not all versions available in the registry. Empty when no updates were indexed.
+  """
+  updateTargets: [UpdateTarget!]!
+}
+
+type Repository {
+  fullName: String!
+}
+
+"""Replacement reported by Renovate for this dependency."""
+type Replacement {
+  """Renovate's newName for the replacement, when reported."""
+  newName: String
+}
+
+"""One Renovate update candidate for a dependency occurrence."""
+type UpdateTarget {
+  """
+  Update type reported by Renovate, such as major, minor, pin, or replacement.
+  """
+  updateType: String
+
+  """Target version reported by Renovate; digest-only updates may omit it."""
+  toVersion: String
+  toDigest: String
+  toValue: String
+  updateState: UpdateState!
+}
+
+"""Renovate branch/PR state shared by its grouped update targets."""
+type UpdateState {
+  """
+  Branch name Renovate uses or intends to create; the branch may not exist yet. See state for the scan result.
+  """
+  branchName: String!
+
+  """Pull request number reported by Renovate, or null if absent."""
+  prNumber: Int
+
+  """
+  Renovate processing result from the scan, such as needs-approval or pr-edited; not live branch or PR status.
+  """
+  state: String!
+
+  """When this update state was persisted, as an RFC3339 UTC timestamp."""
+  indexedAt: String!
+}
+
+"""
+Pagination over live data. Renovate scans between requests may change results; pages are not a snapshot.
+"""
+type PageInfo {
+  hasNextPage: Boolean!
+
+  """Opaque cursor for the last returned node; null for an empty page."""
+  endCursor: String
+}

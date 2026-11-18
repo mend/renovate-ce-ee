@@ -210,6 +210,8 @@ Important: Webhooks will be only installed on repos that the account has at leas
 
 **`MEND_RNV_API_ENABLE_REPORTING`**: Optional: Set to 'true' to enable [Reporting APIs](./api-reporting.md). Defaults to 'false'. (backward compatibility with `MEND_RNV_ADMIN_API_ENABLED`)
 
+**`MEND_RNV_API_BETA_PACKAGES_ENABLED`**: [Enterprise only] Optional: Set to 'true' to enable the beta [Package APIs](./package-api.md). Defaults to 'false'. Requires `MEND_RNV_API_ENABLED=true` and `MEND_RNV_API_ENABLE_REPORTING=true`.
+
 **`MEND_RNV_API_RBAC_BYPASS_USERS`**: Optional: A list of usernames to allow RBAC bypass to APIs.
 
 - Authentication accepts the server API secret, or a platform token whose resolved username exactly matches one of the comma-separated values in this list.
@@ -526,6 +528,7 @@ The following variables apply to Worker containers (Renovate Enterprise only):
 
 * **`MEND_RNV_DEBUG_MODE`**: Set to 'true' to display full configuration details in DEBUG logs. Defaults to 'false'. **WARNING: Will display secrets in plain text.**
 * **`MEND_RNV_WORKER_EXECUTION_TIMEOUT`**: Sets the maximum execution duration of a Renovate CLI scan in minutes. Defaults to 60.
+* **`MEND_RNV_WORKER_PACKAGE_INDEX_DISABLED`**: Optional. Set to 'true' to disable [package indexing](./package-api.md). Other reporting is unaffected. Defaults to 'false'.
 * **`MEND_RNV_DISK_USAGE_WARN_THRESHOLD`**: A numeric percentage threshold for disk storage warnings. The default is 70. This feature will execute `df --output=source,pcent` after each completed job, match sources based on the set filter, and log a warning for each source that exceeds the threshold.
 * **`MEND_RNV_DISK_USAGE_FILTER`**: A comma-separated list of regex or glob patterns for matching device paths. Default is `/dev/**`. The glob/regex filter behaves similarly to [autodiscoverFilter](https://docs.renovatebot.com/self-hosted-configuration/#autodiscoverfilter).
 * **`MEND_RNV_SINGLE_JOB_WORKER`**: When set to 'true', a Worker machine will make exactly one attempt to fetch and run a job and then shut down. To be used by KEDA to scale jobs; not intended for use with standard Docker pods. Default is 'false'.
