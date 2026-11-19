@@ -47,6 +47,9 @@ spec:
       {{- with .Values.renovateServer.initContainers }}
       initContainers: {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if hasKey .Values.renovateServer "hostUsers" }}
+      hostUsers: {{ .Values.renovateServer.hostUsers }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-server
           image: "{{ .Values.renovateServer.image.repository }}:{{ .Values.renovateServer.image.version }}"

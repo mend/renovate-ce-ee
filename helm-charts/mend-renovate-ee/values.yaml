@@ -257,8 +257,8 @@ renovateServer:
   # It deletes any log file that exceeds the `mendRnvLogHistoryTTLDays` value.
   mendRnvLogHistoryCleanupCron:
 
-  # Optional: Retention period for both `job_queue_history` and `task_queue_history` tables. 
-  # Defaults to 120 - Must be a positive integer. 
+  # Optional: Retention period for both `job_queue_history` and `task_queue_history` tables.
+  # Defaults to 120 - Must be a positive integer.
   # Rows with `completed_at` older than this value are eligible for deletion.
   mendRnvDatabaseHistoryTTLDays:
 
@@ -355,6 +355,9 @@ renovateServer:
 
   initContainers: [ ]
 
+  # User Namespaces, set to false to enable
+  # hostUsers: true
+
   # name of the image pull secret
   imagePullSecrets: ""
 
@@ -442,18 +445,18 @@ renovateWorker:
   # Pool-specific keys:
   # - name: string (required)
   # - createDeployment: bool (optional, default true)
-  # 
+  #
   # Not supported in pools:
   # - serviceAccount (configure renovateWorker.serviceAccount at root level)
   # - npmrc (configure renovateWorker.npmrc at root level)
   # - npmrcExistingSecret (configure renovateWorker.npmrcExistingSecret at root level)
   # - extraDeploy (configure extraDeploy at root level)
-  # 
+  #
   # Optional per-pool flag: set createDeployment: false to skip rendering the worker Deployment for that pool.
   # Useful for KEDA ScaledJob pools. For KEDA ScaledObject pools, keep createDeployment true (default).
   # For KEDA patterns, define a dedicated pool with queue/single-job settings,
   # then reference that pool from extraDeploy via the worker-for-pool + worker-pod-spec helpers.
-  # 
+  #
   # each pool must define a non-empty name.
   # If empty, a single legacy worker Deployment is rendered from renovateWorker values.
   pools: []
@@ -740,7 +743,7 @@ renovateWeb:
   mendRnvCertFile:
   # Required when mendRnvHttpsEnabled=true.
   mendRnvKeyFile:
-  
+
   mendRnvListenAddr: ":8080"
 
   # Optional backend TLS CA certificate file path used to verify HTTPS server certificates.
@@ -812,6 +815,9 @@ renovateWeb:
         - ALL
 
   initContainers: [ ]
+
+  # User Namespaces, set to false to enable
+  # hostUsers: true
 
   # name of the image pull secret
   imagePullSecrets: ""

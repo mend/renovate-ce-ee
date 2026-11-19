@@ -70,6 +70,9 @@ serviceAccountName: {{ include "mend-renovate.worker-service-account-name" $root
 {{- with $renovateWorker.initContainers }}
 initContainers: {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- if hasKey $renovateWorker "hostUsers" }}
+hostUsers: {{ $renovateWorker.hostUsers }}
+{{- end }}
 containers:
   - name: {{ $root.Chart.Name }}-worker
     image: "{{ $renovateWorker.image.repository }}:{{ $renovateWorker.image.version }}"

@@ -49,6 +49,9 @@ spec:
       {{- with .Values.renovateWeb.initContainers }}
       initContainers: {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- if hasKey .Values.renovateWeb "hostUsers" }}
+      hostUsers: {{ .Values.renovateWeb.hostUsers }}
+      {{- end }}
 
       containers:
         - name: {{ .Chart.Name }}-web
