@@ -949,3 +949,31 @@ ingress:
   #  - secretName: mend-renovate-tls
   #    hosts:
   #      - mend-renovate.local
+
+httpRoute:
+  enabled: false
+
+  # Gateway API Gateway reference
+  parentRefs: []
+  # - name: example-gateway
+  #   namespace: default
+  #   sectionName: https
+  #   port: 443
+
+  # Optional annotations
+  annotations: {}
+
+  # Hosts to match
+  hostnames: []
+
+  # HTTPRoute rules
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      # Optional filters can be specified here
+      # filters:
+      #   - type: RequestRedirect
+      #     requestRedirect:
+      #       scheme: https
